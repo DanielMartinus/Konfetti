@@ -4,10 +4,10 @@ import android.graphics.Canvas
 import android.graphics.Color
 import android.os.Handler
 import android.support.annotation.ColorInt
-import nl.dionsegijn.konfetti.models.Vector
-import nl.dionsegijn.konfetti.KonfettiView
 import nl.dionsegijn.konfetti.models.Confetti
 import nl.dionsegijn.konfetti.models.Location
+import nl.dionsegijn.konfetti.models.Size
+import nl.dionsegijn.konfetti.models.Vector
 import java.util.*
 
 /**
@@ -19,14 +19,18 @@ class ParticleSystem(val renderer: KonfettiView) {
     private var gravity = Vector(0f, 0.01f)
     private var wind = Vector(0.001f, 0f)
     private var colors = intArrayOf(Color.RED)
+    private var possibleSizes = arrayOf(Size.SMALL)
     private var velocity = Vector(0f, 0f)
     private var acceleration = Vector(0f, 0f)
+
+    private var spawnDelay = 20
 
     private val particles: MutableList<Confetti> = mutableListOf()
 
     fun addConfetti(location: Location) {
         val c = Confetti(
                 location = Vector(location.x, location.y),
+                size = possibleSizes[Random().nextInt(possibleSizes.size)],
                 color = colors[Random().nextInt(colors.size)],
                 velocity = velocity.copy(),
                 acceleration = acceleration.copy())
@@ -39,6 +43,11 @@ class ParticleSystem(val renderer: KonfettiView) {
 
     fun addColors(@ColorInt vararg colors: Int): ParticleSystem {
         this.colors = colors
+        return this
+    }
+
+    fun addSizes(vararg possibleSizes: Size): ParticleSystem {
+        this.possibleSizes = possibleSizes as Array<Size>
         return this
     }
 
@@ -63,6 +72,10 @@ class ParticleSystem(val renderer: KonfettiView) {
         return this
     }
 
+    fun setSpawnDelay(delay: Int) {
+        this.spawnDelay = delay
+    }
+
     fun betweenPoints(x1: Float, x2: Float, y1: Float, y2: Float): ParticleSystem {
         location.betweenX(x1, x2)
         location.betweenY(y1, y2)
@@ -79,7 +92,7 @@ class ParticleSystem(val renderer: KonfettiView) {
         handler.postDelayed({
             addConfetti(location)
             startTimer()
-        }, 50)
+        }, spawnDelay.toLong())
     }
 
     fun render(canvas: Canvas) {
@@ -87,7 +100,7 @@ class ParticleSystem(val renderer: KonfettiView) {
         while (it.hasNext()) {
             val c = it.next()
             c.applyForce(gravity)
-            if(c.location.y > 200) {
+            if(c.location.y > canvas.height * 0.2) {
                 c.applyForce(wind)
             }
             c.render(canvas)
