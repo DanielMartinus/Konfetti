@@ -6,13 +6,14 @@ import android.support.v7.app.AppCompatActivity
 import android.view.ViewTreeObserver
 import android.widget.SeekBar
 import nl.dionsegijn.konfetti.KonfettiView
+import nl.dionsegijn.konfetti.models.Size
 
 /**
  * Created by dionsegijn on 3/25/17.
  */
 class MainActivity : AppCompatActivity() {
 
-    var velocityX: Float = 0f
+    var timer: Int = 20
     var wind: Float = 0f
 
     lateinit var konfetti: KonfettiView
@@ -33,8 +34,8 @@ class MainActivity : AppCompatActivity() {
         })
 
         seekbarX = findViewById(R.id.velocityX) as SeekBar
-        seekbarX.progress = ((velocityX * 10) - 25).toInt()
-        seekbarX.setOnSeekBarChangeListener(getOnVelocitySeekBarChangeListener())
+        seekbarX.progress = timer
+        seekbarX.setOnSeekBarChangeListener(getTimerSeekBarChangeListener())
 
         seekbarY = findViewById(R.id.velocityY) as SeekBar
         seekbarY.progress = wind.toInt()
@@ -42,9 +43,11 @@ class MainActivity : AppCompatActivity() {
     }
 
     fun startConfetti() {
+        val colors = intArrayOf(color(R.color.confetti1), color(R.color.confetti2), color(R.color.confetti3), color(R.color.confetti4))
         konfetti.build()
                 .betweenPoints(-50f, konfetti.width.toFloat() - 50, -40f, -40f)
-                .addColors(color(R.color.confetti1), color(R.color.confetti2), color(R.color.confetti3), color(R.color.confetti4))
+                .addColors(*colors)
+                .addSizes(Size.SMALL, Size.MEDIUM)
                 .start()
     }
 
@@ -52,14 +55,14 @@ class MainActivity : AppCompatActivity() {
         return ContextCompat.getColor(applicationContext, resId)
     }
 
-    fun getOnVelocitySeekBarChangeListener(): SeekBar.OnSeekBarChangeListener {
+    fun getTimerSeekBarChangeListener(): SeekBar.OnSeekBarChangeListener {
         return object : SeekBar.OnSeekBarChangeListener {
             override fun onProgressChanged(seekBar: SeekBar?, progress: Int, fromUser: Boolean) {
-                if (konfetti.konfettiSystems.isNotEmpty()) {
-                    konfetti.konfettiSystems.forEach {
-                        velocityX = (seekbarX.progress - 25) / 10f
+                if (konfetti.systems.isNotEmpty()) {
+                    konfetti.systems.forEach {
+                        timer = seekbarX.progress
                         if (fromUser) {
-                            it.velocity(velocityX, 0f)
+                            it.setSpawnDelay(timer)
                         }
                     }
                 }
@@ -74,8 +77,8 @@ class MainActivity : AppCompatActivity() {
     fun getWindSeekBarChangeListener(): SeekBar.OnSeekBarChangeListener {
         return object : SeekBar.OnSeekBarChangeListener {
             override fun onProgressChanged(seekBar: SeekBar?, progress: Int, fromUser: Boolean) {
-                if (konfetti.konfettiSystems.isNotEmpty()) {
-                    konfetti.konfettiSystems.forEach {
+                if (konfetti.systems.isNotEmpty()) {
+                    konfetti.systems.forEach {
                         wind = seekbarY.progress.toFloat() / 100f
                         if (fromUser) {
                             it.wind(wind, 0f)

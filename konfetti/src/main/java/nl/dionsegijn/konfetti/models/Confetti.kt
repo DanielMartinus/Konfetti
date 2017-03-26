@@ -10,12 +10,13 @@ import java.util.*
  */
 class Confetti(var location: Vector,
                val color: Int,
+               val size: Size = Size.SMALL,
                var velocity: Vector = Vector(),
                var acceleration: Vector = Vector(0f, 0f),
-               var mass: Float = 4f,
                var lifespan: Float = 255f) {
 
-    private var width = 40f
+    private val mass = size.mass
+    private var width = size.pixels
     private val paint: Paint = Paint()
 
     private var rotationSpeed = 1

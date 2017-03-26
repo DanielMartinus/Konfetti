@@ -25,7 +25,7 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_margin="16dp"
-            android:max="50" />
+            android:max="1500" />
 
         <android.support.v7.widget.AppCompatSeekBar
             android:id="@+id/velocityY"
