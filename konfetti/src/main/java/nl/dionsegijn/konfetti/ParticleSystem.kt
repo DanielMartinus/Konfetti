@@ -4,8 +4,8 @@ import android.graphics.Canvas
 import android.graphics.Color
 import android.os.Handler
 import android.support.annotation.ColorInt
-import nl.dionsegijn.konfetti.models.Confetti
 import nl.dionsegijn.konfetti.models.Location
+import nl.dionsegijn.konfetti.models.Shape
 import nl.dionsegijn.konfetti.models.Size
 import nl.dionsegijn.konfetti.models.Vector
 import java.util.*
@@ -19,7 +19,8 @@ class ParticleSystem(val renderer: KonfettiView) {
     private var gravity = Vector(0f, 0.01f)
     private var wind = Vector(0.001f, 0f)
     private var colors = intArrayOf(Color.RED)
-    private var possibleSizes = arrayOf(Size.SMALL)
+    private var sizes = arrayOf(Size.SMALL)
+    private var shapes = arrayOf(Shape.RECT)
     private var velocity = Vector(0f, 0f)
     private var acceleration = Vector(0f, 0f)
 
@@ -28,17 +29,14 @@ class ParticleSystem(val renderer: KonfettiView) {
     private val particles: MutableList<Confetti> = mutableListOf()
 
     fun addConfetti(location: Location) {
-        val c = Confetti(
+        particles.add(Confetti(
                 location = Vector(location.x, location.y),
-                size = possibleSizes[Random().nextInt(possibleSizes.size)],
+                size = sizes[Random().nextInt(sizes.size)],
+                shape = shapes[Random().nextInt(shapes.size)],
                 color = colors[Random().nextInt(colors.size)],
                 velocity = velocity.copy(),
                 acceleration = acceleration.copy())
-        particles.add(c)
-    }
-
-    init {
-        gravity = Vector(0f, 0.01f)
+        )
     }
 
     fun addColors(@ColorInt vararg colors: Int): ParticleSystem {
@@ -47,7 +45,12 @@ class ParticleSystem(val renderer: KonfettiView) {
     }
 
     fun addSizes(vararg possibleSizes: Size): ParticleSystem {
-        this.possibleSizes = possibleSizes as Array<Size>
+        this.sizes = possibleSizes.filterIsInstance<Size>().toTypedArray()
+        return this
+    }
+
+    fun addShapes(vararg shapes: Shape): ParticleSystem {
+        this.shapes = shapes.filterIsInstance<Shape>().toTypedArray()
         return this
     }
 
@@ -100,7 +103,7 @@ class ParticleSystem(val renderer: KonfettiView) {
         while (it.hasNext()) {
             val c = it.next()
             c.applyForce(gravity)
-            if(c.location.y > canvas.height * 0.2) {
+            if(c.location.y > canvas.height * 0.3) {
                 c.applyForce(wind)
             }
             c.render(canvas)

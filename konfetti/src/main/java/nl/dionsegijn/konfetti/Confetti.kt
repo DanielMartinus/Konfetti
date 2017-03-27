@@ -1,8 +1,11 @@
-package nl.dionsegijn.konfetti.models
+package nl.dionsegijn.konfetti
 
 import android.graphics.Canvas
 import android.graphics.Paint
 import android.graphics.RectF
+import nl.dionsegijn.konfetti.models.Shape
+import nl.dionsegijn.konfetti.models.Size
+import nl.dionsegijn.konfetti.models.Vector
 import java.util.*
 
 /**
@@ -10,7 +13,8 @@ import java.util.*
  */
 class Confetti(var location: Vector,
                val color: Int,
-               val size: Size = Size.SMALL,
+               val size: Size,
+               val shape: Shape,
                var velocity: Vector = Vector(),
                var acceleration: Vector = Vector(0f, 0f),
                var lifespan: Float = 255f) {
@@ -74,7 +78,10 @@ class Confetti(var location: Vector,
 
         canvas.save()
         canvas.rotate(rotation.toFloat(), rect.centerX(), rect.centerY())
-        canvas.drawRect(rect, paint)
+        when(shape) {
+            Shape.CIRCLE -> canvas.drawOval(rect, paint)
+            Shape.RECT -> canvas.drawRect(rect, paint)
+        }
         canvas.restore()
     }
 

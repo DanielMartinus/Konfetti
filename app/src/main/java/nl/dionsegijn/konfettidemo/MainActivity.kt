@@ -1,11 +1,14 @@
 package nl.dionsegijn.konfettidemo
 
 import android.os.Bundle
+import android.os.Handler
 import android.support.v4.content.ContextCompat
 import android.support.v7.app.AppCompatActivity
 import android.view.ViewTreeObserver
 import android.widget.SeekBar
+import android.widget.TextView
 import nl.dionsegijn.konfetti.KonfettiView
+import nl.dionsegijn.konfetti.models.Shape
 import nl.dionsegijn.konfetti.models.Size
 
 /**
@@ -20,9 +23,13 @@ class MainActivity : AppCompatActivity() {
     lateinit var seekbarX: SeekBar
     lateinit var seekbarY: SeekBar
 
+    lateinit var fpsView: TextView
+
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_main)
+
+        fpsView = findViewById(R.id.fps) as TextView
 
         konfetti = findViewById(R.id.konfetti) as KonfettiView
         konfetti.viewTreeObserver.addOnPreDrawListener(object : ViewTreeObserver.OnPreDrawListener {
@@ -40,6 +47,16 @@ class MainActivity : AppCompatActivity() {
         seekbarY = findViewById(R.id.velocityY) as SeekBar
         seekbarY.progress = wind.toInt()
         seekbarY.setOnSeekBarChangeListener(getWindSeekBarChangeListener())
+
+        monitorFps()
+    }
+
+    var fpsHandler: Handler = Handler()
+    fun monitorFps() {
+        fpsHandler.postDelayed({
+            fpsView.text = String.format("%sfps", konfetti.fps.toString())
+            monitorFps()
+        }, 100)
     }
 
     fun startConfetti() {
@@ -47,11 +64,13 @@ class MainActivity : AppCompatActivity() {
         konfetti.build()
                 .betweenPoints(-50f, konfetti.width.toFloat() - 50, -40f, -40f)
                 .addColors(*colors)
-                .addSizes(Size.SMALL, Size.MEDIUM)
+                .addShapes(Shape.RECT, Shape.CIRCLE)
+                .acceleration(0f, 0.2f)
+                .addSizes(Size.SMALL)
                 .start()
     }
 
-    fun color(resId: Int) : Int {
+    fun color(resId: Int): Int {
         return ContextCompat.getColor(applicationContext, resId)
     }
 
