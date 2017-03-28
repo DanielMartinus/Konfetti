@@ -17,24 +17,27 @@ class ParticleSystem(val renderer: KonfettiView) {
 
     private var location = Location()
     private var gravity = Vector(0f, 0.01f)
-    private var wind = Vector(0.001f, 0f)
+    private var wind = Vector()
     private var colors = intArrayOf(Color.RED)
     private var sizes = arrayOf(Size.SMALL)
     private var shapes = arrayOf(Shape.RECT)
-    private var velocity = Vector(0f, 0f)
-    private var acceleration = Vector(0f, 0f)
+    private var acceleration = Vector()
 
-    private var spawnDelay = 20
+    private var radian: Double = 0.0
+    private var speed: Int = 0
+
+    private var spawnDelay = 40
 
     private val particles: MutableList<Confetti> = mutableListOf()
 
     fun addConfetti(location: Location) {
         particles.add(Confetti(
                 location = Vector(location.x, location.y),
+                radian = radian,
+                speed = speed,
                 size = sizes[Random().nextInt(sizes.size)],
                 shape = shapes[Random().nextInt(shapes.size)],
                 color = colors[Random().nextInt(colors.size)],
-                velocity = velocity.copy(),
                 acceleration = acceleration.copy())
         )
     }
@@ -54,18 +57,18 @@ class ParticleSystem(val renderer: KonfettiView) {
         return this
     }
 
-    fun velocity(x: Float, y: Float): ParticleSystem {
-        velocity = Vector(x, y)
+    fun setAngle(angle: Double): ParticleSystem {
+        radian = Math.toRadians(angle)
+        return this
+    }
+
+    fun setSpeed(speed: Int): ParticleSystem {
+        this.speed = speed
         return this
     }
 
     fun wind(x: Float, y: Float): ParticleSystem {
         wind = Vector(x, y)
-        return this
-    }
-
-    fun acceleration(x: Float, y: Float): ParticleSystem {
-        acceleration = Vector(x, y)
         return this
     }
 
