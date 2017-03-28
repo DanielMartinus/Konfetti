@@ -4,6 +4,9 @@ import android.os.Bundle
 import android.os.Handler
 import android.support.v4.content.ContextCompat
 import android.support.v7.app.AppCompatActivity
+import android.util.Log
+import android.view.MotionEvent
+import android.view.VelocityTracker
 import android.view.ViewTreeObserver
 import android.widget.SeekBar
 import android.widget.TextView
@@ -45,10 +48,38 @@ class MainActivity : AppCompatActivity() {
         seekbarX.setOnSeekBarChangeListener(getTimerSeekBarChangeListener())
 
         seekbarY = findViewById(R.id.velocityY) as SeekBar
-        seekbarY.progress = wind.toInt()
+        seekbarY.progress = 0
         seekbarY.setOnSeekBarChangeListener(getWindSeekBarChangeListener())
 
         monitorFps()
+        velocityTest()
+    }
+
+    var velocityTracker: VelocityTracker = VelocityTracker.obtain()
+    var startX: Float = 0f
+    var startY: Float = 0f
+
+
+    fun velocityTest() {
+        konfetti.setOnTouchListener { _, event ->
+            when(event.action) {
+                MotionEvent.ACTION_DOWN -> {
+                    velocityTracker.clear()
+                    velocityTracker.addMovement(event)
+                    startX = event.x
+                    startY = event.y
+                }
+                MotionEvent.ACTION_MOVE -> {
+                    velocityTracker.addMovement(event)
+                    velocityTracker.computeCurrentVelocity(1000)
+                    Log.e("sdsa", String.format("x: %s y: %s", velocityTracker.xVelocity, velocityTracker.yVelocity))
+                }
+                MotionEvent.ACTION_CANCEL -> {
+                    velocityTracker.recycle()
+                }
+            }
+            true
+        }
     }
 
     var fpsHandler: Handler = Handler()
@@ -61,11 +92,11 @@ class MainActivity : AppCompatActivity() {
 
     fun startConfetti() {
         val colors = intArrayOf(color(R.color.confetti1), color(R.color.confetti2), color(R.color.confetti3), color(R.color.confetti4))
+
         konfetti.build()
-                .betweenPoints(-50f, konfetti.width.toFloat() - 50, -40f, -40f)
+                .betweenPoints(100f, konfetti.width - 200f, 200f, 200f)
                 .addColors(*colors)
                 .addShapes(Shape.RECT, Shape.CIRCLE)
-                .acceleration(0f, 0.2f)
                 .addSizes(Size.SMALL)
                 .start()
     }
@@ -98,9 +129,9 @@ class MainActivity : AppCompatActivity() {
             override fun onProgressChanged(seekBar: SeekBar?, progress: Int, fromUser: Boolean) {
                 if (konfetti.systems.isNotEmpty()) {
                     konfetti.systems.forEach {
-                        wind = seekbarY.progress.toFloat() / 100f
                         if (fromUser) {
-                            it.wind(wind, 0f)
+                            it.setAngle(progress.toDouble())
+                            it.setSpeed(10)
                         }
                     }
                 }
