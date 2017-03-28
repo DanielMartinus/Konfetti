@@ -65,7 +65,7 @@ class Confetti(var location: Vector,
         velocity.add(acceleration)
         location.add(velocity)
 
-        if (location.y > 500) {
+        if (location.y > 700) {
             if (lifespan < 0 || lifespan == 0f) lifespan = 0f
             else lifespan -= 5f
         }

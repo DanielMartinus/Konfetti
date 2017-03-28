@@ -23,7 +23,7 @@ class ParticleSystem(val renderer: KonfettiView) {
     private var shapes = arrayOf(Shape.RECT)
     private var acceleration = Vector()
 
-    private var radian: Double = 0.0
+    private var degrees = doubleArrayOf(0.0)
     private var speed: Int = 0
 
     private var spawnDelay = 40
@@ -33,7 +33,7 @@ class ParticleSystem(val renderer: KonfettiView) {
     fun addConfetti(location: Location) {
         particles.add(Confetti(
                 location = Vector(location.x, location.y),
-                radian = radian,
+                radian = getAngleAsRadian(),
                 speed = speed,
                 size = sizes[Random().nextInt(sizes.size)],
                 shape = shapes[Random().nextInt(shapes.size)],
@@ -57,9 +57,27 @@ class ParticleSystem(val renderer: KonfettiView) {
         return this
     }
 
+    /* Angle in degrees */
     fun setAngle(angle: Double): ParticleSystem {
-        radian = Math.toRadians(angle)
+        degrees = doubleArrayOf(angle)
         return this
+    }
+
+    /* Range in degrees */
+    fun setAngle(startAngle: Double, endAngle: Double): ParticleSystem {
+        degrees = doubleArrayOf(startAngle, endAngle)
+        return this
+    }
+
+    private fun getAngleAsRadian(): Double {
+        if (degrees.size == 1) {
+            return Math.toRadians(degrees[0])
+        }
+        else {
+            // Get random angle between end angle + min angle
+            val degrees = Random().nextInt(degrees[1].toInt()) + degrees[0]
+            return Math.toRadians(degrees)
+        }
     }
 
     fun setSpeed(speed: Int): ParticleSystem {
@@ -106,7 +124,7 @@ class ParticleSystem(val renderer: KonfettiView) {
         while (it.hasNext()) {
             val c = it.next()
             c.applyForce(gravity)
-            if(c.location.y > canvas.height * 0.3) {
+            if (c.location.y > canvas.height * 0.3) {
                 c.applyForce(wind)
             }
             c.render(canvas)

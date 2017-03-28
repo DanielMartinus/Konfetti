@@ -55,6 +55,19 @@ class MainActivity : AppCompatActivity() {
         velocityTest()
     }
 
+    fun startConfetti() {
+        val colors = intArrayOf(color(R.color.confetti1), color(R.color.confetti2), color(R.color.confetti3), color(R.color.confetti4))
+
+        konfetti.build()
+                .fromPoint(konfetti.width / 2f, 100f)
+                .addColors(*colors)
+                .setAngle(0.0, 360.0)
+                .setSpeed(5)
+                .addShapes(Shape.RECT, Shape.CIRCLE)
+                .addSizes(Size.SMALL)
+                .start()
+    }
+
     var velocityTracker: VelocityTracker = VelocityTracker.obtain()
     var startX: Float = 0f
     var startY: Float = 0f
@@ -88,17 +101,6 @@ class MainActivity : AppCompatActivity() {
             fpsView.text = String.format("%sfps", konfetti.fps.toString())
             monitorFps()
         }, 100)
-    }
-
-    fun startConfetti() {
-        val colors = intArrayOf(color(R.color.confetti1), color(R.color.confetti2), color(R.color.confetti3), color(R.color.confetti4))
-
-        konfetti.build()
-                .betweenPoints(100f, konfetti.width - 200f, 200f, 200f)
-                .addColors(*colors)
-                .addShapes(Shape.RECT, Shape.CIRCLE)
-                .addSizes(Size.SMALL)
-                .start()
     }
 
     fun color(resId: Int): Int {

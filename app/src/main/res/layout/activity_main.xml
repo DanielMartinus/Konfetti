@@ -53,7 +53,7 @@
             android:layout_height="wrap_content"
             android:textColor="#ababab"
             android:layout_margin="16dp"
-            android:text="Wind force:"/>
+            android:text="Angle: "/>
 
         <android.support.v7.widget.AppCompatSeekBar
             android:id="@+id/velocityY"
