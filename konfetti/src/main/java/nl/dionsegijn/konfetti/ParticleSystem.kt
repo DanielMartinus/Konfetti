@@ -3,35 +3,53 @@ package nl.dionsegijn.konfetti
 import android.graphics.Canvas
 import android.graphics.Color
 import android.support.annotation.ColorInt
+import nl.dionsegijn.konfetti.emitters.BurstEmitter
+import nl.dionsegijn.konfetti.emitters.Emitter
+import nl.dionsegijn.konfetti.emitters.StreamEmitter
 import nl.dionsegijn.konfetti.models.LocationModule
 import nl.dionsegijn.konfetti.models.Shape
 import nl.dionsegijn.konfetti.models.Size
-import nl.dionsegijn.konfetti.models.Vector
-import nl.dionsegijn.konfetti.modules.TimerModule
 import nl.dionsegijn.konfetti.modules.VelocityModule
 import java.util.*
 
 /**
  * Created by dionsegijn on 3/26/17.
  */
-class ParticleSystem(val renderer: KonfettiView) {
+class ParticleSystem(val konfettiView: KonfettiView) {
 
     private val random = Random()
+
+    /** Modules */
     private var location = LocationModule(random)
     private var velocity = VelocityModule(random)
-    private var timer = TimerModule()
 
     /** Default values */
-    private var gravity = Vector(0f, 0.01f)
     private var colors = intArrayOf(Color.RED)
     private var sizes = arrayOf(Size.SMALL)
     private var shapes = arrayOf(Shape.RECT)
 
-    private val particles: MutableList<Confetti> = mutableListOf()
-    private var maxParticles = -1
-    private var particlesCreated = 0
+    /**
+     * Implementation of [BurstEmitter] or [StreamEmitter]
+     */
+    private lateinit var emitter: Emitter
 
-    private var emittingTime: Int = 0
+    /**
+     * Set position to emit particles from
+     */
+    fun setPosition(x: Float, y: Float): ParticleSystem {
+        location.setX(x)
+        location.setY(y)
+        return this
+    }
+
+    /**
+     * Set position range to emit particles in between
+     */
+    fun setPosition(minX: Float, maxX: Float? = null, minY: Float, maxY: Float? = null): ParticleSystem {
+        location.betweenX(minX, maxX)
+        location.betweenY(minY, maxY)
+        return this
+    }
 
     /**
      * One of the colors will be randomly picked when confetti is generated
@@ -101,97 +119,32 @@ class ParticleSystem(val renderer: KonfettiView) {
         return this
     }
 
-
-
-    fun fromPoint(x: Float, y: Float): ParticleSystem {
-        location.setX(x)
-        location.setY(y)
-        return this
-    }
-
-    fun setMaxParticles(maxParticles: Int): ParticleSystem {
-        this.maxParticles = maxParticles
-        return this
-    }
-
-    fun betweenPoints(x1: Float, x2: Float, y1: Float, y2: Float): ParticleSystem {
-        location.betweenX(x1, x2)
-        location.betweenY(y1, y2)
-        return this
-    }
-
-    /** ms per particle creation */
-    var amountps: Double = 0.0
-
-    fun emit(particlesPerSecond: Int, emittingTime: Int) {
-        this.emittingTime = emittingTime
-        amountps = 1000.0 / particlesPerSecond
+    fun burst(amount: Int) {
+        emitter = BurstEmitter(location, velocity, sizes, shapes, colors).burst(amount)
         start()
     }
 
-    var amountOfParticles = 0
-    fun burst(amountOfParticles: Int) {
-        this.amountOfParticles = amountOfParticles
-        for (i in 1..amountOfParticles) {
-            addConfetti()
-        }
+    fun emit(particlesPerSecond: Int) {
+        emitter = StreamEmitter(location, velocity, sizes, shapes, colors).emit(particlesPerSecond)
+        start()
+    }
+
+    fun emit(particlesPerSecond: Int, emittingTime: Int) {
+        emitter = StreamEmitter(location, velocity, sizes, shapes, colors).emit(particlesPerSecond, emittingTime)
+        start()
+    }
+
+    fun emit(particlesPerSecond: Int, emittingTime: Int, maxParticles: Int) {
+        emitter = StreamEmitter(location, velocity, sizes, shapes, colors).emit(particlesPerSecond, emittingTime, maxParticles)
         start()
     }
 
     fun start() {
-        renderer.start(this)
-        timer.start()
-        addConfetti()
+        konfettiView.start(this)
     }
 
-    fun createConfetti() {
-
-        if (amountOfParticles > 0) {
-            return
-        }
-
-        val elapsedTime = timer.getElapsedTimeLastEmit()
-
-        // Check if particle should be created
-        if (elapsedTime >= amountps && timer.getElapsedTimeFromStart() < emittingTime) {
-            // could be that invalidate is slower than amount that should be created.
-            // latency of 15 ms but need 1 particle per 3 ms = 5 particles
-            // danger is that elapsed time will increase when more particles are on screen
-            // will could grow forever and becomes too heavy.
-            var newP = Math.floor(elapsedTime / amountps).toInt()
-            if (newP > 3) newP = 3
-
-
-//            Log.e("Konfetti", "Particles per second: " + newP + " amount alive: " + particles.size)
-            for (i in 1..newP) {
-                addConfetti()
-                timer.updateEmitTime()
-                particlesCreated++
-            }
-        }
-    }
-
-    fun addConfetti() {
-        val accY = random.nextInt(5) / 100f
-        particles.add(Confetti(
-                location = Vector(location.x, location.y),
-                size = sizes[random.nextInt(sizes.size)],
-                shape = shapes[random.nextInt(shapes.size)],
-                color = colors[random.nextInt(colors.size)],
-                velocity = this.velocity.getVelocity(),
-                acceleration = Vector(0f, accY))
-        )
-    }
-
-    fun render(canvas: Canvas) {
-        createConfetti()
-        val it = particles.iterator()
-        while (it.hasNext()) {
-            val c = it.next()
-            c.applyForce(gravity)
-            c.render(canvas)
-            if (c.isDead()) it.remove()
-        }
+    internal fun render(canvas: Canvas) {
+        emitter.render(canvas)
     }
 
 }

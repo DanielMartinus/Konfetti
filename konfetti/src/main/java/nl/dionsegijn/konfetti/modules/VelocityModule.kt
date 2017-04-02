@@ -25,7 +25,7 @@ class VelocityModule(val random: Random) {
      * Speed lower than 0 will automatically set the speed to 0
      */
     var minSpeed: Float = 0f
-        set(value) { if(minSpeed < 0) field = 0f }
+        set(value) { if(value < 0) field = 0f else field = value }
     /**
      * Maximum speed (magnitude)
      * Once set it will be used to randomize between [minSpeed] and maxSpeed when velocity
@@ -33,7 +33,7 @@ class VelocityModule(val random: Random) {
      * Speed lower than 0 will automatically set the speed to 0
      */
     var maxSpeed: Float? = null
-        set(value) { if(minSpeed < 0) field = 0f }
+        set(value) { if(value!! < 0) field = 0f else field = value }
 
     /**
      * If both minSpeed and maxSpeed are set a random speed between those values will be returned

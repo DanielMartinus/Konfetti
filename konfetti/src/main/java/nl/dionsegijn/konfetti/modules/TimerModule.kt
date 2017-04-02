@@ -34,6 +34,10 @@ class TimerModule {
         lastEmitTimestamp = System.currentTimeMillis()
     }
 
+    fun isStarted() : Boolean {
+        return startTimestamp != 0L
+    }
+
     // TODO add max emitting time
 
 }

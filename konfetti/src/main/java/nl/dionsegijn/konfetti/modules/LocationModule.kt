@@ -31,7 +31,7 @@ class LocationModule(val random: Random) {
         }
     }
 
-    fun betweenX(minX: Float, maxX: Float) {
+    fun betweenX(minX: Float, maxX: Float?) {
         this.minX = minX
         this.maxX = maxX
     }
@@ -40,7 +40,7 @@ class LocationModule(val random: Random) {
         this.minX = x
     }
 
-    fun betweenY(minY: Float, maxY: Float) {
+    fun betweenY(minY: Float, maxY: Float?) {
         this.minY = minY
         this.maxY = maxY
     }
