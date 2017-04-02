@@ -125,17 +125,30 @@ class ParticleSystem(val konfettiView: KonfettiView) {
     }
 
     fun emit(particlesPerSecond: Int) {
-        emitter = StreamEmitter(location, velocity, sizes, shapes, colors).emit(particlesPerSecond)
+        emitter = StreamEmitter(location, velocity, sizes, shapes, colors).emit(
+                particlesPerSecond = particlesPerSecond)
         start()
     }
 
     fun emit(particlesPerSecond: Int, emittingTime: Long) {
-        emitter = StreamEmitter(location, velocity, sizes, shapes, colors).emit(particlesPerSecond, emittingTime)
+        emitter = StreamEmitter(location, velocity, sizes, shapes, colors).emit(
+                particlesPerSecond = particlesPerSecond,
+                emittingTime = emittingTime)
+        start()
+    }
+
+    fun emit(particlesPerSecond: Int, maxParticles: Int) {
+        emitter = StreamEmitter(location, velocity, sizes, shapes, colors).emit(
+                particlesPerSecond = particlesPerSecond,
+                maxParticles = maxParticles)
         start()
     }
 
     fun emit(particlesPerSecond: Int, emittingTime: Long, maxParticles: Int) {
-        emitter = StreamEmitter(location, velocity, sizes, shapes, colors).emit(particlesPerSecond, emittingTime, maxParticles)
+        emitter = StreamEmitter(location, velocity, sizes, shapes, colors).emit(
+                particlesPerSecond = particlesPerSecond,
+                emittingTime = emittingTime,
+                maxParticles =  maxParticles)
         start()
     }
 
