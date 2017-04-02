@@ -22,10 +22,6 @@ class KonfettiView : View {
 
     val systems: MutableList<ParticleSystem> = mutableListOf()
 
-    var fps: Int = 0
-    var fpsCounter: Int = 0
-    var fpsTime: Long = 0
-
     fun build(): ParticleSystem {
         return ParticleSystem(this)
     }
@@ -51,10 +47,12 @@ class KonfettiView : View {
 
     fun start(particleSystem: ParticleSystem) {
         systems.add(particleSystem)
-        particleSystem.startTimer()
         invalidate()
     }
 
+    var fps: Int = 0
+    var fpsCounter: Int = 0
+    var fpsTime: Long = 0
     fun calcFps() {
         if (SystemClock.uptimeMillis() - fpsTime > 1000) {
             fpsTime = SystemClock.uptimeMillis()
