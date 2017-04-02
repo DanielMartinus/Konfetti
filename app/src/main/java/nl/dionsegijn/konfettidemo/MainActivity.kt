@@ -11,6 +11,7 @@ import android.widget.TextView
 import nl.dionsegijn.konfetti.KonfettiView
 import nl.dionsegijn.konfetti.models.Shape
 import nl.dionsegijn.konfetti.models.Size
+import java.util.*
 
 /**
  * Created by dionsegijn on 3/25/17.
@@ -55,17 +56,14 @@ class MainActivity : AppCompatActivity() {
 
     fun startConfetti() {
         val colors = intArrayOf(color(R.color.confetti1), color(R.color.confetti2), color(R.color.confetti3), color(R.color.confetti4))
-
         konfetti.build()
-//                .betweenPoints((konfetti.width / 2f) - 80, (konfetti.width / 2f) + 80, 250f, 250f)
                 .addColors(*colors)
-                .setDirection(240.0, 300.0)
-                .setSpeed(3f, 6f)
-//                .setAngle(0.0, 360.0)
-//                .setSpeed(5)
+                .setDirection(0.0, 359.0)
+                .setSpeed(1f, 5f)
                 .addShapes(Shape.RECT, Shape.CIRCLE)
-                .addSizes(Size.SMALL)
-//                .emit(5000, 1000)
+                .addSizes(Size.SMALL, Size.MEDIUM)
+                .setPosition(-50f, konfetti.width + 50f, -50f, -50f)
+                .emit(300, 300)
     }
 
     var startX: Float = 0f
@@ -97,8 +95,8 @@ class MainActivity : AppCompatActivity() {
                             .setSpeed(1f, 5f)
                             .addShapes(Shape.RECT, Shape.CIRCLE)
                             .addSizes(Size.SMALL, Size.MEDIUM)
-                            .setPosition(-50f, konfetti.width + 50f, -50f, -50f)
-                            .emit(300, 0, 1000)
+                            .setPosition(event.x, event.y)
+                            .burst(Random().nextInt(500) + 100)
                 }
             }
             true
