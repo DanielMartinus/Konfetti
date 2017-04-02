@@ -4,9 +4,7 @@ import android.os.Bundle
 import android.os.Handler
 import android.support.v4.content.ContextCompat
 import android.support.v7.app.AppCompatActivity
-import android.util.Log
 import android.view.MotionEvent
-import android.view.VelocityTracker
 import android.view.ViewTreeObserver
 import android.widget.SeekBar
 import android.widget.TextView
@@ -59,36 +57,51 @@ class MainActivity : AppCompatActivity() {
         val colors = intArrayOf(color(R.color.confetti1), color(R.color.confetti2), color(R.color.confetti3), color(R.color.confetti4))
 
         konfetti.build()
-                .fromPoint(konfetti.width / 2f, 100f)
+                .betweenPoints((konfetti.width / 2f) - 80, (konfetti.width / 2f) + 80, 250f, 250f)
                 .addColors(*colors)
-                .setAngle(0.0, 360.0)
-                .setSpeed(5)
+                .setDirection(240.0, 300.0)
+                .setSpeed(3f, 6f)
+//                .setAngle(0.0, 360.0)
+//                .setSpeed(5)
                 .addShapes(Shape.RECT, Shape.CIRCLE)
                 .addSizes(Size.SMALL)
-                .start()
+//                .emit(5000, 1000)
     }
 
-    var velocityTracker: VelocityTracker = VelocityTracker.obtain()
     var startX: Float = 0f
     var startY: Float = 0f
-
-
+    var speed: Int = 0
+    var degrees: Double = 0.0
     fun velocityTest() {
         konfetti.setOnTouchListener { _, event ->
             when(event.action) {
                 MotionEvent.ACTION_DOWN -> {
-                    velocityTracker.clear()
-                    velocityTracker.addMovement(event)
                     startX = event.x
                     startY = event.y
                 }
                 MotionEvent.ACTION_MOVE -> {
-                    velocityTracker.addMovement(event)
-                    velocityTracker.computeCurrentVelocity(1000)
-                    Log.e("sdsa", String.format("x: %s y: %s", velocityTracker.xVelocity, velocityTracker.yVelocity))
+                    val dx = event.x - startX
+                    val dy = event.y - startY
+                    val r = Math.atan2(dy.toDouble(), dx.toDouble()) // In radians
+                    degrees = ((r * (180 / Math.PI) - 180) + 360) % 360
+
+                    val length = Math.sqrt((dx * dx) + (dy * dy).toDouble())
+                    speed = (length / 100).toInt()
+                    if(speed > 10) speed = 0
                 }
                 MotionEvent.ACTION_CANCEL -> {
-                    velocityTracker.recycle()
+
+                }
+                MotionEvent.ACTION_UP -> {
+                    val colors = intArrayOf(color(R.color.confetti1), color(R.color.confetti2), color(R.color.confetti3), color(R.color.confetti4))
+                    konfetti.build()
+                            .fromPoint(startX, startY)
+                            .addColors(*colors)
+                            .setDirection(0.0, 360.0)
+                            .setSpeed(0f, 5f)
+                            .addShapes(Shape.RECT, Shape.CIRCLE)
+                            .addSizes(Size.SMALL)
+                            .burst(300)
                 }
             }
             true
@@ -114,7 +127,7 @@ class MainActivity : AppCompatActivity() {
                     konfetti.systems.forEach {
                         timer = seekbarX.progress
                         if (fromUser) {
-                            it.setSpawnDelay(timer)
+//                            it.setSpawnDelay(timer)
                         }
                     }
                 }
@@ -132,8 +145,8 @@ class MainActivity : AppCompatActivity() {
                 if (konfetti.systems.isNotEmpty()) {
                     konfetti.systems.forEach {
                         if (fromUser) {
-                            it.setAngle(progress.toDouble())
-                            it.setSpeed(10)
+//                            it.setAngle(progress.toDouble())
+//                            it.setSpeed(10)
                         }
                     }
                 }
