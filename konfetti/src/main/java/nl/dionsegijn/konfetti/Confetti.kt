@@ -9,37 +9,27 @@ import nl.dionsegijn.konfetti.models.Vector
 import java.util.*
 
 /**
- * Created by dionsegijn on 3/26/17.
+ * TODO: Add lifespan based on milliseconds
  */
 class Confetti(var location: Vector,
                val color: Int,
                val size: Size,
                val shape: Shape,
-               val radian: Double = 0.0,
-               val speed: Int = 0,
                var acceleration: Vector = Vector(0f, 0f),
-               var lifespan: Float = 255f) {
+               var lifespan: Float = 255f,
+               var velocity: Vector = Vector()) {
 
     private val mass = size.mass
-    private var width = size.pixels
+    private var width = size.size
     private val paint: Paint = Paint()
 
-    private var rotationSpeed = 1
-    private var rotation = 0
+    private var rotationSpeed = 1f
+    private var rotation = 0f
     private var rotationWidth = width
-
-    private var velocity = Vector()
 
     init {
         paint.color = color
-        velocity = getVelocity()
-        rotationSpeed = Random().nextInt(3) + 1
-    }
-
-    fun getVelocity(): Vector {
-        val vx = speed*Math.cos(radian).toFloat()
-        val vy = speed*Math.sin(radian).toFloat()
-        return Vector(vx, vy)
+        rotationSpeed = 3 * Random().nextFloat() + 1
     }
 
     fun getSize(): Float {
@@ -71,7 +61,7 @@ class Confetti(var location: Vector,
         }
 
         rotation += rotationSpeed
-        if (rotation > 360) rotation = 0
+        if (rotation >= 360) rotation = 0f
 
         rotationWidth -= rotationSpeed
         if (rotationWidth < 0) rotationWidth = width
