@@ -129,12 +129,12 @@ class ParticleSystem(val konfettiView: KonfettiView) {
         start()
     }
 
-    fun emit(particlesPerSecond: Int, emittingTime: Int) {
+    fun emit(particlesPerSecond: Int, emittingTime: Long) {
         emitter = StreamEmitter(location, velocity, sizes, shapes, colors).emit(particlesPerSecond, emittingTime)
         start()
     }
 
-    fun emit(particlesPerSecond: Int, emittingTime: Int, maxParticles: Int) {
+    fun emit(particlesPerSecond: Int, emittingTime: Long, maxParticles: Int) {
         emitter = StreamEmitter(location, velocity, sizes, shapes, colors).emit(particlesPerSecond, emittingTime, maxParticles)
         start()
     }

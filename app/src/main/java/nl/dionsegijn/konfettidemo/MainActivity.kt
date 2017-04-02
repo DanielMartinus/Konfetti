@@ -98,7 +98,7 @@ class MainActivity : AppCompatActivity() {
                             .addShapes(Shape.RECT, Shape.CIRCLE)
                             .addSizes(Size.SMALL, Size.MEDIUM)
                             .setPosition(-50f, konfetti.width + 50f, -50f, -50f)
-                            .emit(100, 0, 200)
+                            .emit(300, 0, 1000)
                 }
             }
             true

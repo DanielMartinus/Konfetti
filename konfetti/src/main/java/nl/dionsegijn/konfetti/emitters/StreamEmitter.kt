@@ -19,11 +19,11 @@ class StreamEmitter(location: LocationModule, velocity: VelocityModule, sizes: A
     /** Keeping count of how many particles are created */
     private var particlesCreated = 0
     /** Max time in milliseconds allowed to emit */
-    private var emittingTime: Int = 0
+    private var emittingTime: Long = 0
     /** Milliseconds per particle creation */
     var amountps: Double = 0.0
 
-    fun emit(particlesPerSecond: Int, emittingTime: Int = 0, maxParticles: Int = -1): StreamEmitter {
+    fun emit(particlesPerSecond: Int, emittingTime: Long = 0L, maxParticles: Int = -1): StreamEmitter {
         this.maxParticles = maxParticles
         this.emittingTime = emittingTime
         amountps = 1000.0 / particlesPerSecond
@@ -36,7 +36,7 @@ class StreamEmitter(location: LocationModule, velocity: VelocityModule, sizes: A
      */
     override fun createConfetti() {
         if (!timer.isStarted()) {
-            timer.start()
+            timer.start(emittingTime)
             this.addConfetti()
         }
 
@@ -47,19 +47,8 @@ class StreamEmitter(location: LocationModule, velocity: VelocityModule, sizes: A
         val elapsedTime = timer.getElapsedTimeLastEmit()
 
         // Check if particle should be created
-        if (elapsedTime >= amountps && (timer.getElapsedTimeFromStart() < emittingTime || emittingTime <= 0)) {
-            // could be that invalidate is slower than amount that should be created.
-            // latency of 15 ms but need 1 particle per 3 ms = 5 particles
-            // danger is that elapsed time will increase when more particles are on screen
-            // will could grow forever and becomes too heavy.
-            var newP = Math.floor(elapsedTime / amountps).toInt()
-            if (newP > 3) newP = 3
-
-
-//            Log.e("Konfetti", "Particles per second: " + newP + " amount alive: " + particles.size)
-            for (i in 1..newP) {
-                this.addConfetti()
-            }
+        if (elapsedTime >= amountps && timer.isMaxTime()) {
+            this.addConfetti()
         }
     }
 
