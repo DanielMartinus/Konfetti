@@ -3,11 +3,11 @@ package nl.dionsegijn.konfetti.models
 import java.util.*
 
 /**
- * Created by dionsegijn on 3/26/17.
+ * Location module keeping tracking of the location values
+ * The module handles both single points and multiple points in space
+ * If a range is set (betweenX or betweenY) a random point will be returned
  */
-class Location() {
-
-    val random = Random()
+class LocationModule(val random: Random) {
 
     private var minX: Float = 0f
     private var maxX: Float? = null
