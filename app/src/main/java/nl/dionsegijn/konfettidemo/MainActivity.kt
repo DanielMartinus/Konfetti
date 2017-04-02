@@ -57,7 +57,7 @@ class MainActivity : AppCompatActivity() {
         val colors = intArrayOf(color(R.color.confetti1), color(R.color.confetti2), color(R.color.confetti3), color(R.color.confetti4))
 
         konfetti.build()
-                .betweenPoints((konfetti.width / 2f) - 80, (konfetti.width / 2f) + 80, 250f, 250f)
+//                .betweenPoints((konfetti.width / 2f) - 80, (konfetti.width / 2f) + 80, 250f, 250f)
                 .addColors(*colors)
                 .setDirection(240.0, 300.0)
                 .setSpeed(3f, 6f)
@@ -89,19 +89,16 @@ class MainActivity : AppCompatActivity() {
                     speed = (length / 100).toInt()
                     if(speed > 10) speed = 0
                 }
-                MotionEvent.ACTION_CANCEL -> {
-
-                }
                 MotionEvent.ACTION_UP -> {
                     val colors = intArrayOf(color(R.color.confetti1), color(R.color.confetti2), color(R.color.confetti3), color(R.color.confetti4))
                     konfetti.build()
-                            .fromPoint(startX, startY)
                             .addColors(*colors)
-                            .setDirection(0.0, 360.0)
-                            .setSpeed(0f, 5f)
+                            .setDirection(0.0, 359.0)
+                            .setSpeed(1f, 5f)
                             .addShapes(Shape.RECT, Shape.CIRCLE)
-                            .addSizes(Size.SMALL)
-                            .burst(300)
+                            .addSizes(Size.SMALL, Size.MEDIUM)
+                            .setPosition(-50f, konfetti.width + 50f, -50f, -50f)
+                            .emit(100, 0, 200)
                 }
             }
             true
