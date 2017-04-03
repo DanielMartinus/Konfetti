@@ -13,6 +13,7 @@ import nl.dionsegijn.konfetti.modules.VelocityModule
 open class BurstEmitter(timer: TimerModule, location: LocationModule, velocity: VelocityModule, sizes: Array<Size>, shapes: Array<Shape>, colors: IntArray, config: ConfettiConfig) : Emitter(timer, location, velocity, sizes, shapes, colors, config) {
 
     private var amountOfParticles = 0
+        set(value) { if(value > 1000) field = 1000 else field = value }
 
     fun burst(amountOfParticles: Int): BurstEmitter {
         this.amountOfParticles = amountOfParticles
