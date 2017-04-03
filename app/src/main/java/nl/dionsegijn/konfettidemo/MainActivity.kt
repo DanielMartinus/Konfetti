@@ -11,7 +11,6 @@ import android.widget.TextView
 import nl.dionsegijn.konfetti.KonfettiView
 import nl.dionsegijn.konfetti.models.Shape
 import nl.dionsegijn.konfetti.models.Size
-import java.util.*
 
 /**
  * Created by dionsegijn on 3/25/17.
@@ -19,7 +18,6 @@ import java.util.*
 class MainActivity : AppCompatActivity() {
 
     var timer: Int = 20
-    var wind: Float = 0f
 
     lateinit var konfetti: KonfettiView
     lateinit var seekbarX: SeekBar
@@ -56,14 +54,14 @@ class MainActivity : AppCompatActivity() {
 
     fun startConfetti() {
         val colors = intArrayOf(color(R.color.confetti1), color(R.color.confetti2), color(R.color.confetti3), color(R.color.confetti4))
-        konfetti.build()
-                .addColors(*colors)
-                .setDirection(0.0, 359.0)
-                .setSpeed(1f, 5f)
-                .addShapes(Shape.RECT, Shape.CIRCLE)
-                .addSizes(Size.SMALL, Size.MEDIUM)
-                .setPosition(-50f, konfetti.width + 50f, -50f, -50f)
-                .emit(300, 300)
+//        konfetti.build()
+//                .addColors(*colors)
+//                .setDirection(0.0, 359.0)
+//                .setSpeed(1f, 5f)
+//                .addShapes(Shape.RECT, Shape.CIRCLE)
+//                .addSizes(Size.SMALL, Size.MEDIUM)
+//                .setPosition(-50f, konfetti.width + 50f, -50f, -50f)
+//                .emit(300, 300)
     }
 
     var startX: Float = 0f
@@ -96,7 +94,9 @@ class MainActivity : AppCompatActivity() {
                             .addShapes(Shape.RECT, Shape.CIRCLE)
                             .addSizes(Size.SMALL, Size.MEDIUM)
                             .setPosition(event.x, event.y)
-                            .burst(Random().nextInt(500) + 100)
+                            .setTimeToLive(2500)
+                            .setFadeOutEnabled(true)
+                            .emit(50, emittingTime = 500)
                 }
             }
             true

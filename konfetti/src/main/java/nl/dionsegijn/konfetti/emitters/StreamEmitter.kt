@@ -1,5 +1,6 @@
 package nl.dionsegijn.konfetti.emitters
 
+import nl.dionsegijn.konfetti.models.ConfettiConfig
 import nl.dionsegijn.konfetti.models.LocationModule
 import nl.dionsegijn.konfetti.models.Shape
 import nl.dionsegijn.konfetti.models.Size
@@ -9,7 +10,7 @@ import nl.dionsegijn.konfetti.modules.VelocityModule
 /**
  * Created by dionsegijn on 4/2/17.
  */
-class StreamEmitter(location: LocationModule, velocity: VelocityModule, sizes: Array<Size>, shapes: Array<Shape>, colors: IntArray) : Emitter(location, velocity, sizes, shapes, colors) {
+class StreamEmitter(location: LocationModule, velocity: VelocityModule, sizes: Array<Size>, shapes: Array<Shape>, colors: IntArray, config: ConfettiConfig) : Emitter(location, velocity, sizes, shapes, colors, config) {
 
     /** [TimerModule] keeping track of time */
     private var timer = TimerModule()

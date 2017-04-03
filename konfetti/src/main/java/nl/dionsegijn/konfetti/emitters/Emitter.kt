@@ -2,9 +2,7 @@ package nl.dionsegijn.konfetti.emitters
 
 import android.graphics.Canvas
 import nl.dionsegijn.konfetti.Confetti
-import nl.dionsegijn.konfetti.models.LocationModule
-import nl.dionsegijn.konfetti.models.Shape
-import nl.dionsegijn.konfetti.models.Size
+import nl.dionsegijn.konfetti.models.*
 import nl.dionsegijn.konfetti.models.Vector
 import nl.dionsegijn.konfetti.modules.VelocityModule
 import java.util.*
@@ -19,7 +17,8 @@ abstract class Emitter(val location: LocationModule,
                        val velocity: VelocityModule,
                        val sizes: Array<Size>,
                        val shapes: Array<Shape>,
-                       val colors: IntArray) {
+                       val colors: IntArray,
+                       val config: ConfettiConfig) {
 
     private val random = Random()
     private var gravity = Vector(0f, 0.01f)
@@ -34,6 +33,8 @@ abstract class Emitter(val location: LocationModule,
                 size = sizes[random.nextInt(sizes.size)],
                 shape = shapes[random.nextInt(shapes.size)],
                 color = colors[random.nextInt(colors.size)],
+                lifespan = config.timeToLive,
+                fadeOut = config.fadeOut,
                 velocity = this.velocity.getVelocity(),
                 acceleration = Vector(0f, accY))
         )
@@ -42,10 +43,11 @@ abstract class Emitter(val location: LocationModule,
     fun render(canvas: Canvas) {
         createConfetti()
         val it = particles.iterator()
+        val currentMs = System.currentTimeMillis()
         while (it.hasNext()) {
             val c = it.next()
             c.applyForce(gravity)
-            c.render(canvas)
+            c.render(canvas, currentMs)
             if (c.isDead()) it.remove()
         }
     }
