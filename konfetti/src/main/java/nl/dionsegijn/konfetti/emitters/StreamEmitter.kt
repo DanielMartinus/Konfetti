@@ -21,12 +21,12 @@ class StreamEmitter(location: LocationModule, velocity: VelocityModule, sizes: A
     /** Max time in milliseconds allowed to emit */
     private var emittingTime: Long = 0
     /** Milliseconds per particle creation */
-    var amountps: Double = 0.0
+    var amountPerMs: Double = 0.0
 
     fun emit(particlesPerSecond: Int, emittingTime: Long = 0L, maxParticles: Int = -1): StreamEmitter {
         this.maxParticles = maxParticles
         this.emittingTime = emittingTime
-        amountps = 1000.0 / particlesPerSecond
+        amountPerMs = 1000.0 / particlesPerSecond
         return this
     }
 
@@ -40,14 +40,16 @@ class StreamEmitter(location: LocationModule, velocity: VelocityModule, sizes: A
             this.addConfetti()
         }
 
-        if(maxParticles > 0 && particlesCreated > maxParticles) {
+        // if maxParticles is set and particlesCreated not within
+        // range of maxParticles stop emitting
+        if(maxParticles in 1..(particlesCreated - 1)) {
             return
         }
 
         val elapsedTime = timer.getElapsedTimeLastEmit()
 
         // Check if particle should be created
-        if (elapsedTime >= amountps && timer.isMaxTime()) {
+        if (elapsedTime >= amountPerMs && timer.isMaxTime()) {
             this.addConfetti()
         }
     }
