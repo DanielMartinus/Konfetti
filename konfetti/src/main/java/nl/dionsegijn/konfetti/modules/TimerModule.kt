@@ -1,6 +1,17 @@
 package nl.dionsegijn.konfetti.modules
 
+import android.util.Log
+import java.util.concurrent.TimeUnit
+
 class TimerModule {
+
+    /**
+     * Current time should be used when calculating
+     * the elapsed time, it will be updated once when
+     * rendering the particles of the emitter
+     * @property currentTime in nanoseconds
+     */
+    var currentTime: Long = 0L
 
     /**
      * Timestamp the particle system started emitting
@@ -9,7 +20,7 @@ class TimerModule {
     private var startTimestamp: Long = 0L
 
     /**
-     * Indicating how long emitting is allowed in milliseconds
+     * Indicating how long emitting is allowed in nanoseconds
      * endTimestamp checks against startTimestamp
      */
     private var endTimestamp: Long = 0L
@@ -19,9 +30,20 @@ class TimerModule {
      */
     private var lastEmitTimestamp: Long = 0L
 
+    /**
+     * Update currentTime in nanoseconds
+     */
+    fun updateCurrentTime() {
+        currentTime = System.nanoTime()
+    }
+
+    /**
+     * Start time module with [maxEmitTime] in milliseconds
+     * maxEmitTime will be converted to nanoseconds
+     */
     fun start(maxEmitTime: Long = 0L) {
-        this.endTimestamp = maxEmitTime
-        startTimestamp = System.currentTimeMillis()
+        this.endTimestamp = TimeUnit.MILLISECONDS.toNanos(maxEmitTime)
+        startTimestamp = currentTime
     }
 
     fun reset() {
@@ -31,18 +53,18 @@ class TimerModule {
     }
 
     /**
-     * @return time in milliseconds between start and current timestamp
+     * @return time in nanoseconds between start and current timestamp
      */
     fun getElapsedTimeFromStart() : Long {
-        return System.currentTimeMillis() - startTimestamp
+        return currentTime - startTimestamp
     }
 
     /**
      * Last emitted timestamp should be updated by calling [updateEmitTime]
-     * @return time in milliseconds between now and last emitted timestamp
+     * @return time in nanoseconds between now and last emitted timestamp
      */
     fun getElapsedTimeLastEmit() : Long {
-        return System.currentTimeMillis() - lastEmitTimestamp
+        return currentTime - lastEmitTimestamp
     }
 
     /**
@@ -50,6 +72,7 @@ class TimerModule {
      * @return true if the elapsed time has passed endTimestamp or when endTimestamp is lower than 0
      */
     fun isMaxTime() : Boolean {
+        Log.e("time", "elapsed: "+getElapsedTimeFromStart() + " endTimestamp" + endTimestamp)
         return getElapsedTimeFromStart() > endTimestamp && endTimestamp > 0
     }
 
@@ -57,7 +80,7 @@ class TimerModule {
      * Updating emit timestamp
      */
     fun updateEmitTime() {
-        lastEmitTimestamp = System.currentTimeMillis()
+        lastEmitTimestamp = currentTime
     }
 
     /**

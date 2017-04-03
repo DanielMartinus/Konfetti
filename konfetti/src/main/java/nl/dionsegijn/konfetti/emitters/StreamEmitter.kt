@@ -6,14 +6,13 @@ import nl.dionsegijn.konfetti.models.Shape
 import nl.dionsegijn.konfetti.models.Size
 import nl.dionsegijn.konfetti.modules.TimerModule
 import nl.dionsegijn.konfetti.modules.VelocityModule
+import java.util.concurrent.TimeUnit
 
 /**
  * Created by dionsegijn on 4/2/17.
  */
-class StreamEmitter(location: LocationModule, velocity: VelocityModule, sizes: Array<Size>, shapes: Array<Shape>, colors: IntArray, config: ConfettiConfig) : Emitter(location, velocity, sizes, shapes, colors, config) {
+class StreamEmitter(timer: TimerModule, location: LocationModule, velocity: VelocityModule, sizes: Array<Size>, shapes: Array<Shape>, colors: IntArray, config: ConfettiConfig) : Emitter(timer, location, velocity, sizes, shapes, colors, config) {
 
-    /** [TimerModule] keeping track of time */
-    private var timer = TimerModule()
     /** Max amount of particles allowed to be created */
     private var maxParticles = -1
     /** Keeping count of how many particles are created */
@@ -21,12 +20,12 @@ class StreamEmitter(location: LocationModule, velocity: VelocityModule, sizes: A
     /** Max time in milliseconds allowed to emit */
     internal var emittingTime: Long = 0
     /** Milliseconds per particle creation */
-    var amountPerMs: Double = 0.0
+    var amountPerMs: Long = 0L
 
     fun emit(particlesPerSecond: Int, emittingTime: Long = 0L, maxParticles: Int = -1): StreamEmitter {
         this.maxParticles = maxParticles
         this.emittingTime = emittingTime
-        amountPerMs = 1000.0 / particlesPerSecond
+        amountPerMs = TimeUnit.NANOSECONDS.toMillis(1000L / particlesPerSecond)
         return this
     }
 

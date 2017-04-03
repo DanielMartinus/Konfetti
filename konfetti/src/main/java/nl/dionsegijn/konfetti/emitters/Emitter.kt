@@ -4,8 +4,10 @@ import android.graphics.Canvas
 import nl.dionsegijn.konfetti.Confetti
 import nl.dionsegijn.konfetti.models.*
 import nl.dionsegijn.konfetti.models.Vector
+import nl.dionsegijn.konfetti.modules.TimerModule
 import nl.dionsegijn.konfetti.modules.VelocityModule
 import java.util.*
+import java.util.concurrent.TimeUnit
 
 /**
  * Implementation class for rendering confetti
@@ -13,7 +15,8 @@ import java.util.*
  * what rate the confetti is created while Emitter is creating the confetti
  * and passing through the canvas to let the confetti render itself
  */
-abstract class Emitter(val location: LocationModule,
+abstract class Emitter(val timer: TimerModule,
+                       val location: LocationModule,
                        val velocity: VelocityModule,
                        val sizes: Array<Size>,
                        val shapes: Array<Shape>,
@@ -30,11 +33,12 @@ abstract class Emitter(val location: LocationModule,
     open fun addConfetti() {
         val accY = random.nextInt(5) / 100f
         particles.add(Confetti(
+                createdAt = timer.currentTime,
                 location = Vector(location.x, location.y),
                 size = sizes[random.nextInt(sizes.size)],
                 shape = shapes[random.nextInt(shapes.size)],
                 color = colors[random.nextInt(colors.size)],
-                lifespan = config.timeToLive,
+                lifespan = TimeUnit.MILLISECONDS.toNanos(config.timeToLive),
                 fadeOut = config.fadeOut,
                 velocity = this.velocity.getVelocity(),
                 acceleration = Vector(0f, accY))
@@ -42,13 +46,13 @@ abstract class Emitter(val location: LocationModule,
     }
 
     fun render(canvas: Canvas) {
+        timer.updateCurrentTime()
         createConfetti()
         val it = particles.iterator()
-        val currentMs = System.currentTimeMillis()
         while (it.hasNext()) {
             val c = it.next()
             c.applyForce(gravity)
-            c.render(canvas, currentMs)
+            c.render(canvas, timer.currentTime)
             if (c.isDead()) it.remove()
         }
     }

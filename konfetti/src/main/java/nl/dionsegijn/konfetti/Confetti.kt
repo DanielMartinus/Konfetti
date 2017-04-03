@@ -7,12 +7,14 @@ import nl.dionsegijn.konfetti.models.Shape
 import nl.dionsegijn.konfetti.models.Size
 import nl.dionsegijn.konfetti.models.Vector
 import java.util.*
+import java.util.concurrent.TimeUnit
 
-class Confetti(var location: Vector,
+class Confetti(var createdAt: Long,
+               var location: Vector,
                val color: Int,
                val size: Size,
                val shape: Shape,
-               val lifespan: Long = 2000L,
+               val lifespan: Long = TimeUnit.MILLISECONDS.toNanos(2000L),
                val fadeOut: Boolean = true,
                var acceleration: Vector = Vector(0f, 0f),
                var velocity: Vector = Vector()) {
@@ -25,13 +27,11 @@ class Confetti(var location: Vector,
     private var rotation = 0f
     private var rotationWidth = width
 
-    private var createdAt: Long
     private var alpha: Int = 255
 
     init {
         paint.color = color
         rotationSpeed = 3 * Random().nextFloat() + 1
-        createdAt = System.currentTimeMillis()
     }
 
     fun getSize(): Float {
@@ -57,7 +57,7 @@ class Confetti(var location: Vector,
         velocity.add(acceleration)
         location.add(velocity)
 
-        if((ms - createdAt) >= lifespan) {
+        if((ms - createdAt) >= lifespan && ms != createdAt) {
             if(fadeOut) alpha -= 5 else alpha = 0
         }
 
