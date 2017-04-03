@@ -14,13 +14,12 @@ class StreamEmitter(location: LocationModule, velocity: VelocityModule, sizes: A
 
     /** [TimerModule] keeping track of time */
     private var timer = TimerModule()
-
     /** Max amount of particles allowed to be created */
     private var maxParticles = -1
     /** Keeping count of how many particles are created */
     private var particlesCreated = 0
     /** Max time in milliseconds allowed to emit */
-    private var emittingTime: Long = 0
+    internal var emittingTime: Long = 0
     /** Milliseconds per particle creation */
     var amountPerMs: Double = 0.0
 
@@ -50,8 +49,19 @@ class StreamEmitter(location: LocationModule, velocity: VelocityModule, sizes: A
         val elapsedTime = timer.getElapsedTimeLastEmit()
 
         // Check if particle should be created
-        if (elapsedTime >= amountPerMs && timer.isMaxTime()) {
+        if (elapsedTime >= amountPerMs && !timer.isMaxTime()) {
             this.addConfetti()
+        }
+    }
+
+    /**
+     * When time is up and all particles disappeared
+     */
+    override fun isDoneEmitting(): Boolean {
+        if(emittingTime > 0L) {
+            return timer.isMaxTime() && particles.size == 0
+        } else {
+            return particles.size == 0
         }
     }
 

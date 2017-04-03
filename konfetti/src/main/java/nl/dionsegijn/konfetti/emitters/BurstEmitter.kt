@@ -24,4 +24,11 @@ open class BurstEmitter(location: LocationModule, velocity: VelocityModule, size
     override fun createConfetti() {
         // Skip implementation since all confetti is already created
     }
+
+    /**
+     * Done emitting when all particles disappeared
+     */
+    override fun isDoneEmitting(): Boolean {
+        return particles.size == 0
+    }
 }

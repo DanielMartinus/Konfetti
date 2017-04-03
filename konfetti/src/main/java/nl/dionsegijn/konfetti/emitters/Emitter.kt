@@ -22,9 +22,10 @@ abstract class Emitter(val location: LocationModule,
 
     private val random = Random()
     private var gravity = Vector(0f, 0.01f)
-    private val particles: MutableList<Confetti> = mutableListOf()
+    internal val particles: MutableList<Confetti> = mutableListOf()
 
     abstract fun createConfetti()
+    abstract fun isDoneEmitting(): Boolean
 
     open fun addConfetti() {
         val accY = random.nextInt(5) / 100f

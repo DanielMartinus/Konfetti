@@ -42,8 +42,11 @@ class KonfettiView : View {
         while (it.hasNext()) {
             val konfetti = it.next()
             konfetti.emitter.render(canvas)
+            if(konfetti.doneEmitting()) it.remove()
         }
-        invalidate()
+        if(systems.size != 0) {
+            invalidate()
+        }
     }
 
     fun start(particleSystem: ParticleSystem) {

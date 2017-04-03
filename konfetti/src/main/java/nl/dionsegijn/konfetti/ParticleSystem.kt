@@ -9,6 +9,7 @@ import nl.dionsegijn.konfetti.models.ConfettiConfig
 import nl.dionsegijn.konfetti.models.LocationModule
 import nl.dionsegijn.konfetti.models.Shape
 import nl.dionsegijn.konfetti.models.Size
+import nl.dionsegijn.konfetti.modules.TimerModule
 import nl.dionsegijn.konfetti.modules.VelocityModule
 import java.util.*
 
@@ -22,6 +23,7 @@ class ParticleSystem(val konfettiView: KonfettiView) {
     /** Modules */
     private var location = LocationModule(random)
     private var velocity = VelocityModule(random)
+    private var timer = TimerModule()
 
     /** Default values */
     private var colors = intArrayOf(Color.RED)
@@ -200,6 +202,10 @@ class ParticleSystem(val konfettiView: KonfettiView) {
                 emittingTime = emittingTime,
                 maxParticles = maxParticles)
         start()
+    }
+
+    fun doneEmitting(): Boolean {
+        return emitter.isDoneEmitting()
     }
 
     /**

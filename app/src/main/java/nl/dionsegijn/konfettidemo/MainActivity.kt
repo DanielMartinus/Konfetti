@@ -96,7 +96,7 @@ class MainActivity : AppCompatActivity() {
                             .setPosition(event.x, event.y)
                             .setTimeToLive(2500)
                             .setFadeOutEnabled(true)
-                            .emit(50, emittingTime = 500)
+                            .emit(200, maxParticles = 500)
                 }
             }
             true

@@ -50,7 +50,7 @@ class TimerModule {
      * @return true if the elapsed time has passed endTimestamp or when endTimestamp is lower than 0
      */
     fun isMaxTime() : Boolean {
-        return getElapsedTimeFromStart() < endTimestamp || endTimestamp <= 0
+        return getElapsedTimeFromStart() > endTimestamp && endTimestamp > 0
     }
 
     /**
