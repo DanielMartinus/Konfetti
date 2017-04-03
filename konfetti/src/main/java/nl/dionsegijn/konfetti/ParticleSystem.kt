@@ -119,17 +119,30 @@ class ParticleSystem(val konfettiView: KonfettiView) {
         return this
     }
 
+    /**
+     * Burst will create and shoot all confetti at once
+     * [amount] - the amount of particles created at burst
+     */
     fun burst(amount: Int) {
         emitter = BurstEmitter(location, velocity, sizes, shapes, colors).burst(amount)
         start()
     }
 
+    /**
+     * Constantly emit a certain amount of particles per second
+     * [particlesPerSecond] amount of particles created per second
+     */
     fun emit(particlesPerSecond: Int) {
         emitter = StreamEmitter(location, velocity, sizes, shapes, colors).emit(
                 particlesPerSecond = particlesPerSecond)
         start()
     }
 
+    /**
+     * Constantly emit a certain amount of particles per second
+     * [particlesPerSecond] amount of particles created per second
+     * [emittingTime] max amount of time to emit in milliseconds
+     */
     fun emit(particlesPerSecond: Int, emittingTime: Long) {
         emitter = StreamEmitter(location, velocity, sizes, shapes, colors).emit(
                 particlesPerSecond = particlesPerSecond,
@@ -137,6 +150,11 @@ class ParticleSystem(val konfettiView: KonfettiView) {
         start()
     }
 
+    /**
+     * Constantly emit a certain amount of particles per second
+     * [particlesPerSecond] amount of particles created per second
+     * [maxParticles] max amount of particles to emit
+     */
     fun emit(particlesPerSecond: Int, maxParticles: Int) {
         emitter = StreamEmitter(location, velocity, sizes, shapes, colors).emit(
                 particlesPerSecond = particlesPerSecond,
@@ -144,6 +162,12 @@ class ParticleSystem(val konfettiView: KonfettiView) {
         start()
     }
 
+    /**
+     * Constantly emit a certain amount of particles per second
+     * [particlesPerSecond] amount of particles created per second
+     * [emittingTime] max amount of time to emit in milliseconds
+     * [maxParticles] max amount of particles to emit
+     */
     fun emit(particlesPerSecond: Int, emittingTime: Long, maxParticles: Int) {
         emitter = StreamEmitter(location, velocity, sizes, shapes, colors).emit(
                 particlesPerSecond = particlesPerSecond,
