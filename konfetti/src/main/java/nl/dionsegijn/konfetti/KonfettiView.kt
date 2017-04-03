@@ -32,11 +32,8 @@ class KonfettiView : View {
         paint.color = Color.BLACK
     }
 
-    // TODO: Remove particle system when it's done (no particles are left over anymore and/or time is up)
     override fun onDraw(canvas: Canvas) {
         super.onDraw(canvas)
-
-        calcFps()
 
         val it = systems.iterator()
         while (it.hasNext()) {
@@ -54,16 +51,4 @@ class KonfettiView : View {
         invalidate()
     }
 
-    var fps: Int = 0
-    var fpsCounter: Int = 0
-    var fpsTime: Long = 0
-    fun calcFps() {
-        if (SystemClock.uptimeMillis() - fpsTime > 1000) {
-            fpsTime = SystemClock.uptimeMillis()
-            fps = fpsCounter
-            fpsCounter = 0
-        } else {
-            fpsCounter++
-        }
-    }
 }

@@ -13,33 +13,20 @@
         android:layout_width="match_parent"
         android:layout_height="0dp"
         android:layout_weight="1"
-        android:background="#fefefe"/>
+        android:background="#fefefe" />
 
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:orientation="vertical">
 
-        <LinearLayout
-            android:layout_width="match_parent"
+        <TextView
+            android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:orientation="horizontal">
-
-            <TextView
-                android:layout_width="0dp"
-                android:layout_weight="1"
-                android:layout_height="wrap_content"
-                android:textColor="#ababab"
-                android:layout_margin="16dp"
-                android:text="Spawn delay:"/>
-
-            <TextView android:id="@+id/fps"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_margin="16dp"
-                android:textColor="@android:color/black"/>
-
-        </LinearLayout>
+            android:layout_margin="16dp"
+            android:layout_weight="1"
+            android:text="Spawn delay:"
+            android:textColor="#ababab" />
 
         <android.support.v7.widget.AppCompatSeekBar
             android:id="@+id/velocityX"
@@ -51,9 +38,9 @@
         <TextView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:textColor="#ababab"
             android:layout_margin="16dp"
-            android:text="Angle: "/>
+            android:text="Angle: "
+            android:textColor="#ababab" />
 
         <android.support.v7.widget.AppCompatSeekBar
             android:id="@+id/velocityY"

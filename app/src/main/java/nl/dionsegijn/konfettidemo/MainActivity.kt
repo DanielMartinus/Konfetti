@@ -1,16 +1,15 @@
 package nl.dionsegijn.konfettidemo
 
 import android.os.Bundle
-import android.os.Handler
 import android.support.v4.content.ContextCompat
 import android.support.v7.app.AppCompatActivity
 import android.view.MotionEvent
 import android.view.ViewTreeObserver
 import android.widget.SeekBar
-import android.widget.TextView
 import nl.dionsegijn.konfetti.KonfettiView
 import nl.dionsegijn.konfetti.models.Shape
 import nl.dionsegijn.konfetti.models.Size
+import java.util.*
 
 /**
  * Created by dionsegijn on 3/25/17.
@@ -23,13 +22,9 @@ class MainActivity : AppCompatActivity() {
     lateinit var seekbarX: SeekBar
     lateinit var seekbarY: SeekBar
 
-    lateinit var fpsView: TextView
-
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_main)
-
-        fpsView = findViewById(R.id.fps) as TextView
 
         konfetti = findViewById(R.id.konfetti) as KonfettiView
         konfetti.viewTreeObserver.addOnPreDrawListener(object : ViewTreeObserver.OnPreDrawListener {
@@ -48,20 +43,21 @@ class MainActivity : AppCompatActivity() {
         seekbarY.progress = 0
         seekbarY.setOnSeekBarChangeListener(getWindSeekBarChangeListener())
 
-        monitorFps()
         velocityTest()
     }
 
     fun startConfetti() {
         val colors = intArrayOf(color(R.color.confetti1), color(R.color.confetti2), color(R.color.confetti3), color(R.color.confetti4))
-//        konfetti.build()
-//                .addColors(*colors)
-//                .setDirection(0.0, 359.0)
-//                .setSpeed(1f, 5f)
-//                .addShapes(Shape.RECT, Shape.CIRCLE)
-//                .addSizes(Size.SMALL, Size.MEDIUM)
-//                .setPosition(-50f, konfetti.width + 50f, -50f, -50f)
-//                .emit(300, 300)
+        konfetti.build()
+                .addColors(*colors)
+                .setDirection(0.0, 359.0)
+                .setSpeed(1f, 5f)
+                .setFadeOutEnabled(true)
+                .setTimeToLive(1000)
+                .addShapes(Shape.RECT, Shape.CIRCLE)
+                .addSizes(Size.SMALL)
+                .setPosition(-50f, konfetti.width + 50f, -50f, -50f)
+                .emit(300, 300)
     }
 
     var startX: Float = 0f
@@ -92,23 +88,15 @@ class MainActivity : AppCompatActivity() {
                             .setDirection(0.0, 359.0)
                             .setSpeed(1f, 5f)
                             .addShapes(Shape.RECT, Shape.CIRCLE)
-                            .addSizes(Size.SMALL, Size.MEDIUM)
+                            .addSizes(Size.SMALL)
                             .setPosition(event.x, event.y)
                             .setTimeToLive(2500)
                             .setFadeOutEnabled(true)
-                            .burst(200)
+                            .burst(Random().nextInt(200 + 10))
                 }
             }
             true
         }
-    }
-
-    var fpsHandler: Handler = Handler()
-    fun monitorFps() {
-        fpsHandler.postDelayed({
-            fpsView.text = String.format("%sfps", konfetti.fps.toString())
-            monitorFps()
-        }, 100)
     }
 
     fun color(resId: Int): Int {
