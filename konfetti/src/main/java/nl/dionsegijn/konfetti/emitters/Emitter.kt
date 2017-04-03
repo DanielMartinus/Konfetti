@@ -30,6 +30,10 @@ abstract class Emitter(val timer: TimerModule,
     abstract fun createConfetti()
     abstract fun isDoneEmitting(): Boolean
 
+    init {
+        if(timer.currentTime == 0L) timer.updateCurrentTime()
+    }
+
     open fun addConfetti() {
         val accY = random.nextInt(5) / 100f
         particles.add(Confetti(

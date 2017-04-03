@@ -1,6 +1,5 @@
 package nl.dionsegijn.konfetti.modules
 
-import android.util.Log
 import java.util.concurrent.TimeUnit
 
 class TimerModule {
@@ -33,8 +32,9 @@ class TimerModule {
     /**
      * Update currentTime in nanoseconds
      */
-    fun updateCurrentTime() {
+    fun updateCurrentTime(): Long {
         currentTime = System.nanoTime()
+        return currentTime
     }
 
     /**
@@ -55,7 +55,7 @@ class TimerModule {
     /**
      * @return time in nanoseconds between start and current timestamp
      */
-    fun getElapsedTimeFromStart() : Long {
+    fun getElapsedTimeFromStart(): Long {
         return currentTime - startTimestamp
     }
 
@@ -63,7 +63,7 @@ class TimerModule {
      * Last emitted timestamp should be updated by calling [updateEmitTime]
      * @return time in nanoseconds between now and last emitted timestamp
      */
-    fun getElapsedTimeLastEmit() : Long {
+    fun getElapsedTimeLastEmit(): Long {
         return currentTime - lastEmitTimestamp
     }
 
@@ -71,8 +71,7 @@ class TimerModule {
      * If the timer has reached the end
      * @return true if the elapsed time has passed endTimestamp or when endTimestamp is lower than 0
      */
-    fun isMaxTime() : Boolean {
-        Log.e("time", "elapsed: "+getElapsedTimeFromStart() + " endTimestamp" + endTimestamp)
+    fun isMaxTime(): Boolean {
         return getElapsedTimeFromStart() > endTimestamp && endTimestamp > 0
     }
 
@@ -86,7 +85,7 @@ class TimerModule {
     /**
      * @return boolean if [start] is called
      * */
-    fun isStarted() : Boolean {
+    fun isStarted(): Boolean {
         return startTimestamp != 0L
     }
 
