@@ -1,6 +1,5 @@
 package nl.dionsegijn.konfetti
 
-import android.graphics.Canvas
 import android.graphics.Color
 import android.support.annotation.ColorInt
 import nl.dionsegijn.konfetti.emitters.BurstEmitter
@@ -30,8 +29,9 @@ class ParticleSystem(val konfettiView: KonfettiView) {
 
     /**
      * Implementation of [BurstEmitter] or [StreamEmitter]
+     * Render function of the emitter is directly accessed from [KonfettiView]
      */
-    private lateinit var emitter: Emitter
+    internal lateinit var emitter: Emitter
 
     /**
      * Set position to emit particles from
@@ -121,6 +121,7 @@ class ParticleSystem(val konfettiView: KonfettiView) {
 
     /**
      * Burst will create and shoot all confetti at once
+     * Calling this function will start the system rendering the confetti
      * [amount] - the amount of particles created at burst
      */
     fun burst(amount: Int) {
@@ -130,6 +131,7 @@ class ParticleSystem(val konfettiView: KonfettiView) {
 
     /**
      * Constantly emit a certain amount of particles per second
+     * calling this function will start the system rendering the confetti
      * [particlesPerSecond] amount of particles created per second
      */
     fun emit(particlesPerSecond: Int) {
@@ -140,6 +142,7 @@ class ParticleSystem(val konfettiView: KonfettiView) {
 
     /**
      * Constantly emit a certain amount of particles per second
+     * calling this function will start the system rendering the confetti
      * [particlesPerSecond] amount of particles created per second
      * [emittingTime] max amount of time to emit in milliseconds
      */
@@ -152,6 +155,7 @@ class ParticleSystem(val konfettiView: KonfettiView) {
 
     /**
      * Constantly emit a certain amount of particles per second
+     * calling this function will start the system rendering the confetti
      * [particlesPerSecond] amount of particles created per second
      * [maxParticles] max amount of particles to emit
      */
@@ -164,6 +168,7 @@ class ParticleSystem(val konfettiView: KonfettiView) {
 
     /**
      * Constantly emit a certain amount of particles per second
+     * calling this function will start the system rendering the confetti
      * [particlesPerSecond] amount of particles created per second
      * [emittingTime] max amount of time to emit in milliseconds
      * [maxParticles] max amount of particles to emit
@@ -176,12 +181,11 @@ class ParticleSystem(val konfettiView: KonfettiView) {
         start()
     }
 
-    fun start() {
+    /**
+     * Add the system to KonfettiView. KonfettiView will initiate the rendering
+     */
+    private fun start() {
         konfettiView.start(this)
-    }
-
-    internal fun render(canvas: Canvas) {
-        emitter.render(canvas)
     }
 
 }

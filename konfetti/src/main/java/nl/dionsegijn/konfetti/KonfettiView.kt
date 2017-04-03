@@ -32,6 +32,7 @@ class KonfettiView : View {
         paint.color = Color.BLACK
     }
 
+    // TODO: Remove particle system when it's done (no particles are left over anymore and/or time is up)
     override fun onDraw(canvas: Canvas) {
         super.onDraw(canvas)
 
@@ -40,7 +41,7 @@ class KonfettiView : View {
         val it = systems.iterator()
         while (it.hasNext()) {
             val konfetti = it.next()
-            konfetti.render(canvas)
+            konfetti.emitter.render(canvas)
         }
         invalidate()
     }
