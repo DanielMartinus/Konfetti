@@ -2,14 +2,8 @@ package nl.dionsegijn.konfetti
 
 import android.content.Context
 import android.graphics.Canvas
-import android.graphics.Color
-import android.graphics.Paint
-import android.os.SystemClock
 import android.util.AttributeSet
 import android.view.View
-
-
-
 
 /**
  * Created by dionsegijn on 3/25/17.
@@ -24,12 +18,6 @@ class KonfettiView : View {
 
     fun build(): ParticleSystem {
         return ParticleSystem(this)
-    }
-
-    val paint: Paint = Paint()
-
-    init {
-        paint.color = Color.BLACK
     }
 
     override fun onDraw(canvas: Canvas) {
