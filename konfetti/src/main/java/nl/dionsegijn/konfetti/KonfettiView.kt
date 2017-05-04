@@ -23,12 +23,12 @@ class KonfettiView : View {
     override fun onDraw(canvas: Canvas) {
         super.onDraw(canvas)
 
-        val it = systems.iterator()
-        while (it.hasNext()) {
-            val konfetti = it.next()
+        for (i in systems.size-1 downTo 0) {
+            val konfetti = systems[i]
             konfetti.emitter.render(canvas)
-            if(konfetti.doneEmitting()) it.remove()
+            if(konfetti.doneEmitting()) systems.removeAt(i)
         }
+
         if(systems.size != 0) {
             invalidate()
         }

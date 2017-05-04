@@ -52,12 +52,12 @@ abstract class Emitter(val timer: TimerModule,
     fun render(canvas: Canvas) {
         timer.updateCurrentTime()
         createConfetti()
-        val it = particles.iterator()
-        while (it.hasNext()) {
-            val c = it.next()
-            c.applyForce(gravity)
-            c.render(canvas, timer.currentTime)
-            if (c.isDead()) it.remove()
+
+        for(i in particles.size-1 downTo 0) {
+            val particle = particles[i]
+            particle.applyForce(gravity)
+            particle.render(canvas, timer.currentTime)
+            if(particle.isDead()) particles.removeAt(i)
         }
     }
 }
