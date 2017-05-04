@@ -57,7 +57,7 @@ class MainActivity : AppCompatActivity() {
                 .addShapes(Shape.RECT, Shape.CIRCLE)
                 .addSizes(Size.SMALL)
                 .setPosition(-50f, konfetti.width + 50f, -50f, -50f)
-                .emit(300, 300)
+                .stream(300, 300)
     }
 
     var startX: Float = 0f
@@ -89,10 +89,10 @@ class MainActivity : AppCompatActivity() {
                             .setSpeed(1f, 5f)
                             .addShapes(Shape.RECT, Shape.CIRCLE)
                             .addSizes(Size.SMALL)
-                            .setPosition(event.x, event.y)
+                            .setPosition(-50f, konfetti.width + 50f, -50f, -50f)
                             .setTimeToLive(2500)
                             .setFadeOutEnabled(true)
-                            .burst(Random().nextInt(200 + 10))
+                            .burst(Random().nextInt(500 + 10))
                 }
             }
             true
