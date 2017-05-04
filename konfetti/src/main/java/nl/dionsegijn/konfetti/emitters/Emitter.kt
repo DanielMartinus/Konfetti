@@ -44,8 +44,7 @@ abstract class Emitter(val timer: TimerModule,
                 color = colors[random.nextInt(colors.size)],
                 lifespan = TimeUnit.MILLISECONDS.toNanos(config.timeToLive),
                 fadeOut = config.fadeOut,
-                velocity = this.velocity.getVelocity(),
-                acceleration = Vector(0f, accY))
+                velocity = this.velocity.getVelocity())
         )
     }
 
