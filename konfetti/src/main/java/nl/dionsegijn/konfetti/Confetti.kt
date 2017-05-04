@@ -57,8 +57,8 @@ class Confetti(var createdAt: Long,
         velocity.add(acceleration)
         location.add(velocity)
 
-        if((ms - createdAt) >= lifespan && ms != createdAt) {
-            if(fadeOut) alpha -= 5 else alpha = 0
+        if ((ms - createdAt) >= lifespan && ms != createdAt) {
+            if (fadeOut) alpha -= 5 else alpha = 0
         }
 
         rotation += rotationSpeed
@@ -69,6 +69,12 @@ class Confetti(var createdAt: Long,
     }
 
     fun display(canvas: Canvas) {
+        // Do not draw the particle if its outside the canvas view
+        if (location.x > canvas.width || location.x + getSize() < 0
+                || location.y > canvas.height || location.y + getSize() < 0) {
+            return
+        }
+
         val rect: RectF = RectF(
                 location.x + (width - rotationWidth), // center of rotation
                 location.y,
