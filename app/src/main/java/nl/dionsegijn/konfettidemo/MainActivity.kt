@@ -53,7 +53,7 @@ class MainActivity : AppCompatActivity() {
                 .setDirection(0.0, 359.0)
                 .setSpeed(1f, 5f)
                 .setFadeOutEnabled(true)
-                .setTimeToLive(500L)
+                .setTimeToLive(2000L)
                 .addShapes(Shape.RECT, Shape.CIRCLE)
                 .addSizes(Size.SMALL)
                 .setPosition(-50f, konfetti.width + 50f, -50f, -50f)
@@ -91,7 +91,7 @@ class MainActivity : AppCompatActivity() {
                             .addSizes(Size.SMALL)
                             .setPosition(-50f, konfetti.width + 50f, -50f, -50f)
                             .setTimeToLive(2500)
-                            .setFadeOutEnabled(false)
+                            .setFadeOutEnabled(true)
                             .burst(Random().nextInt(500 + 10))
                 }
             }

@@ -6,7 +6,6 @@ import nl.dionsegijn.konfetti.models.*
 import nl.dionsegijn.konfetti.models.Vector
 import nl.dionsegijn.konfetti.modules.VelocityModule
 import java.util.*
-import java.util.concurrent.TimeUnit
 
 /**
  * Implementation class for rendering confetti
@@ -34,7 +33,7 @@ abstract class Emitter(val location: LocationModule,
                 size = sizes[random.nextInt(sizes.size)],
                 shape = shapes[random.nextInt(shapes.size)],
                 color = colors[random.nextInt(colors.size)],
-                lifespan = TimeUnit.MILLISECONDS.toNanos(config.timeToLive),
+                lifespan = config.timeToLive,
                 fadeOut = config.fadeOut,
                 velocity = this.velocity.getVelocity())
         )
