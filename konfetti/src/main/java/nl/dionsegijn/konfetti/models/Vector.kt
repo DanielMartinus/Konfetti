@@ -19,6 +19,11 @@ data class Vector(var x: Float = 0f, var y: Float = 0f) {
         y /= n
     }
 
+    fun pow(n: Double) {
+       x = Math.pow(x.toDouble(), n).toFloat()
+       y = Math.pow(y.toDouble(), n).toFloat()
+    }
+
     fun mag(): Float {
         return Math.sqrt((x * x).toDouble() + (y * y)).toFloat()
     }
@@ -36,4 +41,5 @@ data class Vector(var x: Float = 0f, var y: Float = 0f) {
             mult(max)
         }
     }
+
 }

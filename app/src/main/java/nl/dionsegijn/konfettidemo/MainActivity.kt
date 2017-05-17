@@ -53,11 +53,11 @@ class MainActivity : AppCompatActivity() {
                 .setDirection(0.0, 359.0)
                 .setSpeed(1f, 5f)
                 .setFadeOutEnabled(true)
-                .setTimeToLive(1000)
+                .setTimeToLive(500L)
                 .addShapes(Shape.RECT, Shape.CIRCLE)
                 .addSizes(Size.SMALL)
                 .setPosition(-50f, konfetti.width + 50f, -50f, -50f)
-                .stream(300, 300)
+                .stream(300, 5000L)
     }
 
     var startX: Float = 0f
@@ -91,7 +91,7 @@ class MainActivity : AppCompatActivity() {
                             .addSizes(Size.SMALL)
                             .setPosition(-50f, konfetti.width + 50f, -50f, -50f)
                             .setTimeToLive(2500)
-                            .setFadeOutEnabled(true)
+                            .setFadeOutEnabled(false)
                             .burst(Random().nextInt(500 + 10))
                 }
             }

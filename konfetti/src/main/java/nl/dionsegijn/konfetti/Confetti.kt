@@ -9,12 +9,11 @@ import nl.dionsegijn.konfetti.models.Vector
 import java.util.*
 import java.util.concurrent.TimeUnit
 
-class Confetti(var createdAt: Long,
-               var location: Vector,
+class Confetti(var location: Vector,
                val color: Int,
                val size: Size,
                val shape: Shape,
-               val lifespan: Long = TimeUnit.MILLISECONDS.toNanos(2000L),
+               var lifespan: Long = TimeUnit.SECONDS.toNanos(0.5.toLong()),
                val fadeOut: Boolean = true,
                var acceleration: Vector = Vector(0f, 0f),
                var velocity: Vector = Vector()) {
@@ -26,6 +25,9 @@ class Confetti(var createdAt: Long,
     private var rotationSpeed = 1f
     private var rotation = 0f
     private var rotationWidth = width
+
+    // Expected frame rate
+    private var speedF = 60f
 
     private var alpha: Int = 255
 
@@ -48,28 +50,33 @@ class Confetti(var createdAt: Long,
         acceleration.add(f)
     }
 
-    fun render(canvas: Canvas, ms: Long) {
-        update(ms)
+    fun render(canvas: Canvas, deltaTime: Float) {
+        update(deltaTime)
         display(canvas)
     }
 
-    fun update(ms: Long) {
+    fun update(deltaTime: Float) {
+        val acc = acceleration.copy()
+        acc.mult(deltaTime)
+        acc.pow(2.0)
+
         velocity.add(acceleration)
-        location.add(velocity)
 
-        if ((ms - createdAt) >= lifespan && ms != createdAt) {
-            if (fadeOut) alpha -= 5 else alpha = 0
-        }
+        val v = velocity.copy()
+        v.mult(deltaTime * speedF)
 
-        rotation += rotationSpeed
+        location.add(v)
+
+        val rSpeed = (rotationSpeed * deltaTime) * speedF
+        rotation += rSpeed
         if (rotation >= 360) rotation = 0f
 
-        rotationWidth -= rotationSpeed
+        rotationWidth -= rSpeed
         if (rotationWidth < 0) rotationWidth = width
     }
 
     fun display(canvas: Canvas) {
-        // Do not draw the particle if its outside the canvas view
+        // Do not draw the particle if it's outside the canvas view
         if (location.x > canvas.width || location.x + getSize() < 0
                 || location.y > canvas.height || location.y + getSize() < 0) {
             return

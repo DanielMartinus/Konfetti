@@ -4,7 +4,6 @@ import android.graphics.Canvas
 import nl.dionsegijn.konfetti.Confetti
 import nl.dionsegijn.konfetti.models.*
 import nl.dionsegijn.konfetti.models.Vector
-import nl.dionsegijn.konfetti.modules.TimerModule
 import nl.dionsegijn.konfetti.modules.VelocityModule
 import java.util.*
 import java.util.concurrent.TimeUnit
@@ -15,8 +14,7 @@ import java.util.concurrent.TimeUnit
  * what rate the confetti is created while Emitter is creating the confetti
  * and passing through the canvas to let the confetti render itself
  */
-abstract class Emitter(val timer: TimerModule,
-                       val location: LocationModule,
+abstract class Emitter(val location: LocationModule,
                        val velocity: VelocityModule,
                        val sizes: Array<Size>,
                        val shapes: Array<Shape>,
@@ -27,17 +25,11 @@ abstract class Emitter(val timer: TimerModule,
     private var gravity = Vector(0f, 0.01f)
     internal val particles: MutableList<Confetti> = mutableListOf()
 
-    abstract fun createConfetti()
+    abstract fun createConfetti(deltaTime: Float)
     abstract fun isDoneEmitting(): Boolean
 
-    init {
-        if(timer.currentTime == 0L) timer.updateCurrentTime()
-    }
-
     open fun addConfetti() {
-        val accY = random.nextInt(5) / 100f
         particles.add(Confetti(
-                createdAt = timer.currentTime,
                 location = Vector(location.x, location.y),
                 size = sizes[random.nextInt(sizes.size)],
                 shape = shapes[random.nextInt(shapes.size)],
@@ -48,14 +40,13 @@ abstract class Emitter(val timer: TimerModule,
         )
     }
 
-    fun render(canvas: Canvas) {
-        timer.updateCurrentTime()
-        createConfetti()
+    fun render(canvas: Canvas, deltaTime: Float) {
+        createConfetti(deltaTime)
 
         for(i in particles.size-1 downTo 0) {
             val particle = particles[i]
             particle.applyForce(gravity)
-            particle.render(canvas, timer.currentTime)
+            particle.render(canvas, deltaTime)
             if(particle.isDead()) particles.removeAt(i)
         }
     }
