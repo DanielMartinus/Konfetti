@@ -35,7 +35,6 @@ abstract class Emitter(val timer: TimerModule,
     }
 
     open fun addConfetti() {
-        val accY = random.nextInt(5) / 100f
         particles.add(Confetti(
                 createdAt = timer.currentTime,
                 location = Vector(location.x, location.y),
@@ -48,14 +47,14 @@ abstract class Emitter(val timer: TimerModule,
         )
     }
 
-    fun render(canvas: Canvas) {
+    fun render(canvas: Canvas, deltaTime: Float) {
         timer.updateCurrentTime()
         createConfetti()
 
         for(i in particles.size-1 downTo 0) {
             val particle = particles[i]
             particle.applyForce(gravity)
-            particle.render(canvas, timer.currentTime)
+            particle.render(canvas, deltaTime)
             if(particle.isDead()) particles.removeAt(i)
         }
     }

@@ -91,7 +91,7 @@ class MainActivity : AppCompatActivity() {
                             .addSizes(Size.SMALL)
                             .setPosition(-50f, konfetti.width + 50f, -50f, -50f)
                             .setTimeToLive(2500)
-                            .setFadeOutEnabled(true)
+                            .setFadeOutEnabled(false)
                             .burst(Random().nextInt(500 + 10))
                 }
             }

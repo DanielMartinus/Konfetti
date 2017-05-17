@@ -27,6 +27,9 @@ class Confetti(var createdAt: Long,
     private var rotation = 0f
     private var rotationWidth = width
 
+    // Expected frame rate
+    private var speedF = 60f
+
     private var alpha: Int = 255
 
     init {
@@ -48,23 +51,32 @@ class Confetti(var createdAt: Long,
         acceleration.add(f)
     }
 
-    fun render(canvas: Canvas, ms: Long) {
-        update(ms)
+    fun render(canvas: Canvas, deltaTime: Float) {
+        update(deltaTime)
         display(canvas)
     }
 
-    fun update(ms: Long) {
+    fun update(deltaTime: Float) {
+        val acc = acceleration.copy()
+        acc.mult(deltaTime)
+        acc.pow(2.0)
+
         velocity.add(acceleration)
-        location.add(velocity)
 
-        if ((ms - createdAt) >= lifespan && ms != createdAt) {
-            if (fadeOut) alpha -= 5 else alpha = 0
-        }
+        val v = velocity.copy()
+        v.mult(deltaTime * speedF)
 
-        rotation += rotationSpeed
+        location.add(v)
+
+//        if ((ms - createdAt) >= lifespan && ms != createdAt) {
+//            if (fadeOut) alpha -= 5 else alpha = 0
+//        }
+
+        val rSpeed = (rotationSpeed * deltaTime) * speedF
+        rotation += rSpeed
         if (rotation >= 360) rotation = 0f
 
-        rotationWidth -= rotationSpeed
+        rotationWidth -= rSpeed
         if (rotationWidth < 0) rotationWidth = width
     }
 
