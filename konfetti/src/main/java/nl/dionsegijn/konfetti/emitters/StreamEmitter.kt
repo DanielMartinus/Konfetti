@@ -4,14 +4,13 @@ import nl.dionsegijn.konfetti.models.ConfettiConfig
 import nl.dionsegijn.konfetti.models.LocationModule
 import nl.dionsegijn.konfetti.models.Shape
 import nl.dionsegijn.konfetti.models.Size
-import nl.dionsegijn.konfetti.modules.TimerModule
 import nl.dionsegijn.konfetti.modules.VelocityModule
 import java.util.concurrent.TimeUnit
 
 /**
  * Created by dionsegijn on 4/2/17.
  */
-class StreamEmitter(timer: TimerModule, location: LocationModule, velocity: VelocityModule, sizes: Array<Size>, shapes: Array<Shape>, colors: IntArray, config: ConfettiConfig) : Emitter(timer, location, velocity, sizes, shapes, colors, config) {
+class StreamEmitter(location: LocationModule, velocity: VelocityModule, sizes: Array<Size>, shapes: Array<Shape>, colors: IntArray, config: ConfettiConfig) : Emitter(location, velocity, sizes, shapes, colors, config) {
 
     /** Max amount of particles allowed to be created */
     private var maxParticles = -1
@@ -19,6 +18,8 @@ class StreamEmitter(timer: TimerModule, location: LocationModule, velocity: Velo
     private var particlesCreated = 0
     /** Max time in milliseconds allowed to emit */
     internal var emittingTime: Long = 0
+    /** Elapsed time in milliseconds */
+    internal var elapsedTime: Float = 0f
     /** Milliseconds per particle creation */
     var amountPerMs: Long = 0L
 
@@ -33,11 +34,7 @@ class StreamEmitter(timer: TimerModule, location: LocationModule, velocity: Velo
      * If timer isn't started yet, set initial start time
      * Create the first confetti immediately and update the last emit time
      */
-    override fun createConfetti() {
-        if (!timer.isStarted()) {
-            timer.start(emittingTime)
-            this.addConfetti()
-        }
+    override fun createConfetti(deltaTime: Float) {
 
         // if maxParticles is set and particlesCreated not within
         // range of maxParticles stop emitting
@@ -45,12 +42,12 @@ class StreamEmitter(timer: TimerModule, location: LocationModule, velocity: Velo
             return
         }
 
-        val elapsedTime = timer.getElapsedTimeLastEmit()
-
         // Check if particle should be created
-        if (elapsedTime >= amountPerMs && !timer.isMaxTime()) {
+        if (deltaTime >= amountPerMs && elapsedTime < emittingTime) {
             this.addConfetti()
         }
+
+        elapsedTime += deltaTime * 1000
     }
 
     /**
@@ -58,14 +55,13 @@ class StreamEmitter(timer: TimerModule, location: LocationModule, velocity: Velo
      */
     override fun isDoneEmitting(): Boolean {
         if(emittingTime > 0L) {
-            return timer.isMaxTime() && particles.size == 0
+            return elapsedTime >= emittingTime && particles.size == 0
         } else {
             return particles.size == 0
         }
     }
 
     override fun addConfetti() {
-        timer.updateEmitTime()
         particlesCreated++
         super.addConfetti()
     }
