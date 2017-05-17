@@ -9,12 +9,11 @@ import nl.dionsegijn.konfetti.models.Vector
 import java.util.*
 import java.util.concurrent.TimeUnit
 
-class Confetti(var createdAt: Long,
-               var location: Vector,
+class Confetti(var location: Vector,
                val color: Int,
                val size: Size,
                val shape: Shape,
-               val lifespan: Long = TimeUnit.MILLISECONDS.toNanos(2000L),
+               var lifespan: Long = TimeUnit.SECONDS.toNanos(0.5.toLong()),
                val fadeOut: Boolean = true,
                var acceleration: Vector = Vector(0f, 0f),
                var velocity: Vector = Vector()) {
@@ -68,10 +67,6 @@ class Confetti(var createdAt: Long,
 
         location.add(v)
 
-//        if ((ms - createdAt) >= lifespan && ms != createdAt) {
-//            if (fadeOut) alpha -= 5 else alpha = 0
-//        }
-
         val rSpeed = (rotationSpeed * deltaTime) * speedF
         rotation += rSpeed
         if (rotation >= 360) rotation = 0f
@@ -81,7 +76,7 @@ class Confetti(var createdAt: Long,
     }
 
     fun display(canvas: Canvas) {
-        // Do not draw the particle if its outside the canvas view
+        // Do not draw the particle if it's outside the canvas view
         if (location.x > canvas.width || location.x + getSize() < 0
                 || location.y > canvas.height || location.y + getSize() < 0) {
             return
