@@ -56,10 +56,6 @@ class Confetti(var location: Vector,
     }
 
     fun update(deltaTime: Float) {
-        val acc = acceleration.copy()
-        acc.mult(deltaTime)
-        acc.pow(2.0)
-
         velocity.add(acceleration)
 
         val v = velocity.copy()
