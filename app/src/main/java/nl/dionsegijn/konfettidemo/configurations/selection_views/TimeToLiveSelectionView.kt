@@ -8,10 +8,10 @@ import nl.dionsegijn.konfettidemo.R
 /**
  * Created by dionsegijn on 5/21/17.
  */
-class SpeedSelectionView(context: Context?) : LinearLayout(context) {
+class TimeToLiveSelectionView(context: Context?) : LinearLayout(context) {
 
     init {
-        inflate(context, R.layout.view_section_speed_selection, this)
+        inflate(context, R.layout.view_section_ttl_selection, this)
         orientation = VERTICAL
         gravity = Gravity.CENTER
     }

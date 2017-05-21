@@ -51,7 +51,8 @@ class ConfigurationControlsWidget : LinearLayout {
                 TabConfig(R.drawable.ic_paint, ColorSelectionView(context)),
                 TabConfig(R.drawable.ic_shapes, ShapeSelectionView(context)),
                 TabConfig(R.drawable.ic_direction, DirectionSelectionView(context)),
-                TabConfig(R.drawable.ic_speed, SpeedSelectionView(context)))
+                TabConfig(R.drawable.ic_speed, SpeedSelectionView(context)),
+                TabConfig(R.drawable.ic_time_to_live, SpeedSelectionView(context)))
     }
 
     class TabConfig(val icon: Int, val widgetView: View)

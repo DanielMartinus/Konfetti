@@ -7,7 +7,7 @@
     <TextView
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="Speed" />
+        android:text="Time to live" />
 
     <SeekBar
         android:layout_width="match_parent"
