@@ -25,7 +25,6 @@ class MainActivity : AppCompatActivity() {
         setupSectionButtons()
         setupTabSelectionBottomSheetBehavior()
         bottomSheetBehavior = BottomSheetBehavior.from(viewConfigurationControls)
-
     }
 
     fun setupSectionButtons() {
@@ -51,7 +50,7 @@ class MainActivity : AppCompatActivity() {
 
             override fun onTabReselected(tab: TabLayout.Tab?) {
                 bottomSheetBehavior.state =
-                        if(bottomSheetBehavior.state == BottomSheetBehavior.STATE_COLLAPSED) {
+                        if (bottomSheetBehavior.state == BottomSheetBehavior.STATE_COLLAPSED) {
                             BottomSheetBehavior.STATE_EXPANDED
                         } else {
                             BottomSheetBehavior.STATE_COLLAPSED

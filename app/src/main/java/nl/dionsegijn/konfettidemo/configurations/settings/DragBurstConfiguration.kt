@@ -2,6 +2,7 @@ package nl.dionsegijn.konfettidemo.configurations.settings
 
 import nl.dionsegijn.konfetti.models.Shape
 import nl.dionsegijn.konfetti.models.Size
+import nl.dionsegijn.konfettidemo.R
 
 /**
  * Created by dionsegijn on 5/21/17.
@@ -9,7 +10,7 @@ import nl.dionsegijn.konfetti.models.Size
 class DragBurstConfiguration : Configuration {
 
     override fun getColors(): IntArray {
-        return intArrayOf(0xfce18a, 0xff726d, 0xb48def, 0xf4306d)
+        return intArrayOf(R.color.yellow, R.color.orange, R.color.purple, R.color.pink)
     }
 
     override fun getMinDirection(): Double {

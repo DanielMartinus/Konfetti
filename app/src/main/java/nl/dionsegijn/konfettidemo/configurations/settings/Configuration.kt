@@ -1,8 +1,5 @@
 package nl.dionsegijn.konfettidemo.configurations.settings
 
-import nl.dionsegijn.konfetti.models.Shape
-import nl.dionsegijn.konfetti.models.Size
-
 /**
  * Created by dionsegijn on 5/21/17.
  */

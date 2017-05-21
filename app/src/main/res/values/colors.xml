@@ -5,8 +5,8 @@
     <color name="colorAccent">#FF4081</color>
 
 
-    <color name="confetti1">#fce18a</color>
-    <color name="confetti2">#ff726d</color>
-    <color name="confetti3">#b48def</color>
-    <color name="confetti4">#f4306d</color>
+    <color name="yellow">#fce18a</color>
+    <color name="orange">#ff726d</color>
+    <color name="purple">#b48def</color>
+    <color name="pink">#f4306d</color>
 </resources>

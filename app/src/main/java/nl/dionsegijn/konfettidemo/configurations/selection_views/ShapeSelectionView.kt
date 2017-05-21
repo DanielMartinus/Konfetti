@@ -1,7 +1,6 @@
 package nl.dionsegijn.konfettidemo.configurations.selection_views
 
 import android.content.Context
-import android.view.View
 import android.widget.LinearLayout
 import nl.dionsegijn.konfettidemo.R
 
@@ -15,12 +14,5 @@ class ShapeSelectionView(context: Context?) : LinearLayout(context) {
         orientation = HORIZONTAL
     }
 
-    fun setColors(colors: IntArray) {
-        colors.forEach { color ->
-            val view = View(context)
-            view.layoutParams = LinearLayout.LayoutParams(80, 60)
-            view.setBackgroundColor(color)
-            addView(view)
-        }
-    }
+    
 }
