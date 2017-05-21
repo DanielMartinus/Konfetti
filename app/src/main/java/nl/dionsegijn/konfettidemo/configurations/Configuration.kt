@@ -8,6 +8,8 @@ import nl.dionsegijn.konfetti.models.Size
  */
 interface Configuration {
 
+    /** Confetti configurations */
+
     fun getColors(): IntArray
 
     fun getMinDirection(): Double
@@ -21,4 +23,7 @@ interface Configuration {
     fun getShapes(): Array<Shape>
     fun getSizes(): Array<Size>
 
+    /** View configurations */
+
+    // TODO add text for view
 }

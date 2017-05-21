@@ -39,9 +39,8 @@
         android:id="@+id/viewConfigurationControls"
         android:layout_width="match_parent"
         android:layout_height="350dp"
-        android:background="@color/colorPrimary"
         app:behavior_hideable="false"
-        app:behavior_peekHeight="80dp"
+        app:behavior_peekHeight="48dp"
         app:layout_behavior="android.support.design.widget.BottomSheetBehavior" />
 
 </android.support.design.widget.CoordinatorLayout>
