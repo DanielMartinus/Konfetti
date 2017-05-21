@@ -1,7 +1,9 @@
 package nl.dionsegijn.konfettidemo
 
 import android.os.Bundle
+import android.support.design.widget.BottomSheetBehavior
 import android.support.v7.app.AppCompatActivity
+import android.view.View
 import kotlinx.android.synthetic.main.activity_main.*
 import nl.dionsegijn.konfettidemo.configurations.DragBurstConfiguration
 import nl.dionsegijn.konfettidemo.configurations.StreamConfiguration
@@ -12,11 +14,14 @@ import nl.dionsegijn.konfettidemo.configurations.TopBurstConfiguration
  */
 class MainActivity : AppCompatActivity() {
 
+    lateinit var bottomSheetBehavior: BottomSheetBehavior<View>
+
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_main)
 
         setupSectionButtons()
+        bottomSheetBehavior = BottomSheetBehavior.from(viewConfigurationControls)
     }
 
     fun setupSectionButtons() {
@@ -33,5 +38,7 @@ class MainActivity : AppCompatActivity() {
             // TODO implement loading config for this section
         }
     }
+
+
 
 }
