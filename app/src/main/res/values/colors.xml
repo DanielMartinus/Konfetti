@@ -9,4 +9,6 @@
     <color name="orange">#ff726d</color>
     <color name="purple">#b48def</color>
     <color name="pink">#f4306d</color>
+
+    <color name="icon">#acacac</color>
 </resources>
