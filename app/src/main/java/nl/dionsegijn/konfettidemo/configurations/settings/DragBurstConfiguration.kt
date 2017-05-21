@@ -1,13 +1,12 @@
-package nl.dionsegijn.konfettidemo.configurations
+package nl.dionsegijn.konfettidemo.configurations.settings
 
-import android.graphics.PointF
 import nl.dionsegijn.konfetti.models.Shape
 import nl.dionsegijn.konfetti.models.Size
 
 /**
  * Created by dionsegijn on 5/21/17.
  */
-class TopBurstConfiguration : Configuration {
+class DragBurstConfiguration : Configuration {
 
     override fun getColors(): IntArray {
         return intArrayOf(0xfce18a, 0xff726d, 0xb48def, 0xf4306d)

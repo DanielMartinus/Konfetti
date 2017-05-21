@@ -5,9 +5,9 @@ import android.support.design.widget.BottomSheetBehavior
 import android.support.v7.app.AppCompatActivity
 import android.view.View
 import kotlinx.android.synthetic.main.activity_main.*
-import nl.dionsegijn.konfettidemo.configurations.DragBurstConfiguration
-import nl.dionsegijn.konfettidemo.configurations.StreamConfiguration
-import nl.dionsegijn.konfettidemo.configurations.TopBurstConfiguration
+import nl.dionsegijn.konfettidemo.configurations.settings.DragBurstConfiguration
+import nl.dionsegijn.konfettidemo.configurations.settings.StreamConfiguration
+import nl.dionsegijn.konfettidemo.configurations.settings.TopBurstConfiguration
 
 /**
  * Created by dionsegijn on 3/25/17.

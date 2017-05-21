@@ -1,12 +1,9 @@
-package nl.dionsegijn.konfettidemo.configurations
-
-import nl.dionsegijn.konfetti.models.Shape
-import nl.dionsegijn.konfetti.models.Size
+package nl.dionsegijn.konfettidemo.configurations.settings
 
 /**
  * Created by dionsegijn on 5/21/17.
  */
-class DragBurstConfiguration : Configuration {
+class TopBurstConfiguration : Configuration {
 
     override fun getColors(): IntArray {
         return intArrayOf(0xfce18a, 0xff726d, 0xb48def, 0xf4306d)
@@ -36,11 +33,11 @@ class DragBurstConfiguration : Configuration {
         return 2500L
     }
 
-    override fun getShapes(): Array<Shape> {
-        return arrayOf(Shape.RECT, Shape.CIRCLE)
+    override fun getShapes(): Array<nl.dionsegijn.konfetti.models.Shape> {
+        return arrayOf(nl.dionsegijn.konfetti.models.Shape.RECT, nl.dionsegijn.konfetti.models.Shape.CIRCLE)
     }
 
-    override fun getSizes(): Array<Size> {
-        return arrayOf(Size.SMALL)
+    override fun getSizes(): Array<nl.dionsegijn.konfetti.models.Size> {
+        return arrayOf(nl.dionsegijn.konfetti.models.Size.SMALL)
     }
 }

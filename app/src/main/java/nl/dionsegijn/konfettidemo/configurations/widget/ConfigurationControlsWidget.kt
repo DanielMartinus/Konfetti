@@ -1,11 +1,10 @@
-package nl.dionsegijn.konfettidemo.configurations
+package nl.dionsegijn.konfettidemo.configurations.widget
 
 import android.content.Context
 import android.os.Build
 import android.support.v4.content.ContextCompat
 import android.support.v4.view.PagerAdapter
 import android.util.AttributeSet
-import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.LinearLayout
@@ -40,21 +39,20 @@ class ConfigurationControlsWidget : LinearLayout {
 
     fun getTabs(): Array<TabConfig> {
         return arrayOf(
-                TabConfig(R.drawable.ic_paint, R.layout.viewpager_seekbar_layout),
-                TabConfig(R.drawable.ic_shapes, R.layout.viewpager_seekbar_layout),
-                TabConfig(R.drawable.ic_direction, R.layout.viewpager_seekbar_layout),
-                TabConfig(R.drawable.ic_speed, R.layout.viewpager_seekbar_layout))
+                TabConfig(R.drawable.ic_paint, ColorSelectionView(context)),
+                TabConfig(R.drawable.ic_shapes, ShapeSelectionView(context)),
+                TabConfig(R.drawable.ic_direction, DirectionSelectionView(context)),
+                TabConfig(R.drawable.ic_speed, SpeedSelectionView(context)))
     }
 
-    class TabConfig(val icon: Int, val layoutId: Int)
+    class TabConfig(val icon: Int, val widgetView: View)
 
     class ConfigPagerAdapter(val tabs: Array<TabConfig>) : PagerAdapter() {
 
         override fun instantiateItem(container: ViewGroup?, position: Int): Any {
-            val inflater = LayoutInflater.from(container?.context)
-            val layout = inflater.inflate(R.layout.viewpager_seekbar_layout, container, false)
-            container?.addView(layout)
-            return layout
+            val view = tabs[position].widgetView
+            container?.addView(view)
+            return view
         }
 
         override fun isViewFromObject(view: View?, oView: Any?): Boolean {

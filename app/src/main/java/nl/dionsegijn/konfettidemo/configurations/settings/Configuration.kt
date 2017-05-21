@@ -1,4 +1,4 @@
-package nl.dionsegijn.konfettidemo.configurations
+package nl.dionsegijn.konfettidemo.configurations.settings
 
 import nl.dionsegijn.konfetti.models.Shape
 import nl.dionsegijn.konfetti.models.Size
@@ -20,8 +20,8 @@ interface Configuration {
 
     fun isFadeOutEnabled(): Boolean
     fun getTimeToLive(): Long
-    fun getShapes(): Array<Shape>
-    fun getSizes(): Array<Size>
+    fun getShapes(): Array<nl.dionsegijn.konfetti.models.Shape>
+    fun getSizes(): Array<nl.dionsegijn.konfetti.models.Size>
 
     /** View configurations */
 
