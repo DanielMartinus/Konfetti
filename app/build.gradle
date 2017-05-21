@@ -1,5 +1,6 @@
 apply plugin: 'com.android.application'
 apply plugin: 'kotlin-android'
+apply plugin: 'kotlin-android-extensions'
 
 android {
     compileSdkVersion 25
@@ -26,10 +27,6 @@ dependencies {
     compile fileTree(dir: 'libs', include: ['*.jar'])
     compile 'com.android.support:appcompat-v7:25.3.0'
     compile "org.jetbrains.kotlin:kotlin-stdlib-jre7:$kotlin_version"
-
-    debugCompile "com.github.brianPlummer:tinydancer:0.1.1"
-    releaseCompile "com.github.brianPlummer:tinydancer-noop:0.1.1"
-    testCompile "com.github.brianPlummer:tinydancer-noop:0.1.1"
     compile project(path: ':konfetti')
 }
 repositories {
