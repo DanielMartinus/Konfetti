@@ -35,7 +35,7 @@
 
     </LinearLayout>
 
-    <nl.dionsegijn.konfettidemo.configurations.widget.ConfigurationControlsWidget
+    <nl.dionsegijn.konfettidemo.configurations.ConfigurationControlsWidget
         android:id="@+id/viewConfigurationControls"
         android:layout_width="match_parent"
         android:layout_height="350dp"

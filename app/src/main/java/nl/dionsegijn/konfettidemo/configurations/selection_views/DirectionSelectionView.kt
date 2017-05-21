@@ -1,4 +1,4 @@
-package nl.dionsegijn.konfettidemo.configurations.widget
+package nl.dionsegijn.konfettidemo.configurations.selection_views
 
 import android.content.Context
 import android.widget.LinearLayout

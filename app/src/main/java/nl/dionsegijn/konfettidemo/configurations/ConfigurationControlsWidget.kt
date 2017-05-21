@@ -1,7 +1,8 @@
-package nl.dionsegijn.konfettidemo.configurations.widget
+package nl.dionsegijn.konfettidemo.configurations
 
 import android.content.Context
 import android.os.Build
+import android.support.design.widget.TabLayout
 import android.support.v4.content.ContextCompat
 import android.support.v4.view.PagerAdapter
 import android.util.AttributeSet
@@ -10,6 +11,10 @@ import android.view.ViewGroup
 import android.widget.LinearLayout
 import kotlinx.android.synthetic.main.bottomsheet_config_controls.view.*
 import nl.dionsegijn.konfettidemo.R
+import nl.dionsegijn.konfettidemo.configurations.selection_views.ColorSelectionView
+import nl.dionsegijn.konfettidemo.configurations.selection_views.DirectionSelectionView
+import nl.dionsegijn.konfettidemo.configurations.selection_views.ShapeSelectionView
+import nl.dionsegijn.konfettidemo.configurations.selection_views.SpeedSelectionView
 
 /**
  * Created by dionsegijn on 5/21/17.
@@ -35,6 +40,10 @@ class ConfigurationControlsWidget : LinearLayout {
             elevation = 100f
         }
 
+    }
+
+    fun setOnTabSelectedListener(onTabSelectedListener: TabLayout.OnTabSelectedListener) {
+        tabLayout.addOnTabSelectedListener(onTabSelectedListener)
     }
 
     fun getTabs(): Array<TabConfig> {
