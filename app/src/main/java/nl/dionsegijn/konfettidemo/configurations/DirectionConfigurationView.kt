@@ -1,10 +1,7 @@
 package nl.dionsegijn.konfettidemo.configurations
 
 import android.content.Context
-import android.graphics.Canvas
-import android.graphics.Color
-import android.graphics.Paint
-import android.graphics.PointF
+import android.graphics.*
 import android.util.AttributeSet
 import android.view.MotionEvent
 import android.view.View
@@ -18,10 +15,17 @@ class DirectionConfigurationView : View {
     constructor(context: Context?, attrs: AttributeSet?) : super(context, attrs)
     constructor(context: Context?, attrs: AttributeSet?, defStyleAttr: Int) : super(context, attrs, defStyleAttr)
 
+    val paintArc: Paint = Paint()
+    val oval = RectF()
     val paintCircleStroke: Paint = Paint()
     val paintCircleSolid: Paint = Paint()
 
     init {
+        paintArc.color = Color.RED
+        paintCircleStroke.style = Paint.Style.STROKE
+        paintCircleStroke.strokeWidth = 5f
+
+
         paintCircleStroke.color = Color.RED
         paintCircleStroke.style = Paint.Style.STROKE
         paintCircleStroke.strokeWidth = 5f
@@ -122,6 +126,10 @@ class DirectionConfigurationView : View {
 
         canvas.drawCircle(p1.x, p1.y, size, paintCircleSolid)
         canvas.drawCircle(p2.x, p2.y, size, paintCircleSolid)
+
+
+        oval.set(0f, 0f, measuredWidth.toFloat() - size, measuredHeight.toFloat() - size)
+        canvas.drawArc(oval, point2.toFloat(), point1.toFloat(), true, paintArc)
     }
 
     fun calculateXY(cx: Float, cy: Float, r: Float, angle: Double): PointF {

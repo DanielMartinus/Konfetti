@@ -6,6 +6,6 @@
 
     <nl.dionsegijn.konfettidemo.configurations.DirectionConfigurationView
         android:layout_width="120dp"
-        android:layout_height="120dp" />
+        android:layout_height="120dp"/>
 
 </merge>

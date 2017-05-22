@@ -14,7 +14,7 @@ class DirectionSelectionView(context: Context?) : LinearLayout(context) {
         inflate(context, R.layout.view_section_direction_selection, this)
         gravity = Gravity.CENTER
         orientation = HORIZONTAL
+        clipChildren = false
     }
-
 
 }
