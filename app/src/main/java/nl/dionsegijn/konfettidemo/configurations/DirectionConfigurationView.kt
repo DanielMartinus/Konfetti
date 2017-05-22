@@ -62,6 +62,7 @@ class DirectionConfigurationView : View {
         val y = event.y
         when(event.action) {
             MotionEvent.ACTION_DOWN -> {
+                parent.requestDisallowInterceptTouchEvent(true)
                 touchStart(x, y)
             }
             MotionEvent.ACTION_MOVE -> {
