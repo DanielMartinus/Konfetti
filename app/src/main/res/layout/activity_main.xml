@@ -13,28 +13,6 @@
         android:layout_width="match_parent"
         android:layout_height="500dp" />
 
-    <LinearLayout
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:gravity="right">
-
-        <Button
-            android:id="@+id/buttonSectionBurstFromTop"
-            style="@style/PsButton"
-            android:text="PS1" />
-
-        <Button
-            android:id="@+id/buttonSectionDragAndBurst"
-            style="@style/PsButton"
-            android:text="PS2" />
-
-        <Button
-            android:id="@+id/buttonSectionStreamFromCenter"
-            style="@style/PsButton"
-            android:text="PS3" />
-
-    </LinearLayout>
-
     <nl.dionsegijn.konfettidemo.configurations.ConfigurationControlsWidget
         android:id="@+id/viewConfigurationControls"
         android:layout_width="match_parent"

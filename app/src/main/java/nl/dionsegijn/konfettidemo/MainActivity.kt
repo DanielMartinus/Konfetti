@@ -9,9 +9,6 @@ import android.view.View
 import kotlinx.android.synthetic.main.activity_main.*
 import nl.dionsegijn.konfetti.models.Shape
 import nl.dionsegijn.konfetti.models.Size
-import nl.dionsegijn.konfettidemo.configurations.settings.DragBurstConfiguration
-import nl.dionsegijn.konfettidemo.configurations.settings.StreamConfiguration
-import nl.dionsegijn.konfettidemo.configurations.settings.TopBurstConfiguration
 import nl.dionsegijn.konfettidemo.interfaces.SimpleOnTabSelectedListener
 
 /**
@@ -25,7 +22,7 @@ class MainActivity : AppCompatActivity() {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_main)
 
-        setupSectionButtons()
+//        setupSectionButtons()
         setupTabSelectionBottomSheetBehavior()
         bottomSheetBehavior = BottomSheetBehavior.from(viewConfigurationControls)
 
@@ -34,20 +31,21 @@ class MainActivity : AppCompatActivity() {
         }
     }
 
-    fun setupSectionButtons() {
-        buttonSectionBurstFromTop.setOnClickListener {
-            val configuration = TopBurstConfiguration()
-            // TODO implement loading config for this section
-        }
-        buttonSectionDragAndBurst.setOnClickListener {
-            val configuration = DragBurstConfiguration()
-            // TODO implement loading config for this section
-        }
-        buttonSectionStreamFromCenter.setOnClickListener {
-            val configuration = StreamConfiguration()
-            // TODO implement loading config for this section
-        }
-    }
+    // Todo add section to Configuration controls where configuration and type can be adjusted
+//    fun setupSectionButtons() {
+//        buttonSectionBurstFromTop.setOnClickListener {
+//            val configuration = TopBurstConfiguration()
+//            // TODO implement loading config for this section
+//        }
+//        buttonSectionDragAndBurst.setOnClickListener {
+//            val configuration = DragBurstConfiguration()
+//            // TODO implement loading config for this section
+//        }
+//        buttonSectionStreamFromCenter.setOnClickListener {
+//            val configuration = StreamConfiguration()
+//            // TODO implement loading config for this section
+//        }
+//    }
 
     fun setupTabSelectionBottomSheetBehavior() {
         viewConfigurationControls.setOnTabSelectedListener(object : SimpleOnTabSelectedListener() {
