@@ -3,9 +3,12 @@ package nl.dionsegijn.konfettidemo
 import android.os.Bundle
 import android.support.design.widget.BottomSheetBehavior
 import android.support.design.widget.TabLayout
+import android.support.v4.content.ContextCompat
 import android.support.v7.app.AppCompatActivity
 import android.view.View
 import kotlinx.android.synthetic.main.activity_main.*
+import nl.dionsegijn.konfetti.models.Shape
+import nl.dionsegijn.konfetti.models.Size
 import nl.dionsegijn.konfettidemo.configurations.settings.DragBurstConfiguration
 import nl.dionsegijn.konfettidemo.configurations.settings.StreamConfiguration
 import nl.dionsegijn.konfettidemo.configurations.settings.TopBurstConfiguration
@@ -25,6 +28,10 @@ class MainActivity : AppCompatActivity() {
         setupSectionButtons()
         setupTabSelectionBottomSheetBehavior()
         bottomSheetBehavior = BottomSheetBehavior.from(viewConfigurationControls)
+
+        viewKonfetti.setOnClickListener {
+            startConfetti()
+        }
     }
 
     fun setupSectionButtons() {
@@ -58,5 +65,24 @@ class MainActivity : AppCompatActivity() {
             }
         })
     }
+
+    fun startConfetti() {
+        val colors = intArrayOf(color(R.color.yellow), color(R.color.orange), color(R.color.purple), color(R.color.pink))
+        viewKonfetti.build()
+                .addColors(*colors)
+                .setDirection(0.0, 359.0)
+                .setSpeed(1f, 5f)
+                .setFadeOutEnabled(true)
+                .setTimeToLive(2000L)
+                .addShapes(Shape.RECT, Shape.CIRCLE)
+                .addSizes(Size.SMALL)
+                .setPosition(-50f, viewKonfetti.width + 50f, -50f, -50f)
+                .stream(300, 5000L)
+    }
+
+    fun color(resId: Int): Int {
+        return ContextCompat.getColor(applicationContext, resId)
+    }
+
 
 }
