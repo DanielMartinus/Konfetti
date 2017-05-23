@@ -2,28 +2,23 @@
 <merge
     xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent">
 
-    <TextView
+    <TextView android:id="@+id/viewSeekbarTitle"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="Speed" />
+        tools:text="Speed" />
 
     <io.apptik.widget.MultiSlider
-        android:id="@+id/range_slider5"
+        android:id="@+id/viewMultiSeekbar"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
+        android:layout_marginLeft="8dp"
+        android:layout_marginRight="8dp"
         app:thumbNumber="2"
         app:stepsThumbsApart="5"
-        app:drawThumbsApart="true"
-
-        />
-
-    <!--<SeekBar-->
-        <!--android:layout_width="match_parent"-->
-        <!--android:layout_height="wrap_content"-->
-        <!--android:layout_margin="16dp"-->
-        <!--android:max="12" />-->
+        app:drawThumbsApart="true" />
 
 </merge>

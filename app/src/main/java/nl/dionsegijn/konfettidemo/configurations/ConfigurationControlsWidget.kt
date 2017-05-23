@@ -12,8 +12,9 @@ import android.widget.LinearLayout
 import kotlinx.android.synthetic.main.bottomsheet_config_controls.view.*
 import nl.dionsegijn.konfettidemo.R
 import nl.dionsegijn.konfettidemo.configurations.selection_views.ColorSelectionView
+import nl.dionsegijn.konfettidemo.configurations.selection_views.MultiSeekbarSelectionView
+import nl.dionsegijn.konfettidemo.configurations.selection_views.SeekbarSelectionView
 import nl.dionsegijn.konfettidemo.configurations.selection_views.ShapeSelectionView
-import nl.dionsegijn.konfettidemo.configurations.selection_views.SpeedSelectionView
 
 /**
  * Created by dionsegijn on 5/21/17.
@@ -49,8 +50,8 @@ class ConfigurationControlsWidget : LinearLayout {
         return arrayOf(
                 TabConfig(R.drawable.ic_paint, ColorSelectionView(context)),
                 TabConfig(R.drawable.ic_shapes, ShapeSelectionView(context)),
-                TabConfig(R.drawable.ic_speed, SpeedSelectionView(context)),
-                TabConfig(R.drawable.ic_time_to_live, SpeedSelectionView(context)))
+                TabConfig(R.drawable.ic_speed, MultiSeekbarSelectionView(context, "Speed", 1, 10, 1, 10)),
+                TabConfig(R.drawable.ic_time_to_live, SeekbarSelectionView(context, "Time to live", 500, 5000, 1000)))
     }
 
     class TabConfig(val icon: Int, val widgetView: View)
