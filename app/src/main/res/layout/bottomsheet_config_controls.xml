@@ -12,7 +12,7 @@
         android:layout_height="wrap_content"
         app:tabMode="fixed" />
 
-    <android.support.v4.view.ViewPager
+    <nl.dionsegijn.konfettidemo.widgets.NonSwipeableViewPager
         android:id="@+id/viewPager"
         android:layout_width="match_parent"
         android:layout_height="match_parent" />
