@@ -12,7 +12,6 @@ import android.widget.LinearLayout
 import kotlinx.android.synthetic.main.bottomsheet_config_controls.view.*
 import nl.dionsegijn.konfettidemo.R
 import nl.dionsegijn.konfettidemo.configurations.selection_views.ColorSelectionView
-import nl.dionsegijn.konfettidemo.configurations.selection_views.DirectionSelectionView
 import nl.dionsegijn.konfettidemo.configurations.selection_views.ShapeSelectionView
 import nl.dionsegijn.konfettidemo.configurations.selection_views.SpeedSelectionView
 
@@ -50,7 +49,6 @@ class ConfigurationControlsWidget : LinearLayout {
         return arrayOf(
                 TabConfig(R.drawable.ic_paint, ColorSelectionView(context)),
                 TabConfig(R.drawable.ic_shapes, ShapeSelectionView(context)),
-                TabConfig(R.drawable.ic_direction, DirectionSelectionView(context)),
                 TabConfig(R.drawable.ic_speed, SpeedSelectionView(context)),
                 TabConfig(R.drawable.ic_time_to_live, SpeedSelectionView(context)))
     }
