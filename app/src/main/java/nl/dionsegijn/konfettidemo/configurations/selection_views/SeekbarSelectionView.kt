@@ -10,11 +10,7 @@ import nl.dionsegijn.konfettidemo.R
 /**
  * Created by dionsegijn on 5/21/17.
  */
-class SeekbarSelectionView(context: Context?,
-                                title: String,
-                                min: Int,
-                                max: Int,
-                                startValue: Int) : LinearLayout(context) {
+class SeekbarSelectionView(context: Context?, title: String, min: Int, max: Int, startValue: Int) : LinearLayout(context) {
 
     init {
         inflate(context, R.layout.view_section_seekbar_selection, this)

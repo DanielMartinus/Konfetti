@@ -41,7 +41,7 @@ class ColorSelectionView(context: Context?) : LinearLayout(context) {
             val shape = GradientDrawable()
             shape.shape = GradientDrawable.RECTANGLE
             shape.setColor(ContextCompat.getColor(context, color))
-            shape.setStroke(4, Color.LTGRAY)
+            shape.setStroke(4, Color.WHITE)
             shape.cornerRadius = 6f
 
             view.background = shape
