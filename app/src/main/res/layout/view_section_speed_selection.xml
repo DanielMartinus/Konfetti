@@ -1,6 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <merge
     xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
     android:layout_width="match_parent"
     android:layout_height="match_parent">
 
@@ -9,10 +10,20 @@
         android:layout_height="wrap_content"
         android:text="Speed" />
 
-    <SeekBar
+    <io.apptik.widget.MultiSlider
+        android:id="@+id/range_slider5"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_margin="16dp"
-        android:max="12" />
+        app:thumbNumber="2"
+        app:stepsThumbsApart="5"
+        app:drawThumbsApart="true"
+
+        />
+
+    <!--<SeekBar-->
+        <!--android:layout_width="match_parent"-->
+        <!--android:layout_height="wrap_content"-->
+        <!--android:layout_margin="16dp"-->
+        <!--android:max="12" />-->
 
 </merge>
