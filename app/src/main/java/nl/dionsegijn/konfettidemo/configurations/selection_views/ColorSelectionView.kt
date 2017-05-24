@@ -9,7 +9,6 @@ import android.view.Gravity
 import android.widget.Button
 import android.widget.LinearLayout
 import nl.dionsegijn.konfettidemo.R
-import nl.dionsegijn.konfettidemo.configurations.settings.TopBurstConfiguration
 
 
 
@@ -22,7 +21,7 @@ class ColorSelectionView(context: Context?) : LinearLayout(context) {
         inflate(context, R.layout.view_section_color_selection, this)
         orientation = HORIZONTAL
         gravity = Gravity.CENTER_HORIZONTAL
-        setColors(TopBurstConfiguration().getColors())
+//        setColors(TopBurstConfiguration().getColors())
     }
 
     fun setColors(colors: IntArray) {

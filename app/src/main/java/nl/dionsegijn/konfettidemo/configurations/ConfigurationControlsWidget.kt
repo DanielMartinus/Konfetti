@@ -4,10 +4,7 @@ import android.content.Context
 import android.os.Build
 import android.support.design.widget.TabLayout
 import android.support.v4.content.ContextCompat
-import android.support.v4.view.PagerAdapter
 import android.util.AttributeSet
-import android.view.View
-import android.view.ViewGroup
 import android.widget.LinearLayout
 import kotlinx.android.synthetic.main.bottomsheet_config_controls.view.*
 import nl.dionsegijn.konfettidemo.R
@@ -15,11 +12,17 @@ import nl.dionsegijn.konfettidemo.configurations.selection_views.ColorSelectionV
 import nl.dionsegijn.konfettidemo.configurations.selection_views.MultiSeekbarSelectionView
 import nl.dionsegijn.konfettidemo.configurations.selection_views.SeekbarSelectionView
 import nl.dionsegijn.konfettidemo.configurations.selection_views.ShapeSelectionView
+import nl.dionsegijn.konfettidemo.configurations.settings.Configuration
+import nl.dionsegijn.konfettidemo.configurations.viewpager.ConfigPagerAdapter
+import nl.dionsegijn.konfettidemo.configurations.viewpager.TabConfig
+import nl.dionsegijn.konfettidemo.interfaces.OnConfigurationChangedListener
 
 /**
  * Created by dionsegijn on 5/21/17.
  */
-class ConfigurationControlsWidget : LinearLayout {
+class ConfigurationControlsWidget : LinearLayout, OnConfigurationChangedListener {
+
+    val configuration = Configurations()
 
     constructor(context: Context?) : super(context)
     constructor(context: Context?, attrs: AttributeSet?) : super(context, attrs)
@@ -39,6 +42,9 @@ class ConfigurationControlsWidget : LinearLayout {
             setBackgroundColor(ContextCompat.getColor(context, android.R.color.white))
             elevation = 100f
         }
+    }
+
+    override fun onConfigurationChanged(configuration: Configuration) {
 
     }
 
@@ -51,34 +57,7 @@ class ConfigurationControlsWidget : LinearLayout {
                 TabConfig(R.drawable.ic_paint, ColorSelectionView(context)),
                 TabConfig(R.drawable.ic_shapes, ShapeSelectionView(context)),
                 TabConfig(R.drawable.ic_speed, MultiSeekbarSelectionView(context, "Speed", 1, 10, 1, 10)),
-                TabConfig(R.drawable.ic_time_to_live, SeekbarSelectionView(context, "Time to live", 500, 5000, 1000)))
-    }
-
-    class TabConfig(val icon: Int, val widgetView: View)
-
-    class ConfigPagerAdapter(val tabs: Array<TabConfig>) : PagerAdapter() {
-
-        override fun instantiateItem(container: ViewGroup?, position: Int): Any {
-            val view = tabs[position].widgetView
-            container?.addView(view)
-            return view
-        }
-
-        override fun isViewFromObject(view: View?, oView: Any?): Boolean {
-            return view == oView as View
-        }
-
-        override fun destroyItem(container: ViewGroup, position: Int, view: Any) {
-            container.removeView(view as View)
-        }
-
-        override fun getCount(): Int {
-            return tabs.size
-        }
-
-        override fun getPageTitle(position: Int): CharSequence {
-            return ""
-        }
+                TabConfig(R.drawable.ic_time_to_live, SeekbarSelectionView(context, configuration.active,  "Time to live", 500, 5000, 1000)))
     }
 
 }

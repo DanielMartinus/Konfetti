@@ -56,15 +56,16 @@ class MainActivity : AppCompatActivity() {
 
     fun startConfetti() {
         val colors = intArrayOf(color(R.color.yellow), color(R.color.orange), color(R.color.purple), color(R.color.pink))
+        val config = viewConfigurationControls.configuration.active
         viewKonfetti.build()
                 .addColors(*colors)
                 .setDirection(0.0, 359.0)
                 .setSpeed(1f, 5f)
                 .setFadeOutEnabled(true)
-                .setTimeToLive(2000L)
+                .setTimeToLive(config.timeToLive)
                 .addShapes(Shape.RECT, Shape.CIRCLE)
                 .addSizes(Size.SMALL)
-                .setPosition(-50f, viewKonfetti.width + 50f, -50f, -50f)
+                .setPosition(-50f, viewKonfetti.width + 50f, -50f, -50f) // TODO doesn't change, always the
                 .stream(300, 5000L)
     }
 

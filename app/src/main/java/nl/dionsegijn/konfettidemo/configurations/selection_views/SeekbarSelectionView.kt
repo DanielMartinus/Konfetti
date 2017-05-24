@@ -6,11 +6,12 @@ import android.widget.LinearLayout
 import android.widget.SeekBar
 import kotlinx.android.synthetic.main.view_section_seekbar_selection.view.*
 import nl.dionsegijn.konfettidemo.R
+import nl.dionsegijn.konfettidemo.configurations.settings.Configuration
 
 /**
  * Created by dionsegijn on 5/21/17.
  */
-class SeekbarSelectionView(context: Context?, title: String, min: Int, max: Int, startValue: Int) : LinearLayout(context) {
+class SeekbarSelectionView(context: Context?, configuration: Configuration, title: String, min: Int, max: Int, startValue: Int) : LinearLayout(context) {
 
     init {
         inflate(context, R.layout.view_section_seekbar_selection, this)
@@ -24,6 +25,7 @@ class SeekbarSelectionView(context: Context?, title: String, min: Int, max: Int,
             override fun onProgressChanged(seekBar: SeekBar?, progress: Int, fromUser: Boolean) {
                 val value = progress + min
                 viewSeekbarTitle.text = "$title ($value)"
+                configuration.timeToLive = value.toLong()
             }
 
             override fun onStartTrackingTouch(seekBar: SeekBar?) {}
