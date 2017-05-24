@@ -8,6 +8,7 @@ import android.support.v4.content.ContextCompat
 import android.view.Gravity
 import android.widget.Button
 import android.widget.LinearLayout
+import kotlinx.android.synthetic.main.view_section_color_selection.view.*
 import nl.dionsegijn.konfettidemo.R
 import nl.dionsegijn.konfettidemo.configurations.settings.Configuration
 import nl.dionsegijn.konfettidemo.interfaces.UpdateConfiguration
@@ -21,13 +22,15 @@ class ColorSelectionView(context: Context?) : LinearLayout(context), UpdateConfi
 
     init {
         inflate(context, R.layout.view_section_color_selection, this)
-        orientation = HORIZONTAL
+        orientation = VERTICAL
         gravity = Gravity.CENTER_HORIZONTAL
-        setColors(intArrayOf(R.color.yellow, R.color.orange, R.color.purple, R.color.pink))
+
+        addColorsToViewGroup(colorRow1, intArrayOf(R.color.lt_yellow, R.color.lt_orange, R.color.lt_purple, R.color.lt_pink))
+        addColorsToViewGroup(colorRow2, intArrayOf(R.color.dk_blue, R.color.dk_cyan, R.color.dk_green, R.color.dk_red))
     }
 
-    fun setColors(colors: IntArray) {
-        colors.forEach { color ->
+    fun addColorsToViewGroup(viewGroup: LinearLayout, colors: IntArray) {
+        colors.forEachIndexed { index, color ->
             val view = Button(context)
 
             if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
@@ -47,7 +50,7 @@ class ColorSelectionView(context: Context?) : LinearLayout(context), UpdateConfi
 
             view.background = shape
 
-            addView(view)
+            viewGroup.addView(view)
         }
     }
 

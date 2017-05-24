@@ -55,7 +55,7 @@ class MainActivity : AppCompatActivity() {
     }
 
     fun startConfetti() {
-        val colors = intArrayOf(color(R.color.yellow), color(R.color.orange), color(R.color.purple), color(R.color.pink))
+        val colors = intArrayOf(color(R.color.lt_yellow), color(R.color.lt_orange), color(R.color.lt_purple), color(R.color.lt_pink))
         val config = viewConfigurationControls.configuration.active
         viewKonfetti.build()
                 .addColors(*colors)
