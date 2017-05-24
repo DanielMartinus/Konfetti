@@ -22,7 +22,6 @@ class MainActivity : AppCompatActivity() {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_main)
 
-//        setupSectionButtons()
         setupTabSelectionBottomSheetBehavior()
         bottomSheetBehavior = BottomSheetBehavior.from(viewConfigurationControls)
 
@@ -31,22 +30,13 @@ class MainActivity : AppCompatActivity() {
         }
     }
 
-    // Todo add section to Configuration controls where configuration and type can be adjusted
-//    fun setupSectionButtons() {
-//        buttonSectionBurstFromTop.setOnClickListener {
-//            val configuration = TopBurstConfiguration()
-//            // TODO implement loading config for this section
-//        }
-//        buttonSectionDragAndBurst.setOnClickListener {
-//            val configuration = DragBurstConfiguration()
-//            // TODO implement loading config for this section
-//        }
-//        buttonSectionStreamFromCenter.setOnClickListener {
-//            val configuration = StreamConfiguration()
-//            // TODO implement loading config for this section
-//        }
-//    }
-
+    /**
+     * Implement expand and collapse behavior for the BottomSheet used to display the configuration
+     * options.
+     * - Reselect a tab and the bottom sheet will either collapse or expand depending on its current
+     * state.
+     * - Select a tab that wasn't active yet and the BottomSheet will expand
+     */
     fun setupTabSelectionBottomSheetBehavior() {
         viewConfigurationControls.setOnTabSelectedListener(object : SimpleOnTabSelectedListener() {
             override fun onTabSelected(tab: TabLayout.Tab?) {
