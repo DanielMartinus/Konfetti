@@ -8,10 +8,7 @@ import android.util.AttributeSet
 import android.widget.LinearLayout
 import kotlinx.android.synthetic.main.bottomsheet_config_controls.view.*
 import nl.dionsegijn.konfettidemo.R
-import nl.dionsegijn.konfettidemo.configurations.selection_views.ColorSelectionView
-import nl.dionsegijn.konfettidemo.configurations.selection_views.MultiSeekbarSelectionView
-import nl.dionsegijn.konfettidemo.configurations.selection_views.SeekbarSelectionView
-import nl.dionsegijn.konfettidemo.configurations.selection_views.ShapeSelectionView
+import nl.dionsegijn.konfettidemo.configurations.selection_views.*
 import nl.dionsegijn.konfettidemo.configurations.settings.Configuration
 import nl.dionsegijn.konfettidemo.configurations.viewpager.ConfigPagerAdapter
 import nl.dionsegijn.konfettidemo.configurations.viewpager.TabConfig
@@ -44,16 +41,18 @@ class ConfigurationControlsWidget : LinearLayout, OnConfigurationChangedListener
         }
     }
 
-    override fun onConfigurationChanged(configuration: Configuration) {
-
+    override fun onConfigurationChanged(selected: Configuration) {
+        configuration.active = selected
     }
 
     fun setOnTabSelectedListener(onTabSelectedListener: TabLayout.OnTabSelectedListener) {
         tabLayout.addOnTabSelectedListener(onTabSelectedListener)
     }
 
+    /* Just some simple views used in viewpager to display configuration settings */
     fun getTabs(): Array<TabConfig> {
         return arrayOf(
+                TabConfig(R.drawable.ic_settings, ConfigTypeSelectionView(context, this, configuration)),
                 TabConfig(R.drawable.ic_paint, ColorSelectionView(context)),
                 TabConfig(R.drawable.ic_shapes, ShapeSelectionView(context)),
                 TabConfig(R.drawable.ic_speed, MultiSeekbarSelectionView(context, "Speed", 1, 10, 1, 10)),

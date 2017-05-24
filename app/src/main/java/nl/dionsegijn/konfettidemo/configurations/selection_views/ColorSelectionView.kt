@@ -21,7 +21,7 @@ class ColorSelectionView(context: Context?) : LinearLayout(context) {
         inflate(context, R.layout.view_section_color_selection, this)
         orientation = HORIZONTAL
         gravity = Gravity.CENTER_HORIZONTAL
-//        setColors(TopBurstConfiguration().getColors())
+        setColors(intArrayOf(R.color.yellow, R.color.orange, R.color.purple, R.color.pink))
     }
 
     fun setColors(colors: IntArray) {

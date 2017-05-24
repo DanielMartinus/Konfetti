@@ -9,9 +9,9 @@ class Configurations {
 
     var active: Configuration
     var configurations: List<Configuration> = listOf(
-            Configuration(), // TODO add icon and title
-            Configuration(),
-            Configuration()
+            Configuration(""), // TODO add icon
+            Configuration(""),
+            Configuration("")
     )
 
     init {

@@ -7,6 +7,6 @@ import nl.dionsegijn.konfettidemo.configurations.settings.Configuration
  */
 interface OnConfigurationChangedListener {
 
-    fun onConfigurationChanged(configuration: Configuration)
+    fun onConfigurationChanged(selected: Configuration)
 
 }
