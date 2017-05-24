@@ -9,7 +9,7 @@ import android.view.View
 import kotlinx.android.synthetic.main.activity_main.*
 import nl.dionsegijn.konfetti.models.Shape
 import nl.dionsegijn.konfetti.models.Size
-import nl.dionsegijn.konfettidemo.interfaces.SimpleOnTabSelectedListener
+import nl.dionsegijn.konfettidemo.interfaces.OnSimpleTabSelectedListener
 
 /**
  * Created by dionsegijn on 3/25/17.
@@ -38,7 +38,7 @@ class MainActivity : AppCompatActivity() {
      * - Select a tab that wasn't active yet and the BottomSheet will expand
      */
     fun setupTabSelectionBottomSheetBehavior() {
-        viewConfigurationControls.setOnTabSelectedListener(object : SimpleOnTabSelectedListener() {
+        viewConfigurationControls.setOnTabSelectedListener(object : OnSimpleTabSelectedListener() {
             override fun onTabSelected(tab: TabLayout.Tab?) {
                 bottomSheetBehavior.state = BottomSheetBehavior.STATE_EXPANDED
             }

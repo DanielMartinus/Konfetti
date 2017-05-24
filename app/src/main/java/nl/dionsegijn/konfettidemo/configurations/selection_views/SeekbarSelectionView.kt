@@ -6,8 +6,9 @@ import android.widget.LinearLayout
 import android.widget.SeekBar
 import kotlinx.android.synthetic.main.view_section_seekbar_selection.view.*
 import nl.dionsegijn.konfettidemo.R
-import nl.dionsegijn.konfettidemo.configurations.settings.ConfigurationManager
 import nl.dionsegijn.konfettidemo.configurations.settings.Configuration
+import nl.dionsegijn.konfettidemo.configurations.settings.ConfigurationManager
+import nl.dionsegijn.konfettidemo.interfaces.OnSimpleSeekBarChangeListener
 import nl.dionsegijn.konfettidemo.interfaces.UpdateConfiguration
 
 /**
@@ -29,16 +30,11 @@ class SeekbarSelectionView(context: Context?,
         viewSeekbar.progress = startValue
         viewSeekbarTitle.text = "$title ($startValue)"
         
-        viewSeekbar.setOnSeekBarChangeListener(object : SeekBar.OnSeekBarChangeListener {
+        viewSeekbar.setOnSeekBarChangeListener(object : OnSimpleSeekBarChangeListener() {
             override fun onProgressChanged(seekBar: SeekBar?, progress: Int, fromUser: Boolean) {
                 viewSeekbarTitle.text = "$title ($progress)"
                 configuration.active.timeToLive = progress.toLong()
             }
-
-            override fun onStartTrackingTouch(seekBar: SeekBar?) {}
-
-            override fun onStopTrackingTouch(seekBar: SeekBar?) {}
-
         })
 
     }
