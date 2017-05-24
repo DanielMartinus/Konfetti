@@ -13,6 +13,7 @@ import nl.dionsegijn.konfettidemo.configurations.settings.Configuration
 import nl.dionsegijn.konfettidemo.configurations.viewpager.ConfigPagerAdapter
 import nl.dionsegijn.konfettidemo.configurations.viewpager.TabConfig
 import nl.dionsegijn.konfettidemo.interfaces.OnConfigurationChangedListener
+import nl.dionsegijn.konfettidemo.interfaces.UpdateConfiguration
 
 /**
  * Created by dionsegijn on 5/21/17.
@@ -30,6 +31,7 @@ class ConfigurationControlsWidget : LinearLayout, OnConfigurationChangedListener
         orientation = VERTICAL
 
         viewPager.adapter = ConfigPagerAdapter(getTabs())
+        viewPager.offscreenPageLimit = getTabs().size
         tabLayout.setupWithViewPager(viewPager)
         for (i in 0..tabLayout.tabCount - 1) {
             tabLayout.getTabAt(i)?.setIcon(getTabs()[i].icon)
@@ -43,6 +45,13 @@ class ConfigurationControlsWidget : LinearLayout, OnConfigurationChangedListener
 
     override fun onConfigurationChanged(selected: Configuration) {
         configuration.active = selected
+        val childCount = viewPager.childCount
+        (0..childCount -1)
+                .map { viewPager.getChildAt(it);  }
+                .filterIsInstance<UpdateConfiguration>()
+                .forEach {
+                    it.onUpdateConfiguration(selected)
+                }
     }
 
     fun setOnTabSelectedListener(onTabSelectedListener: TabLayout.OnTabSelectedListener) {
@@ -56,7 +65,7 @@ class ConfigurationControlsWidget : LinearLayout, OnConfigurationChangedListener
                 TabConfig(R.drawable.ic_paint, ColorSelectionView(context)),
                 TabConfig(R.drawable.ic_shapes, ShapeSelectionView(context)),
                 TabConfig(R.drawable.ic_speed, MultiSeekbarSelectionView(context, "Speed", 1, 10, 1, 10)),
-                TabConfig(R.drawable.ic_time_to_live, SeekbarSelectionView(context, configuration.active,  "Time to live", 500, 5000, 1000)))
+                TabConfig(R.drawable.ic_time_to_live, SeekbarSelectionView(context, configuration,  "Time to live", 5000)))
     }
 
 }

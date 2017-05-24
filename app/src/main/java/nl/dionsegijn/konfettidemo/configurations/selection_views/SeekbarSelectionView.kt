@@ -6,26 +6,33 @@ import android.widget.LinearLayout
 import android.widget.SeekBar
 import kotlinx.android.synthetic.main.view_section_seekbar_selection.view.*
 import nl.dionsegijn.konfettidemo.R
+import nl.dionsegijn.konfettidemo.configurations.Configurations
 import nl.dionsegijn.konfettidemo.configurations.settings.Configuration
+import nl.dionsegijn.konfettidemo.interfaces.UpdateConfiguration
 
 /**
  * Created by dionsegijn on 5/21/17.
  */
-class SeekbarSelectionView(context: Context?, configuration: Configuration, title: String, min: Int, max: Int, startValue: Int) : LinearLayout(context) {
+class SeekbarSelectionView(context: Context?,
+                           configuration: Configurations,
+                           title: String,
+                           max: Int) : LinearLayout(context), UpdateConfiguration {
 
     init {
         inflate(context, R.layout.view_section_seekbar_selection, this)
         orientation = VERTICAL
         gravity = Gravity.CENTER
 
-        viewSeekbar.max = max - min
+        viewSeekbar.max = max
+
+        val startValue = configuration.active.timeToLive.toInt()
         viewSeekbar.progress = startValue
         viewSeekbarTitle.text = "$title ($startValue)"
+        
         viewSeekbar.setOnSeekBarChangeListener(object : SeekBar.OnSeekBarChangeListener {
             override fun onProgressChanged(seekBar: SeekBar?, progress: Int, fromUser: Boolean) {
-                val value = progress + min
-                viewSeekbarTitle.text = "$title ($value)"
-                configuration.timeToLive = value.toLong()
+                viewSeekbarTitle.text = "$title ($progress)"
+                configuration.active.timeToLive = progress.toLong()
             }
 
             override fun onStartTrackingTouch(seekBar: SeekBar?) {}
@@ -34,6 +41,10 @@ class SeekbarSelectionView(context: Context?, configuration: Configuration, titl
 
         })
 
+    }
+
+    override fun onUpdateConfiguration(configuration: Configuration) {
+        viewSeekbar.progress = configuration.timeToLive.toInt()
     }
 
 }

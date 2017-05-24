@@ -5,6 +5,8 @@ import android.view.Gravity
 import android.widget.LinearLayout
 import kotlinx.android.synthetic.main.view_section_multi_seekbar_selection.view.*
 import nl.dionsegijn.konfettidemo.R
+import nl.dionsegijn.konfettidemo.configurations.settings.Configuration
+import nl.dionsegijn.konfettidemo.interfaces.UpdateConfiguration
 
 /**
  * Created by dionsegijn on 5/21/17.
@@ -14,7 +16,7 @@ class MultiSeekbarSelectionView(context: Context?,
                                 min: Int,
                                 max: Int,
                                 minStartValue: Int,
-                                maxStartValue: Int) : LinearLayout(context) {
+                                maxStartValue: Int) : LinearLayout(context), UpdateConfiguration {
 
     init {
         inflate(context, R.layout.view_section_multi_seekbar_selection, this)
@@ -35,6 +37,9 @@ class MultiSeekbarSelectionView(context: Context?,
 
     fun createString(title: String, value1: Int, value2: Int): String {
         return "$title ($value1, $value2)"
+    }
+
+    override fun onUpdateConfiguration(configuration: Configuration) {
     }
 
 }

@@ -4,16 +4,21 @@ import android.content.Context
 import android.view.Gravity
 import android.widget.LinearLayout
 import nl.dionsegijn.konfettidemo.R
+import nl.dionsegijn.konfettidemo.configurations.settings.Configuration
+import nl.dionsegijn.konfettidemo.interfaces.UpdateConfiguration
 
 /**
  * Created by dionsegijn on 5/21/17.
  */
-class ShapeSelectionView(context: Context?) : LinearLayout(context) {
+class ShapeSelectionView(context: Context?) : LinearLayout(context), UpdateConfiguration {
 
     init {
         inflate(context, R.layout.view_section_shape_selection, this)
         orientation = VERTICAL
         gravity = Gravity.CENTER_HORIZONTAL
+    }
+
+    override fun onUpdateConfiguration(configuration: Configuration) {
     }
 
 }

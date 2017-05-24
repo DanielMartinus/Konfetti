@@ -9,13 +9,15 @@ import android.view.Gravity
 import android.widget.Button
 import android.widget.LinearLayout
 import nl.dionsegijn.konfettidemo.R
-
+import nl.dionsegijn.konfettidemo.configurations.settings.Configuration
+import nl.dionsegijn.konfettidemo.interfaces.UpdateConfiguration
 
 
 /**
  * Created by dionsegijn on 5/21/17.
  */
-class ColorSelectionView(context: Context?) : LinearLayout(context) {
+class ColorSelectionView(context: Context?) : LinearLayout(context), UpdateConfiguration {
+
 
     init {
         inflate(context, R.layout.view_section_color_selection, this)
@@ -51,5 +53,8 @@ class ColorSelectionView(context: Context?) : LinearLayout(context) {
 
     private fun pxFromDp(dp: Float): Float {
         return dp * resources.displayMetrics.density
+    }
+
+    override fun onUpdateConfiguration(configuration: Configuration) {
     }
 }

@@ -9,7 +9,9 @@ import android.view.Gravity
 import android.widget.LinearLayout
 import nl.dionsegijn.konfettidemo.R
 import nl.dionsegijn.konfettidemo.configurations.Configurations
+import nl.dionsegijn.konfettidemo.configurations.settings.Configuration
 import nl.dionsegijn.konfettidemo.interfaces.OnConfigurationChangedListener
+import nl.dionsegijn.konfettidemo.interfaces.UpdateConfiguration
 
 
 /**
@@ -17,11 +19,11 @@ import nl.dionsegijn.konfettidemo.interfaces.OnConfigurationChangedListener
  */
 class ConfigTypeSelectionView(context: Context?,
                               val onConfigurationChangedListener: OnConfigurationChangedListener,
-                              val configs: Configurations) : LinearLayout(context) {
+                              val configs: Configurations) : LinearLayout(context), UpdateConfiguration {
 
     lateinit var selectedButton: AppCompatButton
     val selectedColor: Int = 0xffffce08.toInt()
-    val defaultColor: Int = 0xffffffff.toInt()
+    val defaultColor: Int = 0xfff1f1f1.toInt()
 
     init {
         inflate(context, R.layout.view_section_config_selection, this)
@@ -64,6 +66,9 @@ class ConfigTypeSelectionView(context: Context?,
     fun setColorForButton(button: AppCompatButton, @ColorInt color: Int) {
         val colorStateList = ColorStateList(arrayOf(IntArray(0)), intArrayOf(color))
         button.supportBackgroundTintList = colorStateList
+    }
+
+    override fun onUpdateConfiguration(configuration: Configuration) {
     }
 
 }
