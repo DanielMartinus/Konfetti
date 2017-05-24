@@ -2,13 +2,14 @@ package nl.dionsegijn.konfettidemo.configurations.selection_views
 
 import android.content.Context
 import android.content.res.ColorStateList
+import android.graphics.Color
 import android.os.Build
 import android.support.annotation.ColorInt
 import android.support.v7.widget.AppCompatButton
 import android.view.Gravity
 import android.widget.LinearLayout
 import nl.dionsegijn.konfettidemo.R
-import nl.dionsegijn.konfettidemo.configurations.Configurations
+import nl.dionsegijn.konfettidemo.configurations.settings.ConfigurationManager
 import nl.dionsegijn.konfettidemo.configurations.settings.Configuration
 import nl.dionsegijn.konfettidemo.interfaces.OnConfigurationChangedListener
 import nl.dionsegijn.konfettidemo.interfaces.UpdateConfiguration
@@ -19,7 +20,7 @@ import nl.dionsegijn.konfettidemo.interfaces.UpdateConfiguration
  */
 class ConfigTypeSelectionView(context: Context?,
                               val onConfigurationChangedListener: OnConfigurationChangedListener,
-                              val configs: Configurations) : LinearLayout(context), UpdateConfiguration {
+                              val configs: ConfigurationManager) : LinearLayout(context), UpdateConfiguration {
 
     lateinit var selectedButton: AppCompatButton
     val selectedColor: Int = 0xffffce08.toInt()
@@ -50,6 +51,7 @@ class ConfigTypeSelectionView(context: Context?,
             setColorForButton(button, color)
 
             button.text = config.title
+            button.setTextColor(Color.DKGRAY)
             button.setOnClickListener { v ->
                 onConfigurationChangedListener.onConfigurationChanged(config)
                 // Set previous selected button to default

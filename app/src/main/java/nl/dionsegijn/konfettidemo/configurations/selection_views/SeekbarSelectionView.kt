@@ -6,7 +6,7 @@ import android.widget.LinearLayout
 import android.widget.SeekBar
 import kotlinx.android.synthetic.main.view_section_seekbar_selection.view.*
 import nl.dionsegijn.konfettidemo.R
-import nl.dionsegijn.konfettidemo.configurations.Configurations
+import nl.dionsegijn.konfettidemo.configurations.settings.ConfigurationManager
 import nl.dionsegijn.konfettidemo.configurations.settings.Configuration
 import nl.dionsegijn.konfettidemo.interfaces.UpdateConfiguration
 
@@ -14,7 +14,7 @@ import nl.dionsegijn.konfettidemo.interfaces.UpdateConfiguration
  * Created by dionsegijn on 5/21/17.
  */
 class SeekbarSelectionView(context: Context?,
-                           configuration: Configurations,
+                           configuration: ConfigurationManager,
                            title: String,
                            max: Int) : LinearLayout(context), UpdateConfiguration {
 

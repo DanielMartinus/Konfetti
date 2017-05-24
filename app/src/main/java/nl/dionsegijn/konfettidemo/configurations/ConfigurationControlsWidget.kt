@@ -10,6 +10,7 @@ import kotlinx.android.synthetic.main.bottomsheet_config_controls.view.*
 import nl.dionsegijn.konfettidemo.R
 import nl.dionsegijn.konfettidemo.configurations.selection_views.*
 import nl.dionsegijn.konfettidemo.configurations.settings.Configuration
+import nl.dionsegijn.konfettidemo.configurations.settings.ConfigurationManager
 import nl.dionsegijn.konfettidemo.configurations.viewpager.ConfigPagerAdapter
 import nl.dionsegijn.konfettidemo.configurations.viewpager.TabConfig
 import nl.dionsegijn.konfettidemo.interfaces.OnConfigurationChangedListener
@@ -20,7 +21,7 @@ import nl.dionsegijn.konfettidemo.interfaces.UpdateConfiguration
  */
 class ConfigurationControlsWidget : LinearLayout, OnConfigurationChangedListener {
 
-    val configuration = Configurations()
+    val configuration = ConfigurationManager()
 
     constructor(context: Context?) : super(context)
     constructor(context: Context?, attrs: AttributeSet?) : super(context, attrs)
