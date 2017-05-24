@@ -1,5 +1,6 @@
 package nl.dionsegijn.konfettidemo.configurations.selection_views
 
+import android.annotation.SuppressLint
 import android.content.Context
 import android.graphics.Color
 import android.graphics.drawable.GradientDrawable
@@ -19,7 +20,11 @@ import nl.dionsegijn.konfettidemo.interfaces.UpdateConfiguration
 
 /**
  * Created by dionsegijn on 5/21/17.
+ * Simple widget view showing two rows with 4 colors
+ * Call any configuration change when a color is selected and update its shape to reflect the
+ * state of the view
  */
+@SuppressLint("ViewConstructor")
 class ColorSelectionView(context: Context?,
                          val onConfigurationChangedListener: OnConfigurationChangedListener,
                          val configurationManager: ConfigurationManager) : LinearLayout(context), UpdateConfiguration {

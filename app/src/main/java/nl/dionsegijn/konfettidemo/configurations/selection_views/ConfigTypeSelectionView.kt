@@ -1,5 +1,6 @@
 package nl.dionsegijn.konfettidemo.configurations.selection_views
 
+import android.annotation.SuppressLint
 import android.content.Context
 import android.content.res.ColorStateList
 import android.graphics.Color
@@ -9,15 +10,17 @@ import android.support.v7.widget.AppCompatButton
 import android.view.Gravity
 import android.widget.LinearLayout
 import nl.dionsegijn.konfettidemo.R
-import nl.dionsegijn.konfettidemo.configurations.settings.ConfigurationManager
 import nl.dionsegijn.konfettidemo.configurations.settings.Configuration
+import nl.dionsegijn.konfettidemo.configurations.settings.ConfigurationManager
 import nl.dionsegijn.konfettidemo.interfaces.OnConfigurationChangedListener
 import nl.dionsegijn.konfettidemo.interfaces.UpdateConfiguration
+
 
 
 /**
  * Created by dionsegijn on 5/21/17.
  */
+@SuppressLint("ViewConstructor")
 class ConfigTypeSelectionView(context: Context?,
                               val onConfigurationChangedListener: OnConfigurationChangedListener,
                               val configs: ConfigurationManager) : LinearLayout(context), UpdateConfiguration {
@@ -70,7 +73,6 @@ class ConfigTypeSelectionView(context: Context?,
         button.supportBackgroundTintList = colorStateList
     }
 
-    override fun onUpdateConfiguration(configuration: Configuration) {
-    }
+    override fun onUpdateConfiguration(configuration: Configuration) {}
 
 }
