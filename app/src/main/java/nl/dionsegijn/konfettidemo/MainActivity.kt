@@ -7,7 +7,6 @@ import android.support.v4.content.ContextCompat
 import android.support.v7.app.AppCompatActivity
 import android.view.View
 import kotlinx.android.synthetic.main.activity_main.*
-import nl.dionsegijn.konfetti.models.Shape
 import nl.dionsegijn.konfetti.models.Size
 import nl.dionsegijn.konfettidemo.interfaces.OnSimpleTabSelectedListener
 
@@ -63,7 +62,7 @@ class MainActivity : AppCompatActivity() {
                 .setSpeed(1f, 5f)
                 .setFadeOutEnabled(true)
                 .setTimeToLive(config.timeToLive)
-                .addShapes(Shape.RECT, Shape.CIRCLE)
+                .addShapes(*config.shapes)
                 .addSizes(Size.SMALL)
                 .setPosition(-50f, viewKonfetti.width + 50f, -50f, -50f) // TODO doesn't change, always the
                 .stream(300, 5000L)
