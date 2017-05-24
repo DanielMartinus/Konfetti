@@ -55,10 +55,10 @@ class MainActivity : AppCompatActivity() {
     }
 
     fun startConfetti() {
-        val colors = intArrayOf(color(R.color.lt_yellow), color(R.color.lt_orange), color(R.color.lt_purple), color(R.color.lt_pink))
         val config = viewConfigurationControls.configuration.active
+        val selectedColors = config.colors.map { color(it) }.toIntArray()
         viewKonfetti.build()
-                .addColors(*colors)
+                .addColors(*selectedColors)
                 .setDirection(0.0, 359.0)
                 .setSpeed(1f, 5f)
                 .setFadeOutEnabled(true)
