@@ -14,7 +14,6 @@ import kotlinx.android.synthetic.main.view_section_color_selection.view.*
 import nl.dionsegijn.konfettidemo.R
 import nl.dionsegijn.konfettidemo.configurations.settings.Configuration
 import nl.dionsegijn.konfettidemo.configurations.settings.ConfigurationManager
-import nl.dionsegijn.konfettidemo.interfaces.OnConfigurationChangedListener
 import nl.dionsegijn.konfettidemo.interfaces.UpdateConfiguration
 
 
@@ -26,7 +25,6 @@ import nl.dionsegijn.konfettidemo.interfaces.UpdateConfiguration
  */
 @SuppressLint("ViewConstructor")
 class ColorSelectionView(context: Context?,
-                         val onConfigurationChangedListener: OnConfigurationChangedListener,
                          val configurationManager: ConfigurationManager) : LinearLayout(context), UpdateConfiguration {
 
     val availableColors = listOf(R.color.lt_yellow, R.color.lt_orange, R.color.lt_purple,

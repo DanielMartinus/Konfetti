@@ -64,7 +64,7 @@ class ConfigurationControlsWidget : LinearLayout, OnConfigurationChangedListener
     fun getTabs(): Array<TabConfig> {
         return arrayOf(
                 TabConfig(R.drawable.ic_settings, ConfigTypeSelectionView(context, this, configuration)),
-                TabConfig(R.drawable.ic_paint, ColorSelectionView(context, this, configuration)),
+                TabConfig(R.drawable.ic_paint, ColorSelectionView(context, configuration)),
                 TabConfig(R.drawable.ic_shapes, ShapeSelectionView(context)),
                 TabConfig(R.drawable.ic_speed, MultiSeekbarSelectionView(context, "Speed", 1, 10, 1, 10)),
                 TabConfig(R.drawable.ic_time_to_live, SeekbarSelectionView(context, configuration,  "Time to live", 5000)))
