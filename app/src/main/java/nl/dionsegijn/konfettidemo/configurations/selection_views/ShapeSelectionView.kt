@@ -2,8 +2,11 @@ package nl.dionsegijn.konfettidemo.configurations.selection_views
 
 import android.content.Context
 import android.content.res.ColorStateList
+import android.graphics.PorterDuff
 import android.os.Build
-import android.support.v7.widget.AppCompatButton
+import android.support.annotation.DrawableRes
+import android.support.v4.content.ContextCompat
+import android.support.v7.widget.AppCompatImageButton
 import android.view.Gravity
 import android.widget.LinearLayout
 import android.widget.Toast
@@ -19,8 +22,13 @@ import nl.dionsegijn.konfettidemo.interfaces.UpdateConfiguration
 class ShapeSelectionView(context: Context?,
                          val configurationManager: ConfigurationManager) : LinearLayout(context), UpdateConfiguration {
 
-    val selectedColor: Int = 0xffffce08.toInt()
-    val defaultColor: Int = 0xfff1f1f1.toInt()
+    val buttonWidth = pxFromDp(100f).toInt()
+    val buttonHeight = pxFromDp(60f).toInt()
+    val margin = pxFromDp(8f).toInt()
+
+    private fun pxFromDp(dp: Float): Float {
+        return dp * resources.displayMetrics.density
+    }
 
     val availableShapes = arrayOf(Shape.CIRCLE, Shape.RECT)
 
@@ -33,13 +41,21 @@ class ShapeSelectionView(context: Context?,
 
     fun displayShapeConfigOptions(selectedShapes: Array<Shape>) {
         availableShapes.forEach { shape ->
-            val button = AppCompatButton(context)
+            val button = AppCompatImageButton(context)
 
             if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
                 button.elevation = 6f
             }
 
-            setButtonState(button, selectedShapes.contains(shape))
+            val drawable = if(shape == Shape.RECT) R.drawable.ic_rectangle else R.drawable.ic_circle
+
+            /** Set width, height and margins of the button */
+            val params = LinearLayout.LayoutParams(buttonWidth, buttonHeight)
+            params.setMargins(margin, margin, margin, margin)
+            params.gravity = Gravity.CENTER
+            button.layoutParams = params
+
+            setButtonState(button, selectedShapes.contains(shape), drawable)
             button.setOnClickListener { v ->
                 val tempList = configurationManager.active.shapes.toMutableList()
                 val isNotSelected = !tempList.contains(shape)
@@ -53,7 +69,7 @@ class ShapeSelectionView(context: Context?,
                         return@setOnClickListener
                     }
                 }
-                setButtonState(v as AppCompatButton, isNotSelected)
+                setButtonState(v as AppCompatImageButton, isNotSelected, drawable)
                 configurationManager.active.shapes = tempList.toTypedArray()
             }
 
@@ -61,13 +77,20 @@ class ShapeSelectionView(context: Context?,
         }
     }
 
-    fun setButtonState(button: AppCompatButton, isSelected: Boolean) {
-        val color = if(isSelected) selectedColor else defaultColor
-        val colorStateList = ColorStateList(arrayOf(IntArray(0)), intArrayOf(color))
+    fun setButtonState(button: AppCompatImageButton, isSelected: Boolean, @DrawableRes resDrawable: Int) {
+        val foregroundColor = if(isSelected) 0xfff1f1f1.toInt() else 0xffacacac.toInt()
+        val backgroundColor = if(isSelected) 0xffffce08.toInt() else 0xfff1f1f1.toInt()
+        val colorStateList = ColorStateList(arrayOf(IntArray(0)), intArrayOf(backgroundColor))
         button.supportBackgroundTintList = colorStateList
+
+        val drawable = ContextCompat.getDrawable(context, resDrawable)
+        drawable.setColorFilter(foregroundColor, PorterDuff.Mode.SRC_IN)
+        button.setImageDrawable(drawable)
     }
 
     override fun onUpdateConfiguration(configuration: Configuration) {
+        removeAllViews()
+        displayShapeConfigOptions(configuration.shapes)
     }
 
 }
