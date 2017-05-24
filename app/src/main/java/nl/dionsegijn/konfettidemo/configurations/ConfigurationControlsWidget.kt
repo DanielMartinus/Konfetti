@@ -30,6 +30,7 @@ class ConfigurationControlsWidget : LinearLayout, OnConfigurationChangedListener
     init {
         inflate(context, R.layout.bottomsheet_config_controls, this)
         orientation = VERTICAL
+        isClickable = true
 
         viewPager.adapter = ConfigPagerAdapter(getTabs())
         viewPager.offscreenPageLimit = getTabs().size
