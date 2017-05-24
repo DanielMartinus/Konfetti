@@ -29,15 +29,20 @@ class ColorSelectionView(context: Context?,
 
     val availableColors = listOf(R.color.lt_yellow, R.color.lt_orange, R.color.lt_purple,
             R.color.lt_pink, R.color.dk_blue, R.color.dk_cyan, R.color.dk_green, R.color.dk_red)
-    var selectedColors: MutableList<Int> = mutableListOf()
+    val buttonWidth = pxFromDp(40f).toInt()
+    val buttonHeight = pxFromDp(25f).toInt()
+    val buttonMargin = pxFromDp(12f).toInt()
 
     init {
         inflate(context, R.layout.view_section_color_selection, this)
         orientation = VERTICAL
-        gravity = Gravity.CENTER_HORIZONTAL
+        gravity = Gravity.CENTER
+        updateRows(configurationManager.active)
+    }
 
-        addColorsToViewGroup(colorRow1, availableColors.take(4).toIntArray(), configurationManager.active.colors)
-        addColorsToViewGroup(colorRow2, availableColors.takeLast(4).toIntArray(), configurationManager.active.colors)
+    fun updateRows(configuration: Configuration) {
+        addColorsToViewGroup(colorRow1, availableColors.take(4).toIntArray(), configuration.colors)
+        addColorsToViewGroup(colorRow2, availableColors.takeLast(4).toIntArray(), configuration.colors)
     }
 
     fun addColorsToViewGroup(viewGroup: LinearLayout, colors: IntArray, initSelectedColors: IntArray) {
@@ -48,16 +53,24 @@ class ColorSelectionView(context: Context?,
                 view.elevation = 6f
             }
 
-            val params = LinearLayout.LayoutParams(pxFromDp(40f).toInt(), pxFromDp(25f).toInt())
-            val margin = pxFromDp(12f).toInt()
-            params.setMargins(margin, pxFromDp(24f).toInt(), margin, margin)
+            /** Set width, height and margins of the button */
+            val params = LinearLayout.LayoutParams(buttonWidth, buttonHeight)
+            val margin = buttonMargin
+            params.setMargins(margin, margin, margin, margin)
             view.layoutParams = params
 
+            /** Create GradientDrawable reflecting the state of the button */
             setStateButton(view, color, initSelectedColors.contains(color))
 
             view.setOnClickListener { v ->
-                setStateButton(v, color, !selectedColors.contains(color))
-                configurationManager.active.colors = selectedColors.toIntArray()
+                // Reverse isSelected for opposite behavior
+                val isNotSelected = !configurationManager.active.colors.contains(color)
+                setStateButton(v, color, isNotSelected)
+
+                // Create mutable list in order to manipulate items and set new color list
+                val tempColors = configurationManager.active.colors.toMutableList()
+                if(isNotSelected) tempColors.add(color) else tempColors.remove(color)
+                configurationManager.active.colors = tempColors.toIntArray()
             }
 
             viewGroup.addView(view)
@@ -68,13 +81,7 @@ class ColorSelectionView(context: Context?,
         val shape = GradientDrawable()
         shape.shape = GradientDrawable.RECTANGLE
         shape.setColor(ContextCompat.getColor(context, color))
-        if(selected) {
-            shape.setStroke(4, 0xFF27D232.toInt())
-            selectedColors.add(color)
-        } else {
-            shape.setStroke(4, Color.WHITE)
-            selectedColors.remove(color)
-        }
+        shape.setStroke(4, if(selected) 0xFF27D232.toInt() else Color.WHITE)
         shape.cornerRadius = 6f
         view.background = shape
     }
@@ -86,7 +93,6 @@ class ColorSelectionView(context: Context?,
     override fun onUpdateConfiguration(configuration: Configuration) {
         colorRow1.removeAllViews()
         colorRow2.removeAllViews()
-        addColorsToViewGroup(colorRow1, availableColors.take(4).toIntArray(), configuration.colors)
-        addColorsToViewGroup(colorRow2, availableColors.takeLast(4).toIntArray(), configuration.colors)
+        updateRows(configuration)
     }
 }
