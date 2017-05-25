@@ -1,6 +1,8 @@
 package nl.dionsegijn.konfettidemo
 
 import android.animation.Animator
+import android.animation.AnimatorListenerAdapter
+import android.animation.ValueAnimator
 import android.os.Bundle
 import android.support.design.widget.BottomSheetBehavior
 import android.support.design.widget.TabLayout
@@ -15,7 +17,8 @@ import nl.dionsegijn.konfetti.models.Size
 import nl.dionsegijn.konfettidemo.configurations.settings.Configuration
 import nl.dionsegijn.konfettidemo.interfaces.OnConfigurationChangedListener
 import nl.dionsegijn.konfettidemo.interfaces.OnSimpleTabSelectedListener
-import nl.dionsegijn.konfettidemo.interfaces.SimpleAnimatorListener
+
+
 
 /**
  * Created by dionsegijn on 3/25/17.
@@ -144,12 +147,22 @@ class MainActivity : AppCompatActivity(), OnConfigurationChangedListener {
     }
 
     override fun onConfigurationChanged(selected: Configuration) {
-        textViewInstructions.animate().alpha(0f).setDuration(300L).setListener(object : SimpleAnimatorListener() {
+        val valueAnimator = ValueAnimator.ofFloat(1f, 0f)
+        valueAnimator.duration = 300
+        valueAnimator.addUpdateListener { animator ->
+            val alpha: Float = animator.animatedValue as Float
+            textViewInstructions.alpha = alpha
+            viewIllustration.alpha = alpha
+        }
+        valueAnimator.addListener(object: AnimatorListenerAdapter() {
             override fun onAnimationEnd(animation: Animator?) {
                 textViewInstructions.setText(selected.instructions)
-                textViewInstructions.animate().alpha(1f).setDuration(300L).setListener(null)
+                viewIllustration.setImageDrawable(ContextCompat.getDrawable(applicationContext, selected.vector))
+                textViewInstructions.animate().alpha(1f).duration = 300
+                viewIllustration.animate().alpha(1f).duration = 300
             }
         })
+        valueAnimator.start()
     }
 
 }

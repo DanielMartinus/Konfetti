@@ -2,7 +2,7 @@
     <string name="app_name">Confetti Attempt</string>
 
     <!-- Instructions -->
-    <string name="stream_from_top_instructions">Tap here</string>
-    <string name="drag_and_shoot_app_name_instructions">Drag your finger from within the circle to the outside</string>
-    <string name="burst_from_center_instructions">Tap here</string>
+    <string name="stream_from_top_instructions">Tap to </string>
+    <string name="drag_and_shoot_app_name_instructions">Drag and shoot to </string>
+    <string name="burst_from_center_instructions">Tap and it will </string>
 </resources>

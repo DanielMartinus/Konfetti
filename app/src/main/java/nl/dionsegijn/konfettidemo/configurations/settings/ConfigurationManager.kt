@@ -9,9 +9,9 @@ class ConfigurationManager {
 
     var active: Configuration
     var configurations: List<Configuration> = listOf(
-            Configuration(Configuration.TYPE_STREAM_FROM_TOP, "Top", R.string.stream_from_top_instructions),
-            Configuration(Configuration.TYPE_DRAG_AND_SHOOT, "Drag 'n Shoot", R.string.drag_and_shoot_app_name_instructions),
-            Configuration(Configuration.TYPE_BURST_FROM_CENTER, "Burst", R.string.burst_from_center_instructions)
+            Configuration(Configuration.TYPE_STREAM_FROM_TOP, "Top", R.string.stream_from_top_instructions, R.drawable.ic_confetti_ball),
+            Configuration(Configuration.TYPE_DRAG_AND_SHOOT, "Drag 'n Shoot", R.string.drag_and_shoot_app_name_instructions, R.drawable.ic_celebration),
+            Configuration(Configuration.TYPE_BURST_FROM_CENTER, "Burst", R.string.burst_from_center_instructions, R.drawable.ic_fireworks)
     )
 
     init {
