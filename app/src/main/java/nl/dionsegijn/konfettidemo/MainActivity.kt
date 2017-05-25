@@ -1,5 +1,6 @@
 package nl.dionsegijn.konfettidemo
 
+import android.animation.Animator
 import android.os.Bundle
 import android.support.design.widget.BottomSheetBehavior
 import android.support.design.widget.TabLayout
@@ -8,12 +9,15 @@ import android.support.v7.app.AppCompatActivity
 import android.view.View
 import kotlinx.android.synthetic.main.activity_main.*
 import nl.dionsegijn.konfetti.models.Size
+import nl.dionsegijn.konfettidemo.configurations.settings.Configuration
+import nl.dionsegijn.konfettidemo.interfaces.OnConfigurationChangedListener
 import nl.dionsegijn.konfettidemo.interfaces.OnSimpleTabSelectedListener
+import nl.dionsegijn.konfettidemo.interfaces.SimpleAnimatorListener
 
 /**
  * Created by dionsegijn on 3/25/17.
  */
-class MainActivity : AppCompatActivity() {
+class MainActivity : AppCompatActivity(), OnConfigurationChangedListener {
 
     lateinit var bottomSheetBehavior: BottomSheetBehavior<View>
 
@@ -22,6 +26,7 @@ class MainActivity : AppCompatActivity() {
         setContentView(R.layout.activity_main)
 
         setupTabSelectionBottomSheetBehavior()
+        viewConfigurationControls.setOnConfigurationChangedListener(this)
         bottomSheetBehavior = BottomSheetBehavior.from(viewConfigurationControls)
 
         viewKonfetti.setOnClickListener {
@@ -72,5 +77,12 @@ class MainActivity : AppCompatActivity() {
         return ContextCompat.getColor(applicationContext, resId)
     }
 
-
+    override fun onConfigurationChanged(selected: Configuration) {
+        textViewInstructions.animate().alpha(0f).setDuration(300L).setListener(object : SimpleAnimatorListener() {
+            override fun onAnimationEnd(animation: Animator?) {
+                textViewInstructions.setText(selected.instructions)
+                textViewInstructions.animate().alpha(1f).setDuration(300L).setListener(null)
+            }
+        })
+    }
 }

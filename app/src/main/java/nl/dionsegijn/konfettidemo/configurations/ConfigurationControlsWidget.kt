@@ -22,6 +22,7 @@ import nl.dionsegijn.konfettidemo.interfaces.UpdateConfiguration
 class ConfigurationControlsWidget : LinearLayout, OnConfigurationChangedListener {
 
     val configuration = ConfigurationManager()
+    var onConfigurationChanged: OnConfigurationChangedListener? = null
 
     constructor(context: Context?) : super(context)
     constructor(context: Context?, attrs: AttributeSet?) : super(context, attrs)
@@ -45,6 +46,10 @@ class ConfigurationControlsWidget : LinearLayout, OnConfigurationChangedListener
         }
     }
 
+    fun setOnConfigurationChangedListener(listener: OnConfigurationChangedListener) {
+        this.onConfigurationChanged = listener
+    }
+
     override fun onConfigurationChanged(selected: Configuration) {
         configuration.active = selected
         val childCount = viewPager.childCount
@@ -54,6 +59,7 @@ class ConfigurationControlsWidget : LinearLayout, OnConfigurationChangedListener
                 .forEach {
                     it.onUpdateConfiguration(selected)
                 }
+        onConfigurationChanged?.onConfigurationChanged(selected)
     }
 
     fun setOnTabSelectedListener(onTabSelectedListener: TabLayout.OnTabSelectedListener) {

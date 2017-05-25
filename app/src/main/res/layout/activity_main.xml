@@ -8,6 +8,18 @@
     android:background="#fefefe"
     android:fitsSystemWindows="true">
 
+    <LinearLayout
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_gravity="center">
+
+        <TextView android:id="@+id/textViewInstructions"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Tap to start the party!"/>
+
+    </LinearLayout>
+
     <nl.dionsegijn.konfetti.KonfettiView
         android:id="@+id/viewKonfetti"
         android:layout_width="match_parent"
