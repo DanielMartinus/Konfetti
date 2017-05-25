@@ -48,12 +48,13 @@ class MainActivity : AppCompatActivity(), OnConfigurationChangedListener {
             }
 
             override fun onTabReselected(tab: TabLayout.Tab?) {
-                bottomSheetBehavior.state =
-                        if (bottomSheetBehavior.state == BottomSheetBehavior.STATE_COLLAPSED) {
-                            BottomSheetBehavior.STATE_EXPANDED
-                        } else {
-                            BottomSheetBehavior.STATE_COLLAPSED
-                        }
+                val state: Int
+                if (bottomSheetBehavior.state == BottomSheetBehavior.STATE_COLLAPSED) {
+                    state = BottomSheetBehavior.STATE_EXPANDED
+                } else {
+                    state = BottomSheetBehavior.STATE_COLLAPSED
+                }
+                bottomSheetBehavior.state = state
             }
         })
     }
@@ -63,8 +64,7 @@ class MainActivity : AppCompatActivity(), OnConfigurationChangedListener {
         val selectedColors = config.colors.map { color(it) }.toIntArray()
         when (config.type) {
             Configuration.TYPE_STREAM_FROM_TOP -> streamFromTop(config, selectedColors)
-            Configuration.TYPE_DRAG_AND_SHOOT -> { }
-            Configuration.TYPE_BURST_FROM_CENTER -> { burstFromCenter(config, selectedColors) }
+            Configuration.TYPE_BURST_FROM_CENTER -> burstFromCenter(config, selectedColors)
         }
     }
 
