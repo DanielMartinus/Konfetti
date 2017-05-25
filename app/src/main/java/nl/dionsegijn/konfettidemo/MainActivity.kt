@@ -8,7 +8,6 @@ import android.support.design.widget.BottomSheetBehavior
 import android.support.design.widget.TabLayout
 import android.support.v4.content.ContextCompat
 import android.support.v7.app.AppCompatActivity
-import android.util.Log
 import android.view.MotionEvent
 import android.view.View
 import kotlinx.android.synthetic.main.activity_main.*
@@ -75,6 +74,7 @@ class MainActivity : AppCompatActivity(), OnConfigurationChangedListener {
     }
 
     fun streamFromTop(config: Configuration, colors: IntArray) {
+        if(!canIHaveMoreConfetti()) return
         viewKonfetti.build()
                 .addColors(*colors)
                 .setDirection(0.0, 359.0)
@@ -88,6 +88,7 @@ class MainActivity : AppCompatActivity(), OnConfigurationChangedListener {
     }
 
     fun burstFromCenter(config: Configuration, colors: IntArray) {
+        if(!canIHaveMoreConfetti()) return
         viewKonfetti.build()
                 .addColors(*colors)
                 .setDirection(0.0, 359.0)
@@ -123,8 +124,7 @@ class MainActivity : AppCompatActivity(), OnConfigurationChangedListener {
                     if(speed > 10) speed = 0
                 }
                 MotionEvent.ACTION_UP -> {
-                    Log.e("Konfetti", "speed $speed")
-                    if(!modeEnabled) return@setOnTouchListener false
+                    if(!modeEnabled || !canIHaveMoreConfetti()) return@setOnTouchListener false
                     val colors = viewConfigurationControls.configuration.active.colors.map { color(it) }.toIntArray()
                     viewKonfetti.build()
                             .addColors(*colors)
@@ -163,6 +163,18 @@ class MainActivity : AppCompatActivity(), OnConfigurationChangedListener {
             }
         })
         valueAnimator.start()
+    }
+
+    /**
+     * Check if more confetti is allowed right now.
+     * The system has its limitations and as long as there is no shared object poul yet
+     * there is no nice way of limiting the resources foreach particle system.
+     */
+    fun canIHaveMoreConfetti(): Boolean {
+        if(viewKonfetti.systems.size <= 4) {
+            return true
+        }
+        return false
     }
 
 }
