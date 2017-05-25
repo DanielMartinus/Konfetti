@@ -9,7 +9,7 @@ class ConfigurationManager {
     var configurations: List<Configuration> = listOf(
             Configuration("Top"),
             Configuration("Drag 'n Shoot"),
-            Configuration("Stream")
+            Configuration("Burst")
     )
 
     init {
