@@ -59,7 +59,7 @@ class MainActivity : AppCompatActivity() {
         viewKonfetti.build()
                 .addColors(*selectedColors)
                 .setDirection(0.0, 359.0)
-                .setSpeed(1f, 5f)
+                .setSpeed(config.minSpeed, config.maxSpeed)
                 .setFadeOutEnabled(true)
                 .setTimeToLive(config.timeToLive)
                 .addShapes(*config.shapes)

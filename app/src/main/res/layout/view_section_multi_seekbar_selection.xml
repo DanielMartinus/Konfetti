@@ -18,7 +18,6 @@
         android:layout_marginLeft="8dp"
         android:layout_marginRight="8dp"
         app:thumbNumber="2"
-        app:stepsThumbsApart="5"
         app:drawThumbsApart="true" />
 
 </merge>

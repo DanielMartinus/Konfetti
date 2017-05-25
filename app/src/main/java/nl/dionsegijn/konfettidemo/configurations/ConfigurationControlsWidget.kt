@@ -66,8 +66,18 @@ class ConfigurationControlsWidget : LinearLayout, OnConfigurationChangedListener
                 TabConfig(R.drawable.ic_settings, ConfigTypeSelectionView(context, this, configuration)),
                 TabConfig(R.drawable.ic_paint, ColorSelectionView(context, configuration)),
                 TabConfig(R.drawable.ic_shapes, ShapeSelectionView(context, configuration)),
-                TabConfig(R.drawable.ic_speed, MultiSeekbarSelectionView(context, "Speed", 1, 10, 1, 10)),
+                TabConfig(R.drawable.ic_speed, MultiSeekbarSelectionView(context, configuration, "Speed", 1, 10, speedValuesChanged())),
                 TabConfig(R.drawable.ic_time_to_live, SeekbarSelectionView(context, configuration,  "Time to live", 5000)))
     }
+
+    fun speedValuesChanged() : MultiSeekbarSelectionView.OnMultiSeekBarValueChanged {
+        return object : MultiSeekbarSelectionView.OnMultiSeekBarValueChanged {
+            override fun onValueChanged(min: Float, max: Float) {
+                configuration.active.minSpeed = min
+                configuration.active.maxSpeed = max
+            }
+        }
+    }
+
 
 }
