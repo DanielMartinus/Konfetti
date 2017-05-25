@@ -61,16 +61,37 @@ class MainActivity : AppCompatActivity(), OnConfigurationChangedListener {
     fun startConfetti() {
         val config = viewConfigurationControls.configuration.active
         val selectedColors = config.colors.map { color(it) }.toIntArray()
+        when (config.type) {
+            Configuration.TYPE_STREAM_FROM_TOP -> streamFromTop(config, selectedColors)
+            Configuration.TYPE_DRAG_AND_SHOOT -> { }
+            Configuration.TYPE_BURST_FROM_CENTER -> { burstFromCenter(config, selectedColors) }
+        }
+    }
+
+    fun streamFromTop(config: Configuration, colors: IntArray) {
         viewKonfetti.build()
-                .addColors(*selectedColors)
+                .addColors(*colors)
                 .setDirection(0.0, 359.0)
                 .setSpeed(config.minSpeed, config.maxSpeed)
                 .setFadeOutEnabled(true)
                 .setTimeToLive(config.timeToLive)
                 .addShapes(*config.shapes)
                 .addSizes(Size.SMALL)
-                .setPosition(-50f, viewKonfetti.width + 50f, -50f, -50f) // TODO doesn't change, always the
+                .setPosition(-50f, viewKonfetti.width + 50f, -50f, -50f)
                 .stream(300, 5000L)
+    }
+
+    fun burstFromCenter(config: Configuration, colors: IntArray) {
+        viewKonfetti.build()
+                .addColors(*colors)
+                .setDirection(0.0, 359.0)
+                .setSpeed(config.minSpeed, config.maxSpeed)
+                .setFadeOutEnabled(true)
+                .setTimeToLive(config.timeToLive)
+                .addShapes(*config.shapes)
+                .addSizes(Size.SMALL)
+                .setPosition(viewKonfetti.x + viewKonfetti.width / 2, viewKonfetti.y + viewKonfetti.height / 3)
+                .burst(100)
     }
 
     fun color(resId: Int): Int {

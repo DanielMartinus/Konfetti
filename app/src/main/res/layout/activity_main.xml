@@ -6,19 +6,15 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:background="#fefefe"
-    android:fitsSystemWindows="true">
+    android:fitsSystemWindows="true"
+    xmlns:tools="http://schemas.android.com/tools">
 
-    <LinearLayout
+    <TextView
+        android:id="@+id/textViewInstructions"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_gravity="center">
-
-        <TextView android:id="@+id/textViewInstructions"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="Tap to start the party!"/>
-
-    </LinearLayout>
+        android:layout_gravity="center"
+        tools:text="@string/stream_from_top_instructions" />
 
     <nl.dionsegijn.konfetti.KonfettiView
         android:id="@+id/viewKonfetti"

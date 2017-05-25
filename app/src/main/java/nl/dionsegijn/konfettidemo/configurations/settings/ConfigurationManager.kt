@@ -16,6 +16,10 @@ class ConfigurationManager {
 
     init {
         active = configurations[0]
+
+        /** Specific settings for TYPE_BURST_FROM_CENTER configuration */
+        configurations[2].maxSpeed = 8f
+        configurations[2].timeToLive = 4000L
     }
 
 }
