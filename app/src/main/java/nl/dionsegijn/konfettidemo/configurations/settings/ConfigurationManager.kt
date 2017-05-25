@@ -18,8 +18,11 @@ class ConfigurationManager {
         active = configurations[0]
 
         /** Specific settings for TYPE_BURST_FROM_CENTER configuration */
+        configurations[2].minSpeed = 1f
         configurations[2].maxSpeed = 8f
         configurations[2].timeToLive = 4000L
+        configurations[2].colors = intArrayOf(R.color.lt_yellow, R.color.lt_orange,
+                R.color.lt_pink, R.color.dk_cyan, R.color.dk_green)
     }
 
 }
