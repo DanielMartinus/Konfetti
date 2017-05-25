@@ -6,8 +6,7 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:background="#fefefe"
-    android:fitsSystemWindows="true"
-    xmlns:tools="http://schemas.android.com/tools">
+    android:fitsSystemWindows="true">
 
     <TextView
         android:id="@+id/textViewInstructions"

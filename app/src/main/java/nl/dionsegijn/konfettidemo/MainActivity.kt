@@ -6,8 +6,11 @@ import android.support.design.widget.BottomSheetBehavior
 import android.support.design.widget.TabLayout
 import android.support.v4.content.ContextCompat
 import android.support.v7.app.AppCompatActivity
+import android.util.Log
+import android.view.MotionEvent
 import android.view.View
 import kotlinx.android.synthetic.main.activity_main.*
+import nl.dionsegijn.konfetti.models.Shape
 import nl.dionsegijn.konfetti.models.Size
 import nl.dionsegijn.konfettidemo.configurations.settings.Configuration
 import nl.dionsegijn.konfettidemo.interfaces.OnConfigurationChangedListener
@@ -28,7 +31,7 @@ class MainActivity : AppCompatActivity(), OnConfigurationChangedListener {
         setupTabSelectionBottomSheetBehavior()
         viewConfigurationControls.setOnConfigurationChangedListener(this)
         bottomSheetBehavior = BottomSheetBehavior.from(viewConfigurationControls)
-
+        velocityTest()
         viewKonfetti.setOnClickListener {
             startConfetti()
         }
@@ -94,6 +97,48 @@ class MainActivity : AppCompatActivity(), OnConfigurationChangedListener {
                 .burst(100)
     }
 
+    var startX: Float = 0f
+    var startY: Float = 0f
+    var speed: Int = 0
+    var degrees: Double = 0.0
+    fun velocityTest() {
+        viewKonfetti.setOnTouchListener { _, event ->
+            val modeEnabled = viewConfigurationControls.configuration.active.type == Configuration.TYPE_DRAG_AND_SHOOT
+            when(event.action) {
+                MotionEvent.ACTION_DOWN -> {
+                    startX = event.x
+                    startY = event.y
+                }
+                MotionEvent.ACTION_MOVE -> {
+                    val dx = event.x - startX
+                    val dy = event.y - startY
+                    val r = Math.atan2(dy.toDouble(), dx.toDouble()) // In radians
+                    degrees = ((r * (180 / Math.PI) - 180) + 360) % 360
+
+                    val length = Math.sqrt((dx * dx) + (dy * dy).toDouble())
+                    speed = (length / 100).toInt()
+                    if(speed > 10) speed = 0
+                }
+                MotionEvent.ACTION_UP -> {
+                    Log.e("Konfetti", "speed $speed")
+                    if(!modeEnabled) return@setOnTouchListener false
+                    val colors = viewConfigurationControls.configuration.active.colors.map { color(it) }.toIntArray()
+                    viewKonfetti.build()
+                            .addColors(*colors)
+                            .setDirection(degrees - 50, degrees + 50)
+                            .setSpeed(0f, speed + 5f)
+                            .addShapes(Shape.RECT, Shape.CIRCLE)
+                            .addSizes(Size.SMALL)
+                            .setPosition(startX, startY)
+                            .setTimeToLive(10000)
+                            .setFadeOutEnabled(true)
+                            .burst(200)
+                }
+            }
+            return@setOnTouchListener modeEnabled
+        }
+    }
+
     fun color(resId: Int): Int {
         return ContextCompat.getColor(applicationContext, resId)
     }
@@ -106,4 +151,5 @@ class MainActivity : AppCompatActivity(), OnConfigurationChangedListener {
             }
         })
     }
+
 }
