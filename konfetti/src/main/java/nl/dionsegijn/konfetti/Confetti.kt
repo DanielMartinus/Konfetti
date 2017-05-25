@@ -90,10 +90,20 @@ class Confetti(var location: Vector,
             return
         }
 
+        var left = location.x + (width - rotationWidth)
+        var right = location.x + rotationWidth
+        /** Switch values. Left or right may not be negative due to how Android Api < 25
+         *  draws Rect and RectF, negative values won't be drawn resulting in flickering confetti */
+        if(left > right) {
+            left += right
+            right = left - right
+            left -= right
+        }
+
         val rect: RectF = RectF(
-                location.x + (width - rotationWidth), // center of rotation
+                left,
                 location.y,
-                location.x + rotationWidth,
+                right,
                 location.y + getSize())
 
         paint.alpha = alpha
