@@ -6,7 +6,12 @@ import nl.dionsegijn.konfettidemo.R
 /**
  * Created by dionsegijn on 5/21/17.
  */
-open class Configuration(val title: String) {
+open class Configuration(val type: Int, val title: String, val instructions: Int) {
+    companion object {
+        @JvmStatic val TYPE_STREAM_FROM_TOP: Int = 0
+        @JvmStatic val TYPE_DRAG_AND_SHOOT: Int = 1
+        @JvmStatic val TYPE_BURST_FROM_CENTER: Int = 2
+    }
 
     var timeToLive: Long = 2000
     var minSpeed: Float = 1f

@@ -7,9 +7,9 @@ class ConfigurationManager {
 
     var active: Configuration
     var configurations: List<Configuration> = listOf(
-            Configuration("Top"),
-            Configuration("Drag 'n Shoot"),
-            Configuration("Burst")
+            Configuration(Configuration.TYPE_STREAM_FROM_TOP, "Top"),
+            Configuration(Configuration.TYPE_DRAG_AND_SHOOT, "Drag 'n Shoot"),
+            Configuration(Configuration.TYPE_BURST_FROM_CENTER, "Burst")
     )
 
     init {
