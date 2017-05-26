@@ -171,7 +171,7 @@ class MainActivity : AppCompatActivity(), OnConfigurationChangedListener {
      * there is no nice way of limiting the resources foreach particle system.
      */
     fun canIHaveMoreConfetti(): Boolean {
-        if(viewKonfetti.systems.size <= 4) {
+        if(viewKonfetti.systems.size <= 6) {
             return true
         }
         return false

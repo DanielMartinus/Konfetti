@@ -85,9 +85,16 @@ class Confetti(var location: Vector,
 
     fun display(canvas: Canvas) {
         // Do not draw the particle if it's outside the canvas view
-        if (location.x > canvas.width || location.x + getSize() < 0
-                || location.y > canvas.height || location.y + getSize() < 0) {
+        if (location.x > canvas.width || location.x + getSize() < 0 || location.y + getSize() < 0) {
             return
+        }
+
+        // if the particle is outside the bottom of the view the lifetime is over.
+        if(location.y > canvas.height) {
+            paint.alpha = 0
+            return
+        } else {
+            paint.alpha = alpha
         }
 
         var left = location.x + (width - rotationWidth)
@@ -105,8 +112,6 @@ class Confetti(var location: Vector,
                 location.y,
                 right,
                 location.y + getSize())
-
-        paint.alpha = alpha
 
         canvas.save()
         canvas.rotate(rotation, rect.centerX(), rect.centerY())
