@@ -69,7 +69,7 @@ class ConfigurationControlsWidget : LinearLayout, OnConfigurationChangedListener
     /* Just some simple views used in viewpager to display configuration settings */
     fun getTabs(): Array<TabConfig> {
         return arrayOf(
-                TabConfig(R.drawable.ic_settings, ConfigTypeSelectionView(context, this, configuration)),
+                TabConfig(R.drawable.ic_configurations, ConfigTypeSelectionView(context, this, configuration)),
                 TabConfig(R.drawable.ic_paint, ColorSelectionView(context, configuration)),
                 TabConfig(R.drawable.ic_shapes, ShapeSelectionView(context, configuration)),
                 TabConfig(R.drawable.ic_speed, MultiSeekbarSelectionView(context, configuration, "Speed", 1, 10, speedValuesChanged())),
