@@ -65,7 +65,7 @@ class ColorSelectionView(context: Context?,
 
             view.setOnClickListener { v ->
                 val activeColors = configurationManager.active.colors
-                if(activeColors.size == 1) {
+                if(activeColors.size == 1 && activeColors.contains(color)) {
                     Toast.makeText(context, "Atleast one color must be selected", Toast.LENGTH_SHORT).show();
                     return@setOnClickListener
                 }
