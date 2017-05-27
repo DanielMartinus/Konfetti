@@ -43,7 +43,7 @@ class MainActivity : AppCompatActivity(), OnConfigurationChangedListener {
             startConfetti()
         }
 
-        run = Runnable { updateSystemsInfo(); updateInfoHandler.postDelayed(run, 200) }
+        run = Runnable { updateSystemsInfo(); updateInfoHandler.postDelayed(run, 50) }
         updateInfoHandler.post(run)
     }
 
