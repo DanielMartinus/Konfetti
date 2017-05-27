@@ -10,6 +10,7 @@ import android.view.Gravity
 import android.view.View
 import android.widget.Button
 import android.widget.LinearLayout
+import android.widget.Toast
 import kotlinx.android.synthetic.main.view_section_color_selection.view.*
 import nl.dionsegijn.konfettidemo.R
 import nl.dionsegijn.konfettidemo.configurations.settings.Configuration
@@ -63,12 +64,17 @@ class ColorSelectionView(context: Context?,
             setStateButton(view, color, initSelectedColors.contains(color))
 
             view.setOnClickListener { v ->
+                val activeColors = configurationManager.active.colors
+                if(activeColors.size == 1) {
+                    Toast.makeText(context, "Atleast one color must be selected", Toast.LENGTH_SHORT).show();
+                    return@setOnClickListener
+                }
                 // Reverse isSelected for opposite behavior
-                val isNotSelected = !configurationManager.active.colors.contains(color)
+                val isNotSelected = !activeColors.contains(color)
                 setStateButton(v, color, isNotSelected)
 
                 // Create mutable list in order to manipulate items and set new color list
-                val tempColors = configurationManager.active.colors.toMutableList()
+                val tempColors = activeColors.toMutableList()
                 if(isNotSelected) tempColors.add(color) else tempColors.remove(color)
                 configurationManager.active.colors = tempColors.toIntArray()
             }
