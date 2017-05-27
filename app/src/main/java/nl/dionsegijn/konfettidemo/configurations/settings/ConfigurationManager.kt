@@ -6,8 +6,13 @@ import nl.dionsegijn.konfettidemo.R
  * Created by dionsegijn on 5/24/17.
  */
 class ConfigurationManager {
+    companion object {
+        @JvmStatic val PARTICLE_SYSTEMS_DEFAULT: Int = 6
+        @JvmStatic val PARTICLE_SYSTEMS_INFINITE: Int = -1
+    }
 
     var active: Configuration
+    var maxParticleSystemsAlive = PARTICLE_SYSTEMS_DEFAULT
     var configurations: List<Configuration> = listOf(
             Configuration(Configuration.TYPE_STREAM_FROM_TOP, "Top", R.string.stream_from_top_instructions, R.drawable.ic_confetti_ball),
             Configuration(Configuration.TYPE_DRAG_AND_SHOOT, "Drag 'n Shoot", R.string.drag_and_shoot_app_name_instructions, R.drawable.ic_celebration),

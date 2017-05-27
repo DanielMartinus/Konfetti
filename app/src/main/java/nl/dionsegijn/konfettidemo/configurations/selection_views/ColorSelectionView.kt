@@ -64,18 +64,17 @@ class ColorSelectionView(context: Context?,
             setStateButton(view, color, initSelectedColors.contains(color))
 
             view.setOnClickListener { v ->
-                val activeColors = configurationManager.active.colors
-                if(activeColors.size == 1 && activeColors.contains(color)) {
+                if (getActiveColors().size == 1 && getActiveColors().contains(color)) {
                     Toast.makeText(context, "Atleast one color must be selected", Toast.LENGTH_SHORT).show();
                     return@setOnClickListener
                 }
                 // Reverse isSelected for opposite behavior
-                val isNotSelected = !activeColors.contains(color)
+                val isNotSelected = !getActiveColors().contains(color)
                 setStateButton(v, color, isNotSelected)
 
                 // Create mutable list in order to manipulate items and set new color list
-                val tempColors = activeColors.toMutableList()
-                if(isNotSelected) tempColors.add(color) else tempColors.remove(color)
+                val tempColors = getActiveColors().toMutableList()
+                if (isNotSelected) tempColors.add(color) else tempColors.remove(color)
                 configurationManager.active.colors = tempColors.toIntArray()
             }
 
@@ -83,11 +82,15 @@ class ColorSelectionView(context: Context?,
         }
     }
 
+    fun getActiveColors(): IntArray {
+        return configurationManager.active.colors
+    }
+
     fun setStateButton(view: View, color: Int, selected: Boolean) {
         val shape = GradientDrawable()
         shape.shape = GradientDrawable.RECTANGLE
         shape.setColor(ContextCompat.getColor(context, color))
-        shape.setStroke(4, if(selected) 0xFF27D232.toInt() else Color.WHITE)
+        shape.setStroke(4, if (selected) 0xFF27D232.toInt() else Color.WHITE)
         shape.cornerRadius = 6f
         view.background = shape
     }

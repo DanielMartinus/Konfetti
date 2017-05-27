@@ -14,6 +14,7 @@ import kotlinx.android.synthetic.main.activity_main.*
 import nl.dionsegijn.konfetti.models.Shape
 import nl.dionsegijn.konfetti.models.Size
 import nl.dionsegijn.konfettidemo.configurations.settings.Configuration
+import nl.dionsegijn.konfettidemo.configurations.settings.ConfigurationManager
 import nl.dionsegijn.konfettidemo.interfaces.OnConfigurationChangedListener
 import nl.dionsegijn.konfettidemo.interfaces.OnSimpleTabSelectedListener
 
@@ -171,7 +172,10 @@ class MainActivity : AppCompatActivity(), OnConfigurationChangedListener {
      * there is no nice way of limiting the resources foreach particle system.
      */
     fun canIHaveMoreConfetti(): Boolean {
-        if(viewKonfetti.systems.size <= 6) {
+        if(viewConfigurationControls.configuration.maxParticleSystemsAlive
+                == ConfigurationManager.PARTICLE_SYSTEMS_INFINITE) {
+            return true
+        } else if(viewKonfetti.systems.size <= 6) {
             return true
         }
         return false

@@ -16,6 +16,7 @@
     <color name="dk_red">#bb3d72</color>
     <color name="dk_blue">#006ded</color>
 
-
     <color name="icon">#acacac</color>
+
+    <color name="checkbox_title_color">#4b4b4b</color>
 </resources>

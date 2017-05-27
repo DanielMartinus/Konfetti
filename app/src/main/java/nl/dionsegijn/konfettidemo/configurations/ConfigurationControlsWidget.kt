@@ -14,14 +14,15 @@ import nl.dionsegijn.konfettidemo.configurations.settings.ConfigurationManager
 import nl.dionsegijn.konfettidemo.configurations.viewpager.ConfigPagerAdapter
 import nl.dionsegijn.konfettidemo.configurations.viewpager.TabConfig
 import nl.dionsegijn.konfettidemo.interfaces.OnConfigurationChangedListener
+import nl.dionsegijn.konfettidemo.interfaces.OnGlobalConfigurationChangedListener
 import nl.dionsegijn.konfettidemo.interfaces.UpdateConfiguration
 
 /**
  * Created by dionsegijn on 5/21/17.
  */
-class ConfigurationControlsWidget : LinearLayout, OnConfigurationChangedListener {
+class ConfigurationControlsWidget : LinearLayout, OnConfigurationChangedListener, OnGlobalConfigurationChangedListener {
 
-    val configuration = ConfigurationManager()
+    var configuration = ConfigurationManager()
     var onConfigurationChanged: OnConfigurationChangedListener? = null
 
     constructor(context: Context?) : super(context)
@@ -33,12 +34,7 @@ class ConfigurationControlsWidget : LinearLayout, OnConfigurationChangedListener
         orientation = VERTICAL
         isClickable = true
 
-        viewPager.adapter = ConfigPagerAdapter(getTabs())
-        viewPager.offscreenPageLimit = getTabs().size
-        tabLayout.setupWithViewPager(viewPager)
-        for (i in 0..tabLayout.tabCount - 1) {
-            tabLayout.getTabAt(i)?.setIcon(getTabs()[i].icon)
-        }
+        initViewPager()
 
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
             setBackgroundColor(ContextCompat.getColor(context, android.R.color.white))
@@ -53,13 +49,48 @@ class ConfigurationControlsWidget : LinearLayout, OnConfigurationChangedListener
     override fun onConfigurationChanged(selected: Configuration) {
         configuration.active = selected
         val childCount = viewPager.childCount
-        (0..childCount -1)
-                .map { viewPager.getChildAt(it);  }
+        (0..childCount - 1)
+                .map { viewPager.getChildAt(it); }
                 .filterIsInstance<UpdateConfiguration>()
                 .forEach {
                     it.onUpdateConfiguration(selected)
                 }
         onConfigurationChanged?.onConfigurationChanged(selected)
+    }
+
+    fun speedValuesChanged(): MultiSeekbarSelectionView.OnMultiSeekBarValueChanged {
+        return object : MultiSeekbarSelectionView.OnMultiSeekBarValueChanged {
+            override fun onValueChanged(min: Float, max: Float) {
+                configuration.active.minSpeed = min
+                configuration.active.maxSpeed = max
+            }
+        }
+    }
+
+    override fun onLimitActiveParticleSystemsChanged(limit: Boolean) {
+        configuration.maxParticleSystemsAlive =
+                if (limit) ConfigurationManager.PARTICLE_SYSTEMS_DEFAULT
+                else ConfigurationManager.PARTICLE_SYSTEMS_INFINITE
+    }
+
+    override fun resetConfigurationsToDefaults() {
+        configuration = ConfigurationManager()
+        onConfigurationChanged(configuration.active)
+        initViewPager()
+    }
+
+    /**
+     * ViewPager setup
+     */
+
+    fun initViewPager() {
+        viewPager.adapter = ConfigPagerAdapter(getTabs())
+        viewPager.offscreenPageLimit = getTabs().size
+        tabLayout.setupWithViewPager(viewPager)
+        tabLayout.tabMode = TabLayout.MODE_SCROLLABLE
+        for (i in 0..tabLayout.tabCount - 1) {
+            tabLayout.getTabAt(i)?.setIcon(getTabs()[i].icon)
+        }
     }
 
     fun setOnTabSelectedListener(onTabSelectedListener: TabLayout.OnTabSelectedListener) {
@@ -73,16 +104,8 @@ class ConfigurationControlsWidget : LinearLayout, OnConfigurationChangedListener
                 TabConfig(R.drawable.ic_paint, ColorSelectionView(context, configuration)),
                 TabConfig(R.drawable.ic_shapes, ShapeSelectionView(context, configuration)),
                 TabConfig(R.drawable.ic_speed, MultiSeekbarSelectionView(context, configuration, "Speed", 1, 10, speedValuesChanged())),
-                TabConfig(R.drawable.ic_time_to_live, SeekbarSelectionView(context, configuration,  "Time to live", 5000)))
-    }
-
-    fun speedValuesChanged() : MultiSeekbarSelectionView.OnMultiSeekBarValueChanged {
-        return object : MultiSeekbarSelectionView.OnMultiSeekBarValueChanged {
-            override fun onValueChanged(min: Float, max: Float) {
-                configuration.active.minSpeed = min
-                configuration.active.maxSpeed = max
-            }
-        }
+                TabConfig(R.drawable.ic_time_to_live, SeekbarSelectionView(context, configuration, "Time to live", 5000)),
+                TabConfig(R.drawable.ic_settings, GlobalConfigSelectionView(context, this, configuration)))
     }
 
 }
