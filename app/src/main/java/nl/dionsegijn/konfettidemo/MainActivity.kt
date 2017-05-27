@@ -4,6 +4,7 @@ import android.animation.Animator
 import android.animation.AnimatorListenerAdapter
 import android.animation.ValueAnimator
 import android.os.Bundle
+import android.os.Handler
 import android.support.design.widget.BottomSheetBehavior
 import android.support.design.widget.TabLayout
 import android.support.v4.content.ContextCompat
@@ -27,6 +28,9 @@ class MainActivity : AppCompatActivity(), OnConfigurationChangedListener {
 
     lateinit var bottomSheetBehavior: BottomSheetBehavior<View>
 
+    val updateInfoHandler = Handler()
+    lateinit var run: Runnable
+
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_main)
@@ -38,6 +42,9 @@ class MainActivity : AppCompatActivity(), OnConfigurationChangedListener {
         viewKonfetti.setOnClickListener {
             startConfetti()
         }
+
+        run = Runnable { updateSystemsInfo(); updateInfoHandler.postDelayed(run, 200) }
+        updateInfoHandler.post(run)
     }
 
     /**
@@ -164,6 +171,12 @@ class MainActivity : AppCompatActivity(), OnConfigurationChangedListener {
             }
         })
         valueAnimator.start()
+    }
+
+    fun updateSystemsInfo() {
+        val activeSystems = viewKonfetti.systems.size
+        val activeParticles = viewKonfetti.systems.sumBy { it.activeParticles() }
+        viewSystemInfo.text = "Active systems: $activeSystems \nActive particles: $activeParticles"
     }
 
     /**

@@ -19,15 +19,15 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_gravity="center"
-            android:textSize="28sp"
-            android:text="@string/stream_from_top_instructions" />
+            android:text="@string/stream_from_top_instructions"
+            android:textSize="28sp" />
 
         <ImageView
             android:id="@+id/viewIllustration"
             android:layout_width="40dp"
             android:layout_height="40dp"
             android:layout_margin="8dp"
-            android:src="@drawable/ic_confetti_ball"/>
+            android:src="@drawable/ic_confetti_ball" />
 
     </LinearLayout>
 
@@ -35,6 +35,16 @@
         android:id="@+id/viewKonfetti"
         android:layout_width="match_parent"
         android:layout_height="match_parent" />
+
+
+    <TextView
+        android:id="@+id/viewSystemInfo"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_gravity="right"
+        android:layout_margin="8dp"
+        android:lineSpacingMultiplier="1.2"
+        android:textSize="12sp" />
 
     <nl.dionsegijn.konfettidemo.configurations.ConfigurationControlsWidget
         android:id="@+id/viewConfigurationControls"
