@@ -49,4 +49,8 @@ abstract class Emitter(val location: LocationModule,
             if(particle.isDead()) particles.removeAt(i)
         }
     }
+
+    fun getActiveParticles(): Int {
+        return particles.size
+    }
 }
