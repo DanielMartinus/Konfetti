@@ -49,7 +49,6 @@ viewKonfetti.build()
     .setPosition(-50f, viewKonfetti.width + 50f, -50f, -50f)
     .stream(300, 5000L)
 ```
-<small><i>This example is written in Kotlin</i></small>
 
 ## Download
 Just add the following dependency in your app's build.gradle
