@@ -1,5 +1,5 @@
 <resources>
-    <string name="app_name">Confetti Attempt</string>
+    <string name="app_name">Konfetti</string>
 
     <!-- Instructions -->
     <string name="stream_from_top_instructions">Tap to </string>
