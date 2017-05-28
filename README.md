@@ -57,14 +57,14 @@ Did you encounter bugs? Report them [here](https://github.com/DanielMartinus/Kon
 
 #### Contribute
 
-As mentioned, there is always room for improvement. Do you have any performance improvement ideas? Please suggest them [here](https://github.com/DanielMartinus/Konfetti/issues). Before submitting a large Pull Request, creating an issue to discuss would be preferred to be sure it is in line with other improvements currently being developed. Is it a simple improvement? Go ahead and submit a Pull Request! I very welcome any contributions.
+As mentioned, there is always room for improvement. Do you have any performance improvement ideas? Please suggest them [here](https://github.com/DanielMartinus/Konfetti/issues). Before submitting a large Pull Request, creating an issue to discuss your ideas would be the preferred way so we can be sure it is in line with other improvements currently being developed. Is it a simple improvement? Go ahead and submit a Pull Request! I very welcome any contributions.
 
 ## Roadmap
 
 In line with the previous contribute section there are some already known issues that could be resolved and are open for discussion.
 
 - Determining the size of the particles in the current implementation is not ideal. More here: [#7 Confetti size system](https://github.com/DanielMartinus/Konfetti/issues/7)
-- A performance improvent to the library could for one be to implement a shared object poul amongst all particle systems instead of having them to confetti instances themselves
+- A performance improvent to the library could for one be to implement a shared object poul amongst all particle systems instead of having them to handle confetti instances themselves.
 
 ## License 
 
