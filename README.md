@@ -2,7 +2,7 @@
 
 [![platform](https://img.shields.io/badge/platform-Android-green.svg)](https://www.android.com)
 [![API](https://img.shields.io/badge/API-16%2B-brightgreen.svg?style=flat)](https://android-arsenal.com/api?level=16s)
-[![License: ISC](https://img.shields.io/badge/License-MIT-yellow.svg)](https://opensource.org/licenses/ISC) [![Twitter](https://img.shields.io/badge/Twitter-@dionsegijn-blue.svg?style=flat)](http://twitter.com/dionsegijn)
+[![License: ISC](https://img.shields.io/badge/License-ISC-yellow.svg)](https://opensource.org/licenses/ISC) [![Twitter](https://img.shields.io/badge/Twitter-@dionsegijn-blue.svg?style=flat)](http://twitter.com/dionsegijn)
 
 
 Let's start celebrate more together with our users by popping the confetti on their screens! 🎉 Create realistic confetti by implementing this lightweight particle system.
