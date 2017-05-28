@@ -8,6 +8,7 @@ Let's start celebrate more together with our users by popping the confetti on th
 
 ## Demo app
 
+[<img src="media/konfetti_demo.gif" width="250" />]()
 
 <small>Soon: Demo in the play store</small>
 
@@ -42,9 +43,13 @@ viewKonfetti.build()
 <small><i>This example is written in Kotlin</i></small>
 
 ## Download
+Just add the following dependency in your app's build.gradle
+
 
 ```groovy
-compile 'nl.dionsegijn:konfetti:1.0'
+dependencies {
+      compile 'nl.dionsegijn:konfetti:1.0'
+}
 ```
 
 ## Contribute
