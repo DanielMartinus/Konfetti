@@ -4,7 +4,7 @@ apply plugin: 'kotlin-android'
 
 android {
     compileSdkVersion 25
-    buildToolsVersion "25.0.2"
+    buildToolsVersion "25.0.3"
 
     defaultConfig {
         minSdkVersion 15
@@ -22,6 +22,33 @@ android {
 
 dependencies {
     compile fileTree(dir: 'libs', include: ['*.jar'])
-    compile 'com.android.support:appcompat-v7:25.3.0'
+    compile 'com.android.support:appcompat-v7:25.3.1'
     compile "org.jetbrains.kotlin:kotlin-stdlib-jre7:$kotlin_version"
 }
+
+ext {
+    bintrayRepo = 'maven'
+    bintrayName = 'Konfetti'
+    orgName = 'danielmartinus'
+
+    publishedGroupId = 'nl.dionsegijn'
+    artifact = 'konfetti'
+    libraryVersion = "1.0"
+
+    libraryName = 'konfetti'
+    libraryDescription = 'Small particle system library to generate confetti in your app'
+
+    siteUrl = 'https://github.com/DanielMartinus/Konfetti'
+    gitUrl = 'https://github.com/DanielMartinus/Konfetti.git'
+
+    developerId = 'danielmartinus'
+    developerName = 'Dion Segijn'
+    developerEmail = 'danielsegijn@gmail.com'
+
+    licenseName = 'ISC'
+    licenseUrl = 'https://github.com/DanielMartinus/Konfetti/blob/master/LICENSE'
+    allLicenses = ["ISC"]
+}
+
+apply from: rootProject.file('gradle/install-v1.gradle')
+apply from: rootProject.file('gradle/bintray-android-v1.gradle')
