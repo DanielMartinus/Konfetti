@@ -10,7 +10,15 @@ Let's start celebrate more together with our users by popping the confetti on th
 
 [<img src="media/konfetti_demo.gif" width="250" />]()
 
-<small>Soon: Demo in the play store</small>
+#### Sample app
+
+Download on Google Play:
+
+<a href="https://play.google.com/store/apps/details?id=nl.dionsegijn.confettiattempt">
+  <img alt="Android app on Google Play" src="https://developer.android.com/images/brand/en_app_rgb_wo_45.png" />
+</a>
+
+Or download the APK here [here](https://github.com/DanielMartinus/Konfetti/releases/download/1.0/sample_app.apk)
 
 ## Usage
 
