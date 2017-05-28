@@ -103,7 +103,7 @@ class ConfigurationControlsWidget : LinearLayout, OnConfigurationChangedListener
                 TabConfig(R.drawable.ic_configurations, ConfigTypeSelectionView(context, this, configuration)),
                 TabConfig(R.drawable.ic_paint, ColorSelectionView(context, configuration)),
                 TabConfig(R.drawable.ic_shapes, ShapeSelectionView(context, configuration)),
-                TabConfig(R.drawable.ic_speed, MultiSeekbarSelectionView(context, configuration, "Speed", 1, 10, speedValuesChanged())),
+                TabConfig(R.drawable.ic_speed, MultiSeekbarSelectionView(context, configuration, "Speed", 0, 10, speedValuesChanged())),
                 TabConfig(R.drawable.ic_time_to_live, SeekbarSelectionView(context, configuration, "Time to live", 5000)),
                 TabConfig(R.drawable.ic_settings, GlobalConfigSelectionView(context, this, configuration)))
     }
