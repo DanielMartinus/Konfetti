@@ -77,7 +77,7 @@ As mentioned, there is always room for improvement. Do you have any performance 
 In line with the previous contribute section there are some already known issues that could be resolved and are open for discussion.
 
 - Determining the size of the particles in the current implementation is not ideal. More here: [#7 Confetti size system](https://github.com/DanielMartinus/Konfetti/issues/7)
-- A performance improvement to the library could for one be to implement a shared object poul amongst all particle systems instead of having them to handle confetti instances themselves.
+- A performance improvement to the library could for one be to implement a shared object pool amongst all particle systems instead of having them to handle confetti instances themselves.
 
 ## License 
 
