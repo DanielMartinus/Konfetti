@@ -5,7 +5,7 @@
 [![License: ISC](https://img.shields.io/badge/License-ISC-yellow.svg)](https://opensource.org/licenses/ISC) [![Twitter](https://img.shields.io/badge/Twitter-@dionsegijn-blue.svg?style=flat)](http://twitter.com/dionsegijn)
 
 
-Celebrate more with this lightweight confetti particle system 🎊 Create realistic confetti by implementing this lightweight particle system.
+Celebrate more with this lightweight confetti particle system 🎊 Create realistic confetti by implementing this particle system.
 
 ## Demo app
 
