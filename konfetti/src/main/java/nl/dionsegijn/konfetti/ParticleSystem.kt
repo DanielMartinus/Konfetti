@@ -45,6 +45,11 @@ class ParticleSystem(val konfettiView: KonfettiView) {
     }
 
     /**
+     * Set position range to emit particles from
+     * A random position on the x-axis between [minX] and [maxX] and y-axis between [minY] and [maxY]
+     * will be picked for each confetti.
+     * @param [maxX] leave this null to only emit from [minX]
+     * @param [maxY] leave this null to only emit from [minY]
      */
     fun setPosition(minX: Float, maxX: Float? = null, minY: Float, maxY: Float? = null): ParticleSystem {
         location.betweenX(minX, maxX)

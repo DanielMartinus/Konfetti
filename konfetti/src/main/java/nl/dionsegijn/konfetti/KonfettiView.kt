@@ -7,6 +7,9 @@ import android.view.View
 
 /**
  * Created by dionsegijn on 3/25/17.
+ * Implement this view to render the particles on.
+ * Call [build] to setup a particle system. KonfettiView will then invalidate
+ * pass the canvas to each system where each system will handle the rendering.
  */
 class KonfettiView : View {
 
@@ -43,6 +46,10 @@ class KonfettiView : View {
         invalidate()
     }
 
+    /**
+     * TimerIntegration retrieves the delta time since the rendering of the previous frame.
+     * Delta time is used to draw the confetti correctly if any frame drops occur.
+     */
     class TimerIntegration {
         var previousTime: Long = -1L
 
