@@ -20,10 +20,6 @@ import nl.dionsegijn.konfettidemo.interfaces.OnConfigurationChangedListener
 import nl.dionsegijn.konfettidemo.interfaces.OnSimpleTabSelectedListener
 
 
-
-/**
- * Created by dionsegijn on 3/25/17.
- */
 class MainActivity : AppCompatActivity(), OnConfigurationChangedListener {
 
     lateinit var bottomSheetBehavior: BottomSheetBehavior<View>
@@ -82,7 +78,7 @@ class MainActivity : AppCompatActivity(), OnConfigurationChangedListener {
     }
 
     fun streamFromTop(config: Configuration, colors: IntArray) {
-        if(!canIHaveMoreConfetti()) return
+        if (!canIHaveMoreConfetti()) return
         viewKonfetti.build()
                 .addColors(*colors)
                 .setDirection(0.0, 359.0)
@@ -96,7 +92,7 @@ class MainActivity : AppCompatActivity(), OnConfigurationChangedListener {
     }
 
     fun burstFromCenter(config: Configuration, colors: IntArray) {
-        if(!canIHaveMoreConfetti()) return
+        if (!canIHaveMoreConfetti()) return
         viewKonfetti.build()
                 .addColors(*colors)
                 .setDirection(0.0, 359.0)
@@ -116,7 +112,7 @@ class MainActivity : AppCompatActivity(), OnConfigurationChangedListener {
     fun velocityTest() {
         viewKonfetti.setOnTouchListener { _, event ->
             val modeEnabled = viewConfigurationControls.configuration.active.type == Configuration.TYPE_DRAG_AND_SHOOT
-            when(event.action) {
+            when (event.action) {
                 MotionEvent.ACTION_DOWN -> {
                     startX = event.x
                     startY = event.y
@@ -129,10 +125,10 @@ class MainActivity : AppCompatActivity(), OnConfigurationChangedListener {
 
                     val length = Math.sqrt((dx * dx) + (dy * dy).toDouble())
                     speed = (length / 100).toInt()
-                    if(speed > 10) speed = 0
+                    if (speed > 10) speed = 0
                 }
                 MotionEvent.ACTION_UP -> {
-                    if(!modeEnabled || !canIHaveMoreConfetti()) return@setOnTouchListener false
+                    if (!modeEnabled || !canIHaveMoreConfetti()) return@setOnTouchListener false
                     val colors = viewConfigurationControls.configuration.active.colors.map { color(it) }.toIntArray()
                     viewKonfetti.build()
                             .addColors(*colors)
@@ -162,7 +158,7 @@ class MainActivity : AppCompatActivity(), OnConfigurationChangedListener {
             textViewInstructions.alpha = alpha
             viewIllustration.alpha = alpha
         }
-        valueAnimator.addListener(object: AnimatorListenerAdapter() {
+        valueAnimator.addListener(object : AnimatorListenerAdapter() {
             override fun onAnimationEnd(animation: Animator?) {
                 textViewInstructions.setText(selected.instructions)
                 viewIllustration.setImageDrawable(ContextCompat.getDrawable(applicationContext, selected.vector))
@@ -185,10 +181,10 @@ class MainActivity : AppCompatActivity(), OnConfigurationChangedListener {
      * there is no nice way of limiting the resources foreach particle system.
      */
     fun canIHaveMoreConfetti(): Boolean {
-        if(viewConfigurationControls.configuration.maxParticleSystemsAlive
+        if (viewConfigurationControls.configuration.maxParticleSystemsAlive
                 == ConfigurationManager.PARTICLE_SYSTEMS_INFINITE) {
             return true
-        } else if(viewKonfetti.systems.size <= 6) {
+        } else if (viewKonfetti.systems.size <= 6) {
             return true
         }
         return false
