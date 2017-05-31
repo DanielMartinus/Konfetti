@@ -65,7 +65,7 @@ class ShapeSelectionView(context: Context?,
                     if(tempList.size != 1) {
                         tempList.remove(shape)
                     } else {
-                        Toast.makeText(context, "Can't turn off al the shapes", Toast.LENGTH_SHORT).show()
+                        Toast.makeText(context, context.getString(R.string.select_shape_minimal_one_warning), Toast.LENGTH_SHORT).show()
                         return@setOnClickListener
                     }
                 }

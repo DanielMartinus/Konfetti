@@ -65,7 +65,7 @@ class ColorSelectionView(context: Context?,
 
             view.setOnClickListener { v ->
                 if (getActiveColors().size == 1 && getActiveColors().contains(color)) {
-                    Toast.makeText(context, "Atleast one color must be selected", Toast.LENGTH_SHORT).show();
+                    Toast.makeText(context, context.getString(R.string.select_color_minimal_one_warning), Toast.LENGTH_SHORT).show();
                     return@setOnClickListener
                 }
                 // Reverse isSelected for opposite behavior

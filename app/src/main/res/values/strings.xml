@@ -6,6 +6,9 @@
     <string name="drag_and_shoot_app_name_instructions">Drag and shoot to </string>
     <string name="burst_from_center_instructions">Tap and it will </string>
 
+    <!-- Settings -->
     <string name="settings_limit_active_systems">Limit active particle systems</string>
     <string name="settings_reset_to_defaults">Reset to defaults</string>
+    <string name="select_color_minimal_one_warning">At least one color must be selected</string>
+    <string name="select_shape_minimal_one_warning">At least one shape must be selected</string>
 </resources>
