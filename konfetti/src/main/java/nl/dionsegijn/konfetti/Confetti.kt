@@ -1,11 +1,13 @@
 package nl.dionsegijn.konfetti
 
+import android.content.res.Resources
 import android.graphics.Canvas
 import android.graphics.Paint
 import android.graphics.RectF
 import nl.dionsegijn.konfetti.models.Shape
 import nl.dionsegijn.konfetti.models.Size
 import nl.dionsegijn.konfetti.models.Vector
+import nl.dionsegijn.konfetti.models.sizeDp
 import java.util.*
 
 class Confetti(var location: Vector,
@@ -18,7 +20,7 @@ class Confetti(var location: Vector,
                var velocity: Vector = Vector()) {
 
     private val mass = size.mass
-    private var width = size.size
+    private var width = size.sizeDp.toFloat()
     private val paint: Paint = Paint()
 
     private var rotationSpeed = 1f
@@ -31,8 +33,10 @@ class Confetti(var location: Vector,
     private var alpha: Int = 255
 
     init {
+        val minRotationSpeed = 0.29f * Resources.getSystem().displayMetrics.density
+        val maxRotationSpeed = minRotationSpeed * 3
+        rotationSpeed = maxRotationSpeed * Random().nextFloat() + minRotationSpeed
         paint.color = color
-        rotationSpeed = 3 * Random().nextFloat() + 1
     }
 
     fun getSize(): Float {
@@ -62,7 +66,7 @@ class Confetti(var location: Vector,
         location.add(v)
 
 
-        if(lifespan <= 0) updateAlpha(deltaTime)
+        if (lifespan <= 0) updateAlpha(deltaTime)
         else lifespan -= (deltaTime * 1000).toLong()
 
         val rSpeed = (rotationSpeed * deltaTime) * speedF
@@ -74,9 +78,9 @@ class Confetti(var location: Vector,
     }
 
     fun updateAlpha(deltaTime: Float) {
-        if(fadeOut) {
+        if (fadeOut) {
             val interval = 5 * deltaTime * speedF
-            if(alpha - interval < 0) alpha = 0
+            if (alpha - interval < 0) alpha = 0
             else alpha -= (5 * deltaTime * speedF).toInt()
         } else {
             alpha = 0
@@ -85,7 +89,7 @@ class Confetti(var location: Vector,
 
     fun display(canvas: Canvas) {
         // if the particle is outside the bottom of the view the lifetime is over.
-        if(location.y > canvas.height) {
+        if (location.y > canvas.height) {
             lifespan = 0
             return
         }
@@ -99,7 +103,7 @@ class Confetti(var location: Vector,
         var right = location.x + rotationWidth
         /** Switch values. Left or right may not be negative due to how Android Api < 25
          *  draws Rect and RectF, negative values won't be drawn resulting in flickering confetti */
-        if(left > right) {
+        if (left > right) {
             left += right
             right = left - right
             left -= right
