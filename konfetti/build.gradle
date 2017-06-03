@@ -1,6 +1,29 @@
 apply plugin: 'com.android.library'
 apply plugin: 'kotlin-android'
 
+ext {
+    bintrayRepo = 'maven'
+    bintrayName = 'Konfetti'
+    orgName = 'danielmartinus'
+
+    publishedGroupId = 'nl.dionsegijn'
+    artifact = 'konfetti'
+    libraryVersion = "1.0.1"
+
+    libraryName = 'konfetti'
+    libraryDescription = 'Lightweight particle system to celebrate with confetti in your app'
+
+    siteUrl = 'https://github.com/DanielMartinus/Konfetti'
+    gitUrl = 'https://github.com/DanielMartinus/Konfetti.git'
+
+    developerId = 'danielmartinus'
+    developerName = 'Dion Segijn'
+    developerEmail = 'danielsegijn@gmail.com'
+
+    licenseName = 'ISC'
+    licenseUrl = 'https://github.com/DanielMartinus/Konfetti/blob/master/LICENSE'
+    allLicenses = ["ISC"]
+}
 
 android {
     compileSdkVersion 25
@@ -9,8 +32,8 @@ android {
     defaultConfig {
         minSdkVersion 15
         targetSdkVersion 25
-        versionCode 2
-        versionName "1.0.1"
+        versionCode 3
+        versionName libraryVersion
     }
     buildTypes {
         release {
@@ -24,30 +47,6 @@ dependencies {
     compile fileTree(dir: 'libs', include: ['*.jar'])
     compile 'com.android.support:appcompat-v7:25.3.1'
     compile "org.jetbrains.kotlin:kotlin-stdlib-jre7:$kotlin_version"
-}
-
-ext {
-    bintrayRepo = 'maven'
-    bintrayName = 'Konfetti'
-    orgName = 'danielmartinus'
-
-    publishedGroupId = 'nl.dionsegijn'
-    artifact = 'konfetti'
-    libraryVersion = "1.0.1"
-
-    libraryName = 'konfetti'
-    libraryDescription = 'Small particle system library to generate confetti in your app'
-
-    siteUrl = 'https://github.com/DanielMartinus/Konfetti'
-    gitUrl = 'https://github.com/DanielMartinus/Konfetti.git'
-
-    developerId = 'danielmartinus'
-    developerName = 'Dion Segijn'
-    developerEmail = 'danielsegijn@gmail.com'
-
-    licenseName = 'ISC'
-    licenseUrl = 'https://github.com/DanielMartinus/Konfetti/blob/master/LICENSE'
-    allLicenses = ["ISC"]
 }
 
 apply from: rootProject.file('gradle/install-v1.gradle')
