@@ -5,7 +5,7 @@
 [![License: ISC](https://img.shields.io/badge/License-ISC-yellow.svg)](https://opensource.org/licenses/ISC) [![Awesome Kotlin Badge](https://kotlin.link/awesome-kotlin.svg)](https://github.com/KotlinBy/awesome-kotlin) [![Twitter](https://img.shields.io/badge/Twitter-@dionsegijn-blue.svg?style=flat)](http://twitter.com/dionsegijn)
 
 
-Celebrate more with this lightweight confetti particle system 🎊 Create realistic confetti by implementing this particle system.
+Celebrate more with this lightweight confetti particle system 🎊 Create realistic confetti by implementing this easy to use library.
 
 ## Demo app
 
@@ -45,7 +45,7 @@ viewKonfetti.build()
     .setFadeOutEnabled(true)
     .setTimeToLive(2000L)
     .addShapes(Shape.RECT, Shape.CIRCLE)
-    .addSizes(Size.SMALL)
+    .addSizes(Size(12))
     .setPosition(-50f, viewKonfetti.width + 50f, -50f, -50f)
     .stream(300, 5000L)
 ```
@@ -56,9 +56,10 @@ Just add the following dependency in your app's build.gradle
 
 ```groovy
 dependencies {
-      compile 'nl.dionsegijn:konfetti:1.0'
+      compile 'nl.dionsegijn:konfetti:1.0.2'
 }
 ```
+ [ ![Download](https://api.bintray.com/packages/danielmartinus/maven/Konfetti/images/download.svg) ](https://bintray.com/danielmartinus/maven/Konfetti/_latestVersion)
 
 ## Contribute
 
