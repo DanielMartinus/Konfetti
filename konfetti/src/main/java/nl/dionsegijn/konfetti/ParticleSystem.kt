@@ -1,11 +1,9 @@
 package nl.dionsegijn.konfetti
 
 import android.graphics.Color
-import android.support.annotation.ColorInt
 import nl.dionsegijn.konfetti.emitters.BurstEmitter
 import nl.dionsegijn.konfetti.emitters.Emitter
 import nl.dionsegijn.konfetti.emitters.StreamEmitter
-import nl.dionsegijn.konfetti.listeners.OnParticleSystemUpdateListener
 import nl.dionsegijn.konfetti.models.ConfettiConfig
 import nl.dionsegijn.konfetti.models.LocationModule
 import nl.dionsegijn.konfetti.models.Shape
@@ -62,7 +60,7 @@ class ParticleSystem(val konfettiView: KonfettiView) {
      * One of the colors will be randomly picked when confetti is generated
      * Default color is Color.RED
      */
-    fun addColors(@ColorInt vararg colors: Int): ParticleSystem {
+    fun addColors(vararg colors: Int): ParticleSystem {
         this.colors = colors
         return this
     }
