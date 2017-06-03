@@ -90,7 +90,7 @@ class MainActivity : AppCompatActivity(), OnConfigurationChangedListener {
                 .setFadeOutEnabled(true)
                 .setTimeToLive(config.timeToLive)
                 .addShapes(*config.shapes)
-                .addSizes(Size(35f), Size(45f, 6f))
+                .addSizes(Size(12), Size(16, 6f))
                 .setPosition(-50f, viewKonfetti.width + 50f, -50f, -50f)
                 .stream(300, 5000L)
     }
@@ -104,7 +104,7 @@ class MainActivity : AppCompatActivity(), OnConfigurationChangedListener {
                 .setFadeOutEnabled(true)
                 .setTimeToLive(config.timeToLive)
                 .addShapes(*config.shapes)
-                .addSizes(Size(35f), Size(45f, 6f))
+                .addSizes(Size(12), Size(16, 6f))
                 .setPosition(viewKonfetti.x + viewKonfetti.width / 2, viewKonfetti.y + viewKonfetti.height / 3)
                 .burst(100)
     }
@@ -139,7 +139,7 @@ class MainActivity : AppCompatActivity(), OnConfigurationChangedListener {
                             .setDirection(degrees - 50, degrees + 50)
                             .setSpeed(0f, speed + 5f)
                             .addShapes(Shape.RECT, Shape.CIRCLE)
-                            .addSizes(Size(35f), Size(45f, 6f))
+                            .addSizes(Size(12), Size(16, 6f))
                             .setPosition(startX, startY)
                             .setTimeToLive(10000)
                             .setFadeOutEnabled(true)

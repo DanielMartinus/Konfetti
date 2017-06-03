@@ -25,7 +25,7 @@ class ParticleSystem(val konfettiView: KonfettiView) {
 
     /** Default values */
     private var colors = intArrayOf(Color.RED)
-    private var sizes = arrayOf(Size(40f))
+    private var sizes = arrayOf(Size(16))
     private var shapes = arrayOf(Shape.RECT)
     private var confettiConfig = ConfettiConfig()
 
@@ -67,7 +67,7 @@ class ParticleSystem(val konfettiView: KonfettiView) {
     }
 
     /**
-     * Add one or more different sizes by defining a [Size] in pixels and optionally its mass
+     * Add one or more different sizes by defining a [Size] in dip and optionally its mass
      */
     fun addSizes(vararg possibleSizes: Size): ParticleSystem {
         this.sizes = possibleSizes.filterIsInstance<Size>().toTypedArray()
