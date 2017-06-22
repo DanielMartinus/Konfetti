@@ -26,6 +26,7 @@ class Confetti(var location: Vector,
     private var rotationSpeed = 1f
     private var rotation = 0f
     private var rotationWidth = width
+    private var rectF = RectF()
 
     // Expected frame rate
     private var speedF = 60f
@@ -111,17 +112,13 @@ class Confetti(var location: Vector,
 
         paint.alpha = alpha
 
-        val rect: RectF = RectF(
-                left,
-                location.y,
-                right,
-                location.y + getSize())
+        rectF.set(left, location.y, right, location.y + getSize())
 
         canvas.save()
-        canvas.rotate(rotation, rect.centerX(), rect.centerY())
+        canvas.rotate(rotation, rectF.centerX(), rectF.centerY())
         when (shape) {
-            Shape.CIRCLE -> canvas.drawOval(rect, paint)
-            Shape.RECT -> canvas.drawRect(rect, paint)
+            Shape.CIRCLE -> canvas.drawOval(rectF, paint)
+            Shape.RECT -> canvas.drawRect(rectF, paint)
         }
         canvas.restore()
     }
