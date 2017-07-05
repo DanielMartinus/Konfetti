@@ -1,1 +1,1 @@
-include ':google-play-demo', ':konfetti'
+include ':google-play-demo', ':konfetti', ':simple-demo'
