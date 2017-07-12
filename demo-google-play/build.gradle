@@ -29,6 +29,7 @@ dependencies {
     compile 'com.android.support:design:25.3.1'
     compile "org.jetbrains.kotlin:kotlin-stdlib-jre7:$kotlin_version"
     compile 'me.bendik.simplerangeview:simplerangeview:0.1.1'
+    compile 'com.github.softwee:codeview-android:1.2.0'
     compile project(path: ':konfetti')
 }
 repositories {
