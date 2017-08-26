@@ -13,9 +13,10 @@ import nl.dionsegijn.konfettidemo.interfaces.OnGlobalConfigurationChangedListene
  * Created by dionsegijn on 5/21/17.
  */
 @SuppressLint("ViewConstructor")
-class GlobalConfigSelectionView(context: Context?,
-                                val globalConfiglistener: OnGlobalConfigurationChangedListener,
-                                val configurationManager: ConfigurationManager) : LinearLayout(context) {
+class GlobalConfigSelectionView(
+        context: Context,
+        private val globalConfiglistener: OnGlobalConfigurationChangedListener,
+        private val configurationManager: ConfigurationManager) : LinearLayout(context) {
 
     init {
         inflate(context, R.layout.view_section_global_config_selection, this)
@@ -33,7 +34,7 @@ class GlobalConfigSelectionView(context: Context?,
         }
     }
 
-    fun setLimitActiveSystemsCheckBox() {
+    private fun setLimitActiveSystemsCheckBox() {
         settingsLimitActiveSystems.isChecked = configurationManager.maxParticleSystemsAlive ==
                 ConfigurationManager.PARTICLE_SYSTEMS_DEFAULT
     }

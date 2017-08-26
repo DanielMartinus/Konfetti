@@ -24,23 +24,25 @@ class MainActivity : AppCompatActivity(), OnConfigurationChangedListener {
 
     lateinit var bottomSheetBehavior: BottomSheetBehavior<View>
 
-    val updateInfoHandler = Handler()
-    lateinit var run: Runnable
+    private val updateInfoHandler = Handler()
+    private lateinit var updateInfoRunnable: Runnable
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_main)
 
         setupTabSelectionBottomSheetBehavior()
-        viewConfigurationControls.setOnConfigurationChangedListener(this)
+        viewConfigurationControls.onConfigurationChanged = this
         bottomSheetBehavior = BottomSheetBehavior.from(viewConfigurationControls)
         velocityTest()
         viewKonfetti.setOnClickListener {
             startConfetti()
         }
 
-        run = Runnable { updateSystemsInfo(); updateInfoHandler.postDelayed(run, 50) }
-        updateInfoHandler.post(run)
+        updateInfoRunnable = Runnable {
+            updateSystemsInfo(); updateInfoHandler.postDelayed(updateInfoRunnable, 50)
+        }
+        updateInfoHandler.post(updateInfoRunnable)
     }
 
     /**
@@ -50,25 +52,24 @@ class MainActivity : AppCompatActivity(), OnConfigurationChangedListener {
      * state.
      * - Select a tab that wasn't active yet and the BottomSheet will expand
      */
-    fun setupTabSelectionBottomSheetBehavior() {
+    private fun setupTabSelectionBottomSheetBehavior() {
         viewConfigurationControls.setOnTabSelectedListener(object : OnSimpleTabSelectedListener() {
             override fun onTabSelected(tab: TabLayout.Tab?) {
                 bottomSheetBehavior.state = BottomSheetBehavior.STATE_EXPANDED
             }
 
             override fun onTabReselected(tab: TabLayout.Tab?) {
-                val state: Int
-                if (bottomSheetBehavior.state == BottomSheetBehavior.STATE_COLLAPSED) {
-                    state = BottomSheetBehavior.STATE_EXPANDED
+                val state: Int = if (bottomSheetBehavior.state == BottomSheetBehavior.STATE_COLLAPSED) {
+                    BottomSheetBehavior.STATE_EXPANDED
                 } else {
-                    state = BottomSheetBehavior.STATE_COLLAPSED
+                    BottomSheetBehavior.STATE_COLLAPSED
                 }
                 bottomSheetBehavior.state = state
             }
         })
     }
 
-    fun startConfetti() {
+    private fun startConfetti() {
         val config = viewConfigurationControls.configuration.active
         val selectedColors = config.colors.map { color(it) }.toIntArray()
         when (config.type) {
@@ -77,7 +78,7 @@ class MainActivity : AppCompatActivity(), OnConfigurationChangedListener {
         }
     }
 
-    fun streamFromTop(config: Configuration, colors: IntArray) {
+    private fun streamFromTop(config: Configuration, colors: IntArray) {
         if (!canIHaveMoreConfetti()) return
         viewKonfetti.build()
                 .addColors(*colors)
@@ -91,7 +92,7 @@ class MainActivity : AppCompatActivity(), OnConfigurationChangedListener {
                 .stream(300, 5000L)
     }
 
-    fun burstFromCenter(config: Configuration, colors: IntArray) {
+    private fun burstFromCenter(config: Configuration, colors: IntArray) {
         if (!canIHaveMoreConfetti()) return
         viewKonfetti.build()
                 .addColors(*colors)
@@ -105,11 +106,11 @@ class MainActivity : AppCompatActivity(), OnConfigurationChangedListener {
                 .burst(100)
     }
 
-    var startX: Float = 0f
-    var startY: Float = 0f
-    var speed: Int = 0
-    var degrees: Double = 0.0
-    fun velocityTest() {
+    private var startX: Float = 0f
+    private var startY: Float = 0f
+    private var speed: Int = 0
+    private var degrees: Double = 0.0
+    private fun velocityTest() {
         viewKonfetti.setOnTouchListener { _, event ->
             val modeEnabled = viewConfigurationControls.configuration.active.type == Configuration.TYPE_DRAG_AND_SHOOT
             when (event.action) {
@@ -146,9 +147,7 @@ class MainActivity : AppCompatActivity(), OnConfigurationChangedListener {
         }
     }
 
-    fun color(resId: Int): Int {
-        return ContextCompat.getColor(applicationContext, resId)
-    }
+    fun color(resId: Int): Int = ContextCompat.getColor(applicationContext, resId)
 
     override fun onConfigurationChanged(selected: Configuration) {
         val valueAnimator = ValueAnimator.ofFloat(1f, 0f)
@@ -169,7 +168,7 @@ class MainActivity : AppCompatActivity(), OnConfigurationChangedListener {
         valueAnimator.start()
     }
 
-    fun updateSystemsInfo() {
+    private fun updateSystemsInfo() {
         val activeSystems = viewKonfetti.systems.size
         val activeParticles = viewKonfetti.systems.sumBy { it.activeParticles() }
         viewSystemInfo.text = "Active systems: $activeSystems \nActive particles: $activeParticles"
@@ -180,7 +179,7 @@ class MainActivity : AppCompatActivity(), OnConfigurationChangedListener {
      * The system has its limitations and as long as there is no shared object poul yet
      * there is no nice way of limiting the resources foreach particle system.
      */
-    fun canIHaveMoreConfetti(): Boolean {
+    private fun canIHaveMoreConfetti(): Boolean {
         if (viewConfigurationControls.configuration.maxParticleSystemsAlive
                 == ConfigurationManager.PARTICLE_SYSTEMS_INFINITE) {
             return true

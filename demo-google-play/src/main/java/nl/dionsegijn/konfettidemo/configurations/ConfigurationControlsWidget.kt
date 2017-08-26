@@ -42,14 +42,10 @@ class ConfigurationControlsWidget : LinearLayout, OnConfigurationChangedListener
         }
     }
 
-    fun setOnConfigurationChangedListener(listener: OnConfigurationChangedListener) {
-        this.onConfigurationChanged = listener
-    }
-
     override fun onConfigurationChanged(selected: Configuration) {
         configuration.active = selected
         val childCount = viewPager.childCount
-        (0..childCount - 1)
+        (0 until childCount)
                 .map { viewPager.getChildAt(it); }
                 .filterIsInstance<UpdateConfiguration>()
                 .forEach {
@@ -58,7 +54,7 @@ class ConfigurationControlsWidget : LinearLayout, OnConfigurationChangedListener
         onConfigurationChanged?.onConfigurationChanged(selected)
     }
 
-    fun speedValuesChanged(): MultiSeekbarSelectionView.OnMultiSeekBarValueChanged {
+    private fun speedValuesChanged(): MultiSeekbarSelectionView.OnMultiSeekBarValueChanged {
         return object : MultiSeekbarSelectionView.OnMultiSeekBarValueChanged {
             override fun onValueChanged(min: Float, max: Float) {
                 configuration.active.minSpeed = min
@@ -83,12 +79,12 @@ class ConfigurationControlsWidget : LinearLayout, OnConfigurationChangedListener
      * ViewPager setup
      */
 
-    fun initViewPager() {
+    private fun initViewPager() {
         viewPager.adapter = ConfigPagerAdapter(getTabs())
         viewPager.offscreenPageLimit = getTabs().size
         tabLayout.setupWithViewPager(viewPager)
         tabLayout.tabMode = TabLayout.MODE_SCROLLABLE
-        for (i in 0..tabLayout.tabCount - 1) {
+        for (i in 0 until tabLayout.tabCount) {
             tabLayout.getTabAt(i)?.setIcon(getTabs()[i].icon)
         }
     }
@@ -98,12 +94,12 @@ class ConfigurationControlsWidget : LinearLayout, OnConfigurationChangedListener
     }
 
     /* Just some simple views used in viewpager to display configuration settings */
-    fun getTabs(): Array<TabConfig> {
+    private fun getTabs(): Array<TabConfig> {
         return arrayOf(
                 TabConfig(R.drawable.ic_configurations, ConfigTypeSelectionView(context, this, configuration)),
                 TabConfig(R.drawable.ic_paint, ColorSelectionView(context, configuration)),
                 TabConfig(R.drawable.ic_shapes, ShapeSelectionView(context, configuration)),
-                TabConfig(R.drawable.ic_speed, MultiSeekbarSelectionView(context, configuration, "Speed", 0, 10, speedValuesChanged())),
+                TabConfig(R.drawable.ic_speed, MultiSeekbarSelectionView(context, configuration, "Speed", 10, speedValuesChanged())),
                 TabConfig(R.drawable.ic_time_to_live, SeekbarSelectionView(context, configuration, "Time to live", 5000)),
                 TabConfig(R.drawable.ic_settings, GlobalConfigSelectionView(context, this, configuration)))
     }

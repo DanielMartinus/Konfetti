@@ -16,12 +16,12 @@ import nl.dionsegijn.konfettidemo.interfaces.UpdateConfiguration
  * Created by dionsegijn on 5/21/17.
  */
 @SuppressLint("ViewConstructor")
-class MultiSeekbarSelectionView(context: Context?,
-                                configuration: ConfigurationManager,
-                                val title: String,
-                                min: Int,
-                                max: Int,
-                                val onMultiSeekBarValueChanged: OnMultiSeekBarValueChanged) : LinearLayout(context), UpdateConfiguration {
+class MultiSeekbarSelectionView(
+        context: Context,
+        configuration: ConfigurationManager,
+        val title: String,
+        max: Int,
+        val onMultiSeekBarValueChanged: OnMultiSeekBarValueChanged) : LinearLayout(context), UpdateConfiguration {
 
     interface OnMultiSeekBarValueChanged {
         fun onValueChanged(min: Float, max: Float)
@@ -54,9 +54,7 @@ class MultiSeekbarSelectionView(context: Context?,
         viewSeekbarTitle.text = createString(title, minStartValue, maxStartValue)
     }
 
-    fun createString(title: String, value1: Int, value2: Int): String {
-        return "$title ($value1, $value2)"
-    }
+    fun createString(title: String, value1: Int, value2: Int): String = "$title ($value1, $value2)"
 
     override fun onUpdateConfiguration(configuration: Configuration) {
         rangebar.start = configuration.minSpeed.toInt()

@@ -21,13 +21,14 @@ import nl.dionsegijn.konfettidemo.interfaces.UpdateConfiguration
  * Created by dionsegijn on 5/21/17.
  */
 @SuppressLint("ViewConstructor")
-class ConfigTypeSelectionView(context: Context?,
-                              val onConfigurationChangedListener: OnConfigurationChangedListener,
-                              val configs: ConfigurationManager) : LinearLayout(context), UpdateConfiguration {
+class ConfigTypeSelectionView(
+        context: Context,
+        private val onConfigurationChangedListener: OnConfigurationChangedListener,
+        private val configs: ConfigurationManager) : LinearLayout(context), UpdateConfiguration {
 
-    lateinit var selectedButton: AppCompatButton
-    val selectedColor: Int = 0xffffce08.toInt()
-    val defaultColor: Int = 0xfff1f1f1.toInt()
+    private lateinit var selectedButton: AppCompatButton
+    private val selectedColor: Int = 0xffffce08.toInt()
+    private val defaultColor: Int = 0xfff1f1f1.toInt()
 
     init {
         inflate(context, R.layout.view_section_config_selection, this)
@@ -36,7 +37,7 @@ class ConfigTypeSelectionView(context: Context?,
         displayConfigOptions()
     }
 
-    fun displayConfigOptions() {
+    private fun displayConfigOptions() {
         configs.configurations.forEach { config ->
             val button = AppCompatButton(context)
 
@@ -68,7 +69,7 @@ class ConfigTypeSelectionView(context: Context?,
         }
     }
 
-    fun setColorForButton(button: AppCompatButton, @ColorInt color: Int) {
+    private fun setColorForButton(button: AppCompatButton, @ColorInt color: Int) {
         val colorStateList = ColorStateList(arrayOf(IntArray(0)), intArrayOf(color))
         button.supportBackgroundTintList = colorStateList
     }

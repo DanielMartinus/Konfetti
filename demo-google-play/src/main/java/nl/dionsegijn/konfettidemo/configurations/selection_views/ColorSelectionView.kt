@@ -25,14 +25,15 @@ import nl.dionsegijn.konfettidemo.interfaces.UpdateConfiguration
  * state of the view
  */
 @SuppressLint("ViewConstructor")
-class ColorSelectionView(context: Context?,
-                         val configurationManager: ConfigurationManager) : LinearLayout(context), UpdateConfiguration {
+class ColorSelectionView(
+        context: Context,
+        private val configurationManager: ConfigurationManager) : LinearLayout(context), UpdateConfiguration {
 
-    val availableColors = listOf(R.color.lt_yellow, R.color.lt_orange, R.color.lt_purple,
+    private val availableColors = listOf(R.color.lt_yellow, R.color.lt_orange, R.color.lt_purple,
             R.color.lt_pink, R.color.dk_blue, R.color.dk_cyan, R.color.dk_green, R.color.dk_red)
-    val buttonWidth = pxFromDp(40f).toInt()
-    val buttonHeight = pxFromDp(25f).toInt()
-    val buttonMargin = pxFromDp(12f).toInt()
+    private val buttonWidth = pxFromDp(40f).toInt()
+    private val buttonHeight = pxFromDp(25f).toInt()
+    private val buttonMargin = pxFromDp(12f).toInt()
 
     init {
         inflate(context, R.layout.view_section_color_selection, this)
@@ -41,12 +42,12 @@ class ColorSelectionView(context: Context?,
         updateRows(configurationManager.active)
     }
 
-    fun updateRows(configuration: Configuration) {
+    private fun updateRows(configuration: Configuration) {
         addColorsToViewGroup(colorRow1, availableColors.take(4).toIntArray(), configuration.colors)
         addColorsToViewGroup(colorRow2, availableColors.takeLast(4).toIntArray(), configuration.colors)
     }
 
-    fun addColorsToViewGroup(viewGroup: LinearLayout, colors: IntArray, initSelectedColors: IntArray) {
+    private fun addColorsToViewGroup(viewGroup: LinearLayout, colors: IntArray, initSelectedColors: IntArray) {
         colors.forEach { color ->
             val view = Button(context)
 
@@ -82,11 +83,11 @@ class ColorSelectionView(context: Context?,
         }
     }
 
-    fun getActiveColors(): IntArray {
+    private fun getActiveColors(): IntArray {
         return configurationManager.active.colors
     }
 
-    fun setStateButton(view: View, color: Int, selected: Boolean) {
+    private fun setStateButton(view: View, color: Int, selected: Boolean) {
         val shape = GradientDrawable()
         shape.shape = GradientDrawable.RECTANGLE
         shape.setColor(ContextCompat.getColor(context, color))
@@ -95,9 +96,7 @@ class ColorSelectionView(context: Context?,
         view.background = shape
     }
 
-    private fun pxFromDp(dp: Float): Float {
-        return dp * resources.displayMetrics.density
-    }
+    private fun pxFromDp(dp: Float): Float = dp * resources.displayMetrics.density
 
     override fun onUpdateConfiguration(configuration: Configuration) {
         colorRow1.removeAllViews()

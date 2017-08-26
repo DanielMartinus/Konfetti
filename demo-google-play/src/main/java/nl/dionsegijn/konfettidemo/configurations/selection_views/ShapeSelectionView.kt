@@ -19,18 +19,19 @@ import nl.dionsegijn.konfettidemo.interfaces.UpdateConfiguration
 /**
  * Created by dionsegijn on 5/21/17.
  */
-class ShapeSelectionView(context: Context?,
-                         val configurationManager: ConfigurationManager) : LinearLayout(context), UpdateConfiguration {
+class ShapeSelectionView(
+        context: Context,
+        private val configurationManager: ConfigurationManager) : LinearLayout(context), UpdateConfiguration {
 
-    val buttonWidth = pxFromDp(100f).toInt()
-    val buttonHeight = pxFromDp(60f).toInt()
-    val margin = pxFromDp(8f).toInt()
+    private val buttonWidth = pxFromDp(100f).toInt()
+    private val buttonHeight = pxFromDp(60f).toInt()
+    private val margin = pxFromDp(8f).toInt()
 
     private fun pxFromDp(dp: Float): Float {
         return dp * resources.displayMetrics.density
     }
 
-    val availableShapes = arrayOf(Shape.CIRCLE, Shape.RECT)
+    private val availableShapes = arrayOf(Shape.CIRCLE, Shape.RECT)
 
     init {
         inflate(context, R.layout.view_section_shape_selection, this)
@@ -39,7 +40,7 @@ class ShapeSelectionView(context: Context?,
         displayShapeConfigOptions(availableShapes)
     }
 
-    fun displayShapeConfigOptions(selectedShapes: Array<Shape>) {
+    private fun displayShapeConfigOptions(selectedShapes: Array<Shape>) {
         availableShapes.forEach { shape ->
             val button = AppCompatImageButton(context)
 
@@ -77,7 +78,7 @@ class ShapeSelectionView(context: Context?,
         }
     }
 
-    fun setButtonState(button: AppCompatImageButton, isSelected: Boolean, @DrawableRes resDrawable: Int) {
+    private fun setButtonState(button: AppCompatImageButton, isSelected: Boolean, @DrawableRes resDrawable: Int) {
         val foregroundColor = if(isSelected) 0xfff1f1f1.toInt() else 0xffacacac.toInt()
         val backgroundColor = if(isSelected) 0xffffce08.toInt() else 0xfff1f1f1.toInt()
         val colorStateList = ColorStateList(arrayOf(IntArray(0)), intArrayOf(backgroundColor))

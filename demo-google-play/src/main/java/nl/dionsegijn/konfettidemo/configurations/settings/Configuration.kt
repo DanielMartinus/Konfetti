@@ -8,10 +8,12 @@ import nl.dionsegijn.konfettidemo.R
 /**
  * Created by dionsegijn on 5/21/17.
  */
-open class Configuration(val type: Int,
-                         val title: String,
-                         @StringRes val instructions: Int,
-                         @DrawableRes val vector: Int) {
+open class Configuration(
+        val type: Int,
+        val title: String,
+        @StringRes val instructions: Int,
+        @DrawableRes val vector: Int) {
+
     companion object {
         @JvmStatic val TYPE_STREAM_FROM_TOP: Int = 0
         @JvmStatic val TYPE_DRAG_AND_SHOOT: Int = 1
