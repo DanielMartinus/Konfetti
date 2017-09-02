@@ -15,13 +15,13 @@ class StreamEmitter(location: LocationModule, velocity: VelocityModule, sizes: A
     private var maxParticles = -1
     /** Keeping count of how many particles are created */
     private var particlesCreated = 0
-    /** Max time in milliseconds allowed to emit */
+    /** Max time allowed to emit in milliseconds */
     private var emittingTime: Long = 0
     /** Elapsed time in milliseconds */
     private var elapsedTime: Float = 0f
-    /** Milliseconds per particle creation */
+    /** Amount of time needed for each particle creation in milliseconds */
     private var amountPerMs: Float = 0f
-    /** Elapsed time in milliseconds */
+    /** Amount of time elapsed since last particle creation in milliseconds */
     private var createParticleMs: Float = 0f
 
     fun emit(particlesPerSecond: Int, emittingTime: Long = 0L, maxParticles: Int = -1): StreamEmitter {
