@@ -156,17 +156,6 @@ class ParticleSystem(val konfettiView: KonfettiView) {
      * Emit a certain amount of particles per second
      * calling this function will start the system rendering the confetti
      * [particlesPerSecond] amount of particles created per second
-     */
-    fun stream(particlesPerSecond: Int) {
-        emitter = StreamEmitter(location, velocity, sizes, shapes, colors, confettiConfig).emit(
-                particlesPerSecond = particlesPerSecond)
-        start()
-    }
-
-    /**
-     * Emit a certain amount of particles per second
-     * calling this function will start the system rendering the confetti
-     * [particlesPerSecond] amount of particles created per second
      * [emittingTime] max amount of time to emit in milliseconds
      */
     fun stream(particlesPerSecond: Int, emittingTime: Long) {
