@@ -3,9 +3,7 @@ package nl.dionsegijn.konfetti.emitters
 /**
  * Created by dionsegijn on 9/03/17.
  *
- * BurstEmitter creates a bunch of particles when [build] is called.
- * All the particles will be rendered at once by the [RenderSystem]
- * once it's active.
+ * BurstEmitter creates all confetti at once when [RenderSystem] is started
  */
 class BurstEmitter: Emitter() {
 
@@ -14,25 +12,33 @@ class BurstEmitter: Emitter() {
             field = if(value > 1000) 1000 else value
         }
 
+    private var isStarted = false
+
     /**
      * The amount of particles you want to create at once
      */
      fun build(amountOfParticles: Int): Emitter {
         this.amountOfParticles = amountOfParticles
-        for (i in 1..amountOfParticles) {
-            addConfettiFunc?.invoke()
-        }
+        isStarted = false
         return this
     }
 
     /**
-     * Skip implementation, all confetti is already created in the [build] function
+     * Create all confetti when the [RenderSystem] started, only do this once to render all
+     * particles at the same time
      */
-    override fun createConfetti(deltaTime: Float) {}
+    override fun createConfetti(deltaTime: Float) {
+        if(!isStarted) {
+            isStarted = true
+            for (i in 1..amountOfParticles) {
+                addConfettiFunc?.invoke()
+            }
+        }
+    }
 
     /**
      * Tell the [RenderSystem] right away that the emitter is finished creating particles
      * since it's already done in [build]
      */
-    override fun isFinished(): Boolean = true
+    override fun isFinished(): Boolean = isStarted
 }
