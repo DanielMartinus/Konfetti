@@ -175,6 +175,17 @@ class ParticleSystem(val konfettiView: KonfettiView) {
     }
 
     /**
+     * Add your own custom Emitter. Create your own class and extend from [Emitter]
+     * See [BurstEmitter] and [StreamEmitter] as example classes on how to create your own emitter
+     * By calling this function the system wil start rendering the confetti according to your custom
+     * implementation
+     * @param [emitter] Custom implementation of the Emitter class
+     */
+    fun emitter(emitter: Emitter) {
+        startRenderSystem(emitter)
+    }
+
+    /**
      * Initialize [RenderSystem] with specified [Emitter]
      * By calling this function the system will start rendering confetti
      */
