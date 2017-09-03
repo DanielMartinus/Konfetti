@@ -7,7 +7,7 @@ class TimerModule {
     /**
      * Current time should be used when calculating
      * the elapsed time, it will be updated once when
-     * rendering the particles of the emitter
+     * rendering the particles in the renderSystem
      * @property currentTime in nanoseconds
      */
     var currentTime: Long = 0L

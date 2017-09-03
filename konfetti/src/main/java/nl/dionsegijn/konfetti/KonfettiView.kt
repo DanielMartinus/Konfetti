@@ -44,7 +44,7 @@ class KonfettiView : View {
         val deltaTime = timer.getDeltaTime()
         for (i in systems.size - 1 downTo 0) {
             val particleSystem = systems[i]
-            particleSystem.emitter.render(canvas, deltaTime)
+            particleSystem.renderSystem.render(canvas, deltaTime)
             if (particleSystem.doneEmitting()) {
                 systems.removeAt(i)
                 onParticleSystemUpdateListener?.onParticleSystemEnded(this, particleSystem, systems.size)

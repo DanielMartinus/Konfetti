@@ -1,35 +1,38 @@
 package nl.dionsegijn.konfetti.emitters
 
-import nl.dionsegijn.konfetti.models.ConfettiConfig
-import nl.dionsegijn.konfetti.models.LocationModule
-import nl.dionsegijn.konfetti.models.Shape
-import nl.dionsegijn.konfetti.models.Size
-import nl.dionsegijn.konfetti.modules.VelocityModule
-
 /**
- * Created by dionsegijn on 4/2/17.
+ * Created by dionsegijn on 9/03/17.
+ *
+ * BurstEmitter creates a bunch of particles when [build] is called.
+ * All the particles will be rendered at once by the [RenderSystem]
+ * once it's active.
  */
-open class BurstEmitter(location: LocationModule, velocity: VelocityModule, sizes: Array<Size>, shapes: Array<Shape>, colors: IntArray, config: ConfettiConfig) : Emitter(location, velocity, sizes, shapes, colors, config) {
+class BurstEmitter: Emitter() {
 
     private var amountOfParticles = 0
-        set(value) { if(value > 1000) field = 1000 else field = value }
+        set(value) {
+            field = if(value > 1000) 1000 else value
+        }
 
-    fun burst(amountOfParticles: Int): BurstEmitter {
+    /**
+     * The amount of particles you want to create at once
+     */
+     fun build(amountOfParticles: Int): Emitter {
         this.amountOfParticles = amountOfParticles
         for (i in 1..amountOfParticles) {
-            addConfetti()
+            addConfettiFunc?.invoke()
         }
         return this
     }
 
-    override fun createConfetti(deltaTime: Float) {
-        // Skip implementation since all confetti is already created
-    }
+    /**
+     * Skip implementation, all confetti is already created in the [build] function
+     */
+    override fun createConfetti(deltaTime: Float) {}
 
     /**
-     * Done emitting when all particles disappeared
+     * Tell the [RenderSystem] right away that the emitter is finished creating particles
+     * since it's already done in [build]
      */
-    override fun isDoneEmitting(): Boolean {
-        return particles.size == 0
-    }
+    override fun doneCreatingParticles(): Boolean = true
 }
