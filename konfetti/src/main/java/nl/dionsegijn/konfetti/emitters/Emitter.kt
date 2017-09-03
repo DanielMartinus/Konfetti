@@ -20,9 +20,9 @@ abstract class Emitter {
     abstract fun createConfetti(deltaTime: Float)
 
     /**
-     * Tell the renderer when the renderSystem is done creating particles
+     * Tell the [RenderSystem] when the emitter is done creating particles
      * @return true if the renderSystem is not longer creating any particles
      *         false if the renderSystem is still busy
      */
-    abstract fun doneCreatingParticles(): Boolean
+    abstract fun isFinished(): Boolean
 }
