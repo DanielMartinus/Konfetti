@@ -55,5 +55,5 @@ class RenderSystem(
 
     fun getActiveParticles(): Int = particles.size
 
-    fun isDoneEmitting(): Boolean = emitter.doneCreatingParticles() && particles.size == 0
+    fun isDoneEmitting(): Boolean = emitter.isFinished() && particles.size == 0
 }

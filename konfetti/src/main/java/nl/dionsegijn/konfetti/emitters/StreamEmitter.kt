@@ -79,7 +79,7 @@ class StreamEmitter : Emitter() {
      * If the [emittingTime] is not set tell the [RenderSystem] that the emitter is finished
      * creating particles when [particlesCreated] exceeded [maxParticles]
      */
-    override fun doneCreatingParticles(): Boolean {
+    override fun isFinished(): Boolean {
         return if (emittingTime > 0L) {
             elapsedTime >= emittingTime
         } else {

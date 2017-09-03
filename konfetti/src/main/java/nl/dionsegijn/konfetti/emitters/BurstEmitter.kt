@@ -34,5 +34,5 @@ class BurstEmitter: Emitter() {
      * Tell the [RenderSystem] right away that the emitter is finished creating particles
      * since it's already done in [build]
      */
-    override fun doneCreatingParticles(): Boolean = true
+    override fun isFinished(): Boolean = true
 }
