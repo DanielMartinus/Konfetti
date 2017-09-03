@@ -1,15 +1,13 @@
 package nl.dionsegijn.konfetti.emitters
 
-import nl.dionsegijn.konfetti.models.ConfettiConfig
-import nl.dionsegijn.konfetti.models.LocationModule
-import nl.dionsegijn.konfetti.models.Shape
-import nl.dionsegijn.konfetti.models.Size
-import nl.dionsegijn.konfetti.modules.VelocityModule
-
 /**
- * Created by dionsegijn on 4/2/17.
+ * Created by dionsegijn on 9/03/17.
+ *
+ * Stream emitter is a little more complex. It has several configurations for example:
+ * - Creating x amount of particles in a certain time frame
+ * - Creating x amount of particles until the threshold [maxParticles] is met
  */
-class StreamEmitter(location: LocationModule, velocity: VelocityModule, sizes: Array<Size>, shapes: Array<Shape>, colors: IntArray, config: ConfettiConfig) : Emitter(location, velocity, sizes, shapes, colors, config) {
+class StreamEmitter : Emitter() {
 
     /** Max amount of particles allowed to be created */
     private var maxParticles = -1
@@ -24,11 +22,12 @@ class StreamEmitter(location: LocationModule, velocity: VelocityModule, sizes: A
     /** Amount of time elapsed since last particle creation in milliseconds */
     private var createParticleMs: Float = 0f
 
-    fun emit(particlesPerSecond: Int, emittingTime: Long = 0L, maxParticles: Int = -1): StreamEmitter {
+    fun build(particlesPerSecond: Int,
+              emittingTime: Long = 0L,
+              maxParticles: Int = -1): StreamEmitter {
         this.maxParticles = maxParticles
         this.emittingTime = emittingTime
-        amountPerMs = 1f / particlesPerSecond
-        addConfetti()
+        this.amountPerMs = 1f / particlesPerSecond
         return this
     }
 
@@ -38,41 +37,53 @@ class StreamEmitter(location: LocationModule, velocity: VelocityModule, sizes: A
      */
     override fun createConfetti(deltaTime: Float) {
 
-        // If maxParticles is set and amount of particles created is not within the range of
-        // maxParticles stop emitting
-        if(maxParticles in 1..(particlesCreated - 1)) {
-            return
-        }
+        createParticleMs += deltaTime
 
         // Check if particle should be created
-        if(createParticleMs > amountPerMs && !isTimeElapsed()) {
+        if(createParticleMs >= amountPerMs && !isTimeElapsed()) {
             // Calculate how many particle  to create in the elapsed time
             val amount: Int = (createParticleMs / amountPerMs).toInt()
-            (1..amount).forEach { this.addConfetti() }
+            (1..amount).forEach { createParticle() }
             // Reset timer and add left over time for the next cycle
             createParticleMs %= amountPerMs
         }
-        createParticleMs += deltaTime
 
         elapsedTime += deltaTime * 1000
     }
 
-    private fun isTimeElapsed(): Boolean = if(emittingTime == 0L) false else elapsedTime > emittingTime
+    private fun createParticle() {
+        if(reachedMaxParticles()) { return }
+        particlesCreated++
+        addConfettiFunc?.invoke()
+    }
 
     /**
-     * When time is up and all particles disappeared
+     * If the [emittingTime] is 0 it's not set and not relevant
+     * If the emitting time is set check if [elapsedTime] exceeded the emittingTime
      */
-    override fun isDoneEmitting(): Boolean {
-        return if(emittingTime > 0L) {
-            elapsedTime >= emittingTime && particles.size == 0
+    private fun isTimeElapsed(): Boolean = if(emittingTime == 0L) false else elapsedTime >= emittingTime
+
+    /**
+     * If [maxParticles] is set in the configuration of this emitter check if the emitter
+     * reached the max amount of particles created.
+     *
+     * @return boolean true if [particlesCreated] exceeded [maxParticles]
+     *         boolean false if maxParticles is not set (-1) or if it's still allowed
+     *         to create particles if maxParticles is set.
+     */
+    private fun reachedMaxParticles(): Boolean = maxParticles in 1..(particlesCreated)
+
+    /**
+     * If the [emittingTime] is set tell the [RenderSystem] the emitter is finished creating
+     * particles when the elapsed time exceeded the emitting time.
+     * If the [emittingTime] is not set tell the [RenderSystem] that the emitter is finished
+     * creating particles when [particlesCreated] exceeded [maxParticles]
+     */
+    override fun doneCreatingParticles(): Boolean {
+        return if (emittingTime > 0L) {
+            elapsedTime >= emittingTime
         } else {
-            particles.size == 0
+            maxParticles >= particlesCreated
         }
     }
-
-    override fun addConfetti() {
-        particlesCreated++
-        super.addConfetti()
-    }
-
 }

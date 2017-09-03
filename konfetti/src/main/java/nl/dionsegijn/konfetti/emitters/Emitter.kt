@@ -1,56 +1,28 @@
 package nl.dionsegijn.konfetti.emitters
 
-import android.graphics.Canvas
-import nl.dionsegijn.konfetti.Confetti
-import nl.dionsegijn.konfetti.models.*
-import nl.dionsegijn.konfetti.models.Vector
-import nl.dionsegijn.konfetti.modules.VelocityModule
-import java.util.*
-
 /**
- * Implementation class for rendering confetti
- * Implementations like [BurstEmitter] and [StreamEmitter] define at
- * what rate the confetti is created while Emitter is creating the confetti
- * and passing through the canvas to let the confetti render itself
+ * Created by dionsegijn on 9/03/17.
+ *
+ * An abstract class for creating a custom emitter
+ * The only goal of the emitter is to tell when and how many particles to create
  */
-abstract class Emitter(val location: LocationModule,
-                       val velocity: VelocityModule,
-                       val sizes: Array<Size>,
-                       val shapes: Array<Shape>,
-                       val colors: IntArray,
-                       val config: ConfettiConfig) {
+abstract class Emitter {
 
-    private val random = Random()
-    private var gravity = Vector(0f, 0.01f)
-    internal val particles: MutableList<Confetti> = mutableListOf()
+    /**
+     * Call this function to tell the RenderSystem to render a particle
+     */
+    var addConfettiFunc: (() -> Unit)? = null
 
+    /**
+     * This function is called on each update when the [RenderSystem] is active
+     * Keep this function as light as possible otherwise you'll slow down the render system
+     */
     abstract fun createConfetti(deltaTime: Float)
-    abstract fun isDoneEmitting(): Boolean
 
-    open fun addConfetti() {
-        particles.add(Confetti(
-                location = Vector(location.x, location.y),
-                size = sizes[random.nextInt(sizes.size)],
-                shape = shapes[random.nextInt(shapes.size)],
-                color = colors[random.nextInt(colors.size)],
-                lifespan = config.timeToLive,
-                fadeOut = config.fadeOut,
-                velocity = this.velocity.getVelocity())
-        )
-    }
-
-    fun render(canvas: Canvas, deltaTime: Float) {
-        createConfetti(deltaTime)
-
-        for(i in particles.size-1 downTo 0) {
-            val particle = particles[i]
-            particle.applyForce(gravity)
-            particle.render(canvas, deltaTime)
-            if(particle.isDead()) particles.removeAt(i)
-        }
-    }
-
-    fun getActiveParticles(): Int {
-        return particles.size
-    }
+    /**
+     * Tell the renderer when the renderSystem is done creating particles
+     * @return true if the renderSystem is not longer creating any particles
+     *         false if the renderSystem is still busy
+     */
+    abstract fun doneCreatingParticles(): Boolean
 }
