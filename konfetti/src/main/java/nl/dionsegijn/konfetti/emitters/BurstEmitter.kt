@@ -37,8 +37,8 @@ class BurstEmitter: Emitter() {
     }
 
     /**
-     * Tell the [RenderSystem] right away that the emitter is finished creating particles
-     * since it's already done in [build]
+     * When the particles are rendered in [createConfetti] the emitter is finished
+     * This is determined by [isStarted], it will only happen once
      */
     override fun isFinished(): Boolean = isStarted
 }
