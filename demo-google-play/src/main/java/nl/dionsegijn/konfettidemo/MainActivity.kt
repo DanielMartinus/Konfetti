@@ -9,6 +9,7 @@ import android.support.design.widget.BottomSheetBehavior
 import android.support.design.widget.TabLayout
 import android.support.v4.content.ContextCompat
 import android.support.v7.app.AppCompatActivity
+import android.text.Html
 import android.view.MotionEvent
 import android.view.View
 import kotlinx.android.synthetic.main.activity_main.*
@@ -16,6 +17,7 @@ import nl.dionsegijn.konfetti.models.Shape
 import nl.dionsegijn.konfetti.models.Size
 import nl.dionsegijn.konfettidemo.configurations.settings.Configuration
 import nl.dionsegijn.konfettidemo.configurations.settings.ConfigurationManager
+import nl.dionsegijn.konfettidemo.emitters.BenchmarkEmitter
 import nl.dionsegijn.konfettidemo.interfaces.OnConfigurationChangedListener
 import nl.dionsegijn.konfettidemo.interfaces.OnSimpleTabSelectedListener
 
@@ -26,6 +28,7 @@ class MainActivity : AppCompatActivity(), OnConfigurationChangedListener {
 
     private val updateInfoHandler = Handler()
     private lateinit var updateInfoRunnable: Runnable
+    private val benchmarkEmitter = BenchmarkEmitter()
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -81,15 +84,15 @@ class MainActivity : AppCompatActivity(), OnConfigurationChangedListener {
     private fun streamFromTop(config: Configuration, colors: IntArray) {
         if (!canIHaveMoreConfetti()) return
         viewKonfetti.build()
-            .addColors(*colors)
-            .setDirection(0.0, 359.0)
-            .setSpeed(config.minSpeed, config.maxSpeed)
-            .setFadeOutEnabled(true)
-            .setTimeToLive(config.timeToLive)
-            .addShapes(*config.shapes)
-            .addSizes(Size(12), Size(16, 6f))
-            .setPosition(-50f, viewKonfetti.width + 50f, -50f, -50f)
-            .streamFor(300, 5000L)
+                .addColors(*colors)
+                .setDirection(0.0, 359.0)
+                .setSpeed(config.minSpeed, config.maxSpeed)
+                .setFadeOutEnabled(true)
+                .setTimeToLive(config.timeToLive)
+                .addShapes(*config.shapes)
+                .addSizes(Size(12), Size(16, 6f))
+                .setPosition(-50f, viewKonfetti.width + 50f, -50f, -50f)
+                .emitter(benchmarkEmitter)
     }
 
     private fun burstFromCenter(config: Configuration, colors: IntArray) {
@@ -169,9 +172,10 @@ class MainActivity : AppCompatActivity(), OnConfigurationChangedListener {
     }
 
     private fun updateSystemsInfo() {
-        val activeSystems = viewKonfetti.getActiveSystems()
-        val activeParticles = activeSystems.sumBy { it.activeParticles() }
-        viewSystemInfo.text = "Active systems: ${activeSystems.size} \nActive particles: $activeParticles"
+        val activeSystems = viewKonfetti.systems.size
+        val activeParticles = viewKonfetti.systems.sumBy { it.activeParticles() }
+        viewSystemInfo.text = Html.fromHtml("Active systems: $activeSystems <br>\nActive particles: $activeParticles <br><br>\n\n <b>fps:</b> ${benchmarkEmitter.fps} <br>\n" +
+                " <b>multiplier:</b> ${benchmarkEmitter.amount} <b>cycle:</b> ${benchmarkEmitter.cycle}")
     }
 
     /**
