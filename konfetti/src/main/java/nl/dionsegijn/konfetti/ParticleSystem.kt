@@ -2,6 +2,7 @@ package nl.dionsegijn.konfetti
 
 import android.graphics.Color
 import nl.dionsegijn.konfetti.emitters.BurstEmitter
+import nl.dionsegijn.konfetti.emitters.Emitter
 import nl.dionsegijn.konfetti.emitters.RenderSystem
 import nl.dionsegijn.konfetti.emitters.StreamEmitter
 import nl.dionsegijn.konfetti.models.ConfettiConfig
@@ -148,33 +149,37 @@ class ParticleSystem(val konfettiView: KonfettiView) {
      * [amount] - the amount of particles created at burst
      */
     fun burst(amount: Int) {
-        val burstEmitter = BurstEmitter()
-        renderSystem = RenderSystem(location, velocity, sizes, shapes, colors, confettiConfig, burstEmitter)
-        burstEmitter.build(amount)
-        start()
+        startRenderSystem(BurstEmitter().build(amount))
     }
 
     /**
-     * Emit a certain amount of particles per second
+     * Emit a certain amount of particles per second for the duration of specified time
      * calling this function will start the system rendering the confetti
      * [particlesPerSecond] amount of particles created per second
      * [emittingTime] max amount of time to emit in milliseconds
      */
     fun stream(particlesPerSecond: Int, emittingTime: Long) {
         val stream = StreamEmitter().build(particlesPerSecond = particlesPerSecond, emittingTime = emittingTime)
-        renderSystem = RenderSystem(location, velocity, sizes, shapes, colors, confettiConfig, stream)
-        start()
+        startRenderSystem(stream)
     }
 
     /**
-     * Emit a certain amount of particles per second
+     * Emit a certain amount of particles per second until [maxParticles] are created
      * calling this function will start the system rendering the confetti
      * [particlesPerSecond] amount of particles created per second
      * [maxParticles] max amount of particles to emit
      */
     fun stream(particlesPerSecond: Int, maxParticles: Int) {
         val stream = StreamEmitter().build(particlesPerSecond = particlesPerSecond, maxParticles = maxParticles)
-        renderSystem = RenderSystem(location, velocity, sizes, shapes, colors, confettiConfig, stream)
+        startRenderSystem(stream)
+    }
+
+    /**
+     * Initialize [RenderSystem] with specified [Emitter]
+     * By calling this function the system will start rendering confetti
+     */
+    private fun startRenderSystem(emitter: Emitter) {
+        renderSystem = RenderSystem(location, velocity, sizes, shapes, colors, confettiConfig, emitter)
         start()
     }
 
