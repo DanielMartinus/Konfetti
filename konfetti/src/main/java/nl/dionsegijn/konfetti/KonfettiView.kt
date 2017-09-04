@@ -26,17 +26,15 @@ class KonfettiView : View {
     /**
      * Keeping track of the delta time between frame rendering
      */
-    internal var timer: TimerIntegration = TimerIntegration()
+    private var timer: TimerIntegration = TimerIntegration()
 
     /**
      * [OnParticleSystemUpdateListener] listener to notify when a new particle system
      * starts rendering and when a particle system stopped rendering
      */
-    var onParticleSystemUpdateListener: OnParticleSystemUpdateListener? = null
+    private var onParticleSystemUpdateListener: OnParticleSystemUpdateListener? = null
 
-    fun build(): ParticleSystem {
-        return ParticleSystem(this)
-    }
+    fun build(): ParticleSystem = ParticleSystem(this)
 
     override fun onDraw(canvas: Canvas) {
         super.onDraw(canvas)
@@ -69,7 +67,7 @@ class KonfettiView : View {
      * Delta time is used to draw the confetti correctly if any frame drops occur.
      */
     class TimerIntegration {
-        var previousTime: Long = -1L
+        private var previousTime: Long = -1L
 
         fun reset() {
             previousTime = -1L
