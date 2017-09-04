@@ -7,7 +7,7 @@ import java.util.*
  * The module handles both single points and multiple points
  * If a range is set (betweenX or betweenY) a random point will be picked
  */
-class LocationModule(val random: Random) {
+class LocationModule(private val random: Random) {
 
     private var minX: Float = 0f
     private var maxX: Float? = null
@@ -16,18 +16,18 @@ class LocationModule(val random: Random) {
     private var maxY: Float? = null
 
     val x: Float; get() {
-        if (maxX == null) {
-            return minX
+        return if (maxX == null) {
+            minX
         } else {
-            return random.nextFloat().times(maxX!!.minus(minX)) + minX
+            random.nextFloat().times(maxX!!.minus(minX)) + minX
         }
     }
 
     val y: Float; get() {
-        if (maxY == null) {
-            return minY
+        return if (maxY == null) {
+            minY
         } else {
-            return random.nextFloat().times(maxY!!.minus(minY)) + minY
+            random.nextFloat().times(maxY!!.minus(minY)) + minY
         }
     }
 
