@@ -15,7 +15,7 @@ import java.util.*
 /**
  * Created by dionsegijn on 3/26/17.
  */
-class ParticleSystem(val konfettiView: KonfettiView) {
+class ParticleSystem(private val konfettiView: KonfettiView) {
 
     private val random = Random()
 
