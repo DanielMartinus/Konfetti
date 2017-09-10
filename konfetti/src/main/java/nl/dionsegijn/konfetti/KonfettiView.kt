@@ -63,6 +63,15 @@ class KonfettiView : View {
     }
 
     /**
+     * Abruptly stop all particle systems from rendering
+     * The canvas will stop drawing all particles. Everything that's being rendered will directly
+     * disappear from the view.
+     */
+    fun reset() {
+        systems.clear()
+    }
+
+    /**
      * TimerIntegration retrieves the delta time since the rendering of the previous frame.
      * Delta time is used to draw the confetti correctly if any frame drops occur.
      */
