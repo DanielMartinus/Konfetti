@@ -34,6 +34,8 @@ class KonfettiView : View {
      */
     private var onParticleSystemUpdateListener: OnParticleSystemUpdateListener? = null
 
+    fun getActiveSystems() = systems
+
     fun build(): ParticleSystem = ParticleSystem(this)
 
     override fun onDraw(canvas: Canvas) {
