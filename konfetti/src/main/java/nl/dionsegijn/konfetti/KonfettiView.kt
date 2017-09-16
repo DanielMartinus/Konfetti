@@ -21,7 +21,7 @@ class KonfettiView : View {
     /**
      * Active particle systems
      */
-    val systems: MutableList<ParticleSystem> = mutableListOf()
+    private val systems: MutableList<ParticleSystem> = mutableListOf()
 
     /**
      * Keeping track of the delta time between frame rendering
