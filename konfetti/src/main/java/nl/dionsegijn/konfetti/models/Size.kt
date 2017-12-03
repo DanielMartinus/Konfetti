@@ -9,5 +9,5 @@ import android.content.res.Resources
  */
 data class Size(val sizeInDp: Int, val mass: Float = 5f)
 
-val Size.sizeDp: Int
-    get() = (this.sizeInDp * Resources.getSystem().displayMetrics.density).toInt()
+val Size.sizeInPx: Float
+    get() = (this.sizeInDp * Resources.getSystem().displayMetrics.density)
