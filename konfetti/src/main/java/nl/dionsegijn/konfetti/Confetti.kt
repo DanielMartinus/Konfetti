@@ -7,6 +7,7 @@ import android.graphics.RectF
 import nl.dionsegijn.konfetti.models.Shape
 import nl.dionsegijn.konfetti.models.Size
 import nl.dionsegijn.konfetti.models.Vector
+import nl.dionsegijn.konfetti.models.sizeInPx
 import java.util.*
 
 class Confetti(var location: Vector,
