@@ -169,9 +169,9 @@ class MainActivity : AppCompatActivity(), OnConfigurationChangedListener {
     }
 
     private fun updateSystemsInfo() {
-        val activeSystems = viewKonfetti.systems.size
-        val activeParticles = viewKonfetti.systems.sumBy { it.activeParticles() }
-        viewSystemInfo.text = "Active systems: $activeSystems \nActive particles: $activeParticles"
+        val activeSystems = viewKonfetti.getActiveSystems()
+        val activeParticles = activeSystems.sumBy { it.activeParticles() }
+        viewSystemInfo.text = "Active systems: ${activeSystems.size} \nActive particles: $activeParticles"
     }
 
     /**
@@ -183,7 +183,7 @@ class MainActivity : AppCompatActivity(), OnConfigurationChangedListener {
         if (viewConfigurationControls.configuration.maxParticleSystemsAlive
                 == ConfigurationManager.PARTICLE_SYSTEMS_INFINITE) {
             return true
-        } else if (viewKonfetti.systems.size <= 6) {
+        } else if (viewKonfetti.getActiveSystems().size <= 6) {
             return true
         }
         return false
