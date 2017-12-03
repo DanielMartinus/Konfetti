@@ -1,5 +1,6 @@
 package nl.dionsegijn.konfettidemo.configurations.selection_views
 
+import android.annotation.SuppressLint
 import android.content.Context
 import android.content.res.ColorStateList
 import android.graphics.PorterDuff
@@ -78,6 +79,7 @@ class ShapeSelectionView(
         }
     }
 
+    @SuppressLint("RestrictedApi")
     private fun setButtonState(button: AppCompatImageButton, isSelected: Boolean, @DrawableRes resDrawable: Int) {
         val foregroundColor = if(isSelected) 0xfff1f1f1.toInt() else 0xffacacac.toInt()
         val backgroundColor = if(isSelected) 0xffffce08.toInt() else 0xfff1f1f1.toInt()
@@ -85,7 +87,7 @@ class ShapeSelectionView(
         button.supportBackgroundTintList = colorStateList
 
         val drawable = ContextCompat.getDrawable(context, resDrawable)
-        drawable.setColorFilter(foregroundColor, PorterDuff.Mode.SRC_IN)
+        drawable?.setColorFilter(foregroundColor, PorterDuff.Mode.SRC_IN)
         button.setImageDrawable(drawable)
     }
 
