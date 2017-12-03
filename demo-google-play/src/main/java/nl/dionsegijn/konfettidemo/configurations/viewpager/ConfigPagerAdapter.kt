@@ -7,27 +7,22 @@ import android.view.ViewGroup
 /**
  * Created by dionsegijn on 5/24/17.
  */
-class ConfigPagerAdapter(val tabs: Array<TabConfig>) : PagerAdapter() {
+class ConfigPagerAdapter(
+        private val tabs: Array<TabConfig>) : PagerAdapter() {
 
-    override fun instantiateItem(container: ViewGroup?, position: Int): Any {
+    override fun instantiateItem(container: ViewGroup, position: Int): Any {
         val view = tabs[position].widgetView
-        container?.addView(view)
+        container.addView(view)
         return view
     }
 
-    override fun isViewFromObject(view: View?, oView: Any?): Boolean {
-        return view == oView as View
-    }
+    override fun isViewFromObject(view: View, oView: Any): Boolean = view == oView as View
 
     override fun destroyItem(container: ViewGroup, position: Int, view: Any) {
         container.removeView(view as View)
     }
 
-    override fun getCount(): Int {
-        return tabs.size
-    }
+    override fun getCount(): Int = tabs.size
 
-    override fun getPageTitle(position: Int): CharSequence {
-        return ""
-    }
+    override fun getPageTitle(position: Int): CharSequence = ""
 }
