@@ -7,7 +7,7 @@ import android.graphics.RectF
 import nl.dionsegijn.konfetti.models.Shape
 import nl.dionsegijn.konfetti.models.Size
 import nl.dionsegijn.konfetti.models.Vector
-import nl.dionsegijn.konfetti.models.sizeDp
+import nl.dionsegijn.konfetti.models.sizeInPx
 import java.util.*
 
 class Confetti(var location: Vector,
@@ -20,7 +20,7 @@ class Confetti(var location: Vector,
                var velocity: Vector = Vector()) {
 
     private val mass = size.mass
-    private var width = size.sizeDp.toFloat()
+    private var width = size.sizeInPx
     private val paint: Paint = Paint()
 
     private var rotationSpeed = 1f
