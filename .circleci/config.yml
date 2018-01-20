@@ -26,13 +26,13 @@ jobs:
             - ~/.gradle
           key: jars-{{ checksum "build.gradle" }}-{{ checksum  "konfetti/build.gradle" }}-{{ checksum  "demo-google-play/build.gradle" }}-{{ checksum  "demo-simple-java/build.gradle" }}
       - store_artifacts:
-          path: app/build/outputs/apk
+          path: demo-google-play/build/outputs/apk
           destination: apks
       - store_artifacts:
-          path: app/build/reports
+          path: demo-google-play/build/reports
           destination: reports
       - store_test_results:
-          path: app/build/test-results
+          path: konfetti/build/test-results
       - persist_to_workspace:
           root: .
           paths:
