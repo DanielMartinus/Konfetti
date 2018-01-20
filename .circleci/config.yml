@@ -19,8 +19,8 @@ jobs:
           name: Download Dependencies
           command: ./gradlew dependencies --no-daemon
       - run:
-          name: Check and assemble APKs
-          command: ./gradlew assemble
+          name: Assemble demo-google-play apk
+          command: ./gradlew :demo-google-play:assemble
       - save_cache:
           paths:
             - ~/.gradle
