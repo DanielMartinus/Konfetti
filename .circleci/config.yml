@@ -14,7 +14,7 @@ jobs:
     steps:
       - checkout
       - restore_cache:
-          key: jars-{{ checksum "build.gradle" }}-{{ checksum  "app/build.gradle" }}
+          key: jars-{{ checksum "build.gradle" }}-{{ checksum  "konfetti/build.gradle" }}-{{ checksum  "demo-google-play/build.gradle" }}-{{ checksum  "demo-simple-java/build.gradle" }}
       - run:
           name: Download Dependencies
           command: ./gradlew dependencies --no-daemon
@@ -24,7 +24,7 @@ jobs:
       - save_cache:
           paths:
             - ~/.gradle
-          key: jars-{{ checksum "build.gradle" }}-{{ checksum  "app/build.gradle" }}
+          key: jars-{{ checksum "build.gradle" }}-{{ checksum  "konfetti/build.gradle" }}-{{ checksum  "demo-google-play/build.gradle" }}-{{ checksum  "demo-simple-java/build.gradle" }}
       - store_artifacts:
           path: app/build/outputs/apk
           destination: apks
