@@ -27,7 +27,7 @@ class BurstEmitterTests {
         burstEmitter.build(amount)
 
         burstEmitter.createConfetti(1f)
-        Mockito.verify(mockInvokeMethodClass, Mockito.times(1)).invokeMethod()
+        Mockito.verify(mockInvokeMethodClass, Mockito.times(amount)).invokeMethod()
 
         // Amount should not have changed, burst emitter only
         // create the particles one time after calling createConfetti
