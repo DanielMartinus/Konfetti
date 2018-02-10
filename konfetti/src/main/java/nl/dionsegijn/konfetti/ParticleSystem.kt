@@ -65,6 +65,15 @@ class ParticleSystem(private val konfettiView: KonfettiView) {
         this.colors = colors
         return this
     }
+    
+    /**
+     * One of the colors will be randomly picked when confetti is generated
+     * Default color is Color.RED
+     */
+    fun addColors(vararg colors: List<Int>): ParticleSystem {
+        this.colors = colors.toIntArray()
+        return this
+    }
 
     /**
      * Add one or more different sizes by defining a [Size] in dip and optionally its mass
