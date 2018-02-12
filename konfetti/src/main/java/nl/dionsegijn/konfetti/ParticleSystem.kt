@@ -60,6 +60,7 @@ class ParticleSystem(private val konfettiView: KonfettiView) {
     /**
      * One of the colors will be randomly picked when confetti is generated
      * Default color is Color.RED
+     * @param colors [IntArray] with color integers
      */
     fun addColors(vararg colors: Int): ParticleSystem {
         this.colors = colors
@@ -69,6 +70,7 @@ class ParticleSystem(private val konfettiView: KonfettiView) {
     /**
      * One of the colors will be randomly picked when confetti is generated
      * Default color is Color.RED
+     * @param colors a list with colors integers
      */
     fun addColors(colors: List<Int>): ParticleSystem {
         this.colors = colors.toIntArray()
