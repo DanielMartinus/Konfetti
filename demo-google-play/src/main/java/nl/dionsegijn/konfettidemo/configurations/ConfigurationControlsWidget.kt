@@ -8,7 +8,7 @@ import android.util.AttributeSet
 import android.widget.LinearLayout
 import kotlinx.android.synthetic.main.bottomsheet_config_controls.view.*
 import nl.dionsegijn.konfettidemo.R
-import nl.dionsegijn.konfettidemo.configurations.selection_views.*
+import nl.dionsegijn.konfettidemo.configurations.views.*
 import nl.dionsegijn.konfettidemo.configurations.settings.Configuration
 import nl.dionsegijn.konfettidemo.configurations.settings.ConfigurationManager
 import nl.dionsegijn.konfettidemo.configurations.viewpager.ConfigPagerAdapter

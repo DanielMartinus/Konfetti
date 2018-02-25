@@ -1,4 +1,4 @@
-package nl.dionsegijn.konfettidemo.configurations.selection_views
+package nl.dionsegijn.konfettidemo.configurations.views
 
 import android.annotation.SuppressLint
 import android.content.Context
