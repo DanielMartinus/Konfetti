@@ -89,7 +89,7 @@ class MainActivity : AppCompatActivity(), OnConfigurationChangedListener {
                 .addShapes(*config.shapes)
                 .addSizes(Size(12), Size(16, 6f))
                 .setPosition(-50f, viewKonfetti.width + 50f, -50f, -50f)
-                .stream(300, 5000L)
+                .streamFor(300, 5000L)
     }
 
     private fun burstFromCenter(config: Configuration, colors: IntArray) {
