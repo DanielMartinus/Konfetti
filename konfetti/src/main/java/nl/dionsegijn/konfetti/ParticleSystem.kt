@@ -96,23 +96,24 @@ class ParticleSystem(private val konfettiView: KonfettiView) {
 
     /**
      * Set direction you want to have the particles shoot to
-     * [direction] direction in degrees ranging from 0 - 360
-     * default direction is 0
+     * [degrees] direction in degrees ranging from 0 - 360
+     * Default degrees is 0 which starts at the right side
      */
-    fun setDirection(direction: Double): ParticleSystem {
-        velocity.minAngle = Math.toRadians(direction)
+    fun setDirection(degrees: Double): ParticleSystem {
+        velocity.minAngle = Math.toRadians(degrees)
         return this
     }
 
     /**
      * Set direction you want to have the particles shoot to
-     * [minDirection] direction in degrees
-     * [maxDirection] direction in degrees
-     * Default minDirection is 0 and maxDirection is by default not set
+     * [minDegrees] direction in degrees
+     * [maxDegrees] direction in degrees
+     * Default minDegrees is 0 which starts at the right side
+     * maxDegrees is by default not set
      */
-    fun setDirection(minDirection: Double, maxDirection: Double): ParticleSystem {
-        velocity.minAngle = Math.toRadians(minDirection)
-        velocity.maxAngle = Math.toRadians(maxDirection)
+    fun setDirection(minDegrees: Double, maxDegrees: Double): ParticleSystem {
+        velocity.minAngle = Math.toRadians(minDegrees)
+        velocity.maxAngle = Math.toRadians(maxDegrees)
         return this
     }
 
