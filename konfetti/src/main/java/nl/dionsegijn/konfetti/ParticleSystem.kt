@@ -169,7 +169,19 @@ class ParticleSystem(private val konfettiView: KonfettiView) {
      * [particlesPerSecond] amount of particles created per second
      * [emittingTime] max amount of time to emit in milliseconds
      */
+    @Deprecated("Deprecated in favor of better function names, use streamFor instead")
     fun stream(particlesPerSecond: Int, emittingTime: Long) {
+        val stream = StreamEmitter().build(particlesPerSecond = particlesPerSecond, emittingTime = emittingTime)
+        startRenderSystem(stream)
+    }
+
+    /**
+     * Emit a certain amount of particles per second for the duration of specified time
+     * calling this function will start the system rendering the confetti
+     * [particlesPerSecond] amount of particles created per second
+     * [emittingTime] max amount of time to emit in milliseconds
+     */
+    fun streamFor(particlesPerSecond: Int, emittingTime: Long) {
         val stream = StreamEmitter().build(particlesPerSecond = particlesPerSecond, emittingTime = emittingTime)
         startRenderSystem(stream)
     }
@@ -180,7 +192,13 @@ class ParticleSystem(private val konfettiView: KonfettiView) {
      * [particlesPerSecond] amount of particles created per second
      * [maxParticles] max amount of particles to emit
      */
+    @Deprecated("Deprecated in favor of better function names, use streamMaxParticles instead")
     fun stream(particlesPerSecond: Int, maxParticles: Int) {
+        val stream = StreamEmitter().build(particlesPerSecond = particlesPerSecond, maxParticles = maxParticles)
+        startRenderSystem(stream)
+    }
+
+    fun streamMaxParticles(particlesPerSecond: Int, maxParticles: Int) {
         val stream = StreamEmitter().build(particlesPerSecond = particlesPerSecond, maxParticles = maxParticles)
         startRenderSystem(stream)
     }
