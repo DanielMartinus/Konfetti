@@ -1,4 +1,4 @@
-package nl.dionsegijn.konfetti.Emitter
+package nl.dionsegijn.konfetti.emitter
 
 import nl.dionsegijn.konfetti.emitters.StreamEmitter
 import org.junit.Before
@@ -35,7 +35,7 @@ class StreamEmitterTests {
 
         // Test how many particles are created in one more second
         // Expected: 3
-        // Still 3 because emmitingTime = 3000ms so the streamer is done emitting
+        // Still 3 because emittingTime = 3000ms so the streamer is done emitting
         val oneSecond = 1f
         streamEmitter.createConfetti(oneSecond)
         Mockito.verify(mockInvokeMethodClass, Mockito.times(3)).invokeMethod()

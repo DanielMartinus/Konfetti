@@ -1,4 +1,4 @@
-package nl.dionsegijn.konfetti.Emitter
+package nl.dionsegijn.konfetti.emitter
 
 import nl.dionsegijn.konfetti.emitters.BurstEmitter
 import org.junit.Before
