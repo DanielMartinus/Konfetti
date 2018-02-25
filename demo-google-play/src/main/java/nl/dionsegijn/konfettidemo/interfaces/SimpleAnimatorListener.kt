@@ -1,7 +1,6 @@
 package nl.dionsegijn.konfettidemo.interfaces
 
 import android.animation.Animator
-import android.widget.SeekBar
 
 /**
  * Created by dionsegijn on 5/24/17.

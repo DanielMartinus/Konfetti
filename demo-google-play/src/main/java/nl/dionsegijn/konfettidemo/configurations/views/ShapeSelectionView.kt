@@ -49,7 +49,7 @@ class ShapeSelectionView(
                 button.elevation = 6f
             }
 
-            val drawable = if(shape == Shape.RECT) R.drawable.ic_rectangle else R.drawable.ic_circle
+            val drawable = if (shape == Shape.RECT) R.drawable.ic_rectangle else R.drawable.ic_circle
 
             /** Set width, height and margins of the button */
             val params = LinearLayout.LayoutParams(buttonWidth, buttonHeight)
@@ -61,10 +61,10 @@ class ShapeSelectionView(
             button.setOnClickListener { v ->
                 val tempList = configurationManager.active.shapes.toMutableList()
                 val isNotSelected = !tempList.contains(shape)
-                if(isNotSelected) {
+                if (isNotSelected) {
                     tempList.add(shape)
                 } else {
-                    if(tempList.size != 1) {
+                    if (tempList.size != 1) {
                         tempList.remove(shape)
                     } else {
                         Toast.makeText(context, context.getString(R.string.select_shape_minimal_one_warning), Toast.LENGTH_SHORT).show()
@@ -81,8 +81,8 @@ class ShapeSelectionView(
 
     @SuppressLint("RestrictedApi")
     private fun setButtonState(button: AppCompatImageButton, isSelected: Boolean, @DrawableRes resDrawable: Int) {
-        val foregroundColor = if(isSelected) 0xfff1f1f1.toInt() else 0xffacacac.toInt()
-        val backgroundColor = if(isSelected) 0xffffce08.toInt() else 0xfff1f1f1.toInt()
+        val foregroundColor = if (isSelected) 0xfff1f1f1.toInt() else 0xffacacac.toInt()
+        val backgroundColor = if (isSelected) 0xffffce08.toInt() else 0xfff1f1f1.toInt()
         val colorStateList = ColorStateList(arrayOf(IntArray(0)), intArrayOf(backgroundColor))
         button.supportBackgroundTintList = colorStateList
 

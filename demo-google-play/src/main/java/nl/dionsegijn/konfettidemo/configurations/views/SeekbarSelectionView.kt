@@ -32,7 +32,7 @@ class SeekbarSelectionView(
         val startValue = configuration.active.timeToLive.toInt()
         viewSeekbar.progress = startValue
         viewSeekbarTitle.text = "$title ($startValue)"
-        
+
         viewSeekbar.setOnSeekBarChangeListener(object : OnSimpleSeekBarChangeListener() {
             override fun onProgressChanged(seekBar: SeekBar?, progress: Int, fromUser: Boolean) {
                 viewSeekbarTitle.text = "$title ($progress)"

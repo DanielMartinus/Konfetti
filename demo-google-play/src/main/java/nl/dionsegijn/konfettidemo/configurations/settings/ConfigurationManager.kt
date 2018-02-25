@@ -7,8 +7,10 @@ import nl.dionsegijn.konfettidemo.R
  */
 class ConfigurationManager {
     companion object {
-        @JvmStatic val PARTICLE_SYSTEMS_DEFAULT: Int = 6
-        @JvmStatic val PARTICLE_SYSTEMS_INFINITE: Int = -1
+        @JvmStatic
+        val PARTICLE_SYSTEMS_DEFAULT: Int = 6
+        @JvmStatic
+        val PARTICLE_SYSTEMS_INFINITE: Int = -1
     }
 
     var active: Configuration

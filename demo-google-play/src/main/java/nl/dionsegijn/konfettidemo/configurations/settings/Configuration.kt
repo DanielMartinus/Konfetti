@@ -15,9 +15,12 @@ open class Configuration(
         @DrawableRes val vector: Int) {
 
     companion object {
-        @JvmStatic val TYPE_STREAM_FROM_TOP: Int = 0
-        @JvmStatic val TYPE_DRAG_AND_SHOOT: Int = 1
-        @JvmStatic val TYPE_BURST_FROM_CENTER: Int = 2
+        @JvmStatic
+        val TYPE_STREAM_FROM_TOP: Int = 0
+        @JvmStatic
+        val TYPE_DRAG_AND_SHOOT: Int = 1
+        @JvmStatic
+        val TYPE_BURST_FROM_CENTER: Int = 2
     }
 
     var timeToLive: Long = 2000

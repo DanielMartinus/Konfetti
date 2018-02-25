@@ -6,7 +6,6 @@ import android.util.AttributeSet
 import android.view.MotionEvent
 
 
-
 /**
  * Created by dionsegijn on 5/23/17.
  */
