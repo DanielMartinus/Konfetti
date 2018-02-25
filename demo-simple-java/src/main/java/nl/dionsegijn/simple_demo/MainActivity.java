@@ -29,7 +29,7 @@ public class MainActivity extends AppCompatActivity {
                         .addShapes(Shape.RECT, Shape.CIRCLE)
                         .addSizes(new Size(12, 5f))
                         .setPosition(-50f, konfettiView.getWidth() + 50f, -50f, -50f)
-                        .stream(300, 5000L);
+                        .streamFor(300, 5000L);
             }
         });
     }
