@@ -19,8 +19,8 @@ jobs:
           name: Download Dependencies
           command: ./gradlew dependencies --no-daemon
       - run:
-          name: Run tests
-          command: ./gradlew test
+          name: Build & run tests
+          command: ./gradlew build
       - run:
           name: Assemble demo-google-play apk
           command: ./gradlew :demo-google-play:assemble
