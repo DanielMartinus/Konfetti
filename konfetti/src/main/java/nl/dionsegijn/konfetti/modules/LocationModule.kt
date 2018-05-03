@@ -1,6 +1,6 @@
-package nl.dionsegijn.konfetti.models
+package nl.dionsegijn.konfetti.modules
 
-import java.util.*
+import java.util.Random
 
 /**
  * Location module keeping track of the locations
@@ -48,5 +48,4 @@ class LocationModule(private val random: Random) {
     fun setY(x: Float) {
         this.minY = x
     }
-
 }

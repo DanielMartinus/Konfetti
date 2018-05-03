@@ -6,11 +6,11 @@ import nl.dionsegijn.konfetti.emitters.Emitter
 import nl.dionsegijn.konfetti.emitters.RenderSystem
 import nl.dionsegijn.konfetti.emitters.StreamEmitter
 import nl.dionsegijn.konfetti.models.ConfettiConfig
-import nl.dionsegijn.konfetti.models.LocationModule
 import nl.dionsegijn.konfetti.models.Shape
 import nl.dionsegijn.konfetti.models.Size
+import nl.dionsegijn.konfetti.modules.LocationModule
 import nl.dionsegijn.konfetti.modules.VelocityModule
-import java.util.*
+import java.util.Random
 
 /**
  * Created by dionsegijn on 3/26/17.
@@ -66,7 +66,7 @@ class ParticleSystem(private val konfettiView: KonfettiView) {
         this.colors = colors
         return this
     }
-    
+
     /**
      * One of the colors will be randomly picked when confetti is generated
      * Default color is Color.RED
@@ -236,5 +236,4 @@ class ParticleSystem(private val konfettiView: KonfettiView) {
     fun activeParticles(): Int {
         return renderSystem.getActiveParticles()
     }
-
 }

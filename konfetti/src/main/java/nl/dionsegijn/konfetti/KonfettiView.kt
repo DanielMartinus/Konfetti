@@ -86,7 +86,7 @@ class KonfettiView : View {
 
         fun getDeltaTime(): Float {
 
-            if(previousTime == -1L) previousTime = System.nanoTime()
+            if (previousTime == -1L) previousTime = System.nanoTime()
 
             val currentTime = System.nanoTime()
             val dt: Long = (currentTime - previousTime) / 1000000

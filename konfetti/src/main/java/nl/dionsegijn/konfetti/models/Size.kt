@@ -16,5 +16,4 @@ data class Size(val sizeInDp: Int, val mass: Float = 5f) {
     init {
         require(mass != 0F) { "mass=$mass must be != 0" }
     }
-
 }

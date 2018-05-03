@@ -18,5 +18,4 @@ data class Vector(var x: Float = 0f, var y: Float = 0f) {
         x /= n
         y /= n
     }
-
 }

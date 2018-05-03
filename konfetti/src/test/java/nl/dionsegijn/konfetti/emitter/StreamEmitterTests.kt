@@ -80,6 +80,5 @@ class StreamEmitterTests {
 
 class MockInvokeMethodClass {
     fun invokeMethod() {
-
     }
 }
