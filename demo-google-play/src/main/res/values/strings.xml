@@ -11,4 +11,6 @@
     <string name="settings_reset_to_defaults">Reset to defaults</string>
     <string name="select_color_minimal_one_warning">At least one color must be selected</string>
     <string name="select_shape_minimal_one_warning">At least one shape must be selected</string>
+    <string name="content_description_confetti_illustration">Confetti illustration</string>
+    <string name="section_time_to_live_selection">Time to live</string>
 </resources>
