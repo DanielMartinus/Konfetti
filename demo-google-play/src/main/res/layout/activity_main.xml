@@ -20,14 +20,17 @@
             android:layout_height="wrap_content"
             android:layout_gravity="center"
             android:text="@string/stream_from_top_instructions"
-            android:textSize="28sp" />
+            android:textSize="28sp"
+            android:drawableRight="@drawable/ic_confetti_ball"
+            android:drawableEnd="@drawable/ic_confetti_ball" />
 
         <ImageView
             android:id="@+id/viewIllustration"
             android:layout_width="40dp"
             android:layout_height="40dp"
             android:layout_margin="8dp"
-            android:src="@drawable/ic_confetti_ball" />
+            android:contentDescription="@string/content_description_confetti_illustration"
+            app:srcCompat="@drawable/ic_confetti_ball" />
 
     </LinearLayout>
 
@@ -41,7 +44,7 @@
         android:id="@+id/viewSystemInfo"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_gravity="right"
+        android:layout_gravity="end"
         android:layout_margin="8dp"
         android:lineSpacingMultiplier="1.2"
         android:textSize="12sp" />
