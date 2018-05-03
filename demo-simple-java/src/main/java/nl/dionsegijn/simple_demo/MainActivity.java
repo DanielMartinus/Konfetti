@@ -16,7 +16,7 @@ public class MainActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
 
-        final KonfettiView konfettiView = (KonfettiView)findViewById(R.id.konfettiView);
+        final KonfettiView konfettiView = findViewById(R.id.konfettiView);
         konfettiView.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(final View view) {
