@@ -56,7 +56,7 @@ Just add the following dependency in your app's build.gradle
 
 ```groovy
 dependencies {
-      compile 'nl.dionsegijn:konfetti:1.1.0'
+      compile 'nl.dionsegijn:konfetti:1.1.2'
 }
 ```
  [ ![Download](https://api.bintray.com/packages/danielmartinus/maven/Konfetti/images/download.svg) ](https://bintray.com/danielmartinus/maven/Konfetti/_latestVersion)
