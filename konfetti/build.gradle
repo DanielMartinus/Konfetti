@@ -58,6 +58,9 @@ android {
         abortOnError true
         baseline file("lint-baseline.xml")
     }
+    sourceSets {
+        main.java.srcDirs += 'src/main/kotlin'
+    }
 }
 
 dependencies {
