@@ -31,6 +31,11 @@ spotless {
         ktlint("0.23.0")
         target "**/*.kt"
     }
+    java {
+        removeUnusedImports()
+        googleJavaFormat("1.5")
+        target '**/*.java'
+    }
 }
 
 android {
