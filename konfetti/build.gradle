@@ -1,5 +1,6 @@
 apply plugin: 'com.android.library'
 apply plugin: 'kotlin-android'
+apply plugin: "com.diffplug.gradle.spotless"
 
 ext {
     bintrayRepo = 'maven'
@@ -23,6 +24,13 @@ ext {
     licenseName = 'ISC'
     licenseUrl = 'https://github.com/DanielMartinus/Konfetti/blob/master/LICENSE'
     allLicenses = ["ISC"]
+}
+
+spotless {
+  kotlin {
+          ktlint("0.23.0")
+          target "**/*.kt"
+      }
 }
 
 android {
