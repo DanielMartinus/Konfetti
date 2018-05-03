@@ -22,6 +22,10 @@ android {
     sourceSets {
         main.java.srcDirs += 'src/main/kotlin'
     }
+    lintOptions {
+        abortOnError true
+        baseline file("lint-baseline.xml")
+    }
 }
 
 dependencies {
