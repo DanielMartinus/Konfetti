@@ -1,13 +1,13 @@
 package nl.dionsegijn.konfetti.modules
 
 import nl.dionsegijn.konfetti.models.Vector
-import java.util.*
+import java.util.Random
 
 /**
  * Velocity module to calculate the angular velocity
  * Based on the given angle(s) and speed [getVelocity] returns a [Vector]
  */
-class VelocityModule(val random: Random) {
+class VelocityModule(private val random: Random) {
 
     /**
      * Minimum angle as Radian
@@ -25,7 +25,9 @@ class VelocityModule(val random: Random) {
      * Speed lower than 0 will automatically set the speed to 0
      */
     var minSpeed: Float = 0f
-        set(value) { if(value < 0) field = 0f else field = value }
+        set(value) {
+            if (value < 0) field = 0f else field = value
+        }
     /**
      * Maximum speed (magnitude)
      * Once set it will be used to randomize between [minSpeed] and maxSpeed when velocity
@@ -33,7 +35,9 @@ class VelocityModule(val random: Random) {
      * Speed lower than 0 will automatically set the speed to 0
      */
     var maxSpeed: Float? = null
-        set(value) { if(value!! < 0) field = 0f else field = value }
+        set(value) {
+            if (value!! < 0) field = 0f else field = value
+        }
 
     /**
      * If both minSpeed and maxSpeed are set a random speed between those values will be returned
@@ -41,7 +45,7 @@ class VelocityModule(val random: Random) {
      * return magnitude (speed)
      */
     fun getSpeed(): Float {
-        if(maxSpeed == null) {
+        if (maxSpeed == null) {
             return minSpeed
         } else {
             return ((maxSpeed!! - minSpeed) * random.nextFloat()) + minSpeed
@@ -54,7 +58,7 @@ class VelocityModule(val random: Random) {
      * return angle in radians
      */
     fun getRadian(): Double {
-        if(maxAngle == null) {
+        if (maxAngle == null) {
             return minAngle
         } else {
             return ((maxAngle!! - minAngle) * random.nextDouble()) + minAngle
@@ -72,5 +76,4 @@ class VelocityModule(val random: Random) {
         val vy = speed * Math.sin(radian).toFloat()
         return Vector(vx, vy)
     }
-
 }

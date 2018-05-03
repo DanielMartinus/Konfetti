@@ -22,9 +22,11 @@ class StreamEmitter : Emitter() {
     /** Amount of time elapsed since last particle creation in milliseconds */
     private var createParticleMs: Float = 0f
 
-    fun build(particlesPerSecond: Int,
-              emittingTime: Long = 0L,
-              maxParticles: Int = -1): StreamEmitter {
+    fun build(
+        particlesPerSecond: Int,
+        emittingTime: Long = 0L,
+        maxParticles: Int = -1
+    ): StreamEmitter {
         this.maxParticles = maxParticles
         this.emittingTime = emittingTime
         this.amountPerMs = 1f / particlesPerSecond
@@ -40,7 +42,7 @@ class StreamEmitter : Emitter() {
         createParticleMs += deltaTime
 
         // Check if particle should be created
-        if(createParticleMs >= amountPerMs && !isTimeElapsed()) {
+        if (createParticleMs >= amountPerMs && !isTimeElapsed()) {
             // Calculate how many particle  to create in the elapsed time
             val amount: Int = (createParticleMs / amountPerMs).toInt()
             (1..amount).forEach { createParticle() }
@@ -52,7 +54,7 @@ class StreamEmitter : Emitter() {
     }
 
     private fun createParticle() {
-        if(reachedMaxParticles()) { return }
+        if (reachedMaxParticles()) { return }
         particlesCreated++
         addConfettiFunc?.invoke()
     }
@@ -61,7 +63,7 @@ class StreamEmitter : Emitter() {
      * If the [emittingTime] is 0 it's not set and not relevant
      * If the emitting time is set check if [elapsedTime] exceeded the emittingTime
      */
-    private fun isTimeElapsed(): Boolean = if(emittingTime == 0L) false else elapsedTime >= emittingTime
+    private fun isTimeElapsed(): Boolean = if (emittingTime == 0L) false else elapsedTime >= emittingTime
 
     /**
      * If [maxParticles] is set in the configuration of this emitter check if the emitter

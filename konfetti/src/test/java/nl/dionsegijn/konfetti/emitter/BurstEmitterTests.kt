@@ -34,5 +34,4 @@ class BurstEmitterTests {
         burstEmitter.createConfetti(1f)
         Mockito.verify(mockInvokeMethodClass, Mockito.times(amount)).invokeMethod()
     }
-
 }

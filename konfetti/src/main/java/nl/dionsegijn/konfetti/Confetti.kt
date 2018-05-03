@@ -7,16 +7,18 @@ import android.graphics.RectF
 import nl.dionsegijn.konfetti.models.Shape
 import nl.dionsegijn.konfetti.models.Size
 import nl.dionsegijn.konfetti.models.Vector
-import java.util.*
+import java.util.Random
 
-class Confetti(var location: Vector,
-               val color: Int,
-               val size: Size,
-               val shape: Shape,
-               var lifespan: Long = -1L,
-               val fadeOut: Boolean = true,
-               private var acceleration: Vector = Vector(0f, 0f),
-               var velocity: Vector = Vector()) {
+class Confetti(
+    var location: Vector,
+    val color: Int,
+    val size: Size,
+    val shape: Shape,
+    var lifespan: Long = -1L,
+    val fadeOut: Boolean = true,
+    private var acceleration: Vector = Vector(0f, 0f),
+    var velocity: Vector = Vector()
+) {
 
     private val mass = size.mass
     private var width = size.sizeInPx
@@ -60,7 +62,6 @@ class Confetti(var location: Vector,
         val v = velocity.copy()
         v.mult(deltaTime * speedF)
         location.add(v)
-
 
         if (lifespan <= 0) updateAlpha(deltaTime)
         else lifespan -= (deltaTime * 1000).toLong()
@@ -117,5 +118,4 @@ class Confetti(var location: Vector,
         }
         canvas.restore()
     }
-
 }
