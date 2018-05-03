@@ -9,7 +9,7 @@ ext {
 
     publishedGroupId = 'nl.dionsegijn'
     artifact = 'konfetti'
-    libraryVersion = "1.1.2"
+    libraryVersion = "1.1.2-rc1"
 
     libraryName = 'konfetti'
     libraryDescription = 'Lightweight particle system to celebrate with confetti in your app'
@@ -57,6 +57,9 @@ android {
     lintOptions {
         abortOnError true
         baseline file("lint-baseline.xml")
+    }
+    sourceSets {
+        main.java.srcDirs += 'src/main/kotlin'
     }
 }
 
