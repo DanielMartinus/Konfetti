@@ -65,6 +65,12 @@ viewKonfetti.build()
     .stream(300, 5000L)
 ```
 
+If you haven't configured Kotlin for your Java only project, add the following to your project:
+
+`implementation 'org.jetbrains.kotlin:kotlin-stdlib-jdk7:$latest_version'`
+
+Read more about the latest version and kotlin via gradle here: https://kotlinlang.org/docs/reference/using-gradle.html
+
 ## Download
 Just add the following dependency in your app's build.gradle
 
