@@ -20,7 +20,8 @@ class SeekbarSelectionView(
         context: Context,
         configuration: ConfigurationManager,
         title: String,
-        max: Int) : LinearLayout(context), UpdateConfiguration {
+        max: Int
+) : LinearLayout(context), UpdateConfiguration {
 
     init {
         inflate(context, R.layout.view_section_seekbar_selection, this)

@@ -23,7 +23,8 @@ import nl.dionsegijn.konfettidemo.interfaces.UpdateConfiguration
 class ConfigTypeSelectionView(
         context: Context,
         private val onConfigurationChangedListener: OnConfigurationChangedListener,
-        private val configs: ConfigurationManager) : LinearLayout(context), UpdateConfiguration {
+        private val configs: ConfigurationManager
+) : LinearLayout(context), UpdateConfiguration {
 
     private lateinit var selectedButton: AppCompatButton
     private val selectedColor: Int = 0xffffce08.toInt()

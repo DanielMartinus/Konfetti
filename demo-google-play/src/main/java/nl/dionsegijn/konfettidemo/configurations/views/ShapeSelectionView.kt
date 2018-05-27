@@ -22,7 +22,8 @@ import nl.dionsegijn.konfettidemo.interfaces.UpdateConfiguration
  */
 class ShapeSelectionView(
         context: Context,
-        private val configurationManager: ConfigurationManager) : LinearLayout(context), UpdateConfiguration {
+        private val configurationManager: ConfigurationManager
+) : LinearLayout(context), UpdateConfiguration {
 
     private val buttonWidth = pxFromDp(100f).toInt()
     private val buttonHeight = pxFromDp(60f).toInt()

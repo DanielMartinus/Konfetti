@@ -27,7 +27,8 @@ import nl.dionsegijn.konfettidemo.interfaces.UpdateConfiguration
 @SuppressLint("ViewConstructor")
 class ColorSelectionView(
         context: Context,
-        private val configurationManager: ConfigurationManager) : LinearLayout(context), UpdateConfiguration {
+        private val configurationManager: ConfigurationManager
+) : LinearLayout(context), UpdateConfiguration {
 
     private val availableColors = listOf(R.color.lt_yellow, R.color.lt_orange, R.color.lt_purple,
             R.color.lt_pink, R.color.dk_blue, R.color.dk_cyan, R.color.dk_green, R.color.dk_red)

@@ -8,7 +8,8 @@ import android.view.ViewGroup
  * Created by dionsegijn on 5/24/17.
  */
 class ConfigPagerAdapter(
-        private val tabs: Array<TabConfig>) : PagerAdapter() {
+        private val tabs: Array<TabConfig>
+) : PagerAdapter() {
 
     override fun instantiateItem(container: ViewGroup, position: Int): Any {
         val view = tabs[position].widgetView

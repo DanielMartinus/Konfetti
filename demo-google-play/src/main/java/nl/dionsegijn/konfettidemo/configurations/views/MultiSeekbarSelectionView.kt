@@ -21,7 +21,8 @@ class MultiSeekbarSelectionView(
         configuration: ConfigurationManager,
         val title: String,
         max: Int,
-        val onMultiSeekBarValueChanged: OnMultiSeekBarValueChanged) : LinearLayout(context), UpdateConfiguration {
+        val onMultiSeekBarValueChanged: OnMultiSeekBarValueChanged
+) : LinearLayout(context), UpdateConfiguration {
 
     interface OnMultiSeekBarValueChanged {
         fun onValueChanged(min: Float, max: Float)

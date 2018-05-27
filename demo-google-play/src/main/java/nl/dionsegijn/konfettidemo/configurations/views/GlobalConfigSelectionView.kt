@@ -16,7 +16,8 @@ import nl.dionsegijn.konfettidemo.interfaces.OnGlobalConfigurationChangedListene
 class GlobalConfigSelectionView(
         context: Context,
         private val globalConfiglistener: OnGlobalConfigurationChangedListener,
-        private val configurationManager: ConfigurationManager) : LinearLayout(context) {
+        private val configurationManager: ConfigurationManager
+) : LinearLayout(context) {
 
     init {
         inflate(context, R.layout.view_section_global_config_selection, this)
