@@ -35,7 +35,7 @@ All you need in your layout is the KonfettiView to render the particles on:
         android:layout_height="match_parent" />
 ```
 
-### Example
+### Example in Kotlin
 
 ```Kotlin
 viewKonfetti.build()
@@ -49,6 +49,27 @@ viewKonfetti.build()
     .setPosition(-50f, viewKonfetti.width + 50f, -50f, -50f)
     .stream(300, 5000L)
 ```
+
+### Example in Java
+
+```Kotlin
+viewKonfetti.build()
+    .addColors(Color.YELLOW, Color.GREEN, Color.MAGENTA)
+    .setDirection(0.0, 359.0)
+    .setSpeed(1f, 5f)
+    .setFadeOutEnabled(true)
+    .setTimeToLive(2000L)
+    .addShapes(Shape.RECT, Shape.CIRCLE)
+    .addSizes(new Size(12, 5))
+    .setPosition(-50f, viewKonfetti.getWidth() + 50f, -50f, -50f)
+    .stream(300, 5000L)
+```
+
+If you haven't configured Kotlin for your Java only project, add the following to your project:
+
+`implementation 'org.jetbrains.kotlin:kotlin-stdlib-jdk7:$latest_version'`
+
+Read more about the latest version and kotlin via gradle here: https://kotlinlang.org/docs/reference/using-gradle.html
 
 ## Download
 Just add the following dependency in your app's build.gradle
