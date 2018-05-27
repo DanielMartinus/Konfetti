@@ -26,7 +26,7 @@ class VelocityModule(private val random: Random) {
      */
     var minSpeed: Float = 0f
         set(value) {
-            if (value < 0) field = 0f else field = value
+            field = if (value < 0) 0f else value
         }
     /**
      * Maximum speed (magnitude)
@@ -36,7 +36,7 @@ class VelocityModule(private val random: Random) {
      */
     var maxSpeed: Float? = null
         set(value) {
-            if (value!! < 0) field = 0f else field = value
+            field = if (value!! < 0) 0f else value
         }
 
     /**
@@ -45,10 +45,10 @@ class VelocityModule(private val random: Random) {
      * return magnitude (speed)
      */
     fun getSpeed(): Float {
-        if (maxSpeed == null) {
-            return minSpeed
+        return if (maxSpeed == null) {
+            minSpeed
         } else {
-            return ((maxSpeed!! - minSpeed) * random.nextFloat()) + minSpeed
+            ((maxSpeed!! - minSpeed) * random.nextFloat()) + minSpeed
         }
     }
 
@@ -58,10 +58,10 @@ class VelocityModule(private val random: Random) {
      * return angle in radians
      */
     fun getRadian(): Double {
-        if (maxAngle == null) {
-            return minAngle
+        return if (maxAngle == null) {
+            minAngle
         } else {
-            return ((maxAngle!! - minAngle) * random.nextDouble()) + minAngle
+            ((maxAngle!! - minAngle) * random.nextDouble()) + minAngle
         }
     }
 
