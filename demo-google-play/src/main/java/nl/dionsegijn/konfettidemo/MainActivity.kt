@@ -81,29 +81,29 @@ class MainActivity : AppCompatActivity(), OnConfigurationChangedListener {
     private fun streamFromTop(config: Configuration, colors: IntArray) {
         if (!canIHaveMoreConfetti()) return
         viewKonfetti.build()
-                .addColors(*colors)
-                .setDirection(0.0, 359.0)
-                .setSpeed(config.minSpeed, config.maxSpeed)
-                .setFadeOutEnabled(true)
-                .setTimeToLive(config.timeToLive)
-                .addShapes(*config.shapes)
-                .addSizes(Size(12), Size(16, 6f))
-                .setPosition(-50f, viewKonfetti.width + 50f, -50f, -50f)
-                .streamFor(300, 5000L)
+            .addColors(*colors)
+            .setDirection(0.0, 359.0)
+            .setSpeed(config.minSpeed, config.maxSpeed)
+            .setFadeOutEnabled(true)
+            .setTimeToLive(config.timeToLive)
+            .addShapes(*config.shapes)
+            .addSizes(Size(12), Size(16, 6f))
+            .setPosition(-50f, viewKonfetti.width + 50f, -50f, -50f)
+            .streamFor(300, 5000L)
     }
 
     private fun burstFromCenter(config: Configuration, colors: IntArray) {
         if (!canIHaveMoreConfetti()) return
         viewKonfetti.build()
-                .addColors(*colors)
-                .setDirection(0.0, 359.0)
-                .setSpeed(config.minSpeed, config.maxSpeed)
-                .setFadeOutEnabled(true)
-                .setTimeToLive(config.timeToLive)
-                .addShapes(*config.shapes)
-                .addSizes(Size(12), Size(16, 6f))
-                .setPosition(viewKonfetti.x + viewKonfetti.width / 2, viewKonfetti.y + viewKonfetti.height / 3)
-                .burst(100)
+            .addColors(*colors)
+            .setDirection(0.0, 359.0)
+            .setSpeed(config.minSpeed, config.maxSpeed)
+            .setFadeOutEnabled(true)
+            .setTimeToLive(config.timeToLive)
+            .addShapes(*config.shapes)
+            .addSizes(Size(12), Size(16, 6f))
+            .setPosition(viewKonfetti.x + viewKonfetti.width / 2, viewKonfetti.y + viewKonfetti.height / 3)
+            .burst(100)
     }
 
     private var startX: Float = 0f
