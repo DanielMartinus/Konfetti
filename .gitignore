@@ -54,3 +54,4 @@ captures/
 *.jks
 
 .tasks.cache.json
+/.idea/caches
