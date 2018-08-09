@@ -47,7 +47,7 @@ viewKonfetti.build()
     .addShapes(Shape.RECT, Shape.CIRCLE)
     .addSizes(Size(12))
     .setPosition(-50f, viewKonfetti.width + 50f, -50f, -50f)
-    .stream(300, 5000L)
+    .streamFor(300, 5000L)
 ```
 
 ### Example in Java
@@ -62,7 +62,7 @@ viewKonfetti.build()
     .addShapes(Shape.RECT, Shape.CIRCLE)
     .addSizes(new Size(12, 5))
     .setPosition(-50f, viewKonfetti.getWidth() + 50f, -50f, -50f)
-    .stream(300, 5000L)
+    .streamFor(300, 5000L)
 ```
 
 If you haven't configured Kotlin for your Java only project, add the following to your project:
