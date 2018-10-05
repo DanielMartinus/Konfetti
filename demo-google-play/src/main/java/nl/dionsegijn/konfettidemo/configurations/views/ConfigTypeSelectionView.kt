@@ -6,6 +6,7 @@ import android.content.res.ColorStateList
 import android.graphics.Color
 import android.os.Build
 import android.support.annotation.ColorInt
+import android.support.v4.view.ViewCompat
 import android.support.v7.widget.AppCompatButton
 import android.view.Gravity
 import android.widget.LinearLayout
@@ -71,7 +72,7 @@ class ConfigTypeSelectionView(
 
     private fun setColorForButton(button: AppCompatButton, @ColorInt color: Int) {
         val colorStateList = ColorStateList(arrayOf(IntArray(0)), intArrayOf(color))
-        button.supportBackgroundTintList = colorStateList
+        ViewCompat.setBackgroundTintList(button, colorStateList)
     }
 
     override fun onUpdateConfiguration(configuration: Configuration) {}
