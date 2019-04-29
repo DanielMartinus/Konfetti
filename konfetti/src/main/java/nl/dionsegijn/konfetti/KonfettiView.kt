@@ -65,6 +65,14 @@ class KonfettiView : View {
     }
 
     /**
+     * Stop a particular particle system. All particles belonging to this system will directly disappear from the view.
+     */
+    fun stop(particleSystem: ParticleSystem) {
+        systems.remove(particleSystem)
+        onParticleSystemUpdateListener?.onParticleSystemEnded(this, particleSystem, systems.size)
+    }
+
+    /**
      * Abruptly stop all particle systems from rendering
      * The canvas will stop drawing all particles. Everything that's being rendered will directly
      * disappear from the view.
