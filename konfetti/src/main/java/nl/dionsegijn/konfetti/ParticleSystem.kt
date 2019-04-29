@@ -243,7 +243,7 @@ class ParticleSystem(private val konfettiView: KonfettiView) {
         konfettiView.start(this)
     }
 
-    private fun stop() {
+    fun stop() {
         konfettiView.stop(this)
     }
 
