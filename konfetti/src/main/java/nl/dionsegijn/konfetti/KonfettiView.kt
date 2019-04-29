@@ -32,7 +32,7 @@ class KonfettiView : View {
      * [OnParticleSystemUpdateListener] listener to notify when a new particle system
      * starts rendering and when a particle system stopped rendering
      */
-    private var onParticleSystemUpdateListener: OnParticleSystemUpdateListener? = null
+    var onParticleSystemUpdateListener: OnParticleSystemUpdateListener? = null
 
     fun getActiveSystems() = systems
 
