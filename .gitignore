@@ -55,3 +55,4 @@ captures/
 
 .tasks.cache.json
 /.idea/caches
+/.DS_Store
