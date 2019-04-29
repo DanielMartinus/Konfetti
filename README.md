@@ -80,7 +80,7 @@ Just add the following dependency in your app's build.gradle
 
 ```groovy
 dependencies {
-      implementation 'nl.dionsegijn:konfetti:1.1.2'
+      implementation 'nl.dionsegijn:konfetti:1.1.3'
 }
 ```
  [ ![Download](https://api.bintray.com/packages/danielmartinus/maven/Konfetti/images/download.svg) ](https://bintray.com/danielmartinus/maven/Konfetti/_latestVersion)
