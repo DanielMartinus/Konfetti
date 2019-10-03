@@ -26,7 +26,7 @@ class ParticleSystem(private val konfettiView: KonfettiView) {
     /** Default values */
     private var colors = intArrayOf(Color.RED)
     private var sizes = arrayOf(Size(16))
-    private var shapes = arrayOf(Shape.RECT)
+    private var shapes = mutableListOf<Shape>().apply { add(Shape.RECT) }
     private var confettiConfig = ConfettiConfig()
 
     /**
@@ -90,7 +90,7 @@ class ParticleSystem(private val konfettiView: KonfettiView) {
      * Default shape is [Shape.RECT] rectangle
      */
     fun addShapes(vararg shapes: Shape): ParticleSystem {
-        this.shapes = shapes.filterIsInstance<Shape>().toTypedArray()
+        this.shapes = shapes.toMutableList()
         return this
     }
 

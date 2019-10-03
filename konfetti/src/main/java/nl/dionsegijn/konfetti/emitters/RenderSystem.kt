@@ -20,7 +20,7 @@ class RenderSystem(
     private val location: LocationModule,
     private val velocity: VelocityModule,
     private val sizes: Array<Size>,
-    private val shapes: Array<Shape>,
+    private val shapes: List<Shape>,
     private val colors: IntArray,
     private val config: ConfettiConfig,
     private val emitter: Emitter

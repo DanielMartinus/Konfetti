@@ -1,17 +1,21 @@
 package nl.dionsegijn.konfetti
 
 import android.content.res.Resources
+import android.graphics.Bitmap
 import android.graphics.Canvas
 import android.graphics.Paint
+import android.graphics.PorterDuff
+import android.graphics.PorterDuffColorFilter
 import android.graphics.RectF
 import nl.dionsegijn.konfetti.models.Shape
 import nl.dionsegijn.konfetti.models.Size
 import nl.dionsegijn.konfetti.models.Vector
 import java.util.Random
+import kotlin.math.max
 
 class Confetti(
     var location: Vector,
-    val color: Int,
+    var color: Int,
     val size: Size,
     val shape: Shape,
     var lifespan: Long = -1L,
@@ -23,12 +27,14 @@ class Confetti(
     private val mass = size.mass
     private var width = size.sizeInPx
     private val paint: Paint = Paint()
+    private val bitmapPaint: Paint = Paint()
 
     private var rotationSpeed = 1f
     private var rotation = 0f
     private var rotationWidth = width
     private var rectF = RectF()
 
+    var image: Bitmap? = null
     // Expected frame rate
     private var speedF = 60f
 
@@ -39,6 +45,31 @@ class Confetti(
         val maxRotationSpeed = minRotationSpeed * 3
         rotationSpeed = maxRotationSpeed * Random().nextFloat() + minRotationSpeed
         paint.color = color
+
+        if(shape is Shape.BITMAP){
+            val random = Random()
+            color = shape.colors[random.nextInt(shape.colors.size)]
+            //rotationSpeed = 0f
+
+            val scaleMin = max(0.01f, shape.scale - shape.scaleRange)
+            val maxScale = shape.scale + shape.scaleRange
+
+            val randomScale = (Math.random())*(maxScale-scaleMin)+scaleMin
+            println("randomScale: $randomScale")
+
+            image =  resizeBitmap(shape.bitmap, randomScale.toFloat())
+            bitmapPaint.colorFilter = PorterDuffColorFilter(color , PorterDuff.Mode.SRC_ATOP)
+
+        }
+    }
+
+    private fun resizeBitmap(bitmap:Bitmap, scale: Float):Bitmap{
+        return Bitmap.createScaledBitmap(
+            bitmap,
+            (bitmap.width * scale).toInt(),
+            (bitmap.height * scale).toInt(),
+            false
+        )
     }
 
     private fun getSize(): Float = width
@@ -115,6 +146,11 @@ class Confetti(
         when (shape) {
             Shape.CIRCLE -> canvas.drawOval(rectF, paint)
             Shape.RECT -> canvas.drawRect(rectF, paint)
+            is Shape.BITMAP -> {
+                image?.let {
+                    canvas.drawBitmap(it, left, location.y ,bitmapPaint)
+                }
+            }
         }
         canvas.restore()
     }
