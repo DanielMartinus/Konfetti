@@ -63,13 +63,20 @@ class Confetti(
         }
     }
 
-    private fun resizeBitmap(bitmap:Bitmap, scale: Float):Bitmap{
-        return Bitmap.createScaledBitmap(
-            bitmap,
-            (bitmap.width * scale).toInt(),
-            (bitmap.height * scale).toInt(),
-            false
-        )
+    private fun resizeBitmap(bitmap:Bitmap, scale: Float):Bitmap ? {
+        val width = (bitmap.width * scale).toInt()
+        val height = (bitmap.height * scale).toInt()
+
+        return if(width > 0 && height> 0) {
+            Bitmap.createScaledBitmap(
+                bitmap,
+                width,
+                height,
+                false
+            )
+        }else{
+            null
+        }
     }
 
     private fun getSize(): Float = width
