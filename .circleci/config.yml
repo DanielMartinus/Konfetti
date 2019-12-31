@@ -24,6 +24,27 @@ jobs:
       - run:
           name: Assemble demo-google-play apk
           command: ./gradlew :demo-google-play:assemble
+      - run:
+          name: Store Google Service Account
+          command: echo $GCLOUD_SERVICE_KEY > ${HOME}/gcloud-service-key.json
+     - run:
+          name: Authorize gcloud and set config defaults
+          command: |
+            sudo gcloud auth activate-service-account --key-file=${HOME}/gcloud-service-key.json
+            sudo gcloud --quiet config set project ${GOOGLE_PROJECT_ID}
+     - run:
+          name: Test with Firebase Test Lab
+          command: >
+            sudo gcloud firebase test android run \
+              --type robo \
+              --device model=blueline,version=29,locale=en,orientation=portrait --timeout 90s
+              --app <local_server_path>/<app_apk>.apk \
+              --results-bucket cloud-test-${GOOGLE_PROJECT_ID}
+      - run:
+          name: Install gsutil dependency and copy test results data
+          command: |
+            sudo pip install -U crcmod
+            sudo gsutil -m cp -r -U `sudo gsutil ls gs://[BUCKET_NAME]/[OBJECT_NAME] | tail -1` ${CIRCLE_ARTIFACTS}/ | true
       - save_cache:
           paths:
             - ~/.gradle
@@ -44,7 +65,7 @@ jobs:
             - app/build
 
 workflows:
-  version: 2
+  version: 3
   build_and_test:
     jobs:
       - build
