@@ -1,4 +1,4 @@
-version: 2.0
+version: 2.1
 
 defaults: &defaults
   docker:
@@ -27,19 +27,18 @@ jobs:
       - run:
           name: Store Google Service Account
           command: echo $GCLOUD_SERVICE_KEY > ${HOME}/gcloud-service-key.json
-     - run:
+      - run:
           name: Authorize gcloud and set config defaults
           command: |
             sudo gcloud auth activate-service-account --key-file=${HOME}/gcloud-service-key.json
             sudo gcloud --quiet config set project ${GOOGLE_PROJECT_ID}
-     - run:
+      - run:
           name: Test with Firebase Test Lab
           command: >
             sudo gcloud firebase test android run \
               --type robo \
-              --device model=blueline,version=29,locale=en,orientation=portrait --timeout 90s
-              --app <local_server_path>/<app_apk>.apk \
-              --results-bucket cloud-test-${GOOGLE_PROJECT_ID}
+              --device model=blueline,version=29,locale=en,orientation=portrait --timeout 90s \
+              --app demo-google-play/build/outputs/apk/release/demo-google-play-release-unsigned.apk
       - run:
           name: Install gsutil dependency and copy test results data
           command: |
