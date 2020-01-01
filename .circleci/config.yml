@@ -23,7 +23,7 @@ jobs:
           command: ./gradlew build
       - run:
           name: Assemble demo-google-play apk
-          command: ./gradlew :demo-google-play:assemble
+          command: ./gradlew :demo-google-play:assembleRelease
       - run:
           name: Store Google Service Account
           command: echo $GCLOUD_SERVICE_KEY > ${HOME}/gcloud-service-key.json
@@ -38,7 +38,7 @@ jobs:
             sudo gcloud firebase test android run \
               --type robo \
               --device model=blueline,version=29,locale=en,orientation=portrait --timeout 90s \
-              --app demo-google-play/build/outputs/apk/release/demo-google-play-release-unsigned.apk
+              --app demo-google-play/build/outputs/apk/release/demo-google-play-release.apk
       - run:
           name: Install gsutil dependency and copy test results data
           command: |

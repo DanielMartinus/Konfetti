@@ -50,9 +50,6 @@ captures/
 *.iml
 
 
-# Keystore files
-*.jks
-
 .tasks.cache.json
 /.idea/caches
 /.DS_Store
