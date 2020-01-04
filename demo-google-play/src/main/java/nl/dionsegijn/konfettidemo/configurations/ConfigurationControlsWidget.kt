@@ -2,8 +2,8 @@ package nl.dionsegijn.konfettidemo.configurations
 
 import android.content.Context
 import android.os.Build
-import android.support.design.widget.TabLayout
-import android.support.v4.content.ContextCompat
+import com.google.android.material.tabs.TabLayout
+import androidx.core.content.ContextCompat
 import android.util.AttributeSet
 import android.widget.LinearLayout
 import kotlinx.android.synthetic.main.bottomsheet_config_controls.view.*
