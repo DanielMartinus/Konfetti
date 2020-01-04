@@ -1,6 +1,6 @@
 package nl.dionsegijn.konfettidemo.interfaces
 
-import android.support.design.widget.TabLayout
+import com.google.android.material.tabs.TabLayout
 
 /**
  * Created by dionsegijn on 5/21/17.

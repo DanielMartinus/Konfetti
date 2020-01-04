@@ -5,9 +5,9 @@ import android.content.Context
 import android.content.res.ColorStateList
 import android.graphics.PorterDuff
 import android.os.Build
-import android.support.annotation.DrawableRes
-import android.support.v4.content.ContextCompat
-import android.support.v7.widget.AppCompatImageButton
+import androidx.annotation.DrawableRes
+import androidx.core.content.ContextCompat
+import androidx.appcompat.widget.AppCompatImageButton
 import android.view.Gravity
 import android.widget.LinearLayout
 import android.widget.Toast

@@ -5,9 +5,9 @@ import android.content.Context
 import android.content.res.ColorStateList
 import android.graphics.Color
 import android.os.Build
-import android.support.annotation.ColorInt
-import android.support.v4.view.ViewCompat
-import android.support.v7.widget.AppCompatButton
+import androidx.annotation.ColorInt
+import androidx.core.view.ViewCompat
+import androidx.appcompat.widget.AppCompatButton
 import android.view.Gravity
 import android.widget.LinearLayout
 import nl.dionsegijn.konfettidemo.R
