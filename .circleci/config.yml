@@ -37,7 +37,7 @@ jobs:
           command: >
             sudo gcloud firebase test android run \
               --type robo \
-              --device model=blueline,version=29,locale=en,orientation=portrait --timeout 5m \
+              --device model=blueline,version=29,locale=en,orientation=portrait --timeout 10m \
               --app demo-google-play/build/outputs/apk/release/demo-google-play-release.apk
       - run:
           name: Install gsutil dependency and copy test results data
