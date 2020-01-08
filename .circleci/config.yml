@@ -1,4 +1,6 @@
 version: 2.1
+orbs:
+  pr-comment: benjlevesque/pr-comment@0.1.4
 
 defaults: &defaults
   docker:
@@ -13,6 +15,8 @@ jobs:
     <<: *defaults
     steps:
       - checkout
+      - pr-comment/pr-comment:
+          comment: Hello
       - restore_cache:
           key: jars-{{ checksum "build.gradle" }}-{{ checksum  "konfetti/build.gradle" }}-{{ checksum  "demo-google-play/build.gradle" }}-{{ checksum  "demo-simple-java/build.gradle" }}
       - run:
