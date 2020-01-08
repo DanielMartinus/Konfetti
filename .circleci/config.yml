@@ -15,8 +15,12 @@ jobs:
     <<: *defaults
     steps:
       - checkout
+      - run:
+          name: Update apt
+          command: sudo apt-get update
       - pr-comment/pr-comment:
           comment: Hello
+          maxComments: 2
       - restore_cache:
           key: jars-{{ checksum "build.gradle" }}-{{ checksum  "konfetti/build.gradle" }}-{{ checksum  "demo-google-play/build.gradle" }}-{{ checksum  "demo-simple-java/build.gradle" }}
       - run:
