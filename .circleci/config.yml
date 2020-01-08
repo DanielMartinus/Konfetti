@@ -20,7 +20,7 @@ jobs:
           command: sudo apt-get update
       - pr-comment/pr-comment:
           comment: Hello
-          maxComments: 2
+          maxComments: 1
       - restore_cache:
           key: jars-{{ checksum "build.gradle" }}-{{ checksum  "konfetti/build.gradle" }}-{{ checksum  "demo-google-play/build.gradle" }}-{{ checksum  "demo-simple-java/build.gradle" }}
       - run:
@@ -47,11 +47,6 @@ jobs:
               --type robo \
               --device model=blueline,version=29,locale=en,orientation=portrait --timeout 10m \
               --app demo-google-play/build/outputs/apk/release/demo-google-play-release.apk
-      - run:
-          name: Install gsutil dependency and copy test results data
-          command: |
-            sudo pip install -U crcmod
-            sudo gsutil -m cp -r -U `sudo gsutil ls gs://[BUCKET_NAME]/[OBJECT_NAME] | tail -1` ${CIRCLE_ARTIFACTS}/ | true
       - save_cache:
           paths:
             - ~/.gradle
