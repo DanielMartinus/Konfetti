@@ -3,11 +3,11 @@ package nl.dionsegijn.konfetti
 import android.content.res.Resources
 import android.graphics.Canvas
 import android.graphics.Paint
-import android.graphics.RectF
 import nl.dionsegijn.konfetti.models.Shape
 import nl.dionsegijn.konfetti.models.Size
 import nl.dionsegijn.konfetti.models.Vector
 import kotlin.random.Random
+import kotlin.math.abs
 
 class Confetti(
     var location: Vector,
@@ -27,7 +27,6 @@ class Confetti(
     private var rotationSpeed = 1f
     private var rotation = 0f
     private var rotationWidth = width
-    private var rectF = RectF()
 
     // Expected frame rate
     private var speedF = 60f
@@ -96,26 +95,17 @@ class Confetti(
             return
         }
 
-        var left = location.x + (width - rotationWidth)
-        var right = location.x + rotationWidth
-        /** Switch values. Left or right may not be negative due to how Android Api < 25
-         *  draws Rect and RectF, negative values won't be drawn resulting in flickering confetti */
-        if (left > right) {
-            left += right
-            right = left - right
-            left -= right
-        }
-
         paint.alpha = alpha
 
-        rectF.set(left, location.y, right, location.y + getSize())
+        val scaleX = abs(rotationWidth / width - 0.5f) * 2
+        val centerX = scaleX * width / 2
 
-        canvas.save()
-        canvas.rotate(rotation, rectF.centerX(), rectF.centerY())
-        when (shape) {
-            Shape.CIRCLE -> canvas.drawOval(rectF, paint)
-            Shape.RECT -> canvas.drawRect(rectF, paint)
-        }
-        canvas.restore()
+        val saveCount = canvas.save()
+        canvas.translate(location.x - centerX, location.y)
+        canvas.rotate(rotation, centerX, width / 2)
+        canvas.scale(scaleX, 1f)
+
+        shape.draw(canvas, paint, width)
+        canvas.restoreToCount(saveCount)
     }
 }

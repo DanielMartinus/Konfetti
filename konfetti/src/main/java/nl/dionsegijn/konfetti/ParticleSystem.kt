@@ -26,7 +26,7 @@ class ParticleSystem(private val konfettiView: KonfettiView) {
     /** Default values */
     private var colors = intArrayOf(Color.RED)
     private var sizes = arrayOf(Size(16))
-    private var shapes = arrayOf(Shape.RECT)
+    private var shapes: Array<Shape> = arrayOf(Shape.Square)
     private var confettiConfig = ConfettiConfig()
 
     /**

@@ -33,13 +33,17 @@ class ShapeSelectionView(
         return dp * resources.displayMetrics.density
     }
 
-    private val availableShapes = arrayOf(Shape.CIRCLE, Shape.RECT)
+    private val availableShapes = arrayOf(
+        Shape.Circle,
+        Shape.Square,
+        Shape.DrawableShape(ContextCompat.getDrawable(context, R.drawable.ic_heart)!!)
+    )
 
     init {
         inflate(context, R.layout.view_section_shape_selection, this)
         orientation = HORIZONTAL
         gravity = Gravity.CENTER
-        displayShapeConfigOptions(availableShapes)
+        displayShapeConfigOptions(configurationManager.active.shapes)
     }
 
     private fun displayShapeConfigOptions(selectedShapes: Array<Shape>) {
@@ -50,7 +54,12 @@ class ShapeSelectionView(
                 button.elevation = 6f
             }
 
-            val drawable = if (shape == Shape.RECT) R.drawable.ic_rectangle else R.drawable.ic_circle
+            val drawable = when (shape) {
+                Shape.Square -> R.drawable.ic_rectangle
+                Shape.Circle -> R.drawable.ic_circle
+                is Shape.DrawableShape -> R.drawable.ic_heart
+                else -> throw IllegalArgumentException("Unexpected shape: $shape")
+            }
 
             /** Set width, height and margins of the button */
             val params = LinearLayout.LayoutParams(buttonWidth, buttonHeight)
