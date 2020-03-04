@@ -7,7 +7,7 @@ import android.graphics.RectF
 import nl.dionsegijn.konfetti.models.Shape
 import nl.dionsegijn.konfetti.models.Size
 import nl.dionsegijn.konfetti.models.Vector
-import java.util.Random
+import kotlin.random.Random
 
 class Confetti(
     var location: Vector,
@@ -37,7 +37,7 @@ class Confetti(
     init {
         val minRotationSpeed = 0.29f * Resources.getSystem().displayMetrics.density
         val maxRotationSpeed = minRotationSpeed * 3
-        rotationSpeed = maxRotationSpeed * Random().nextFloat() + minRotationSpeed
+        rotationSpeed = maxRotationSpeed * Random.nextFloat() + minRotationSpeed
         paint.color = color
     }
 
