@@ -135,7 +135,7 @@ class MainActivity : AppCompatActivity(), OnConfigurationChangedListener {
                             .addColors(*colors)
                             .setDirection(degrees - 50, degrees + 50)
                             .setSpeed(0f, speed + 5f)
-                            .addShapes(Shape.RECT, Shape.CIRCLE)
+                            .addShapes(Shape.Square, Shape.Circle)
                             .addSizes(Size(12), Size(16, 6f))
                             .setPosition(startX, startY)
                             .setTimeToLive(10000)
