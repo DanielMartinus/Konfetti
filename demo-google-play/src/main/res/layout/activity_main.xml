@@ -20,9 +20,7 @@
             android:layout_height="wrap_content"
             android:layout_gravity="center"
             android:text="@string/stream_from_top_instructions"
-            android:textSize="28sp"
-            android:drawableRight="@drawable/ic_confetti_ball"
-            android:drawableEnd="@drawable/ic_confetti_ball" />
+            android:textSize="28sp" />
 
         <ImageView
             android:id="@+id/viewIllustration"
