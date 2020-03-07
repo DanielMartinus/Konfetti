@@ -47,7 +47,7 @@ viewKonfetti.build()
     .setSpeed(1f, 5f)
     .setFadeOutEnabled(true)
     .setTimeToLive(2000L)
-    .addShapes(Shape.RECT, Shape.CIRCLE)
+    .addShapes(Shape.Square, Shape.Circle)
     .addSizes(Size(12))
     .setPosition(-50f, viewKonfetti.width + 50f, -50f, -50f)
     .streamFor(300, 5000L)
@@ -62,21 +62,25 @@ viewKonfetti.build()
     .setSpeed(1f, 5f)
     .setFadeOutEnabled(true)
     .setTimeToLive(2000L)
-    .addShapes(Shape.RECT, Shape.CIRCLE)
+    .addShapes(Shape.Square, Shape.Circle)
     .addSizes(new Size(12, 5))
     .setPosition(-50f, viewKonfetti.getWidth() + 50f, -50f, -50f)
     .streamFor(300, 5000L)
 ```
 
-If you haven't configured Kotlin for your Java only project, add the following to your project:
+### Custom shapes
 
-`implementation 'org.jetbrains.kotlin:kotlin-stdlib-jdk7:$latest_version'`
+Add a custom shape by using:
 
-Read more about the latest version and kotlin via gradle here: https://kotlinlang.org/docs/reference/using-gradle.html
+```Kotlin
+Shape.DrawableShape(drawable: Drawable)
+```
+
+The 3D flip effect works best for symmetrical shapes, for example a drawable with a width and a height of 24x24.
 
 ## Download
-Just add the following dependency in your app's build.gradle
 
+Add the following dependency in your app's build.gradle
 
 ```groovy
 dependencies {
@@ -84,6 +88,14 @@ dependencies {
 }
 ```
  [ ![Download](https://api.bintray.com/packages/danielmartinus/maven/Konfetti/images/download.svg) ](https://bintray.com/danielmartinus/maven/Konfetti/_latestVersion)
+
+### Java project
+
+If you haven't configured Kotlin for your Java only project, add the following to your project:
+
+`implementation 'org.jetbrains.kotlin:kotlin-stdlib-jdk7:$latest_version'`
+
+Read more about the latest version and kotlin via gradle here: https://kotlinlang.org/docs/reference/using-gradle.html
 
 ## Contribute
 
@@ -104,6 +116,6 @@ In line with the previous contribute section there are some already known issues
 - ~~Determining the size of the particles in the current implementation is not ideal. More here: [#7 Confetti size system](https://github.com/DanielMartinus/Konfetti/issues/7)~~
 - A performance improvement to the library could for one be to implement a shared object pool amongst all particle systems instead of having them to handle confetti instances themselves.
 
-## License 
+## License
 
 Konfetti is released under the ISC license. See [LICENSE](https://github.com/DanielMartinus/Konfetti/blob/master/LICENSE) for details.
