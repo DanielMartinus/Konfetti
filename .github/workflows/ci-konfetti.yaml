@@ -6,8 +6,8 @@ jobs:
   run-test:
     runs-on: ubuntu-latest
     steps:
-      - name: Checkout
-        uses: actions/checkout@v2
+      - uses: actions/checkout@v2
+      - uses: gradle/wrapper-validation-action@v1
 
       - name: Gradle cache
         uses: actions/cache@v1
