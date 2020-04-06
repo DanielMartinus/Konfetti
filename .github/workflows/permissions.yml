@@ -1,5 +1,5 @@
 name: permissions
-on: push
+on: pull_request
 
 jobs:
   build-master:
@@ -13,7 +13,21 @@ jobs:
         run: |
           export PATH="$ANDROID_HOME/build-tools/29.0.3:$PATH"
 
+      - name: change env
+        run: |
+          true && echo ::set-env name=MY_ENV_VAR::true || echo ::set-env name=MY_ENV_VAR::false
+
+      - name: Printenv0
+        run: |
+          echo  $MY_ENV_VAR
+
+      - name: Printenv1
+        run: |
+          echo "MY_ENV_VAR=${MY_ENV_VAR}"
+          printenv
+
       - name: Build Master APK
+
         run: ./gradlew demo-google-play:assembleDebug
 
       - name: Get permissions
@@ -58,4 +72,14 @@ jobs:
           name: permissions
 
       - name: Execute diff
-        run: diff /home/runner/work/Konfetti/Konfetti/permissions/permissions-master.txt /home/runner/work/Konfetti/Konfetti/permissions/permissions-branch.txt > permissions-diff.txt || true
+        run: diff --changed-group-format='%<%>' --unchanged-group-format='' /home/runner/work/Konfetti/Konfetti/permissions/permissions-master.txt /home/runner/work/Konfetti/Konfetti/permissions/permissions-branch.txt > permissions-diff.txt && echo ::set-env name=NEW_PERMISSIONS::'false' || echo ::set-env name=NEW_PERMISSIONS::'true'
+
+      - run: printf "⚠ New permission(s) found\n\n\`\`\`\n" > pr-comment.txt && cat permissions-diff.txt >> pr-comment.txt
+
+      - name: comment PR
+        if: env.NEW_PERMISSIONS == 'true'
+        uses: machine-learning-apps/pr-comment@master
+        env:
+          GITHUB_TOKEN: ${{ secrets.personaltoken }}
+        with:
+          path: pr-comment.txt
