@@ -48,7 +48,7 @@ jobs:
           name: permissions
 
       - name: Execute diff
-        run: diff --changed-group-format='%<%>' --unchanged-group-format='' /home/runner/work/Konfetti/Konfetti/permissions/permissions-master.txt /home/runner/work/Konfetti/Konfetti/permissions/permissions-branch.txt > permissions-diff.txt && echo ::set-env name=NEW_PERMISSIONS::'false' || echo ::set-env name=NEW_PERMISSIONS::'true'
+        run: diff --changed-group-format='%<%>' --unchanged-group-format='' $GITHUB_WORKSPACE/permissions/permissions-master.txt $GITHUB_WORKSPACE/permissions/permissions-branch.txt > permissions-diff.txt && echo ::set-env name=NEW_PERMISSIONS::'false' || echo ::set-env name=NEW_PERMISSIONS::'true'
 
       - run: printf "⚠ New permission(s) found\n\n\`\`\`\n" > pr-comment.txt && cat permissions-diff.txt >> pr-comment.txt
 
