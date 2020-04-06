@@ -13,21 +13,7 @@ jobs:
         run: |
           export PATH="$ANDROID_HOME/build-tools/29.0.3:$PATH"
 
-      - name: change env
-        run: |
-          true && echo ::set-env name=MY_ENV_VAR::true || echo ::set-env name=MY_ENV_VAR::false
-
-      - name: Printenv0
-        run: |
-          echo  $MY_ENV_VAR
-
-      - name: Printenv1
-        run: |
-          echo "MY_ENV_VAR=${MY_ENV_VAR}"
-          printenv
-
       - name: Build Master APK
-
         run: ./gradlew demo-google-play:assembleDebug
 
       - name: Get permissions
@@ -64,8 +50,6 @@ jobs:
     needs: [build-master, build-branch]
     runs-on: ubuntu-latest
     steps:
-      - uses: actions/checkout@v1
-
       - name: Download permissions
         uses: actions/download-artifact@v1
         with:
