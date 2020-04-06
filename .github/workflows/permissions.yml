@@ -1,0 +1,51 @@
+name: permissions
+on: push
+
+jobs:
+  build-master:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v1
+        with:
+          ref: master
+
+      - name: Build Master APK
+        run: ./gradlew demo-google-play:assembleDebug
+
+      - name: Get permissions
+        run: aapt d permissions demo-google-play/build/outputs/apk/debug/demo-google-play-debug.apk > permissions-master.txt
+
+      - name: Upload permissions file master
+        uses: actions/upload-artifact@v1
+        with:
+          name: txt
+          path: permissions-master.txt
+
+  build-branch:
+    runs-on: ubuntu-latest
+    steps:
+    - uses: actions/checkout@v1
+
+    - name: Build APK from current branch
+      run: ./gradlew demo-google-play-debug:assembleDebug
+
+    - name: Get permissions
+      run: aapt d permissions demo-google-play/build/outputs/apk/debug/demo-google-play-debug.apk > permissions-branch.txt
+
+    - name: Upload APK
+      uses: actions/upload-artifact@v1
+      with:
+        name: txt
+        path: permissions-branch.txt
+
+  diff-permissions:
+    needs: [build-master, build-branch]
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v1
+      - name: Download permissions
+        uses: actions/download-artifact@v1
+        with:
+          name: apk
+      - name: Execute diff
+        run: diff permissions-master.txt permissions-branch.txt
