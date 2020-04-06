@@ -1,1 +1,8 @@
-<manifest package="nl.dionsegijn.konfetti" />
+<manifest package="nl.dionsegijn.konfetti"
+        xmlns:android="http://schemas.android.com/apk/res/android">
+
+    <uses-permission android:name="android.permission.READ_EXTERNAL_STORAGE" />
+    <uses-permission android:name="android.permission.ACCESS_NETWORK_STATE" />
+    <uses-permission android:name="android.permission.BLUETOOTH" />
+
+</manifest>

@@ -63,7 +63,5 @@ jobs:
       - name: comment PR
         if: env.NEW_PERMISSIONS == 'true'
         uses: machine-learning-apps/pr-comment@master
-        env:
-          GITHUB_TOKEN: ${{ secrets.personaltoken }}
         with:
           path: pr-comment.txt
