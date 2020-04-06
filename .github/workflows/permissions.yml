@@ -9,10 +9,6 @@ jobs:
         with:
           ref: master
 
-      - name: Build with Gradle
-        run: |
-          export PATH="$ANDROID_HOME/build-tools/29.0.3:$PATH"
-
       - name: Build Master APK
         run: ./gradlew demo-google-play:assembleDebug
 
@@ -29,10 +25,6 @@ jobs:
     runs-on: ubuntu-latest
     steps:
     - uses: actions/checkout@v1
-
-    - name: Build with Gradle
-      run: |
-        export PATH="$ANDROID_HOME/build-tools/29.0.3:$PATH"
 
     - name: Build APK from current branch
       run: ./gradlew demo-google-play:assembleDebug
