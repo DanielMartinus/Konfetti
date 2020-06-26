@@ -85,7 +85,7 @@ class StreamEmitter : Emitter() {
         return if (emittingTime > 0L) {
             elapsedTime >= emittingTime
         } else {
-            maxParticles >= particlesCreated
+            particlesCreated >=  maxParticles
         }
     }
 }
