@@ -12,7 +12,7 @@ import nl.dionsegijn.konfetti.listeners.OnParticleSystemUpdateListener
  * Call [build] to setup a particle system. KonfettiView will then invalidate
  * pass the canvas to each system where each system will handle the rendering.
  */
-class KonfettiView : View {
+open class KonfettiView : View {
 
     constructor(context: Context?) : super(context)
     constructor(context: Context?, attrs: AttributeSet?) : super(context, attrs)
