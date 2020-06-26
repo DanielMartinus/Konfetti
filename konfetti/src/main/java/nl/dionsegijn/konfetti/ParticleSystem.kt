@@ -137,6 +137,14 @@ class ParticleSystem(private val konfettiView: KonfettiView) {
     }
 
     /**
+     * Enable or disable the 3D rotation of the particle
+     */
+    fun setRotationEnabled(enabled: Boolean): ParticleSystem {
+        confettiConfig.rotate = enabled
+        return this
+    }
+
+    /**
      * Set if the confetti should fade out when its
      * time to live is expired
      */

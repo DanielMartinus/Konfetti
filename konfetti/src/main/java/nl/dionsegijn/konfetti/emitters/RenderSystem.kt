@@ -42,7 +42,8 @@ class RenderSystem(
                 color = colors[random.nextInt(colors.size)],
                 lifespan = config.timeToLive,
                 fadeOut = config.fadeOut,
-                velocity = this.velocity.getVelocity())
+                velocity = this.velocity.getVelocity(),
+                rotate = config.rotate)
         )
     }
 
