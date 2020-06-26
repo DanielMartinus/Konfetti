@@ -36,6 +36,13 @@ class KonfettiView : View {
 
     fun getActiveSystems() = systems
 
+    /**
+     * Check if current systems are active rendering particles.
+     * @return true if konfetti is actively rendering
+     *         false if everything stopped rendering
+     */
+    fun isActive() = systems.isNotEmpty()
+
     fun build(): ParticleSystem = ParticleSystem(this)
 
     override fun onDraw(canvas: Canvas) {
