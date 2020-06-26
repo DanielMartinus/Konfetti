@@ -89,6 +89,15 @@ open class KonfettiView : View {
     }
 
     /**
+     * Stop the particle systems from rendering new particles. All particles already visible
+     * will continue rendering until they're done. When all particles are done rendering the system
+     * will be removed.
+     */
+    fun stopGracefully() {
+        systems.forEach { it.renderSystem.enabled = false }
+    }
+
+    /**
      * TimerIntegration retrieves the delta time since the rendering of the previous frame.
      * Delta time is used to draw the confetti correctly if any frame drops occur.
      */

@@ -26,6 +26,11 @@ class RenderSystem(
     private val emitter: Emitter
 ) {
 
+    /**
+     * Whether the render system is allowed to add more confetti
+     */
+    var enabled = true
+
     private val random = Random()
     private var gravity = Vector(0f, 0.01f)
     private val particles: MutableList<Confetti> = mutableListOf()
@@ -48,7 +53,7 @@ class RenderSystem(
     }
 
     fun render(canvas: Canvas, deltaTime: Float) {
-        emitter.createConfetti(deltaTime)
+        if (enabled) emitter.createConfetti(deltaTime)
 
         for (i in particles.size - 1 downTo 0) {
             val particle = particles[i]
@@ -60,5 +65,6 @@ class RenderSystem(
 
     fun getActiveParticles(): Int = particles.size
 
-    fun isDoneEmitting(): Boolean = emitter.isFinished() && particles.size == 0
+    fun isDoneEmitting(): Boolean =
+        (emitter.isFinished() && particles.size == 0) || (!enabled && particles.size == 0)
 }
