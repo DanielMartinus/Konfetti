@@ -9,7 +9,7 @@ ext {
 
     publishedGroupId = 'nl.dionsegijn'
     artifact = 'konfetti'
-    libraryVersion = "1.2.0"
+    libraryVersion = "1.2.1"
 
     libraryName = 'konfetti'
     libraryDescription = 'Lightweight particle system to celebrate with confetti in your app'
