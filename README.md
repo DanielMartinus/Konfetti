@@ -56,17 +56,24 @@ viewKonfetti.build()
 ### Example in Java
 
 ```Kotlin
-viewKonfetti.build()
-    .addColors(Color.YELLOW, Color.GREEN, Color.MAGENTA)
-    .setDirection(0.0, 359.0)
-    .setSpeed(1f, 5f)
-    .setFadeOutEnabled(true)
-    .setTimeToLive(2000L)
-    .addShapes(Shape.Square.INSTANCE, Shape.Circle.INSTANCE)
-    .addSizes(new Size(12, 5))
-    .setPosition(-50f, viewKonfetti.getWidth() + 50f, -50f, -50f)
-    .streamFor(300, 5000L)
+final KonfettiView konfettiView = findViewById(R.id.konfettiView);
+konfettiView.setOnClickListener(new View.OnClickListener() {
+    @Override
+    public void onClick(final View view) {
+        konfettiView.build()
+                .addColors(Color.YELLOW, Color.GREEN, Color.MAGENTA)
+                .setDirection(0.0, 359.0)
+                .setSpeed(1f, 5f)
+                .setFadeOutEnabled(true)
+                .setTimeToLive(2000L)
+                .addShapes(Shape.Square.INSTANCE, Shape.Circle.INSTANCE)
+                .addSizes(new Size(12, 5f))
+                .setPosition(-50f, konfettiView.getWidth() + 50f, -50f, -50f)
+                .streamFor(300, 5000L);
+    }
+});
 ```
+See sample code here: https://github.com/DanielMartinus/Konfetti/blob/master/demo-simple-java/src/main/java/nl/dionsegijn/simple_demo/MainActivity.java
 
 ### Custom shapes
 
