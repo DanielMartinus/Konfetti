@@ -156,7 +156,7 @@ class ParticleSystem(private val konfettiView: KonfettiView) {
     /**
      * Enable or disable the 3D rotation of the particle
      */
-    fun setAccelerate(enabled: Boolean): ParticleSystem {
+    fun setAccelerationEnabled(enabled: Boolean): ParticleSystem {
         confettiConfig.accelerate = enabled
         return this
     }
