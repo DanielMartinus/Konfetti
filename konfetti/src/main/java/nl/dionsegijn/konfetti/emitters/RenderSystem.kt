@@ -48,7 +48,9 @@ class RenderSystem(
                 lifespan = config.timeToLive,
                 fadeOut = config.fadeOut,
                 velocity = this.velocity.getVelocity(),
-                rotate = config.rotate)
+                rotate = config.rotate,
+                maxAcceleration = velocity.maxAcceleration,
+                accelerate = config.accelerate)
         )
     }
 
