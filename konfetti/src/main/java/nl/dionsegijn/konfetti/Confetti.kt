@@ -18,7 +18,9 @@ class Confetti(
     val fadeOut: Boolean = true,
     private var acceleration: Vector = Vector(0f, 0f),
     var velocity: Vector = Vector(),
-    val rotate: Boolean = true
+    val rotate: Boolean = true,
+    val accelerate: Boolean = true,
+    val maxAcceleration: Float = -1f
 ) {
 
     private val mass = size.mass
@@ -59,7 +61,9 @@ class Confetti(
     }
 
     private fun update(deltaTime: Float) {
-        velocity.add(acceleration)
+        if (accelerate && (acceleration.y < maxAcceleration || maxAcceleration == -1f)) {
+            velocity.add(acceleration)
+        }
 
         val v = velocity.copy()
         v.mult(deltaTime * speedF)

@@ -7,5 +7,6 @@ package nl.dionsegijn.konfetti.models
 data class ConfettiConfig(
     var fadeOut: Boolean = false,
     var timeToLive: Long = 2000L,
-    var rotate: Boolean = true
+    var rotate: Boolean = true,
+    var accelerate: Boolean = true
 )

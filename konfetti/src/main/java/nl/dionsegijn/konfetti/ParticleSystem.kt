@@ -137,10 +137,27 @@ class ParticleSystem(private val konfettiView: KonfettiView) {
     }
 
     /**
+     * Set a maximum acceleration that can be added to the velocity of the particle.
+     * This way the particle can't accelerate faster than the max speed + max acceleration
+     */
+    fun setMaxAcceleration(maxAcceleration: Float): ParticleSystem {
+        velocity.maxAcceleration = maxAcceleration / 10
+        return this
+    }
+
+    /**
      * Enable or disable the 3D rotation of the particle
      */
     fun setRotationEnabled(enabled: Boolean): ParticleSystem {
         confettiConfig.rotate = enabled
+        return this
+    }
+
+    /**
+     * Enable or disable the 3D rotation of the particle
+     */
+    fun setAccelerate(enabled: Boolean): ParticleSystem {
+        confettiConfig.accelerate = enabled
         return this
     }
 

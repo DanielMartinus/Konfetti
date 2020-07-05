@@ -39,6 +39,8 @@ class VelocityModule(private val random: Random) {
             field = if (value!! < 0) 0f else value
         }
 
+    var maxAcceleration: Float = -1f
+
     /**
      * If both minSpeed and maxSpeed are set a random speed between those values will be returned
      * Otherwise only the minimum speed will be returned
