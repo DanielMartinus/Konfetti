@@ -50,7 +50,8 @@ class RenderSystem(
                 velocity = this.velocity.getVelocity(),
                 rotate = config.rotate,
                 maxAcceleration = velocity.maxAcceleration,
-                accelerate = config.accelerate)
+                accelerate = config.accelerate,
+                rotationSpeedMultiplier = config.rotationSpeedMultiplier)
         )
     }
 

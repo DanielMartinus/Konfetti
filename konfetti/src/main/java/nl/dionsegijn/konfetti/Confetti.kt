@@ -20,7 +20,8 @@ class Confetti(
     var velocity: Vector = Vector(),
     val rotate: Boolean = true,
     val accelerate: Boolean = true,
-    val maxAcceleration: Float = -1f
+    val maxAcceleration: Float = -1f,
+    rotationSpeedMultiplier: Float = 1f
 ) {
 
     private val mass = size.mass
@@ -40,7 +41,7 @@ class Confetti(
         val minRotationSpeed = 0.29f * Resources.getSystem().displayMetrics.density
         val maxRotationSpeed = minRotationSpeed * 3
         if (rotate) {
-            rotationSpeed = maxRotationSpeed * Random.nextFloat() + minRotationSpeed
+            rotationSpeed = (maxRotationSpeed * Random.nextFloat() + minRotationSpeed) * rotationSpeedMultiplier
         }
         paint.color = color
     }
