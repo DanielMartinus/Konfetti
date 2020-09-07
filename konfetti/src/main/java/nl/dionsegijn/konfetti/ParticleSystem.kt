@@ -153,8 +153,13 @@ class ParticleSystem(private val konfettiView: KonfettiView) {
         return this
     }
 
+    fun setRotationSpeedMultiplier(multiplier: Float): ParticleSystem {
+        confettiConfig.rotationSpeedMultiplier = multiplier
+        return this
+    }
+
     /**
-     * Enable or disable the 3D rotation of the particle
+     * Enable or disable the acceleration of the particle
      */
     fun setAccelerationEnabled(enabled: Boolean): ParticleSystem {
         confettiConfig.accelerate = enabled
