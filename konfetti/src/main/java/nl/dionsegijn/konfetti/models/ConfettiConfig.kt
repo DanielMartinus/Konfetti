@@ -8,6 +8,5 @@ data class ConfettiConfig(
     var fadeOut: Boolean = false,
     var timeToLive: Long = 2000L,
     var rotate: Boolean = true,
-    var accelerate: Boolean = true,
-    var rotationSpeedMultiplier: Float = 1f
+    var accelerate: Boolean = true
 )
