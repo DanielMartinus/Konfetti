@@ -13,6 +13,7 @@ class VelocityModule(private val random: Random) {
      * Minimum angle as Radian
      */
     var minAngle: Double = 0.0
+
     /**
      * Maximum angle as Radian
      * Once set it will be used to randomize between [minAngle] and maxAngle when velocity
@@ -28,6 +29,7 @@ class VelocityModule(private val random: Random) {
         set(value) {
             field = if (value < 0) 0f else value
         }
+
     /**
      * Maximum speed (magnitude)
      * Once set it will be used to randomize between [minSpeed] and maxSpeed when velocity
@@ -40,6 +42,16 @@ class VelocityModule(private val random: Random) {
         }
 
     var maxAcceleration: Float = -1f
+
+    /**
+     * Minimum rotation speed multiplier
+     */
+    var baseRotationMultiplier: Float = 1f
+
+    /**
+     * Variance in rotation speed from the base multiplier given in percent
+     */
+    var rotationVariance: Float = 0.2f
 
     /**
      * If both minSpeed and maxSpeed are set a random speed between those values will be returned
@@ -77,5 +89,14 @@ class VelocityModule(private val random: Random) {
         val vx = speed * Math.cos(radian).toFloat()
         val vy = speed * Math.sin(radian).toFloat()
         return Vector(vx, vy)
+    }
+
+    /**
+     * Calculate a rotation speed multiplier based on the base and variance
+     * return float multiplier
+     */
+    fun getRotationSpeedMultiplier(): Float {
+        val randomValue = random.nextFloat() * 2f - 1f
+        return baseRotationMultiplier + (baseRotationMultiplier * rotationVariance * randomValue)
     }
 }

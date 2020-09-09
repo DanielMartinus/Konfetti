@@ -21,7 +21,7 @@ class Confetti(
     val rotate: Boolean = true,
     val accelerate: Boolean = true,
     val maxAcceleration: Float = -1f,
-    rotationSpeedMultiplier: Float = 1f
+    val rotationSpeedMultiplier: Float = 1f
 ) {
 
     private val mass = size.mass
