@@ -157,7 +157,7 @@ class ParticleSystem(private val konfettiView: KonfettiView) {
      * Set a multiplier for the rotation speed of the particles if rotation is enabled
      */
     fun setRotationSpeedMultiplier(multiplier: Float): ParticleSystem {
-        require(multiplier >= 0f) { "multiplier ($multiplier) must be greater or equal to 0"}
+        require(multiplier >= 0f) { "multiplier ($multiplier) must be greater or equal to 0" }
         velocity.baseRotationMultiplier = multiplier
         return this
     }
@@ -166,7 +166,7 @@ class ParticleSystem(private val konfettiView: KonfettiView) {
      * Set a rotation speed variance in percent on the multiplier
      */
     fun setRotationSpeedVariance(variance: Float): ParticleSystem {
-        require(variance in 0f..1f) { "variance ($variance) must be in the range 0..1"}
+        require(variance in 0f..1f) { "variance ($variance) must be in the range 0..1" }
         velocity.rotationVariance = variance
         return this
     }
