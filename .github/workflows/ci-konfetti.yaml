@@ -17,5 +17,8 @@ jobs:
           restore-keys: |
             ${{ runner.os }}-gradle-
 
+      - name: Run spotless
+        run: ./gradlew spotlessCheck
+
       - name: Run tests
         run: ./gradlew test
