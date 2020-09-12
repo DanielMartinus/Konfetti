@@ -63,12 +63,11 @@ interface Shape {
         }
     }
 
-    class DrawableShape(
-        drawable: Drawable,
+    data class DrawableShape(
+        val drawable: Drawable,
         /** Set to `false` to opt out of tinting the drawable, keeping its original colors. */
         private val tint: Boolean = true
     ) : Shape {
-        private val drawable = drawable.mutate()
         private val heightRatio =
             if (drawable.intrinsicHeight == -1 && drawable.intrinsicWidth == -1) {
                 // If the drawable has no intrinsic size, fill the available space.
