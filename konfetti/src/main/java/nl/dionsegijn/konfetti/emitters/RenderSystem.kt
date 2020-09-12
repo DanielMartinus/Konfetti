@@ -1,6 +1,7 @@
 package nl.dionsegijn.konfetti.emitters
 
 import android.graphics.Canvas
+import android.graphics.drawable.ShapeDrawable
 import nl.dionsegijn.konfetti.Confetti
 import nl.dionsegijn.konfetti.models.ConfettiConfig
 import nl.dionsegijn.konfetti.models.Shape
@@ -43,7 +44,7 @@ class RenderSystem(
         particles.add(Confetti(
                 location = Vector(location.x, location.y),
                 size = sizes[random.nextInt(sizes.size)],
-                shape = shapes[random.nextInt(shapes.size)],
+                shape = getRandomShape(),
                 color = colors[random.nextInt(colors.size)],
                 lifespan = config.timeToLive,
                 fadeOut = config.fadeOut,
@@ -53,6 +54,20 @@ class RenderSystem(
                 accelerate = config.accelerate,
                 rotationSpeedMultiplier = velocity.getRotationSpeedMultiplier())
         )
+    }
+
+    /**
+     * When the shape is a DrawableShape, mutate the drawable so that all drawables
+     * have different values when drawn on the canvas.
+     */
+    private fun getRandomShape(): Shape {
+        return when (val shape = shapes[random.nextInt(shapes.size)]) {
+            is Shape.DrawableShape -> {
+                val mutatedState = shape.drawable.constantState?.newDrawable()?.mutate() ?: shape.drawable
+                shape.copy(drawable = mutatedState)
+            }
+            else -> shape
+        }
     }
 
     fun render(canvas: Canvas, deltaTime: Float) {
