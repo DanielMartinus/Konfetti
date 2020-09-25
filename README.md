@@ -1,9 +1,16 @@
-# Konfetti 🎊
 
-[![platform](https://img.shields.io/badge/platform-Android-green.svg)](https://www.android.com)
-[![API](https://img.shields.io/badge/API-16%2B-brightgreen.svg?style=flat)](https://android-arsenal.com/api?level=16s)
-[![License: ISC](https://img.shields.io/badge/License-ISC-yellow.svg)](https://opensource.org/licenses/ISC) [![Awesome Kotlin Badge](https://kotlin.link/awesome-kotlin.svg)](https://github.com/KotlinBy/awesome-kotlin) [![Twitter](https://img.shields.io/badge/Twitter-@dionsegijn-blue.svg?style=flat)](http://twitter.com/dionsegijn)
 
+<h1 align="center">Konfetti 🎊</h1></br>
+
+<p align="center">
+    <a href="https://opensource.org/licenses/ISC"><img alt="License" src="https://img.shields.io/badge/License-ISC-yellow.svg"/></a>
+    <a href="https://android-arsenal.com/api?level=16s"><img alt="API level 16" src="https://img.shields.io/badge/API-16%2B-brightgreen.svg?style=flat"/></a>
+    <a href="https://github.com/KotlinBy/awesome-kotlin"><img alt="API level 16" src="https://kotlin.link/awesome-kotlin.svg"/></a>
+    <a href="http://twitter.com/dionsegijn"><img alt="API level 16" src="https://img.shields.io/badge/Twitter-@dionsegijn-blue.svg?style=flat"/></a>
+    <a href="https://github.com/DanielMartinus/Konfetti/actions"><img alt="Build Status" src="https://github.com/DanielMartinus/Konfetti/workflows/CI/badge.svg"/></a>
+</p>
+
+  
 For questions or announcements see also our telegram groups:
 
 [<img src="media/social_tg_chat.png" height=28 />](https://t.me/konfetti_chat) [<img src="media/social_tg_announcements.png" height=28 />](https://t.me/konfetti_announcements)
