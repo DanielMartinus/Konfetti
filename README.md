@@ -10,14 +10,10 @@
     <a href="https://github.com/DanielMartinus/Konfetti/actions"><img alt="Build Status" src="https://github.com/DanielMartinus/Konfetti/workflows/CI/badge.svg"/></a>
 </p>
 
-  
-For questions or announcements see also our telegram groups:
+<p align="center">
+    🥳 Celebrate more with this lightweight confetti particle system. Create realistic confetti by implementing this easy to use library.
+<p>
 
-[<img src="media/social_tg_chat.png" height=28 />](https://t.me/konfetti_chat) [<img src="media/social_tg_announcements.png" height=28 />](https://t.me/konfetti_announcements)
-
----
-
-Celebrate more with this lightweight confetti particle system 🎊 Create realistic confetti by implementing this easy to use library.
 
 ## Demo app
 
@@ -140,6 +136,10 @@ If you haven't configured Kotlin for your Java only project, add the following t
 `implementation 'org.jetbrains.kotlin:kotlin-stdlib-jdk7:$latest_version'`
 
 Read more about the latest version and kotlin via gradle here: https://kotlinlang.org/docs/reference/using-gradle.html
+
+### Need help or want to receive the latest updates? Join the telegram groups:
+
+[<img src="media/social_tg_chat.png" height=28 />](https://t.me/konfetti_chat) [<img src="media/social_tg_announcements.png" height=28 />](https://t.me/konfetti_announcements)
 
 ## Contribute
 
