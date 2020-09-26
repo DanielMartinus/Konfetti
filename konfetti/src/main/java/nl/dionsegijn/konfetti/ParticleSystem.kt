@@ -29,6 +29,8 @@ class ParticleSystem(private val konfettiView: KonfettiView) {
     private var shapes: Array<Shape> = arrayOf(Shape.Square)
     private var confettiConfig = ConfettiConfig()
 
+    fun getDelay() = confettiConfig.delay
+
     /**
      * Implementation of [BurstEmitter] or [StreamEmitter]
      * Render function of the renderSystem is directly accessed from [KonfettiView]
@@ -185,6 +187,11 @@ class ParticleSystem(private val konfettiView: KonfettiView) {
      */
     fun setFadeOutEnabled(fade: Boolean): ParticleSystem {
         confettiConfig.fadeOut = fade
+        return this
+    }
+
+    fun setDelay(delay: Long): ParticleSystem {
+        confettiConfig.delay = delay
         return this
     }
 
