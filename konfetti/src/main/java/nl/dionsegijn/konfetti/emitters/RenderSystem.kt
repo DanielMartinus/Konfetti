@@ -23,7 +23,8 @@ class RenderSystem(
     private val shapes: Array<Shape>,
     private val colors: IntArray,
     private val config: ConfettiConfig,
-    private val emitter: Emitter
+    private val emitter: Emitter,
+    val createdAt: Long = System.currentTimeMillis()
 ) {
 
     /**

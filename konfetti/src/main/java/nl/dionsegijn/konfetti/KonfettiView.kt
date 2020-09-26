@@ -51,7 +51,12 @@ open class KonfettiView : View {
         val deltaTime = timer.getDeltaTime()
         for (i in systems.size - 1 downTo 0) {
             val particleSystem = systems[i]
-            particleSystem.renderSystem.render(canvas, deltaTime)
+
+            val totalTimeRunning = timer.getTotalTimeRunning(particleSystem.renderSystem.createdAt)
+            if (totalTimeRunning >= particleSystem.getDelay()) {
+                particleSystem.renderSystem.render(canvas, deltaTime)
+            }
+
             if (particleSystem.doneEmitting()) {
                 systems.removeAt(i)
                 onParticleSystemUpdateListener?.onParticleSystemEnded(this, particleSystem, systems.size)
@@ -116,6 +121,11 @@ open class KonfettiView : View {
             val dt: Long = (currentTime - previousTime) / 1000000
             previousTime = currentTime
             return dt.toFloat() / 1000
+        }
+
+        fun getTotalTimeRunning(startTime: Long): Long {
+            val currentTime = System.currentTimeMillis()
+            return (currentTime - startTime)
         }
     }
 }
