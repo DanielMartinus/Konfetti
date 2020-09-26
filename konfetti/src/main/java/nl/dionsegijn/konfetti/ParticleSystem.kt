@@ -190,6 +190,9 @@ class ParticleSystem(private val konfettiView: KonfettiView) {
         return this
     }
 
+    /**
+     * Add a delay before this ParticleSystem will be triggered in milliseconds
+     */
     fun setDelay(delay: Long): ParticleSystem {
         confettiConfig.delay = delay
         return this
