@@ -23,8 +23,8 @@ class StreamEmitterTests {
     @Test
     fun test_Stream_OneParticlePerSecond() {
         streamEmitter.build(
-                particlesPerSecond = 1,
-                emittingTime = 3000
+            particlesPerSecond = 1,
+            emittingTime = 3000
         )
 
         // Test how many particles are created in three seconds
@@ -44,8 +44,8 @@ class StreamEmitterTests {
     @Test
     fun test_Stream_HundredParticlesPerSecond() {
         streamEmitter.build(
-                particlesPerSecond = 100,
-                emittingTime = 3000
+            particlesPerSecond = 100,
+            emittingTime = 3000
         )
 
         // Test how many particles are created in 100ms
@@ -63,8 +63,8 @@ class StreamEmitterTests {
     @Test
     fun test_Stream_tenParticlesPerSecond_maxTwelveParticles() {
         streamEmitter.build(
-                particlesPerSecond = 10,
-                maxParticles = 12
+            particlesPerSecond = 10,
+            maxParticles = 12
         )
 
         // Test how many particles are created in one second

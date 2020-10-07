@@ -53,7 +53,6 @@ class StreamEmitter : Emitter() {
      * Create the first confetti immediately and update the last emitting time
      */
     override fun createConfetti(deltaTime: Float) {
-
         createParticleMs += deltaTime
 
         // Check if particle should be created

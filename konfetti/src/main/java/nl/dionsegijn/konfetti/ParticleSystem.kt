@@ -228,7 +228,8 @@ class ParticleSystem(private val konfettiView: KonfettiView) {
         replaceWith = ReplaceWith(
             expression = "streamFor(particlesPerSecond, emittingTime)",
             imports = ["nl.dionsegijn.konfetti.ParticleSystem.streamFor"]
-        ))
+        )
+    )
     fun stream(particlesPerSecond: Int, emittingTime: Long) {
         val stream = StreamEmitter().build(particlesPerSecond = particlesPerSecond, emittingTime = emittingTime)
         startRenderSystem(stream)
@@ -256,7 +257,8 @@ class ParticleSystem(private val konfettiView: KonfettiView) {
         replaceWith = ReplaceWith(
             expression = "streamMaxParticles(particlesPerSecond, maxParticles)",
             imports = ["nl.dionsegijn.konfetti.ParticleSystem.streamMaxParticles"]
-        ))
+        )
+    )
     fun stream(particlesPerSecond: Int, maxParticles: Int) {
         val stream = StreamEmitter().build(particlesPerSecond = particlesPerSecond, maxParticles = maxParticles)
         startRenderSystem(stream)

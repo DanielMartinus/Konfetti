@@ -41,7 +41,8 @@ class RenderSystem(
     }
 
     private fun addConfetti() {
-        particles.add(Confetti(
+        particles.add(
+            Confetti(
                 location = Vector(location.x, location.y),
                 size = sizes[random.nextInt(sizes.size)],
                 shape = getRandomShape(),
@@ -52,7 +53,8 @@ class RenderSystem(
                 rotate = config.rotate,
                 maxAcceleration = velocity.maxAcceleration,
                 accelerate = config.accelerate,
-                rotationSpeedMultiplier = velocity.getRotationSpeedMultiplier())
+                rotationSpeedMultiplier = velocity.getRotationSpeedMultiplier()
+            )
         )
     }
 
