@@ -6,8 +6,8 @@ import android.graphics.Paint
 import nl.dionsegijn.konfetti.models.Shape
 import nl.dionsegijn.konfetti.models.Size
 import nl.dionsegijn.konfetti.models.Vector
-import kotlin.random.Random
 import kotlin.math.abs
+import kotlin.random.Random
 
 class Confetti(
     var location: Vector,
