@@ -10,7 +10,7 @@ buildscript {
         classpath "org.jetbrains.kotlin:kotlin-gradle-plugin:$kotlin_version"
         classpath 'com.github.dcendents:android-maven-gradle-plugin:1.4.1'
         classpath 'com.jfrog.bintray.gradle:gradle-bintray-plugin:1.8.5'
-        classpath "com.diffplug.spotless:spotless-plugin-gradle:5.6.1"
+        classpath "com.diffplug.spotless:spotless-plugin-gradle:5.7.0"
     }
 }
 
