@@ -50,9 +50,10 @@ class Confetti(
 
     fun isDead(): Boolean = alpha <= 0f
 
-    fun applyForce(force: Vector) {
+    fun applyForce(force: Vector, deltaTime: Float) {
         val f = force.copy()
         f.div(mass)
+        f.mult(deltaTime * speedF)
         acceleration.add(f)
     }
 
