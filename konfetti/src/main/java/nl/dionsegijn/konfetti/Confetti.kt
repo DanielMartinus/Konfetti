@@ -41,7 +41,8 @@ class Confetti(
         val minRotationSpeed = 0.29f * Resources.getSystem().displayMetrics.density
         val maxRotationSpeed = minRotationSpeed * 3
         if (rotate) {
-            rotationSpeed = (maxRotationSpeed * Random.nextFloat() + minRotationSpeed) * rotationSpeedMultiplier
+            rotationSpeed =
+                (maxRotationSpeed * Random.nextFloat() + minRotationSpeed) * rotationSpeedMultiplier
         }
         paint.color = color
     }
@@ -106,12 +107,15 @@ class Confetti(
         paint.alpha = alpha
 
         val scaleX = abs(rotationWidth / width - 0.5f) * 2
-        val centerX = scaleX * width / 2
+        val centerX = if (shape is Shape.Text) shape.textWidth(paint) / 2 else scaleX * width / 2
 
         val saveCount = canvas.save()
         canvas.translate(location.x - centerX, location.y)
         canvas.rotate(rotation, centerX, width / 2)
-        canvas.scale(scaleX, 1f)
+
+        if (shape !is Shape.Text) {
+            canvas.scale(scaleX, 1f)
+        }
 
         shape.draw(canvas, paint, width)
         canvas.restoreToCount(saveCount)

@@ -25,7 +25,7 @@ class ShapeSelectionView(
         private val configurationManager: ConfigurationManager
 ) : LinearLayout(context), UpdateConfiguration {
 
-    private val buttonWidth = pxFromDp(100f).toInt()
+    private val buttonWidth = pxFromDp(75f).toInt()
     private val buttonHeight = pxFromDp(60f).toInt()
     private val margin = pxFromDp(8f).toInt()
 
@@ -36,7 +36,8 @@ class ShapeSelectionView(
     private val availableShapes = arrayOf(
         Shape.Circle,
         Shape.Square,
-        Shape.DrawableShape(ContextCompat.getDrawable(context, R.drawable.ic_heart)!!)
+        Shape.DrawableShape(ContextCompat.getDrawable(context, R.drawable.ic_heart)!!),
+        Shape.Text("😂", 50f)
     )
 
     init {
@@ -58,11 +59,12 @@ class ShapeSelectionView(
                 Shape.Square -> R.drawable.ic_rectangle
                 Shape.Circle -> R.drawable.ic_circle
                 is Shape.DrawableShape -> R.drawable.ic_heart
+                is Shape.Text -> R.drawable.ic_laughing
                 else -> throw IllegalArgumentException("Unexpected shape: $shape")
             }
 
             /** Set width, height and margins of the button */
-            val params = LinearLayout.LayoutParams(buttonWidth, buttonHeight)
+            val params = LayoutParams(buttonWidth, buttonHeight)
             params.setMargins(margin, margin, margin, margin)
             params.gravity = Gravity.CENTER
             button.layoutParams = params

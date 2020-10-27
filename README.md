@@ -88,6 +88,10 @@ Add a custom shape by using:
 Shape.DrawableShape(drawable: Drawable)
 ```
 
+```Kotlin
+Shape.TextShape(text: String, textSizeInPixels: Float)
+```
+
 The 3D flip effect works best for symmetrical shapes, for example a drawable with a width and a height of 24x24.
 
 ### Indefinite streams

@@ -93,4 +93,24 @@ interface Shape {
             drawable.draw(canvas)
         }
     }
+
+    class Text(
+        private val text: String,
+        private val textSizeInPixels: Float
+    ) : Shape {
+
+        fun textWidth(paint: Paint): Float {
+            paint.textSize = textSizeInPixels
+            return paint.measureText(text)
+        }
+
+        override fun draw(
+            canvas: Canvas,
+            paint: Paint,
+            size: Float
+        ) {
+            paint.textSize = textSizeInPixels
+            canvas.drawText(text, 0f, 0f, paint)
+        }
+    }
 }
