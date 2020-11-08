@@ -1,11 +1,12 @@
-package nl.dionsegijn.konfetti
+package nl.dionsegijn.konfetti.core
 
 import android.content.res.Resources
 import android.graphics.Canvas
 import android.graphics.Paint
-import nl.dionsegijn.konfetti.models.Shape
-import nl.dionsegijn.konfetti.models.Size
-import nl.dionsegijn.konfetti.models.Vector
+import nl.dionsegijn.konfetti.core.models.Shape
+import nl.dionsegijn.konfetti.core.models.Size
+import nl.dionsegijn.konfetti.core.models.Vector
+import kotlin.random.Random
 import kotlin.math.abs
 import kotlin.random.Random
 
@@ -25,17 +26,17 @@ class Confetti(
 ) {
 
     private val mass = size.mass
-    private var width = size.sizeInPx
-    private val paint: Paint = Paint()
+    var width = size.sizeInPx
+    val paint: Paint = Paint()
 
     private var rotationSpeed = 0f
-    private var rotation = 0f
-    private var rotationWidth = width
+    var rotation = 0f
+    var rotationWidth = width
 
     // Expected frame rate
     private var speedF = 60f
 
-    private var alpha: Int = 255
+    var alpha: Int = 255
 
     init {
         val minRotationSpeed = 0.29f * Resources.getSystem().displayMetrics.density
@@ -46,7 +47,7 @@ class Confetti(
         paint.color = color
     }
 
-    private fun getSize(): Float = width
+    fun getSize(): Float = width
 
     fun isDead(): Boolean = alpha <= 0f
 
@@ -56,12 +57,7 @@ class Confetti(
         acceleration.add(f)
     }
 
-    fun render(canvas: Canvas, deltaTime: Float) {
-        update(deltaTime)
-        display(canvas)
-    }
-
-    private fun update(deltaTime: Float) {
+    fun update(deltaTime: Float) {
         if (accelerate && (acceleration.y < maxAcceleration || maxAcceleration == -1f)) {
             velocity.add(acceleration)
         }
@@ -91,7 +87,7 @@ class Confetti(
         }
     }
 
-    private fun display(canvas: Canvas) {
+    fun display(canvas: Canvas) {
         // if the particle is outside the bottom of the view the lifetime is over.
         if (location.y > canvas.height) {
             lifespan = 0

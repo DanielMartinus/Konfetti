@@ -6,10 +6,10 @@ import nl.dionsegijn.konfetti.emitters.Emitter
 import nl.dionsegijn.konfetti.emitters.RenderSystem
 import nl.dionsegijn.konfetti.emitters.StreamEmitter
 import nl.dionsegijn.konfetti.models.ConfettiConfig
-import nl.dionsegijn.konfetti.models.Shape
-import nl.dionsegijn.konfetti.models.Size
+import nl.dionsegijn.konfetti.core.models.Shape
+import nl.dionsegijn.konfetti.core.models.Size
 import nl.dionsegijn.konfetti.modules.LocationModule
-import nl.dionsegijn.konfetti.modules.VelocityModule
+import nl.dionsegijn.konfetti.core.VelocityModule
 import java.util.Random
 
 /**

@@ -1,4 +1,4 @@
-package nl.dionsegijn.konfetti.models
+package nl.dionsegijn.konfetti.core.models
 
 /**
  * Created by dionsegijn on 3/25/17.

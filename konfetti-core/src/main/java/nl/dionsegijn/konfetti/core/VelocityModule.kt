@@ -1,6 +1,6 @@
-package nl.dionsegijn.konfetti.modules
+package nl.dionsegijn.konfetti.core
 
-import nl.dionsegijn.konfetti.models.Vector
+import nl.dionsegijn.konfetti.core.models.Vector
 import java.util.Random
 
 /**

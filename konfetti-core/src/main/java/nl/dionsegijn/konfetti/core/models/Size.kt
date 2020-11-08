@@ -1,4 +1,4 @@
-package nl.dionsegijn.konfetti.models
+package nl.dionsegijn.konfetti.core.models
 
 import android.content.res.Resources
 
@@ -10,7 +10,7 @@ import android.content.res.Resources
  */
 data class Size(val sizeInDp: Int, val mass: Float = 5f) {
 
-    internal val sizeInPx: Float
+    val sizeInPx: Float
         get() = sizeInDp * Resources.getSystem().displayMetrics.density
 
     init {

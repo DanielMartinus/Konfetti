@@ -12,8 +12,11 @@ import androidx.appcompat.app.AppCompatActivity
 import android.view.MotionEvent
 import android.view.View
 import kotlinx.android.synthetic.main.activity_main.*
-import nl.dionsegijn.konfetti.models.Shape
-import nl.dionsegijn.konfetti.models.Size
+import nl.dionsegijn.konfetti.core.Konfetti
+import nl.dionsegijn.konfetti.core.PartySystem
+import nl.dionsegijn.konfetti.core.Timeline
+import nl.dionsegijn.konfetti.core.models.Shape
+import nl.dionsegijn.konfetti.core.models.Size
 import nl.dionsegijn.konfettidemo.configurations.settings.Configuration
 import nl.dionsegijn.konfettidemo.configurations.settings.ConfigurationManager
 import nl.dionsegijn.konfettidemo.interfaces.OnConfigurationChangedListener
@@ -43,6 +46,58 @@ class MainActivity : AppCompatActivity(), OnConfigurationChangedListener {
             updateSystemsInfo(); updateInfoHandler.postDelayed(updateInfoRunnable, 50)
         }
         updateInfoHandler.post(updateInfoRunnable)
+    }
+
+    private fun test() {
+        val configuration = Konfetti.build()
+            .setSpeed(0.5f)
+            .setDirection(180.0, 270.0)
+            .setFadeOutEnabled(true)
+            .setTimeToLive(2000)
+            .addShapes(Shape.Circle, Shape.Square)
+            .addSizes(Size(12), Size(16, 6f))
+            .setPosition(-50f, viewKonfetti.width + 50f, -50f, -50f)
+            .setTimeToLive(100)
+
+        val partySystem = PartySystem(configuration)
+
+        val timeline = Timeline()
+            .add(configuration, 1000L)
+
+        /**
+            // Confetti System holds all the values but doesn't calculate anything yet. So you are
+            // able to copy the object as data class to alter the contents for other systems to expand on
+
+            val party = Konfetti()
+                .setDirection(0.0, 359.0)
+                .setSpeed(config.minSpeed, config.maxSpeed)
+                .setFadeOutEnabled(true)
+                .setTimeToLive(config.timeToLive)
+                .addShapes(*config.shapes)
+                .addSizes(Size(12), Size(16, 6f))
+                .setPosition(-50f, viewKonfetti.width + 50f, -50f, -50f)
+                .streamFor(300, 5000L)
+
+            val party2 = Konfetti()
+                .setDirection(0.0, 359.0)
+                .setSpeed(config.minSpeed, config.maxSpeed)
+                .setFadeOutEnabled(true)
+                .setTimeToLive(config.timeToLive)
+                .addShapes(*config.shapes)
+                .addSizes(Size(12), Size(16, 6f))
+                .setPosition(-50f, viewKonfetti.width + 50f, -50f, -50f)
+                .streamFor(300, 5000L)
+
+            val timeline = Timeline()
+                .addConfetti(party)
+                .addConfetti(party, 1200)
+
+            // option 1
+            val konfettiView.start(timeline)
+
+            // option 2
+            val konfettiView.start(party)
+         */
     }
 
     /**
