@@ -117,9 +117,9 @@ open class KonfettiView : View {
             if (previousTime == -1L) previousTime = System.nanoTime()
 
             val currentTime = System.nanoTime()
-            val dt: Long = (currentTime - previousTime) / 1000000
+            val dt = (currentTime - previousTime) / 1000000f
             previousTime = currentTime
-            return dt.toFloat() / 1000
+            return dt / 1000
         }
 
         fun getTotalTimeRunning(startTime: Long): Long {
