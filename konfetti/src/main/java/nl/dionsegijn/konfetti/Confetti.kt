@@ -48,12 +48,10 @@ class Confetti(
 
     private fun getSize(): Float = width
 
-    fun isDead(): Boolean = alpha <= 0f
+    fun isDead(): Boolean = alpha <= 0
 
     fun applyForce(force: Vector) {
-        val f = force.copy()
-        f.div(mass)
-        acceleration.add(f)
+        acceleration.addScaled(force, 1f / mass)
     }
 
     fun render(canvas: Canvas, deltaTime: Float) {
@@ -66,9 +64,7 @@ class Confetti(
             velocity.add(acceleration)
         }
 
-        val v = velocity.copy()
-        v.mult(deltaTime * speedF)
-        location.add(v)
+        location.addScaled(velocity, deltaTime * speedF)
 
         if (lifespan <= 0) updateAlpha(deltaTime)
         else lifespan -= (deltaTime * 1000).toLong()
@@ -79,15 +75,16 @@ class Confetti(
 
         rotationWidth -= rSpeed
         if (rotationWidth < 0) rotationWidth = width
+
+
     }
 
     private fun updateAlpha(deltaTime: Float) {
-        if (fadeOut) {
+        alpha = if (fadeOut) {
             val interval = 5 * deltaTime * speedF
-            if (alpha - interval < 0) alpha = 0
-            else alpha -= (5 * deltaTime * speedF).toInt()
+            (alpha - interval.toInt()).coerceAtLeast(0)
         } else {
-            alpha = 0
+            0
         }
     }
 
@@ -103,7 +100,9 @@ class Confetti(
             return
         }
 
-        paint.alpha = alpha
+        // setting alpha via paint.setAlpha allocates a temporary "ColorSpace$Named" object
+        // it is more efficient via setColor
+        paint.color = (alpha shl 24) or (color and 0xffffff)
 
         val scaleX = abs(rotationWidth / width - 0.5f) * 2
         val centerX = scaleX * width / 2
