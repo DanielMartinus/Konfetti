@@ -79,8 +79,8 @@ class RenderSystem(
             val particle = particles[i]
             particle.applyForce(gravity)
             particle.render(canvas, deltaTime)
-            if (particle.isDead()) particles.removeAt(i)
         }
+        particles.removeAll { it.isDead() }
     }
 
     fun getActiveParticles(): Int = particles.size
