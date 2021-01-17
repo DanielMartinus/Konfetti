@@ -29,12 +29,12 @@ ext {
 spotless {
     kotlin {
         ktlint("0.23.0")
-        target "**/*.kt"
+        target "src/**/*.kt"
     }
     java {
         removeUnusedImports()
         googleJavaFormat("1.5")
-        target '**/*.java'
+        target 'src/**/*.java'
     }
 }
 
