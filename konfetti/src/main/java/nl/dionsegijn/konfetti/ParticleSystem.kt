@@ -8,6 +8,7 @@ import nl.dionsegijn.konfetti.emitters.StreamEmitter
 import nl.dionsegijn.konfetti.models.ConfettiConfig
 import nl.dionsegijn.konfetti.models.Shape
 import nl.dionsegijn.konfetti.models.Size
+import nl.dionsegijn.konfetti.models.Vector
 import nl.dionsegijn.konfetti.modules.LocationModule
 import nl.dionsegijn.konfetti.modules.VelocityModule
 import java.util.Random
@@ -153,7 +154,7 @@ class ParticleSystem(private val konfettiView: KonfettiView) {
      * If the value is negative it will be set to default value.
      */
     fun setGravity(y: Float): ParticleSystem {
-        gravity.y = if (y < 0) 0.01f else y
+        gravity.y = y.coerceAtLeast(0.01f)
         return this
     }
 
