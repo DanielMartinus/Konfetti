@@ -152,7 +152,7 @@ class ParticleSystem(private val konfettiView: KonfettiView) {
      * Set bottom gravity
      * If the value is negative it will be set to default value.
      */
-    fun setGravity(y:Float): ParticleSystem {
+    fun setGravity(y: Float): ParticleSystem {
         gravity.y = if (y < 0) 0.01f else y
         return this
     }
