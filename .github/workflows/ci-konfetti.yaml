@@ -9,7 +9,4 @@ jobs:
       - uses: actions/checkout@v2
 
       - name: Run spotless
-        run: ./gradlew spotlessCheck
-
-      - name: Run tests
-        run: ./gradlew test
+        run: ./gradlew build
