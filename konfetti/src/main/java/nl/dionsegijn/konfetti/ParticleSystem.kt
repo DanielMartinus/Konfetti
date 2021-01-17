@@ -28,6 +28,7 @@ class ParticleSystem(private val konfettiView: KonfettiView) {
     private var sizes = arrayOf(Size(16))
     private var shapes: Array<Shape> = arrayOf(Shape.Square)
     private var confettiConfig = ConfettiConfig()
+    private var gravity = Vector(0f, 0.01f)
 
     fun getDelay() = confettiConfig.delay
 
@@ -144,6 +145,15 @@ class ParticleSystem(private val konfettiView: KonfettiView) {
      */
     fun setMaxAcceleration(maxAcceleration: Float): ParticleSystem {
         velocity.maxAcceleration = maxAcceleration / 10
+        return this
+    }
+
+    /**
+     * Set bottom gravity
+     * If the value is negative it will be set to default value.
+     */
+    fun setGravity(y:Float): ParticleSystem {
+        gravity.y = if (y < 0) 0.01f else y
         return this
     }
 
@@ -285,7 +295,7 @@ class ParticleSystem(private val konfettiView: KonfettiView) {
      * By calling this function the system will start rendering confetti
      */
     private fun startRenderSystem(emitter: Emitter) {
-        renderSystem = RenderSystem(location, velocity, sizes, shapes, colors, confettiConfig, emitter)
+        renderSystem = RenderSystem(location, velocity, gravity, sizes, shapes, colors, confettiConfig, emitter)
         start()
     }
 

@@ -19,6 +19,7 @@ import java.util.Random
 class RenderSystem(
     private val location: LocationModule,
     private val velocity: VelocityModule,
+    private val gravity: Vector,
     private val sizes: Array<Size>,
     private val shapes: Array<Shape>,
     private val colors: IntArray,
@@ -33,7 +34,6 @@ class RenderSystem(
     var enabled = true
 
     private val random = Random()
-    private var gravity = Vector(0f, 0.01f)
     private val particles: MutableList<Confetti> = mutableListOf()
 
     init {
