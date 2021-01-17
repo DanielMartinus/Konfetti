@@ -28,8 +28,8 @@ ext {
 
 spotless {
     kotlin {
-        ktlint("0.23.0")
-        target "**/*.kt"
+        ktlint("0.37.2")
+        target 'src/**/*.kt'
     }
     java {
         removeUnusedImports()

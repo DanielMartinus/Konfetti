@@ -8,8 +8,14 @@ jobs:
     steps:
       - uses: actions/checkout@v2
 
-      - name: Run spotless
-        run: ./gradlew spotlessCheck
+      - uses: actions/cache@v2
+        with:
+          path: |
+            ~/.gradle/caches
+            ~/.gradle/wrapper
+          key: ${{ runner.os }}-gradle-${{ hashFiles('**/*.gradle*', '**/gradle-wrapper.properties') }}
+          restore-keys: |
+            ${{ runner.os }}-gradle-
 
-      - name: Run tests
-        run: ./gradlew test
+      - name: Run build and checks
+        run: ./gradlew build
