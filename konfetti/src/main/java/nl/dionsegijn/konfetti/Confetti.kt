@@ -75,8 +75,6 @@ class Confetti(
 
         rotationWidth -= rSpeed
         if (rotationWidth < 0) rotationWidth = width
-
-
     }
 
     private fun updateAlpha(deltaTime: Float) {
