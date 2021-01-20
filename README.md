@@ -78,7 +78,7 @@ konfettiView.setOnClickListener(new View.OnClickListener() {
     }
 });
 ```
-See sample code here: https://github.com/DanielMartinus/Konfetti/blob/master/demo-simple-java/src/main/java/nl/dionsegijn/simple_demo/MainActivity.java
+See sample code here: https://github.com/DanielMartinus/Konfetti/blob/main/demo-simple-java/src/main/java/nl/dionsegijn/simple_demo/MainActivity.java
 
 ### Custom shapes
 
@@ -164,4 +164,4 @@ In line with the previous contribute section there are some already known issues
 
 ## License
 
-Konfetti is released under the ISC license. See [LICENSE](https://github.com/DanielMartinus/Konfetti/blob/master/LICENSE) for details.
+Konfetti is released under the ISC license. See [LICENSE](https://github.com/DanielMartinus/Konfetti/blob/main/LICENSE) for details.

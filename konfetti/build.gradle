@@ -22,7 +22,7 @@ ext {
     developerEmail = 'danielsegijn@gmail.com'
 
     licenseName = 'ISC'
-    licenseUrl = 'https://github.com/DanielMartinus/Konfetti/blob/master/LICENSE'
+    licenseUrl = 'https://github.com/DanielMartinus/Konfetti/blob/main/LICENSE'
     allLicenses = ["ISC"]
 }
 

@@ -62,4 +62,4 @@ bintray {
     }
 }
 
-//from https://github.com/workarounds/bundler/blob/master/gradle/bintray-java-v1.gradle
+//from https://github.com/workarounds/bundler/blob/main/gradle/bintray-java-v1.gradle
