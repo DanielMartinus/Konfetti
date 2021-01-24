@@ -94,7 +94,7 @@ class Confetti(
 
     private fun display(canvas: Canvas) {
         // if the particle is outside the bottom of the view the lifetime is over.
-        if (location.y > canvas.height) {
+        if(location.y > canvas.height) {
             lifespan = 0
             return
         }
