@@ -11,6 +11,8 @@ jobs:
           ref: ${{ github.event.pull_request.head.sha }}
           fetch-depth: 0
 
+      - uses: gradle/wrapper-validation-action@v1
+
       - uses: actions/cache@v2
         with:
           path: |
