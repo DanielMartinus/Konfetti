@@ -40,7 +40,7 @@ class Confetti(
     init {
         val minRotationSpeed = 0.29f * Resources.getSystem().displayMetrics.density
         val maxRotationSpeed = minRotationSpeed * 3
-        if (rotate) {
+        if(rotate) {
             rotationSpeed = (maxRotationSpeed * Random.nextFloat() + minRotationSpeed) * rotationSpeedMultiplier
         }
         paint.color = color
