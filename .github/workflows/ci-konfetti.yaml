@@ -1,15 +1,12 @@
 name: CI
 
-on: pull_request_target
+on: pull_request
 
 jobs:
   run-test:
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v2
-        with:
-          ref: ${{ github.event.pull_request.head.sha }}
-          fetch-depth: 0
 
       - uses: gradle/wrapper-validation-action@v1
 
