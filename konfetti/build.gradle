@@ -1,8 +1,13 @@
 apply plugin: 'com.android.library'
 apply plugin: 'kotlin-android'
 apply plugin: "com.diffplug.spotless"
+apply from: "${rootProject.projectDir}/scripts/publish-mavencentral.gradle"
 
 ext {
+    PUBLISH_GROUP_ID = 'nl.dionsegijn'
+    PUBLISH_VERSION = '1.2.6'
+    PUBLISH_ARTIFACT_ID = 'konfetti'
+
     bintrayRepo = 'maven'
     bintrayName = 'Konfetti'
     orgName = 'danielmartinus'
