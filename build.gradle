@@ -1,3 +1,5 @@
+apply plugin: 'io.codearte.nexus-staging'
+
 buildscript {
     ext.kotlin_version = '1.4.21'
     repositories {
@@ -11,12 +13,14 @@ buildscript {
         classpath 'com.github.dcendents:android-maven-gradle-plugin:1.4.1'
         classpath 'com.jfrog.bintray.gradle:gradle-bintray-plugin:1.8.5'
         classpath "com.diffplug.spotless:spotless-plugin-gradle:5.9.0"
+        classpath 'io.codearte.gradle.nexus:gradle-nexus-staging-plugin:0.22.0'
     }
 }
 
 allprojects {
     repositories {
         google()
+        mavenCentral()
         jcenter()
     }
 }
