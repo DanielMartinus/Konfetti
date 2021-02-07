@@ -1,35 +1,14 @@
 apply plugin: 'com.android.library'
 apply plugin: 'kotlin-android'
 apply plugin: "com.diffplug.spotless"
-apply from: "${rootProject.projectDir}/scripts/publish-mavencentral.gradle"
 
 ext {
     PUBLISH_GROUP_ID = 'nl.dionsegijn'
     PUBLISH_VERSION = '1.2.6'
     PUBLISH_ARTIFACT_ID = 'konfetti'
-
-    bintrayRepo = 'maven'
-    bintrayName = 'Konfetti'
-    orgName = 'danielmartinus'
-
-    publishedGroupId = 'nl.dionsegijn'
-    artifact = 'konfetti'
-    libraryVersion = "1.2.6"
-
-    libraryName = 'konfetti'
-    libraryDescription = 'Lightweight particle system to celebrate with confetti in your app'
-
-    siteUrl = 'https://github.com/DanielMartinus/Konfetti'
-    gitUrl = 'https://github.com/DanielMartinus/Konfetti.git'
-
-    developerId = 'danielmartinus'
-    developerName = 'Dion Segijn'
-    developerEmail = 'danielsegijn@gmail.com'
-
-    licenseName = 'ISC'
-    licenseUrl = 'https://github.com/DanielMartinus/Konfetti/blob/main/LICENSE'
-    allLicenses = ["ISC"]
 }
+
+apply from: "${rootProject.projectDir}/scripts/publish-mavencentral.gradle"
 
 spotless {
     kotlin {
