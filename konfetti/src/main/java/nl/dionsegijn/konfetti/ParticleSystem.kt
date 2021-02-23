@@ -122,7 +122,7 @@ class ParticleSystem(private val konfettiView: KonfettiView) {
     }
 
     /**
-     * Set the speed of the particle
+     * Set the speed of the particle in dip per second
      * If value is negative it will be automatically set to 0
      */
     fun setSpeed(speed: Float): ParticleSystem {
@@ -131,7 +131,7 @@ class ParticleSystem(private val konfettiView: KonfettiView) {
     }
 
     /**
-     * Set the speed range of the particle
+     * Set the speed range of the particle in dip per second
      * If one of the values is negative it will be automatically set to 0
      */
     fun setSpeed(minSpeed: Float, maxSpeed: Float): ParticleSystem {

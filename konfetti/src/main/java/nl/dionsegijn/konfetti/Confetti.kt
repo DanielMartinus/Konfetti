@@ -24,6 +24,7 @@ class Confetti(
     val rotationSpeedMultiplier: Float = 1f
 ) {
 
+    private val density = Resources.getSystem().displayMetrics.density
     private val mass = size.mass
     private var width = size.sizeInPx
     private val paint: Paint = Paint()
@@ -38,7 +39,7 @@ class Confetti(
     private var alpha: Int = 255
 
     init {
-        val minRotationSpeed = 0.29f * Resources.getSystem().displayMetrics.density
+        val minRotationSpeed = 0.29f * density
         val maxRotationSpeed = minRotationSpeed * 3
         if (rotate) {
             rotationSpeed = (maxRotationSpeed * Random.nextFloat() + minRotationSpeed) * rotationSpeedMultiplier
@@ -64,7 +65,7 @@ class Confetti(
             velocity.add(acceleration)
         }
 
-        location.addScaled(velocity, deltaTime * speedF)
+        location.addScaled(velocity, deltaTime * speedF * density)
 
         if (lifespan <= 0) updateAlpha(deltaTime)
         else lifespan -= (deltaTime * 1000).toLong()
