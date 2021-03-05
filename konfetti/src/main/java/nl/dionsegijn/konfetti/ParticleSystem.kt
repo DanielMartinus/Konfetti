@@ -122,7 +122,7 @@ class ParticleSystem(private val konfettiView: KonfettiView) {
     }
 
     /**
-     * Set the speed of the particle in dip per second
+     * Set the speed of the particle
      * If value is negative it will be automatically set to 0
      */
     fun setSpeed(speed: Float): ParticleSystem {
@@ -131,7 +131,7 @@ class ParticleSystem(private val konfettiView: KonfettiView) {
     }
 
     /**
-     * Set the speed range of the particle in dip per second
+     * Set the speed range of the particle
      * If one of the values is negative it will be automatically set to 0
      */
     fun setSpeed(minSpeed: Float, maxSpeed: Float): ParticleSystem {
@@ -189,6 +189,14 @@ class ParticleSystem(private val konfettiView: KonfettiView) {
      */
     fun setAccelerationEnabled(enabled: Boolean): ParticleSystem {
         confettiConfig.accelerate = enabled
+        return this
+    }
+
+    /**
+     * Account for pixel density so that confetti move consistently across all devices.
+     */
+    fun setSpeedDensityIndependent(independent: Boolean): ParticleSystem {
+        confettiConfig.speedDensityIndependent = independent
         return this
     }
 

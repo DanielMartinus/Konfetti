@@ -21,7 +21,8 @@ class Confetti(
     val rotate: Boolean = true,
     val accelerate: Boolean = true,
     val maxAcceleration: Float = -1f,
-    val rotationSpeedMultiplier: Float = 1f
+    val rotationSpeedMultiplier: Float = 1f,
+    val speedDensityIndependent: Boolean = false
 ) {
 
     private val density = Resources.getSystem().displayMetrics.density
@@ -65,7 +66,11 @@ class Confetti(
             velocity.add(acceleration)
         }
 
-        location.addScaled(velocity, deltaTime * speedF * density)
+        if (speedDensityIndependent) {
+            location.addScaled(velocity, deltaTime * speedF * density)
+        } else {
+            location.addScaled(velocity, deltaTime * speedF)
+        }
 
         if (lifespan <= 0) updateAlpha(deltaTime)
         else lifespan -= (deltaTime * 1000).toLong()
