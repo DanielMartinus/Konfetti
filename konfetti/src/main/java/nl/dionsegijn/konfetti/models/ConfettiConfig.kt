@@ -9,5 +9,6 @@ data class ConfettiConfig(
     var timeToLive: Long = 2000L,
     var rotate: Boolean = true,
     var accelerate: Boolean = true,
-    var delay: Long = 0L
+    var delay: Long = 0L,
+    var speedDensityIndependent: Boolean = false
 )

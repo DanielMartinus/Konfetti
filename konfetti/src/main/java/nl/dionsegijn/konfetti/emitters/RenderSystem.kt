@@ -53,7 +53,8 @@ class RenderSystem(
                 rotate = config.rotate,
                 maxAcceleration = velocity.maxAcceleration,
                 accelerate = config.accelerate,
-                rotationSpeedMultiplier = velocity.getRotationSpeedMultiplier()
+                rotationSpeedMultiplier = velocity.getRotationSpeedMultiplier(),
+                speedDensityIndependent = config.speedDensityIndependent
             )
         )
     }
