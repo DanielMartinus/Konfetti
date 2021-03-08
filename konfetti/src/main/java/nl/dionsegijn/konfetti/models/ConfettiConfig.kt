@@ -10,5 +10,5 @@ data class ConfettiConfig(
     var rotate: Boolean = true,
     var accelerate: Boolean = true,
     var delay: Long = 0L,
-    var speedDensityIndependent: Boolean = false
+    var speedDensityIndependent: Boolean = true
 )

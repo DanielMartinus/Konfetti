@@ -22,7 +22,7 @@ class Confetti(
     val accelerate: Boolean = true,
     val maxAcceleration: Float = -1f,
     val rotationSpeedMultiplier: Float = 1f,
-    val speedDensityIndependent: Boolean = false
+    val speedDensityIndependent: Boolean = true
 ) {
 
     private val density = Resources.getSystem().displayMetrics.density

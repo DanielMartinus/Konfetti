@@ -194,6 +194,8 @@ class ParticleSystem(private val konfettiView: KonfettiView) {
 
     /**
      * Account for pixel density so that confetti move consistently across all devices.
+     * When true confetti will move in dip / second.
+     * When false confetti will move in pixels / second.
      */
     fun setSpeedDensityIndependent(independent: Boolean): ParticleSystem {
         confettiConfig.speedDensityIndependent = independent
