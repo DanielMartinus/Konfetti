@@ -4,7 +4,7 @@ apply plugin: "com.diffplug.spotless"
 
 ext {
     PUBLISH_GROUP_ID = 'nl.dionsegijn'
-    PUBLISH_VERSION = "1.3.0"
+    PUBLISH_VERSION = "1.3.1"
     PUBLISH_ARTIFACT_ID = 'konfetti'
 }
 
@@ -25,6 +25,15 @@ spotless {
 android {
     compileSdkVersion 29
     buildToolsVersion '29.0.2'
+
+    compileOptions {
+        sourceCompatibility = JavaVersion.VERSION_1_8
+        targetCompatibility = JavaVersion.VERSION_1_8
+    }
+
+    kotlinOptions {
+        jvmTarget = '1.8'
+    }
 
     defaultConfig {
         minSdkVersion 15
