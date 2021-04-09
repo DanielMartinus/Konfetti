@@ -4,16 +4,17 @@
   <component name="GradleSettings">
     <option name="linkedExternalProjectsSettings">
       <GradleProjectSettings>
-        <option name="delegatedBuild" value="false" />
         <option name="testRunner" value="GRADLE" />
         <option name="distributionType" value="DEFAULT_WRAPPED" />
         <option name="externalProjectPath" value="$PROJECT_DIR$" />
+        <option name="gradleJvm" value="1.8" />
         <option name="modules">
           <set>
             <option value="$PROJECT_DIR$" />
             <option value="$PROJECT_DIR$/demo-google-play" />
             <option value="$PROJECT_DIR$/demo-simple-java" />
             <option value="$PROJECT_DIR$/konfetti" />
+            <option value="$PROJECT_DIR$/konfetti-compose" />
           </set>
         </option>
         <option name="resolveModulePerSourceSet" value="false" />
