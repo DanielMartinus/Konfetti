@@ -2,7 +2,7 @@ package nl.dionsegijn.konfettidemo.configurations.settings
 
 import androidx.annotation.DrawableRes
 import androidx.annotation.StringRes
-import nl.dionsegijn.konfetti.models.Shape
+import nl.dionsegijn.konfetti_core.models.Shape
 import nl.dionsegijn.konfettidemo.R
 
 /**

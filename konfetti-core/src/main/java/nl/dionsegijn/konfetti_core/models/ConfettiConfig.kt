@@ -1,4 +1,4 @@
-package nl.dionsegijn.konfetti.models
+package nl.dionsegijn.konfetti_core.models
 
 /**
  * ConfettiConfig is a simple data class to set some

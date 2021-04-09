@@ -5,10 +5,10 @@ import nl.dionsegijn.konfetti.emitters.BurstEmitter
 import nl.dionsegijn.konfetti.emitters.Emitter
 import nl.dionsegijn.konfetti.emitters.RenderSystem
 import nl.dionsegijn.konfetti.emitters.StreamEmitter
-import nl.dionsegijn.konfetti.models.ConfettiConfig
-import nl.dionsegijn.konfetti.models.Shape
-import nl.dionsegijn.konfetti.models.Size
-import nl.dionsegijn.konfetti.models.Vector
+import nl.dionsegijn.konfetti_core.models.ConfettiConfig
+import nl.dionsegijn.konfetti_core.models.Shape
+import nl.dionsegijn.konfetti_core.models.Size
+import nl.dionsegijn.konfetti_core.models.Vector
 import nl.dionsegijn.konfetti.modules.LocationModule
 import nl.dionsegijn.konfetti.modules.VelocityModule
 import java.util.Random

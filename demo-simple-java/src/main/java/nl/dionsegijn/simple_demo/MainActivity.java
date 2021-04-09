@@ -9,8 +9,8 @@ import androidx.core.content.ContextCompat;
 import android.view.View;
 
 import nl.dionsegijn.konfetti.KonfettiView;
-import nl.dionsegijn.konfetti.models.Shape;
-import nl.dionsegijn.konfetti.models.Size;
+import nl.dionsegijn.konfetti_core.models.Shape;
+import nl.dionsegijn.konfetti_core.models.Size;
 
 public class MainActivity extends AppCompatActivity {
 

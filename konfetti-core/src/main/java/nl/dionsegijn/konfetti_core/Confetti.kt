@@ -1,4 +1,4 @@
-package nl.dionsegijn.konfetti
+package nl.dionsegijn.konfetti_core
 
 import android.content.res.Resources
 import android.graphics.Canvas

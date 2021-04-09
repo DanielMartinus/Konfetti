@@ -12,8 +12,8 @@ import androidx.appcompat.app.AppCompatActivity
 import android.view.MotionEvent
 import android.view.View
 import kotlinx.android.synthetic.main.activity_main.*
-import nl.dionsegijn.konfetti.models.Shape
-import nl.dionsegijn.konfetti.models.Size
+import nl.dionsegijn.konfetti_core.models.Shape
+import nl.dionsegijn.konfetti_core.models.Size
 import nl.dionsegijn.konfettidemo.configurations.settings.Configuration
 import nl.dionsegijn.konfettidemo.configurations.settings.ConfigurationManager
 import nl.dionsegijn.konfettidemo.interfaces.OnConfigurationChangedListener

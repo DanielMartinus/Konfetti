@@ -1,4 +1,4 @@
-package nl.dionsegijn.konfetti.models
+package nl.dionsegijn.konfetti_core.models
 
 import android.graphics.Canvas
 import android.graphics.Paint
