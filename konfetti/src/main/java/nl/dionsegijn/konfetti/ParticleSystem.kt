@@ -9,8 +9,8 @@ import nl.dionsegijn.konfetti_core.models.ConfettiConfig
 import nl.dionsegijn.konfetti_core.models.Shape
 import nl.dionsegijn.konfetti_core.models.Size
 import nl.dionsegijn.konfetti_core.models.Vector
-import nl.dionsegijn.konfetti.modules.LocationModule
-import nl.dionsegijn.konfetti.modules.VelocityModule
+import nl.dionsegijn.konfetti_core.modules.LocationModule
+import nl.dionsegijn.konfetti_core.modules.VelocityModule
 import java.util.Random
 
 /**

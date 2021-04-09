@@ -1,4 +1,4 @@
-package nl.dionsegijn.konfetti.modules
+package nl.dionsegijn.konfetti_core.modules
 
 import java.util.Random
 
