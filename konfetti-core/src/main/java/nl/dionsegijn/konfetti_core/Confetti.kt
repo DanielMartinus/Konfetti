@@ -3,9 +3,9 @@ package nl.dionsegijn.konfetti
 import android.content.res.Resources
 import android.graphics.Canvas
 import android.graphics.Paint
-import nl.dionsegijn.konfetti.models.Shape
-import nl.dionsegijn.konfetti.models.Size
-import nl.dionsegijn.konfetti.models.Vector
+import nl.dionsegijn.konfetti_core.models.Shape
+import nl.dionsegijn.konfetti_core.models.Size
+import nl.dionsegijn.konfetti_core.models.Vector
 import kotlin.math.abs
 import kotlin.random.Random
 
