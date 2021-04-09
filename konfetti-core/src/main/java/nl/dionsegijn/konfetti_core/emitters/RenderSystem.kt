@@ -1,4 +1,4 @@
-package nl.dionsegijn.konfetti.emitters
+package nl.dionsegijn.konfetti_core.emitters
 
 import android.graphics.Canvas
 import nl.dionsegijn.konfetti_core.Confetti

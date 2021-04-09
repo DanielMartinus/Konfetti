@@ -1,4 +1,4 @@
-package nl.dionsegijn.konfetti.emitters
+package nl.dionsegijn.konfetti_core.emitters
 
 /**
  * Created by dionsegijn on 9/03/17.

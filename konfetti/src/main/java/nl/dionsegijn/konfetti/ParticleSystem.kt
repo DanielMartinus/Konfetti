@@ -1,10 +1,10 @@
 package nl.dionsegijn.konfetti
 
 import android.graphics.Color
-import nl.dionsegijn.konfetti.emitters.BurstEmitter
-import nl.dionsegijn.konfetti.emitters.Emitter
-import nl.dionsegijn.konfetti.emitters.RenderSystem
-import nl.dionsegijn.konfetti.emitters.StreamEmitter
+import nl.dionsegijn.konfetti_core.emitters.BurstEmitter
+import nl.dionsegijn.konfetti_core.emitters.Emitter
+import nl.dionsegijn.konfetti_core.emitters.RenderSystem
+import nl.dionsegijn.konfetti_core.emitters.StreamEmitter
 import nl.dionsegijn.konfetti_core.models.ConfettiConfig
 import nl.dionsegijn.konfetti_core.models.Shape
 import nl.dionsegijn.konfetti_core.models.Size

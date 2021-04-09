@@ -1,6 +1,6 @@
 package nl.dionsegijn.konfetti.emitter
 
-import nl.dionsegijn.konfetti.emitters.StreamEmitter
+import nl.dionsegijn.konfetti_core.emitters.StreamEmitter
 import org.junit.Before
 import org.junit.Test
 import org.mockito.Mockito
