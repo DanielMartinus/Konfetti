@@ -5,6 +5,7 @@ import android.graphics.Canvas
 import android.util.AttributeSet
 import android.view.View
 import nl.dionsegijn.konfetti.listeners.OnParticleSystemUpdateListener
+import nl.dionsegijn.konfetti_core.ParticleSystem
 
 /**
  * Created by dionsegijn on 3/25/17.
@@ -43,7 +44,7 @@ open class KonfettiView : View {
      */
     fun isActive() = systems.isNotEmpty()
 
-    fun build(): ParticleSystem = ParticleSystem(this)
+    fun build(): ParticleSystem = KonfettiSystem(this)
 
     override fun onDraw(canvas: Canvas) {
         super.onDraw(canvas)

@@ -1,4 +1,4 @@
-package nl.dionsegijn.konfetti
+package nl.dionsegijn.konfetti_core
 
 import android.graphics.Color
 import nl.dionsegijn.konfetti_core.emitters.BurstEmitter
@@ -16,7 +16,7 @@ import java.util.Random
 /**
  * Created by dionsegijn on 3/26/17.
  */
-class ParticleSystem(private val konfettiView: KonfettiView) {
+open class ParticleSystem {
 
     private val random = Random()
 
@@ -37,7 +37,7 @@ class ParticleSystem(private val konfettiView: KonfettiView) {
      * Implementation of [BurstEmitter] or [StreamEmitter]
      * Render function of the renderSystem is directly accessed from [KonfettiView]
      */
-    internal lateinit var renderSystem: RenderSystem
+    lateinit var renderSystem: RenderSystem
 
     /**
      * Set position to emit particles from
@@ -248,7 +248,7 @@ class ParticleSystem(private val konfettiView: KonfettiView) {
         message = "Deprecated in favor of better function names",
         replaceWith = ReplaceWith(
             expression = "streamFor(particlesPerSecond, emittingTime)",
-            imports = ["nl.dionsegijn.konfetti.ParticleSystem.streamFor"]
+            imports = ["nl.dionsegijn.konfetti_core.ParticleSystem.streamFor"]
         )
     )
     fun stream(particlesPerSecond: Int, emittingTime: Long) {
@@ -277,7 +277,7 @@ class ParticleSystem(private val konfettiView: KonfettiView) {
         message = "Deprecated in favor of better function names",
         replaceWith = ReplaceWith(
             expression = "streamMaxParticles(particlesPerSecond, maxParticles)",
-            imports = ["nl.dionsegijn.konfetti.ParticleSystem.streamMaxParticles"]
+            imports = ["nl.dionsegijn.konfetti_core.ParticleSystem.streamMaxParticles"]
         )
     )
     fun stream(particlesPerSecond: Int, maxParticles: Int) {
@@ -310,18 +310,14 @@ class ParticleSystem(private val konfettiView: KonfettiView) {
         start()
     }
 
-    fun doneEmitting(): Boolean = renderSystem.isDoneEmitting()
 
     /**
      * Add the system to KonfettiView. KonfettiView will initiate the rendering
      */
-    private fun start() {
-        konfettiView.start(this)
-    }
+    open fun start() { }
+    open fun stop() { }
 
-    fun stop() {
-        konfettiView.stop(this)
-    }
+    fun doneEmitting(): Boolean = renderSystem.isDoneEmitting()
 
     fun activeParticles(): Int {
         return renderSystem.getActiveParticles()

@@ -1,7 +1,7 @@
 package nl.dionsegijn.konfetti.listeners
 
 import nl.dionsegijn.konfetti.KonfettiView
-import nl.dionsegijn.konfetti.ParticleSystem
+import nl.dionsegijn.konfetti_core.ParticleSystem
 
 /**
  * Created by dionsegijn on 5/31/17.
