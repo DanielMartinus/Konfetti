@@ -5,7 +5,9 @@ import android.graphics.Canvas
 import android.util.AttributeSet
 import android.view.View
 import nl.dionsegijn.konfetti.listeners.OnParticleSystemUpdateListener
+import nl.dionsegijn.konfetti_core.Confetti
 import nl.dionsegijn.konfetti_core.ParticleSystem
+import kotlin.math.abs
 
 /**
  * Created by dionsegijn on 3/25/17.
@@ -55,7 +57,8 @@ open class KonfettiView : View {
 
             val totalTimeRunning = timer.getTotalTimeRunning(particleSystem.renderSystem.createdAt)
             if (totalTimeRunning >= particleSystem.getDelay()) {
-                particleSystem.renderSystem.render(canvas, deltaTime)
+                particleSystem.renderSystem.render(deltaTime)
+                particleSystem.renderSystem.particles.forEach { it.display(canvas) }
             }
 
             if (particleSystem.doneEmitting()) {
@@ -69,6 +72,34 @@ open class KonfettiView : View {
         } else {
             timer.reset()
         }
+    }
+
+    private fun Confetti.display(canvas: Canvas) {
+        // if the particle is outside the bottom of the view the lifetime is over.
+        if (location.y > canvas.height) {
+            lifespan = 0
+            return
+        }
+
+        // Do not draw the particle if it's outside the canvas view
+        if (location.x > canvas.width || location.x + getSize() < 0 || location.y + getSize() < 0) {
+            return
+        }
+
+        // setting alpha via paint.setAlpha allocates a temporary "ColorSpace$Named" object
+        // it is more efficient via setColor
+        paint.color = (this.alpha shl 24) or (color and 0xffffff)
+
+        val scaleX = abs(rotationWidth / width - 0.5f) * 2
+        val centerX = scaleX * width / 2
+
+        val saveCount = canvas.save()
+        canvas.translate(location.x - centerX, location.y)
+        canvas.rotate(rotation, centerX, width / 2)
+        canvas.scale(scaleX, 1f)
+
+        shape.draw(canvas, paint, width)
+        canvas.restoreToCount(saveCount)
     }
 
     fun start(particleSystem: ParticleSystem) {

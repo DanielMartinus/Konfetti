@@ -34,7 +34,7 @@ class RenderSystem(
     var enabled = true
 
     private val random = Random()
-    private val particles: MutableList<Confetti> = mutableListOf()
+    val particles: MutableList<Confetti> = mutableListOf()
 
     init {
         emitter.addConfettiFunc = this::addConfetti
@@ -73,13 +73,13 @@ class RenderSystem(
         }
     }
 
-    fun render(canvas: Canvas, deltaTime: Float) {
+    fun render(deltaTime: Float) {
         if (enabled) emitter.createConfetti(deltaTime)
 
         for (i in particles.size - 1 downTo 0) {
             val particle = particles[i]
             particle.applyForce(gravity)
-            particle.render(canvas, deltaTime)
+            particle.render(deltaTime)
         }
         particles.removeAll { it.isDead() }
     }

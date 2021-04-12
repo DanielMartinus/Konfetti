@@ -1,12 +1,10 @@
 package nl.dionsegijn.konfetti_core
 
 import android.content.res.Resources
-import android.graphics.Canvas
 import android.graphics.Paint
 import nl.dionsegijn.konfetti_core.models.Shape
 import nl.dionsegijn.konfetti_core.models.Size
 import nl.dionsegijn.konfetti_core.models.Vector
-import kotlin.math.abs
 import kotlin.random.Random
 
 class Confetti(
@@ -25,19 +23,19 @@ class Confetti(
     val speedDensityIndependent: Boolean = true
 ) {
 
-    private val density = Resources.getSystem().displayMetrics.density
-    private val mass = size.mass
-    private var width = size.sizeInPx
-    private val paint: Paint = Paint()
+    val density = Resources.getSystem().displayMetrics.density
+    val mass = size.mass
+    var width = size.sizeInPx
+    val paint: Paint = Paint()
 
-    private var rotationSpeed = 0f
-    private var rotation = 0f
-    private var rotationWidth = width
+    var rotationSpeed = 0f
+    var rotation = 0f
+    var rotationWidth = width
 
     // Expected frame rate
-    private var speedF = 60f
+    var speedF = 60f
 
-    private var alpha: Int = 255
+    var alpha: Int = 255
 
     init {
         val minRotationSpeed = 0.29f * density
@@ -48,7 +46,7 @@ class Confetti(
         paint.color = color
     }
 
-    private fun getSize(): Float = width
+    fun getSize(): Float = width
 
     fun isDead(): Boolean = alpha <= 0
 
@@ -56,9 +54,8 @@ class Confetti(
         acceleration.addScaled(force, 1f / mass)
     }
 
-    fun render(canvas: Canvas, deltaTime: Float) {
+    fun render(deltaTime: Float) {
         update(deltaTime)
-        display(canvas)
     }
 
     private fun update(deltaTime: Float) {
@@ -90,33 +87,5 @@ class Confetti(
         } else {
             0
         }
-    }
-
-    private fun display(canvas: Canvas) {
-        // if the particle is outside the bottom of the view the lifetime is over.
-        if (location.y > canvas.height) {
-            lifespan = 0
-            return
-        }
-
-        // Do not draw the particle if it's outside the canvas view
-        if (location.x > canvas.width || location.x + getSize() < 0 || location.y + getSize() < 0) {
-            return
-        }
-
-        // setting alpha via paint.setAlpha allocates a temporary "ColorSpace$Named" object
-        // it is more efficient via setColor
-        paint.color = (alpha shl 24) or (color and 0xffffff)
-
-        val scaleX = abs(rotationWidth / width - 0.5f) * 2
-        val centerX = scaleX * width / 2
-
-        val saveCount = canvas.save()
-        canvas.translate(location.x - centerX, location.y)
-        canvas.rotate(rotation, centerX, width / 2)
-        canvas.scale(scaleX, 1f)
-
-        shape.draw(canvas, paint, width)
-        canvas.restoreToCount(saveCount)
     }
 }
