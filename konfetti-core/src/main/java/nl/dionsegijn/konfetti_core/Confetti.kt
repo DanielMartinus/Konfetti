@@ -23,17 +23,17 @@ class Confetti(
     val speedDensityIndependent: Boolean = true
 ) {
 
-    val density = Resources.getSystem().displayMetrics.density
-    val mass = size.mass
+    private val density = Resources.getSystem().displayMetrics.density
+    private val mass = size.mass
     var width = size.sizeInPx
     val paint: Paint = Paint()
 
-    var rotationSpeed = 0f
+    private var rotationSpeed = 0f
     var rotation = 0f
     var rotationWidth = width
 
     // Expected frame rate
-    var speedF = 60f
+    private var speedF = 60f
 
     var alpha: Int = 255
 
