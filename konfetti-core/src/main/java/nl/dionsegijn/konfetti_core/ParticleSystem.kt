@@ -234,8 +234,9 @@ open class ParticleSystem {
      * Calling this function will start the system rendering the confetti
      * [amount] - the amount of particles created at burst
      */
-    fun burst(amount: Int) {
+    fun burst(amount: Int): ParticleSystem {
         startRenderSystem(BurstEmitter().build(amount))
+        return this
     }
 
     /**
@@ -262,9 +263,10 @@ open class ParticleSystem {
      * [particlesPerSecond] amount of particles created per second
      * [emittingTime] max amount of time to emit in milliseconds
      */
-    fun streamFor(particlesPerSecond: Int, emittingTime: Long) {
+    fun streamFor(particlesPerSecond: Int, emittingTime: Long): ParticleSystem {
         val stream = StreamEmitter().build(particlesPerSecond = particlesPerSecond, emittingTime = emittingTime)
         startRenderSystem(stream)
+        return this
     }
 
     /**
@@ -285,9 +287,10 @@ open class ParticleSystem {
         startRenderSystem(stream)
     }
 
-    fun streamMaxParticles(particlesPerSecond: Int, maxParticles: Int) {
+    fun streamMaxParticles(particlesPerSecond: Int, maxParticles: Int): ParticleSystem {
         val stream = StreamEmitter().build(particlesPerSecond = particlesPerSecond, maxParticles = maxParticles)
         startRenderSystem(stream)
+        return this
     }
 
     /**

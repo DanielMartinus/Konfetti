@@ -1,33 +1,58 @@
 package nl.dionsegijn.konfetti_compose
 
+import android.util.Log
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.State
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.withFrameMillis
+import nl.dionsegijn.konfetti_core.ParticleSystem
+import kotlin.math.abs
+import kotlin.math.withSign
 
 @Composable
-fun startTimerIntegration(): State<List<Particle>> {
-    val millisState = mutableStateOf(listOf(Particle(200f, 200f, 25f, 25f)))
+fun startTimerIntegration(particleSystem: ParticleSystem): State<List<Particle>> {
+    val particles = mutableStateOf(emptyList<Particle>())
+    val durationMs = mutableStateOf(0L)
     LaunchedEffect(true) {
         val startTime = withFrameMillis { it }
         while (true) {
             withFrameMillis { frameTime ->
-//                val old = millisState.value
-//                val newValue = frameTime - startTime
-//                millisState.value = newValue
-//                Log.e("DION", "DION + ${newValue - old}")
-                millisState.value = millisState.value.map { update(it) }
+                val old = durationMs.value
+                val newValue = frameTime - startTime
+                durationMs.value = frameTime - startTime
+
+                particleSystem.renderSystem.render(16f / 1000)
+
+                Log.e(
+                    "DION",
+                    "Amount of particles: ${particleSystem.renderSystem.getActiveParticles()} | ${particleSystem.renderSystem.isDoneEmitting()}"
+                )
+                particles.value = particleSystem.renderSystem.particles.map {
+                    val color = (it.alpha shl 24) or (it.color and 0xffffff)
+                    val scaleX = abs(it.rotationWidth / it.width - 0.5f) * 2
+                    Particle(
+                        it.location.x,
+                        it.location.y,
+                        it.width,
+                        it.width,
+                        color,
+                        it.rotation,
+                        scaleX
+                    )
+                }
             }
         }
     }
-    return millisState
+    return particles
 }
 
-fun update(particle: Particle): Particle {
-    val newWidth = particle.width - 2
-
-    return particle.copy(width = if(newWidth < -100) 100f else newWidth)
-}
-
-data class Particle(val x: Float, val y: Float, val width: Float, val height: Float)
+data class Particle(
+    val x: Float,
+    val y: Float,
+    val width: Float,
+    val height: Float,
+    val color: Int,
+    val rotation: Float,
+    val scaleX: Float
+)
