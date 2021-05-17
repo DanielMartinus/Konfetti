@@ -1,7 +1,7 @@
 apply plugin: 'io.codearte.nexus-staging'
 
 buildscript {
-    ext.kotlin_version = '1.4.32'
+    ext.kotlin_version = '1.4.30'
     ext.compose_version = '1.0.0-beta01'
     ext.coroutines_version = '1.4.2'
     repositories {
@@ -10,7 +10,7 @@ buildscript {
         jcenter()
     }
     dependencies {
-        classpath 'com.android.tools.build:gradle:7.0.0-alpha13'
+        classpath 'com.android.tools.build:gradle:7.0.0-alpha15'
         classpath "org.jetbrains.kotlin:kotlin-gradle-plugin:$kotlin_version"
         classpath 'com.github.dcendents:android-maven-gradle-plugin:1.4.1'
         classpath 'com.jfrog.bintray.gradle:gradle-bintray-plugin:1.8.5'
