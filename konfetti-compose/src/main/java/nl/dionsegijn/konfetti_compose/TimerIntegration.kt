@@ -1,6 +1,5 @@
 package nl.dionsegijn.konfetti_compose
 
-import android.util.Log
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.State
@@ -8,7 +7,6 @@ import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.withFrameMillis
 import nl.dionsegijn.konfetti_core.ParticleSystem
 import kotlin.math.abs
-import kotlin.math.withSign
 
 @Composable
 fun startTimerIntegration(particleSystem: ParticleSystem): State<List<Particle>> {
@@ -23,11 +21,6 @@ fun startTimerIntegration(particleSystem: ParticleSystem): State<List<Particle>>
                 durationMs.value = frameTime - startTime
 
                 particleSystem.renderSystem.render(16f / 1000)
-
-                Log.e(
-                    "DION",
-                    "Amount of particles: ${particleSystem.renderSystem.getActiveParticles()} | ${particleSystem.renderSystem.isDoneEmitting()}"
-                )
                 particles.value = particleSystem.renderSystem.particles.map {
                     val color = (it.alpha shl 24) or (it.color and 0xffffff)
                     val scaleX = abs(it.rotationWidth / it.width - 0.5f) * 2
