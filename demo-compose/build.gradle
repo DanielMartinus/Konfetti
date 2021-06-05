@@ -58,6 +58,7 @@ android {
 
 dependencies {
     implementation project(path: ':konfetti-compose')
+    // TODO: Remove importing konfetti-core
     implementation project(path: ':konfetti-core')
 
     implementation 'androidx.core:core-ktx:1.5.0'

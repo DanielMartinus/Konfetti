@@ -20,6 +20,7 @@ fun runKonfetti(particleSystem: ParticleSystem): State<List<Particle>> {
                 val newValue = frameTime - startTime
                 durationMs.value = frameTime - startTime
 
+                // TODO: Use real delta time instead of the temporary 16ms
                 particleSystem.renderSystem.render(16f / 1000)
                 particles.value = particleSystem.renderSystem.particles.map {
                     val color = (it.alpha shl 24) or (it.color and 0xffffff)
