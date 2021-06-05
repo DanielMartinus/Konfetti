@@ -15,7 +15,7 @@ import nl.dionsegijn.konfetti_core.ParticleSystem
 @Composable
 fun KonfettiView(modifier: Modifier, particleSystem: ParticleSystem) {
 
-    val millis by startTimerIntegration(
+    val millis by runKonfetti(
         particleSystem
     )
 

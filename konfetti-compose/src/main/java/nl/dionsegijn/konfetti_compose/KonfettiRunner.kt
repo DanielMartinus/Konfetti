@@ -9,7 +9,7 @@ import nl.dionsegijn.konfetti_core.ParticleSystem
 import kotlin.math.abs
 
 @Composable
-fun startTimerIntegration(particleSystem: ParticleSystem): State<List<Particle>> {
+fun runKonfetti(particleSystem: ParticleSystem): State<List<Particle>> {
     val particles = mutableStateOf(emptyList<Particle>())
     val durationMs = mutableStateOf(0L)
     LaunchedEffect(true) {
