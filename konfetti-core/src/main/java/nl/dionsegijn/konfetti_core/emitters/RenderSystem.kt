@@ -1,6 +1,5 @@
 package nl.dionsegijn.konfetti_core.emitters
 
-import android.graphics.Canvas
 import nl.dionsegijn.konfetti_core.Confetti
 import nl.dionsegijn.konfetti_core.models.ConfettiConfig
 import nl.dionsegijn.konfetti_core.models.Shape

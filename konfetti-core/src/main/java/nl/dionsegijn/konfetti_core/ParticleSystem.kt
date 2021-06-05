@@ -313,7 +313,6 @@ open class ParticleSystem {
         start()
     }
 
-
     /**
      * Add the system to KonfettiView. KonfettiView will initiate the rendering
      */

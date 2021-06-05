@@ -20,9 +20,9 @@ fun KonfettiView(modifier: Modifier, particleSystem: ParticleSystem) {
     )
 
     Canvas(
-        modifier = Modifier.fillMaxSize().clickable {  },
+        modifier = Modifier.fillMaxSize().clickable { },
         onDraw = {
-            millis.forEach{ particle ->
+            millis.forEach { particle ->
                 withTransform({
                     rotate(particle.rotation, Offset(particle.x + (particle.width / 2), particle.y + (particle.height / 2)))
                     scale(particle.scaleX, 1f, Offset(particle.x + (particle.width / 2), particle.y))

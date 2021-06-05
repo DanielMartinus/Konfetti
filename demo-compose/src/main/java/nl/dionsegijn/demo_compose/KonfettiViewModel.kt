@@ -6,7 +6,7 @@ import androidx.lifecycle.ViewModel
 import nl.dionsegijn.konfetti_core.ParticleSystem
 import nl.dionsegijn.konfetti_core.models.Shape
 
-class KonfettiViewModel : ViewModel()  {
+class KonfettiViewModel : ViewModel() {
 
     private val _state = MutableLiveData<State>(State.Idle)
     val state: LiveData<State> = _state
