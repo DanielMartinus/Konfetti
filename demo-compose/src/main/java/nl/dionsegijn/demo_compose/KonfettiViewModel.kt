@@ -1,4 +1,4 @@
-package nl.dionsegijn.konfetti_compose
+package nl.dionsegijn.demo_compose
 
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData

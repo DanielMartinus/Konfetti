@@ -11,7 +11,6 @@ import androidx.compose.ui.geometry.Size
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.graphics.drawscope.withTransform
 import nl.dionsegijn.konfetti_core.ParticleSystem
-import nl.dionsegijn.konfetti_core.models.Shape
 
 @Composable
 fun KonfettiView(modifier: Modifier, particleSystem: ParticleSystem) {
