@@ -7,14 +7,15 @@ import android.graphics.drawable.GradientDrawable
 import android.os.Build
 import androidx.core.content.ContextCompat
 import android.view.Gravity
+import android.view.LayoutInflater
 import android.view.View
 import android.widget.Button
 import android.widget.LinearLayout
 import android.widget.Toast
-import kotlinx.android.synthetic.main.view_section_color_selection.view.*
 import nl.dionsegijn.konfettidemo.R
 import nl.dionsegijn.konfettidemo.configurations.settings.Configuration
 import nl.dionsegijn.konfettidemo.configurations.settings.ConfigurationManager
+import nl.dionsegijn.konfettidemo.databinding.ViewSectionColorSelectionBinding
 import nl.dionsegijn.konfettidemo.interfaces.UpdateConfiguration
 
 
@@ -30,6 +31,9 @@ class ColorSelectionView(
         private val configurationManager: ConfigurationManager
 ) : LinearLayout(context), UpdateConfiguration {
 
+    private var binding: ViewSectionColorSelectionBinding =
+        ViewSectionColorSelectionBinding.inflate(LayoutInflater.from(context), this)
+
     private val availableColors = listOf(R.color.lt_yellow, R.color.lt_orange, R.color.lt_purple,
             R.color.lt_pink, R.color.dk_blue, R.color.dk_cyan, R.color.dk_green, R.color.dk_red)
     private val buttonWidth = pxFromDp(40f).toInt()
@@ -37,15 +41,14 @@ class ColorSelectionView(
     private val buttonMargin = pxFromDp(12f).toInt()
 
     init {
-        inflate(context, R.layout.view_section_color_selection, this)
         orientation = VERTICAL
         gravity = Gravity.CENTER
         updateRows(configurationManager.active)
     }
 
     private fun updateRows(configuration: Configuration) {
-        addColorsToViewGroup(colorRow1, availableColors.take(4).toIntArray(), configuration.colors)
-        addColorsToViewGroup(colorRow2, availableColors.takeLast(4).toIntArray(), configuration.colors)
+        addColorsToViewGroup(binding.colorRow1, availableColors.take(4).toIntArray(), configuration.colors)
+        addColorsToViewGroup(binding.colorRow2, availableColors.takeLast(4).toIntArray(), configuration.colors)
     }
 
     private fun addColorsToViewGroup(viewGroup: LinearLayout, colors: IntArray, initSelectedColors: IntArray) {
@@ -100,8 +103,8 @@ class ColorSelectionView(
     private fun pxFromDp(dp: Float): Float = dp * resources.displayMetrics.density
 
     override fun onUpdateConfiguration(configuration: Configuration) {
-        colorRow1.removeAllViews()
-        colorRow2.removeAllViews()
+        binding.colorRow1.removeAllViews()
+        binding.colorRow2.removeAllViews()
         updateRows(configuration)
     }
 }
