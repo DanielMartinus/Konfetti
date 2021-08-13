@@ -24,7 +24,6 @@ class GlobalConfigSelectionView(
         ViewSectionGlobalConfigSelectionBinding.inflate(LayoutInflater.from(context), this)
 
     init {
-        inflate(context, R.layout.view_section_global_config_selection, this)
         orientation = VERTICAL
         gravity = Gravity.CENTER
 
