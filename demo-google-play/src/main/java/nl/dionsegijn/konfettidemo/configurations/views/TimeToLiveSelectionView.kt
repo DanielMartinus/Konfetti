@@ -16,7 +16,7 @@ import nl.dionsegijn.konfettidemo.interfaces.UpdateConfiguration
  * Created by dionsegijn on 5/21/17.
  */
 @SuppressLint("ViewConstructor")
-class SeekbarSelectionView(
+class TimeToLiveSelectionView(
         context: Context,
         configuration: ConfigurationManager,
         title: String,
