@@ -59,7 +59,7 @@ fun KonfettiUI(viewModel: KonfettiViewModel = KonfettiViewModel()) {
                 }
 
                 override fun onParticleSystemEnded(system: ParticleSystem, activeSystems: Int) {
-                    viewModel.ended()
+                    if (activeSystems == 0) viewModel.ended()
                 }
             }
         )

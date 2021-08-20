@@ -1,7 +1,6 @@
 package nl.dionsegijn.konfetti_compose
 
 import androidx.compose.foundation.Canvas
-import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.getValue
@@ -17,7 +16,7 @@ import androidx.compose.ui.unit.IntSize
 import nl.dionsegijn.konfetti_core.ParticleSystem
 
 @Composable
-fun KonfettiView(modifier: Modifier, particleSystem: ParticleSystem, updateListener: OnParticleSystemUpdateListener? = null) {
+fun KonfettiView(modifier: Modifier, particleSystem: List<ParticleSystem>, updateListener: OnParticleSystemUpdateListener? = null) {
 
     val size = remember { mutableStateOf(IntSize.Zero) }
     val millis by runKonfetti(

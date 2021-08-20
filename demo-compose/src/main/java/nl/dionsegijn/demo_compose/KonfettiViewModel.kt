@@ -13,15 +13,26 @@ class KonfettiViewModel : ViewModel() {
 
     fun start() {
         _state.value = State.Started(
-            ParticleSystem()
-                .setDirection(0.0, 359.0)
-                .addColors(0xb48def, 0xf4306d, 0xfce18a, 0xff726d)
-                .setSpeed(1f, 5f)
-                .setFadeOutEnabled(true)
-                .setTimeToLive(10000L)
-                .addShapes(Shape.Square, Shape.Circle)
-                .setPosition(400f, 400f)
-                .streamMaxParticles(10, 40)
+            listOf(
+                ParticleSystem()
+                    .setDirection(0.0, 359.0)
+                    .addColors(0xb48def)
+                    .setSpeed(1f, 5f)
+                    .setFadeOutEnabled(true)
+                    .setTimeToLive(10000L)
+                    .addShapes(Shape.Square, Shape.Circle)
+                    .setPosition(300f, 400f)
+                    .streamMaxParticles(10, 40),
+                ParticleSystem()
+                    .setDirection(0.0, 359.0)
+                    .addColors(0xb48def, 0xf4306d, 0xfce18a, 0xff726d)
+                    .setSpeed(1f, 5f)
+                    .setFadeOutEnabled(true)
+                    .setTimeToLive(10000L)
+                    .addShapes(Shape.Square, Shape.Circle)
+                    .setPosition(500f, 400f)
+                    .streamMaxParticles(10, 40)
+            )
         )
     }
 
@@ -30,7 +41,7 @@ class KonfettiViewModel : ViewModel() {
     }
 
     sealed class State {
-        class Started(val particleSystem: ParticleSystem) : State()
+        class Started(val particleSystem: List<ParticleSystem>) : State()
         object Idle : State()
     }
 }

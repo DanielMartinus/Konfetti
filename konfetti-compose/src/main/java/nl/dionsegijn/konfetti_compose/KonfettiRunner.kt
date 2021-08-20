@@ -13,7 +13,7 @@ import kotlin.math.abs
 
 @Composable
 fun runKonfetti(
-    particleSystem: ParticleSystem,
+    particleSystems: List<ParticleSystem>,
     size: MutableState<IntSize>,
     updateListener: OnParticleSystemUpdateListener? = null
 ): State<List<Particle>> {
@@ -34,29 +34,34 @@ fun runKonfetti(
                 val deltaMs = if (frameTime.value > 0) (frameMs - frameTime.value) else 0
                 frameTime.value = frameMs
 
-                particleSystem.renderSystem.render(deltaMs.div(1000f))
-                particles.value = particleSystem.renderSystem.particles.map {
-                    // if the particle is outside the bottom of the view the lifetime is over.
-                    if (it.location.y > size.value.height) {
-                        it.lifespan = 0
+                particles.value = particleSystems.map { particleSystem ->
+                    particleSystem.renderSystem.render(deltaMs.div(1000f))
+                    val newParticles = particleSystem.renderSystem.particles.map {
+                        // if the particle is outside the bottom of the view the lifetime is over.
+                        if (it.location.y > size.value.height) {
+                            it.lifespan = 0
+                        }
+
+                        val color = (it.alpha shl 24) or (it.color and 0xffffff)
+                        val scaleX = abs(it.rotationWidth / it.width - 0.5f) * 2
+                        Particle(
+                            it.location.x,
+                            it.location.y,
+                            it.width,
+                            it.width,
+                            color,
+                            it.rotation,
+                            scaleX
+                        )
                     }
 
-                    val color = (it.alpha shl 24) or (it.color and 0xffffff)
-                    val scaleX = abs(it.rotationWidth / it.width - 0.5f) * 2
-                    Particle(
-                        it.location.x,
-                        it.location.y,
-                        it.width,
-                        it.width,
-                        color,
-                        it.rotation,
-                        scaleX
-                    )
-                }
-
-                if (particleSystem.doneEmitting()) {
-                    updateListener?.onParticleSystemEnded(particleSystem, 0)
-                }
+                    if (particleSystem.doneEmitting()) {
+                        updateListener?.onParticleSystemEnded(
+                            system = particleSystem,
+                            activeSystems = particleSystems.count { !it.doneEmitting() })
+                    }
+                    newParticles
+                }.flatten()
             }
         }
     }
