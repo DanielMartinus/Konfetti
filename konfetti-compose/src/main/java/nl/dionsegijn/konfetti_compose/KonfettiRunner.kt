@@ -26,6 +26,7 @@ fun runKonfetti(
      * Latest stored frameTimeMilliseconds
      */
     val frameTime = remember { mutableStateOf(0L) }
+    val startTime = remember { mutableStateOf(System.currentTimeMillis()) }
 
     LaunchedEffect(true) {
         while (true) {
@@ -35,6 +36,10 @@ fun runKonfetti(
                 frameTime.value = frameMs
 
                 particles.value = particleSystems.map { particleSystem ->
+                    
+                    val totalTimeRunning = getTotalTimeRunning(particleSystem.renderSystem.createdAt)
+                    if (totalTimeRunning < particleSystem.getDelay()) return@map listOf()
+
                     particleSystem.renderSystem.render(deltaMs.div(1000f))
                     val newParticles = particleSystem.renderSystem.particles.map {
                         // if the particle is outside the bottom of the view the lifetime is over.
@@ -66,6 +71,11 @@ fun runKonfetti(
         }
     }
     return particles
+}
+
+fun getTotalTimeRunning(startTime: Long): Long {
+    val currentTime = System.currentTimeMillis()
+    return (currentTime - startTime)
 }
 
 data class Particle(
