@@ -31,10 +31,7 @@ fun KonfettiView(modifier: Modifier, particleSystem: ParticleSystem, updateListe
     Canvas(
         modifier = modifier
             .fillMaxSize()
-            .clickable { }
-            .onSizeChanged {
-                size.value = it
-            },
+            .onSizeChanged { size.value = it },
         onDraw = {
             millis.forEach { particle ->
                 withTransform({
