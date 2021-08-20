@@ -30,10 +30,8 @@ fun runKonfetti(
     LaunchedEffect(true) {
         while (true) {
             withFrameMillis { frameMs ->
-                val deltaMs = when {
-                    frameTime.value > 0 -> (frameMs - frameTime.value)
-                    else -> 16
-                }
+                // Calculate time between frames, fallback to 0 when previous frame doesn't exist
+                val deltaMs = if (frameTime.value > 0) (frameMs - frameTime.value) else 0
                 frameTime.value = frameMs
 
                 particleSystem.renderSystem.render(deltaMs.div(1000f))
