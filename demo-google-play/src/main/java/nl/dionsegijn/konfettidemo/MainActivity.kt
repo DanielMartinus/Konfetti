@@ -11,14 +11,13 @@ import androidx.core.content.ContextCompat
 import androidx.appcompat.app.AppCompatActivity
 import android.view.MotionEvent
 import android.view.View
-import kotlinx.android.synthetic.main.activity_main.*
 import nl.dionsegijn.konfetti_core.models.Shape
 import nl.dionsegijn.konfetti_core.models.Size
 import nl.dionsegijn.konfettidemo.configurations.settings.Configuration
 import nl.dionsegijn.konfettidemo.configurations.settings.ConfigurationManager
+import nl.dionsegijn.konfettidemo.databinding.ActivityMainBinding
 import nl.dionsegijn.konfettidemo.interfaces.OnConfigurationChangedListener
 import nl.dionsegijn.konfettidemo.interfaces.OnSimpleTabSelectedListener
-
 
 class MainActivity : AppCompatActivity(), OnConfigurationChangedListener {
 
@@ -27,15 +26,18 @@ class MainActivity : AppCompatActivity(), OnConfigurationChangedListener {
     private val updateInfoHandler = Handler()
     private lateinit var updateInfoRunnable: Runnable
 
+    private lateinit var binding: ActivityMainBinding
+
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        setContentView(R.layout.activity_main)
+        binding = ActivityMainBinding.inflate(layoutInflater)
+        setContentView(binding.root)
 
         setupTabSelectionBottomSheetBehavior()
-        viewConfigurationControls.onConfigurationChanged = this
-        bottomSheetBehavior = BottomSheetBehavior.from(viewConfigurationControls)
+        binding.viewConfigurationControls.onConfigurationChanged = this
+        bottomSheetBehavior = BottomSheetBehavior.from(binding.viewConfigurationControls)
         velocityTest()
-        viewKonfetti.setOnClickListener {
+        binding.viewKonfetti.setOnClickListener {
             startConfetti()
         }
 
@@ -53,24 +55,26 @@ class MainActivity : AppCompatActivity(), OnConfigurationChangedListener {
      * - Select a tab that wasn't active yet and the BottomSheet will expand
      */
     private fun setupTabSelectionBottomSheetBehavior() {
-        viewConfigurationControls.setOnTabSelectedListener(object : OnSimpleTabSelectedListener() {
+        binding.viewConfigurationControls.setOnTabSelectedListener(object :
+            OnSimpleTabSelectedListener() {
             override fun onTabSelected(tab: TabLayout.Tab?) {
                 bottomSheetBehavior.state = BottomSheetBehavior.STATE_EXPANDED
             }
 
             override fun onTabReselected(tab: TabLayout.Tab?) {
-                val state: Int = if (bottomSheetBehavior.state == BottomSheetBehavior.STATE_COLLAPSED) {
-                    BottomSheetBehavior.STATE_EXPANDED
-                } else {
-                    BottomSheetBehavior.STATE_COLLAPSED
-                }
+                val state: Int =
+                    if (bottomSheetBehavior.state == BottomSheetBehavior.STATE_COLLAPSED) {
+                        BottomSheetBehavior.STATE_EXPANDED
+                    } else {
+                        BottomSheetBehavior.STATE_COLLAPSED
+                    }
                 bottomSheetBehavior.state = state
             }
         })
     }
 
     private fun startConfetti() {
-        val config = viewConfigurationControls.configuration.active
+        val config = binding.viewConfigurationControls.configuration.active
         val selectedColors = config.colors.map { color(it) }.toIntArray()
         when (config.type) {
             Configuration.TYPE_STREAM_FROM_TOP -> streamFromTop(config, selectedColors)
@@ -80,7 +84,7 @@ class MainActivity : AppCompatActivity(), OnConfigurationChangedListener {
 
     private fun streamFromTop(config: Configuration, colors: IntArray) {
         if (!canIHaveMoreConfetti()) return
-        viewKonfetti.build()
+        binding.viewKonfetti.build()
             .addColors(*colors)
             .setDirection(0.0, 359.0)
             .setSpeed(config.minSpeed, config.maxSpeed)
@@ -88,13 +92,13 @@ class MainActivity : AppCompatActivity(), OnConfigurationChangedListener {
             .setTimeToLive(config.timeToLive)
             .addShapes(*config.shapes)
             .addSizes(Size(12), Size(16, 6f))
-            .setPosition(-50f, viewKonfetti.width + 50f, -50f, -50f)
+            .setPosition(-50f, binding.viewKonfetti.width + 50f, -50f, -50f)
             .streamFor(300, 5000L)
     }
 
     private fun burstFromCenter(config: Configuration, colors: IntArray) {
         if (!canIHaveMoreConfetti()) return
-        viewKonfetti.build()
+        binding.viewKonfetti.build()
             .addColors(*colors)
             .setDirection(0.0, 359.0)
             .setSpeed(config.minSpeed, config.maxSpeed)
@@ -102,7 +106,10 @@ class MainActivity : AppCompatActivity(), OnConfigurationChangedListener {
             .setTimeToLive(config.timeToLive)
             .addShapes(*config.shapes)
             .addSizes(Size(12), Size(16, 6f))
-            .setPosition(viewKonfetti.x + viewKonfetti.width / 2, viewKonfetti.y + viewKonfetti.height / 3)
+            .setPosition(
+                binding.viewKonfetti.x + binding.viewKonfetti.width / 2,
+                binding.viewKonfetti.y + binding.viewKonfetti.height / 3
+            )
             .burst(100)
     }
 
@@ -111,8 +118,9 @@ class MainActivity : AppCompatActivity(), OnConfigurationChangedListener {
     private var speed: Int = 0
     private var degrees: Double = 0.0
     private fun velocityTest() {
-        viewKonfetti.setOnTouchListener { _, event ->
-            val modeEnabled = viewConfigurationControls.configuration.active.type == Configuration.TYPE_DRAG_AND_SHOOT
+        binding.viewKonfetti.setOnTouchListener { _, event ->
+            val modeEnabled =
+                binding.viewConfigurationControls.configuration.active.type == Configuration.TYPE_DRAG_AND_SHOOT
             when (event.action) {
                 MotionEvent.ACTION_DOWN -> {
                     startX = event.x
@@ -130,17 +138,19 @@ class MainActivity : AppCompatActivity(), OnConfigurationChangedListener {
                 }
                 MotionEvent.ACTION_UP -> {
                     if (!modeEnabled || !canIHaveMoreConfetti()) return@setOnTouchListener false
-                    val colors = viewConfigurationControls.configuration.active.colors.map { color(it) }.toIntArray()
-                    viewKonfetti.build()
-                            .addColors(*colors)
-                            .setDirection(degrees - 50, degrees + 50)
-                            .setSpeed(0f, speed + 5f)
-                            .addShapes(Shape.Square, Shape.Circle)
-                            .addSizes(Size(12), Size(16, 6f))
-                            .setPosition(startX, startY)
-                            .setTimeToLive(10000)
-                            .setFadeOutEnabled(true)
-                            .burst(200)
+                    val colors =
+                        binding.viewConfigurationControls.configuration.active.colors.map { color(it) }
+                            .toIntArray()
+                    binding.viewKonfetti.build()
+                        .addColors(*colors)
+                        .setDirection(degrees - 50, degrees + 50)
+                        .setSpeed(0f, speed + 5f)
+                        .addShapes(Shape.Square, Shape.Circle)
+                        .addSizes(Size(12), Size(16, 6f))
+                        .setPosition(startX, startY)
+                        .setTimeToLive(10000)
+                        .setFadeOutEnabled(true)
+                        .burst(200)
                 }
             }
             return@setOnTouchListener modeEnabled
@@ -154,24 +164,30 @@ class MainActivity : AppCompatActivity(), OnConfigurationChangedListener {
         valueAnimator.duration = 300
         valueAnimator.addUpdateListener { animator ->
             val alpha: Float = animator.animatedValue as Float
-            textViewInstructions.alpha = alpha
-            viewIllustration.alpha = alpha
+            binding.textViewInstructions.alpha = alpha
+            binding.viewIllustration.alpha = alpha
         }
         valueAnimator.addListener(object : AnimatorListenerAdapter() {
             override fun onAnimationEnd(animation: Animator?) {
-                textViewInstructions.setText(selected.instructions)
-                viewIllustration.setImageDrawable(ContextCompat.getDrawable(applicationContext, selected.vector))
-                textViewInstructions.animate().alpha(1f).duration = 300
-                viewIllustration.animate().alpha(1f).duration = 300
+                binding.textViewInstructions.setText(selected.instructions)
+                binding.viewIllustration.setImageDrawable(
+                    ContextCompat.getDrawable(
+                        applicationContext,
+                        selected.vector
+                    )
+                )
+                binding.textViewInstructions.animate().alpha(1f).duration = 300
+                binding.viewIllustration.animate().alpha(1f).duration = 300
             }
         })
         valueAnimator.start()
     }
 
     private fun updateSystemsInfo() {
-        val activeSystems = viewKonfetti.getActiveSystems()
+        val activeSystems = binding.viewKonfetti.getActiveSystems()
         val activeParticles = activeSystems.sumBy { it.activeParticles() }
-        viewSystemInfo.text = "Active systems: ${activeSystems.size} \nActive particles: $activeParticles"
+        binding.viewSystemInfo.text =
+            "Active systems: ${activeSystems.size} \nActive particles: $activeParticles"
     }
 
     /**
@@ -180,13 +196,13 @@ class MainActivity : AppCompatActivity(), OnConfigurationChangedListener {
      * there is no nice way of limiting the resources foreach particle system.
      */
     private fun canIHaveMoreConfetti(): Boolean {
-        if (viewConfigurationControls.configuration.maxParticleSystemsAlive
-                == ConfigurationManager.PARTICLE_SYSTEMS_INFINITE) {
+        if (binding.viewConfigurationControls.configuration.maxParticleSystemsAlive
+            == ConfigurationManager.PARTICLE_SYSTEMS_INFINITE
+        ) {
             return true
-        } else if (viewKonfetti.getActiveSystems().size <= 6) {
+        } else if (binding.viewKonfetti.getActiveSystems().size <= 6) {
             return true
         }
         return false
     }
-
 }

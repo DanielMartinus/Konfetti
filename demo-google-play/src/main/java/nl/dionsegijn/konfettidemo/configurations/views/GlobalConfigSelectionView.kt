@@ -3,10 +3,11 @@ package nl.dionsegijn.konfettidemo.configurations.views
 import android.annotation.SuppressLint
 import android.content.Context
 import android.view.Gravity
+import android.view.LayoutInflater
 import android.widget.LinearLayout
-import kotlinx.android.synthetic.main.view_section_global_config_selection.view.*
 import nl.dionsegijn.konfettidemo.R
 import nl.dionsegijn.konfettidemo.configurations.settings.ConfigurationManager
+import nl.dionsegijn.konfettidemo.databinding.ViewSectionGlobalConfigSelectionBinding
 import nl.dionsegijn.konfettidemo.interfaces.OnGlobalConfigurationChangedListener
 
 /**
@@ -19,24 +20,26 @@ class GlobalConfigSelectionView(
         private val configurationManager: ConfigurationManager
 ) : LinearLayout(context) {
 
+    private var binding: ViewSectionGlobalConfigSelectionBinding =
+        ViewSectionGlobalConfigSelectionBinding.inflate(LayoutInflater.from(context), this)
+
     init {
-        inflate(context, R.layout.view_section_global_config_selection, this)
         orientation = VERTICAL
         gravity = Gravity.CENTER
 
         setLimitActiveSystemsCheckBox()
-        settingsLimitActiveSystems.setOnCheckedChangeListener { _, isChecked ->
+        binding.settingsLimitActiveSystems.setOnCheckedChangeListener { _, isChecked ->
             globalConfiglistener.onLimitActiveParticleSystemsChanged(isChecked)
         }
 
-        settingsResetToDefaults.setOnClickListener {
+        binding.settingsResetToDefaults.setOnClickListener {
             globalConfiglistener.resetConfigurationsToDefaults()
             setLimitActiveSystemsCheckBox() // Refresh checkbox
         }
     }
 
     private fun setLimitActiveSystemsCheckBox() {
-        settingsLimitActiveSystems.isChecked = configurationManager.maxParticleSystemsAlive ==
+        binding.settingsLimitActiveSystems.isChecked = configurationManager.maxParticleSystemsAlive ==
                 ConfigurationManager.PARTICLE_SYSTEMS_DEFAULT
     }
 
