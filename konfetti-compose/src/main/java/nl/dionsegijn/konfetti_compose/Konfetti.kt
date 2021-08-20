@@ -29,7 +29,7 @@ fun KonfettiView(modifier: Modifier, particleSystem: ParticleSystem, updateListe
     // TODO: support all canvas operations
     // TODO: Support drawing custom shapes
     Canvas(
-        modifier = Modifier
+        modifier = modifier
             .fillMaxSize()
             .clickable { }
             .onSizeChanged {
