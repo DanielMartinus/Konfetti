@@ -107,19 +107,9 @@ class StreamEmitter : Emitter() {
      */
     override fun isFinished(): Boolean {
         return when {
-            emittingTime > 0L -> {
-                Log.e("DION", "emittingTime > 0L ($emittingTime > 0L)")
-                Log.e("DION", "elapsedTime >= emittingTime ($elapsedTime >= $emittingTime)")
-                elapsedTime >= emittingTime
-            }
-            emittingTime == INDEFINITE -> {
-                Log.e("DION", "emittingTime == INDEFINITE ($emittingTime == INDEFINITE)")
-                false
-            }
-            else -> {
-                Log.e("DION", "particlesCreated >= maxParticles ($particlesCreated >= $maxParticles)")
-                particlesCreated >= maxParticles
-            }
+            emittingTime > 0L -> elapsedTime >= emittingTime
+            emittingTime == INDEFINITE -> false
+            else -> particlesCreated >= maxParticles
         }
     }
 }
