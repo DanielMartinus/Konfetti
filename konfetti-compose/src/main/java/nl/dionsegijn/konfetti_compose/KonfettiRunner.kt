@@ -8,6 +8,7 @@ import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
 import androidx.compose.runtime.withFrameMillis
 import androidx.compose.ui.unit.IntSize
+import nl.dionsegijn.konfetti_core.Confetti
 import nl.dionsegijn.konfetti_core.ParticleSystem
 import kotlin.math.abs
 
@@ -35,29 +36,15 @@ fun runKonfetti(
                 val deltaMs = if (frameTime.value > 0) (frameMs - frameTime.value) else 0
                 frameTime.value = frameMs
 
+                val screenHeight = size.value.height
                 particles.value = particleSystems.map { particleSystem ->
-                    
+
                     val totalTimeRunning = getTotalTimeRunning(particleSystem.renderSystem.createdAt)
                     if (totalTimeRunning < particleSystem.getDelay()) return@map listOf()
 
                     particleSystem.renderSystem.render(deltaMs.div(1000f))
                     val newParticles = particleSystem.renderSystem.particles.map {
-                        // if the particle is outside the bottom of the view the lifetime is over.
-                        if (it.location.y > size.value.height) {
-                            it.lifespan = 0
-                        }
-
-                        val color = (it.alpha shl 24) or (it.color and 0xffffff)
-                        val scaleX = abs(it.rotationWidth / it.width - 0.5f) * 2
-                        Particle(
-                            it.location.x,
-                            it.location.y,
-                            it.width,
-                            it.width,
-                            color,
-                            it.rotation,
-                            scaleX
-                        )
+                        it.toParticle(screenHeight)
                     }
 
                     if (particleSystem.doneEmitting()) {
@@ -71,6 +58,25 @@ fun runKonfetti(
         }
     }
     return particles
+}
+
+fun Confetti.toParticle(canvasHeight: Int): Particle {
+    // if the particle is outside the bottom of the view the lifetime is over.
+    if (location.y > canvasHeight) {
+        lifespan = 0
+    }
+
+    val color = (alpha shl 24) or (color and 0xffffff)
+    val scaleX = abs(rotationWidth / width - 0.5f) * 2
+    Particle(
+        location.x,
+        location.y,
+        width,
+        width,
+        color,
+        rotation,
+        scaleX
+    )
 }
 
 fun getTotalTimeRunning(startTime: Long): Long {
