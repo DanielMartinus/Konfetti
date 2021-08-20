@@ -5,25 +5,36 @@ import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.getValue
+import androidx.compose.runtime.mutableStateOf
+import androidx.compose.runtime.remember
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.geometry.Offset
 import androidx.compose.ui.geometry.Size
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.graphics.drawscope.withTransform
+import androidx.compose.ui.layout.onSizeChanged
+import androidx.compose.ui.unit.IntSize
 import nl.dionsegijn.konfetti_core.ParticleSystem
 
 @Composable
 fun KonfettiView(modifier: Modifier, particleSystem: ParticleSystem, updateListener: OnParticleSystemUpdateListener? = null) {
 
+    val size = remember { mutableStateOf(IntSize.Zero) }
     val millis by runKonfetti(
         particleSystem,
+        size,
         updateListener
     )
 
     // TODO: support all canvas operations
     // TODO: Support drawing custom shapes
     Canvas(
-        modifier = Modifier.fillMaxSize().clickable { },
+        modifier = Modifier
+            .fillMaxSize()
+            .clickable { }
+            .onSizeChanged {
+                size.value = it
+            },
         onDraw = {
             millis.forEach { particle ->
                 withTransform({
