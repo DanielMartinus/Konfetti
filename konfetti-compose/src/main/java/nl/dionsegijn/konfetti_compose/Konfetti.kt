@@ -13,10 +13,11 @@ import androidx.compose.ui.graphics.drawscope.withTransform
 import nl.dionsegijn.konfetti_core.ParticleSystem
 
 @Composable
-fun KonfettiView(modifier: Modifier, particleSystem: ParticleSystem) {
+fun KonfettiView(modifier: Modifier, particleSystem: ParticleSystem, updateListener: OnParticleSystemUpdateListener? = null) {
 
     val millis by runKonfetti(
-        particleSystem
+        particleSystem,
+        updateListener
     )
 
     // TODO: support all canvas operations

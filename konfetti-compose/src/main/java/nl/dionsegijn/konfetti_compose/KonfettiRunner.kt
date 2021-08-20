@@ -10,12 +10,16 @@ import nl.dionsegijn.konfetti_core.ParticleSystem
 import kotlin.math.abs
 
 @Composable
-fun runKonfetti(particleSystem: ParticleSystem): State<List<Particle>> {
+fun runKonfetti(
+    particleSystem: ParticleSystem,
+    updateListener: OnParticleSystemUpdateListener? = null
+): State<List<Particle>> {
     val particles = remember { mutableStateOf(emptyList<Particle>()) }
     val durationMs = remember { mutableStateOf(0L) }
 
     LaunchedEffect(true) {
         val startTime = withFrameMillis { it }
+
         while (true) {
             withFrameMillis { frameTime ->
                 val old = durationMs.value
@@ -36,6 +40,10 @@ fun runKonfetti(particleSystem: ParticleSystem): State<List<Particle>> {
                         it.rotation,
                         scaleX
                     )
+                }
+
+                if (particleSystem.doneEmitting()) {
+                    updateListener?.onParticleSystemEnded(particleSystem, 0)
                 }
             }
         }

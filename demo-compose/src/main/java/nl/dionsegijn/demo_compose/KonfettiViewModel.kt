@@ -18,11 +18,15 @@ class KonfettiViewModel : ViewModel() {
                 .addColors(0xb48def, 0xf4306d, 0xfce18a, 0xff726d)
                 .setSpeed(1f, 5f)
                 .setFadeOutEnabled(true)
-                .setTimeToLive(18000L)
+                .setTimeToLive(10000L)
                 .addShapes(Shape.Square, Shape.Circle)
                 .setPosition(400f, 400f)
-                .streamMaxParticles(20, 2000)
+                .streamMaxParticles(10, 40)
         )
+    }
+
+    fun ended() {
+        _state.value = State.Idle
     }
 
     sealed class State {
