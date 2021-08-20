@@ -4,14 +4,16 @@ import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.State
 import androidx.compose.runtime.mutableStateOf
+import androidx.compose.runtime.remember
 import androidx.compose.runtime.withFrameMillis
 import nl.dionsegijn.konfetti_core.ParticleSystem
 import kotlin.math.abs
 
 @Composable
 fun runKonfetti(particleSystem: ParticleSystem): State<List<Particle>> {
-    val particles = mutableStateOf(emptyList<Particle>())
-    val durationMs = mutableStateOf(0L)
+    val particles = remember { mutableStateOf(emptyList<Particle>()) }
+    val durationMs = remember { mutableStateOf(0L) }
+
     LaunchedEffect(true) {
         val startTime = withFrameMillis { it }
         while (true) {
