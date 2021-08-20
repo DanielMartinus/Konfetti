@@ -17,20 +17,26 @@ fun runKonfetti(
     size: MutableState<IntSize>,
     updateListener: OnParticleSystemUpdateListener? = null
 ): State<List<Particle>> {
+    /**
+     * Particles to draw
+     */
     val particles = remember { mutableStateOf(emptyList<Particle>()) }
-    val durationMs = remember { mutableStateOf(0L) }
+
+    /**
+     * Latest stored frameTimeMilliseconds
+     */
+    val frameTime = remember { mutableStateOf(0L) }
 
     LaunchedEffect(true) {
-        val startTime = withFrameMillis { it }
-
         while (true) {
-            withFrameMillis { frameTime ->
-                val old = durationMs.value
-                val newValue = frameTime - startTime
-                durationMs.value = frameTime - startTime
+            withFrameMillis { frameMs ->
+                val deltaMs = when {
+                    frameTime.value > 0 -> (frameMs - frameTime.value)
+                    else -> 16
+                }
+                frameTime.value = frameMs
 
-                // TODO: Use real delta time instead of the temporary 16ms
-                particleSystem.renderSystem.render(16f / 1000)
+                particleSystem.renderSystem.render(deltaMs.div(1000f))
                 particles.value = particleSystem.renderSystem.particles.map {
                     // if the particle is outside the bottom of the view the lifetime is over.
                     if (it.location.y > size.value.height) {
