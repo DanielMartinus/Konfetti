@@ -27,7 +27,6 @@ fun runKonfetti(
      * Latest stored frameTimeMilliseconds
      */
     val frameTime = remember { mutableStateOf(0L) }
-    val startTime = remember { mutableStateOf(System.currentTimeMillis()) }
 
     LaunchedEffect(true) {
         while (true) {
@@ -40,19 +39,20 @@ fun runKonfetti(
                 particles.value = particleSystems.map { particleSystem ->
 
                     val totalTimeRunning = getTotalTimeRunning(particleSystem.renderSystem.createdAt)
+                    // Do not start particleSystem yet if totalTimeRunning is below delay
                     if (totalTimeRunning < particleSystem.getDelay()) return@map listOf()
 
                     particleSystem.renderSystem.render(deltaMs.div(1000f))
-                    val newParticles = particleSystem.renderSystem.particles.map {
-                        it.toParticle(screenHeight)
-                    }
 
                     if (particleSystem.doneEmitting()) {
                         updateListener?.onParticleSystemEnded(
                             system = particleSystem,
                             activeSystems = particleSystems.count { !it.doneEmitting() })
                     }
-                    newParticles
+
+                    particleSystem.renderSystem.particles.map {
+                        it.toParticle(screenHeight)
+                    }
                 }.flatten()
             }
         }
@@ -68,7 +68,7 @@ fun Confetti.toParticle(canvasHeight: Int): Particle {
 
     val color = (alpha shl 24) or (color and 0xffffff)
     val scaleX = abs(rotationWidth / width - 0.5f) * 2
-    Particle(
+    return Particle(
         location.x,
         location.y,
         width,
