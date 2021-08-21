@@ -20,7 +20,7 @@ class KonfettiViewModel : ViewModel() {
                     .setSpeed(1f, 5f)
                     .setFadeOutEnabled(true)
                     .setTimeToLive(10000L)
-                    .addShapes(Shape.Circle)
+                    .addShapes(Shape.Circle, Shape.Rectangle(0.2f))
                     .setPosition(200f, 400f)
                     .setDelay(300)
                     .streamMaxParticles(10, 40),
@@ -30,7 +30,7 @@ class KonfettiViewModel : ViewModel() {
                     .setSpeed(1f, 5f)
                     .setFadeOutEnabled(true)
                     .setTimeToLive(10000L)
-                    .addShapes(Shape.Circle)
+                    .addShapes(Shape.Rectangle(0.2f), Shape.Square)
                     .setPosition(800f, 400f)
                     .setDelay(800)
                     .streamMaxParticles(10, 40),

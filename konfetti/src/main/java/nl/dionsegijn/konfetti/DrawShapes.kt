@@ -20,6 +20,11 @@ fun Shape.draw(canvas: Canvas, paint: Paint, size: Float) {
             rect.set(0f, 0f, size, size)
             canvas.drawOval(rect, paint)
         }
+        is Rectangle -> {
+            val height = size * heightRatio
+            val top = (size - height) / 2f
+            canvas.drawRect(0f, top, size, top + height, paint)
+        }
         is DrawableShape -> {
             if (tint) {
                 drawable.setColorFilter(paint.color, PorterDuff.Mode.SRC_IN)
@@ -32,11 +37,6 @@ fun Shape.draw(canvas: Canvas, paint: Paint, size: Float) {
 
             drawable.setBounds(0, top, size.toInt(), top + height)
             drawable.draw(canvas)
-        }
-        is Rectangle -> {
-            val height = size * heightRatio
-            val top = (size - height) / 2f
-            canvas.drawRect(0f, top, size, top + height, paint)
         }
     }
 }

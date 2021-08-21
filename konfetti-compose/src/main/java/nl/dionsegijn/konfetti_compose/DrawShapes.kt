@@ -28,7 +28,16 @@ fun Shape.draw(drawScope: DrawScope, particle: Particle) {
                 size = Size(particle.width, particle.height),
             )
         }
+        is Rectangle -> {
+            val size = particle.width
+            val height = size * heightRatio
+            val top = (size - height) / 2f
+            drawScope.drawRect(
+                color = Color(particle.color),
+                topLeft = Offset(particle.x, particle.y),
+                size = Size(size, height)
+            )
+        }
         is DrawableShape -> TODO()
-        is Rectangle -> TODO()
     }
 }
