@@ -37,7 +37,7 @@ android {
 
     defaultConfig {
         minSdkVersion 15
-        targetSdkVersion 29
+        targetSdkVersion 30
         versionCode 4
         versionName PUBLISH_VERSION
     }
