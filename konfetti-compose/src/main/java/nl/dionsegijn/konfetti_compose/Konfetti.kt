@@ -14,6 +14,8 @@ import androidx.compose.ui.graphics.drawscope.withTransform
 import androidx.compose.ui.layout.onSizeChanged
 import androidx.compose.ui.unit.IntSize
 import nl.dionsegijn.konfetti_core.ParticleSystem
+import nl.dionsegijn.konfetti_core.models.Shape
+import nl.dionsegijn.konfetti_core.models.Shape.Circle
 
 @Composable
 fun KonfettiView(modifier: Modifier, particleSystem: List<ParticleSystem>, updateListener: OnParticleSystemUpdateListener? = null) {
@@ -37,11 +39,22 @@ fun KonfettiView(modifier: Modifier, particleSystem: List<ParticleSystem>, updat
                     rotate(particle.rotation, Offset(particle.x + (particle.width / 2), particle.y + (particle.height / 2)))
                     scale(particle.scaleX, 1f, Offset(particle.x + (particle.width / 2), particle.y))
                 }) {
-                    drawRect(
-                        color = Color(particle.color),
-                        topLeft = Offset(particle.x, particle.y),
-                        size = Size(particle.width, particle.height),
-                    )
+                    when (particle.shape) {
+                        Circle -> {
+                            drawCircle(
+                                color = Color(particle.color),
+                                center = Offset(particle.x, particle.y),
+                                radius = particle.width / 2
+                            )
+                        }
+                        Shape.Square -> {
+                            drawRect(
+                                color = Color(particle.color),
+                                topLeft = Offset(particle.x, particle.y),
+                                size = Size(particle.width, particle.height),
+                            )
+                        }
+                    }
                 }
             }
         }

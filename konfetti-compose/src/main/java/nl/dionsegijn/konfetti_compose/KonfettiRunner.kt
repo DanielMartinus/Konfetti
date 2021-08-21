@@ -10,6 +10,7 @@ import androidx.compose.runtime.withFrameMillis
 import androidx.compose.ui.unit.IntSize
 import nl.dionsegijn.konfetti_core.Confetti
 import nl.dionsegijn.konfetti_core.ParticleSystem
+import nl.dionsegijn.konfetti_core.models.Shape
 import kotlin.math.abs
 
 @Composable
@@ -75,7 +76,8 @@ fun Confetti.toParticle(canvasHeight: Int): Particle {
         width,
         color,
         rotation,
-        scaleX
+        scaleX,
+        shape
     )
 }
 
@@ -91,5 +93,6 @@ data class Particle(
     val height: Float,
     val color: Int,
     val rotation: Float,
-    val scaleX: Float
+    val scaleX: Float,
+    val shape: Shape
 )
