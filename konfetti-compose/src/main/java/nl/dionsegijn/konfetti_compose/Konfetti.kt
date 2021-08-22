@@ -45,16 +45,16 @@ private fun RenderParticles(modifier: Modifier, particles: List<Particle>) {
             particles.forEach { particle ->
                 withTransform({
                     rotate(
-                        particle.rotation,
-                        Offset(
-                            particle.x + (particle.width / 2),
-                            particle.y + (particle.height / 2)
+                        degrees = particle.rotation,
+                        pivot = Offset(
+                            x = particle.x + (particle.width / 2),
+                            y = particle.y + (particle.height / 2)
                         )
                     )
                     scale(
-                        particle.scaleX,
-                        1f,
-                        Offset(particle.x + (particle.width / 2), particle.y)
+                        scaleX = particle.scaleX,
+                        scaleY = 1f,
+                        pivot = Offset(particle.x + (particle.width / 2), particle.y)
                     )
                 }) {
                     particle.shape.draw(this, particle)
