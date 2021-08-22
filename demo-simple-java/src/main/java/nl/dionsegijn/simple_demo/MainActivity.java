@@ -3,10 +3,10 @@ package nl.dionsegijn.simple_demo;
 import android.graphics.Color;
 import android.graphics.drawable.Drawable;
 import android.os.Bundle;
+import android.view.View;
+
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.core.content.ContextCompat;
-
-import android.view.View;
 
 import nl.dionsegijn.konfetti.KonfettiView;
 import nl.dionsegijn.konfetti_core.models.Shape;
@@ -32,7 +32,7 @@ public class MainActivity extends AppCompatActivity {
                         .setSpeed(1f, 5f)
                         .setFadeOutEnabled(true)
                         .setTimeToLive(2000L)
-                        .addShapes(new Shape.Rectangle(0.2f))
+                        .addShapes(new Shape.Rectangle(0.2f), drawableShape)
                         .addSizes(new Size(12, 5f))
                         .setPosition(-50f, konfettiView.getWidth() + 50f, -50f, -50f)
                         .streamFor(300, 5000L);

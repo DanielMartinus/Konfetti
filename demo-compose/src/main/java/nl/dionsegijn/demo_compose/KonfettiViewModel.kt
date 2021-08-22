@@ -1,5 +1,6 @@
 package nl.dionsegijn.demo_compose
 
+import android.graphics.drawable.Drawable
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
@@ -11,7 +12,7 @@ class KonfettiViewModel : ViewModel() {
     private val _state = MutableLiveData<State>(State.Idle)
     val state: LiveData<State> = _state
 
-    fun start() {
+    fun start(drawable: Drawable) {
         _state.value = State.Started(
             listOf(
                 ParticleSystem()
@@ -20,7 +21,7 @@ class KonfettiViewModel : ViewModel() {
                     .setSpeed(1f, 5f)
                     .setFadeOutEnabled(true)
                     .setTimeToLive(10000L)
-                    .addShapes(Shape.Circle, Shape.Rectangle(0.2f))
+                    .addShapes(Shape.Circle, Shape.Rectangle(0.2f), Shape.DrawableShape(drawable))
                     .setPosition(200f, 400f)
                     .setDelay(300)
                     .streamMaxParticles(10, 40),

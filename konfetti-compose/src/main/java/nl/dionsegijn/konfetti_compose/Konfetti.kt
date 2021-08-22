@@ -14,7 +14,11 @@ import androidx.compose.ui.unit.IntSize
 import nl.dionsegijn.konfetti_core.ParticleSystem
 
 @Composable
-fun KonfettiView(modifier: Modifier, particleSystem: List<ParticleSystem>, updateListener: OnParticleSystemUpdateListener? = null) {
+fun KonfettiView(
+    modifier: Modifier,
+    particleSystem: List<ParticleSystem>,
+    updateListener: OnParticleSystemUpdateListener? = null
+) {
 
     val size = remember { mutableStateOf(IntSize.Zero) }
     val millis by runKonfetti(
@@ -23,17 +27,35 @@ fun KonfettiView(modifier: Modifier, particleSystem: List<ParticleSystem>, updat
         updateListener
     )
 
-    // TODO: support all canvas operations
-    // TODO: Support drawing custom shapes
-    Canvas(
+    RenderParticles(
         modifier = modifier
             .fillMaxSize()
             .onSizeChanged { size.value = it },
+        particles = millis
+    )
+}
+
+@Composable
+private fun RenderParticles(modifier: Modifier, particles: List<Particle>) {
+    // TODO: support all canvas operations
+    // TODO: Support drawing custom shapes
+    Canvas(
+        modifier = modifier,
         onDraw = {
-            millis.forEach { particle ->
+            particles.forEach { particle ->
                 withTransform({
-                    rotate(particle.rotation, Offset(particle.x + (particle.width / 2), particle.y + (particle.height / 2)))
-                    scale(particle.scaleX, 1f, Offset(particle.x + (particle.width / 2), particle.y))
+                    rotate(
+                        particle.rotation,
+                        Offset(
+                            particle.x + (particle.width / 2),
+                            particle.y + (particle.height / 2)
+                        )
+                    )
+                    scale(
+                        particle.scaleX,
+                        1f,
+                        Offset(particle.x + (particle.width / 2), particle.y)
+                    )
                 }) {
                     particle.shape.draw(this, particle)
                 }

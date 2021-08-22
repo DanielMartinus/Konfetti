@@ -3,6 +3,7 @@ package nl.dionsegijn.demo_compose
 import android.os.Bundle
 import androidx.activity.ComponentActivity
 import androidx.activity.compose.setContent
+import androidx.appcompat.content.res.AppCompatResources
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.padding
 import androidx.compose.material.Button
@@ -13,7 +14,7 @@ import androidx.compose.runtime.Composable
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.livedata.observeAsState
 import androidx.compose.ui.Modifier
-import androidx.compose.ui.tooling.preview.Preview
+import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.unit.dp
 import nl.dionsegijn.demo_compose.ui.theme.KonfettiTheme
 import nl.dionsegijn.konfetti_compose.KonfettiView
@@ -23,6 +24,7 @@ import nl.dionsegijn.konfetti_core.ParticleSystem
 class ComposeActivity : ComponentActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
+
         setContent {
             KonfettiTheme {
                 // A surface container using the 'background' color from the theme
@@ -40,10 +42,10 @@ fun KonfettiUI(viewModel: KonfettiViewModel = KonfettiViewModel()) {
     val state: KonfettiViewModel.State by viewModel.state.observeAsState(
         KonfettiViewModel.State.Idle
     )
-
+    val drawable = AppCompatResources.getDrawable(LocalContext.current, R.drawable.ic_heart)
     when (val newState = state) {
         KonfettiViewModel.State.Idle -> {
-            Button(onClick = { viewModel.start() }) {
+            Button(onClick = { viewModel.start(drawable!!) }) {
                 Text(
                     text = "Start",
                     modifier = Modifier.padding(bottom = 8.dp)
