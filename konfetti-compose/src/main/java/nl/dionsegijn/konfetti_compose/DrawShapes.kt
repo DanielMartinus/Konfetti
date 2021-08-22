@@ -1,6 +1,9 @@
 package nl.dionsegijn.konfetti_compose
 
+import android.graphics.BlendMode
+import android.graphics.BlendModeColorFilter
 import android.graphics.PorterDuff
+import android.os.Build
 import androidx.compose.ui.geometry.Offset
 import androidx.compose.ui.geometry.Size
 import androidx.compose.ui.graphics.Color
@@ -47,7 +50,11 @@ fun Shape.draw(drawScope: DrawScope, particle: Particle, imageResource: ImageBit
         is DrawableShape -> {
             drawScope.drawIntoCanvas {
                 if (tint) {
-                    drawable.setColorFilter(particle.color, PorterDuff.Mode.SRC_IN)
+                    if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.Q) {
+                        drawable.colorFilter = BlendModeColorFilter(particle.color, BlendMode.SRC_IN)
+                    } else {
+                        drawable.setColorFilter(particle.color, PorterDuff.Mode.SRC_IN)
+                    }
                 } else {
                     drawable.alpha = (particle.alpha shl 24) or (particle.color and 0xffffff)
                 }

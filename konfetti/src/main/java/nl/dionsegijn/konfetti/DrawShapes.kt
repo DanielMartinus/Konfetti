@@ -1,11 +1,17 @@
 package nl.dionsegijn.konfetti
 
+import android.graphics.BlendMode
+import android.graphics.BlendModeColorFilter
 import android.graphics.Canvas
 import android.graphics.Paint
 import android.graphics.PorterDuff
+import android.os.Build
 import nl.dionsegijn.konfetti_core.models.Shape
-import nl.dionsegijn.konfetti_core.models.Shape.*
+import nl.dionsegijn.konfetti_core.models.Shape.Circle
 import nl.dionsegijn.konfetti_core.models.Shape.Circle.rect
+import nl.dionsegijn.konfetti_core.models.Shape.DrawableShape
+import nl.dionsegijn.konfetti_core.models.Shape.Rectangle
+import nl.dionsegijn.konfetti_core.models.Shape.Square
 
 /**
  * Draw a shape to `canvas`. Implementations are expected to draw within a square of size
@@ -27,7 +33,11 @@ fun Shape.draw(canvas: Canvas, paint: Paint, size: Float) {
         }
         is DrawableShape -> {
             if (tint) {
-                drawable.setColorFilter(paint.color, PorterDuff.Mode.SRC_IN)
+                if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.Q) {
+                    drawable.colorFilter = BlendModeColorFilter(paint.color, BlendMode.SRC_IN)
+                } else {
+                    drawable.setColorFilter(paint.color, PorterDuff.Mode.SRC_IN)
+                }
             } else {
                 drawable.alpha = paint.alpha
             }
