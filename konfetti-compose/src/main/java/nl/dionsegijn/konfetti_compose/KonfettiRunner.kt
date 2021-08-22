@@ -77,7 +77,8 @@ fun Confetti.toParticle(canvasHeight: Int): Particle {
         color,
         rotation,
         scaleX,
-        shape
+        shape,
+        alpha
     )
 }
 
@@ -94,5 +95,6 @@ data class Particle(
     val color: Int,
     val rotation: Float,
     val scaleX: Float,
-    val shape: Shape
+    val shape: Shape,
+    val alpha: Int
 )

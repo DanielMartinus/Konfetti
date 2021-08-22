@@ -1,5 +1,6 @@
 package nl.dionsegijn.konfetti_compose
 
+import android.graphics.PorterDuff
 import androidx.compose.ui.geometry.Offset
 import androidx.compose.ui.geometry.Size
 import androidx.compose.ui.graphics.Color
@@ -45,6 +46,12 @@ fun Shape.draw(drawScope: DrawScope, particle: Particle, imageResource: ImageBit
         }
         is DrawableShape -> {
             drawScope.drawIntoCanvas {
+                if (tint) {
+                    drawable.setColorFilter(particle.color, PorterDuff.Mode.SRC_IN)
+                } else {
+                    drawable.alpha = (particle.alpha shl 24) or (particle.color and 0xffffff)
+                }
+
                 val size = particle.width
                 val height = (size * heightRatio).toInt()
                 val top = ((size - height) / 2f).toInt()
