@@ -1,5 +1,6 @@
 package nl.dionsegijn.konfetti_core.emitters
 
+import android.graphics.Rect
 import nl.dionsegijn.konfetti_core.Confetti
 import nl.dionsegijn.konfetti_core.models.ConfettiConfig
 import nl.dionsegijn.konfetti_core.models.Shape
@@ -72,17 +73,20 @@ class RenderSystem(
         }
     }
 
-    fun render(deltaTime: Float) {
+    fun render(deltaTime: Float, drawArea: Rect) {
         if (enabled) emitter.createConfetti(deltaTime)
 
         for (i in particles.size - 1 downTo 0) {
             val particle = particles[i]
             particle.applyForce(gravity)
-            particle.render(deltaTime)
+            particle.render(deltaTime, drawArea)
         }
         particles.removeAll { it.isDead() }
     }
 
+    fun getDrawableParticles() = particles.filter { it.drawParticle }
+
+    // TODO rename to getActiveAmountOfParticles
     fun getActiveParticles(): Int = particles.size
 
     fun isDoneEmitting(): Boolean =

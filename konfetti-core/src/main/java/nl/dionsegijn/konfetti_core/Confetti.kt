@@ -2,6 +2,7 @@ package nl.dionsegijn.konfetti_core
 
 import android.content.res.Resources
 import android.graphics.Paint
+import android.graphics.Rect
 import nl.dionsegijn.konfetti_core.models.Shape
 import nl.dionsegijn.konfetti_core.models.Size
 import nl.dionsegijn.konfetti_core.models.Vector
@@ -37,6 +38,12 @@ class Confetti(
 
     var alpha: Int = 255
 
+    /**
+     * If a particle moves out of the view we keep calculating its position but do not draw them
+     */
+    var drawParticle = true
+        private set
+
     init {
         val minRotationSpeed = 0.29f * density
         val maxRotationSpeed = minRotationSpeed * 3
@@ -54,11 +61,16 @@ class Confetti(
         acceleration.addScaled(force, 1f / mass)
     }
 
-    fun render(deltaTime: Float) {
-        update(deltaTime)
+    fun render(deltaTime: Float, drawArea: Rect) {
+        update(deltaTime, drawArea)
     }
 
-    private fun update(deltaTime: Float) {
+    private fun update(deltaTime: Float, drawArea: Rect) {
+        if (location.y > drawArea.height()) {
+            alpha = 0
+            return
+        }
+
         if (accelerate && (acceleration.y < maxAcceleration || maxAcceleration == -1f)) {
             velocity.add(acceleration)
         }
@@ -78,6 +90,9 @@ class Confetti(
 
         rotationWidth -= rSpeed
         if (rotationWidth < 0) rotationWidth = width
+
+        drawArea.inset(-width.toInt(), -width.toInt())
+        drawParticle = drawArea.contains(location.x.toInt(), location.y.toInt())
     }
 
     private fun updateAlpha(deltaTime: Float) {

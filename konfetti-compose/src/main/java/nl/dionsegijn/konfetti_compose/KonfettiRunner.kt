@@ -1,5 +1,6 @@
 package nl.dionsegijn.konfetti_compose
 
+import android.graphics.Rect
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.MutableState
@@ -7,7 +8,6 @@ import androidx.compose.runtime.State
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
 import androidx.compose.runtime.withFrameMillis
-import androidx.compose.ui.unit.IntSize
 import nl.dionsegijn.konfetti_core.Confetti
 import nl.dionsegijn.konfetti_core.ParticleSystem
 import nl.dionsegijn.konfetti_core.models.Shape
@@ -15,8 +15,8 @@ import kotlin.math.abs
 
 @Composable
 fun runKonfetti(
+    drawArea: MutableState<Rect>,
     particleSystems: List<ParticleSystem>,
-    size: MutableState<IntSize>,
     updateListener: OnParticleSystemUpdateListener? = null
 ): State<List<Particle>> {
     /**
@@ -36,14 +36,13 @@ fun runKonfetti(
                 val deltaMs = if (frameTime.value > 0) (frameMs - frameTime.value) else 0
                 frameTime.value = frameMs
 
-                val screenHeight = size.value.height
                 particles.value = particleSystems.map { particleSystem ->
 
                     val totalTimeRunning = getTotalTimeRunning(particleSystem.renderSystem.createdAt)
                     // Do not start particleSystem yet if totalTimeRunning is below delay
                     if (totalTimeRunning < particleSystem.getDelay()) return@map listOf()
 
-                    particleSystem.renderSystem.render(deltaMs.div(1000f))
+                    particleSystem.renderSystem.render(deltaMs.div(1000f), drawArea.value)
 
                     if (particleSystem.doneEmitting()) {
                         updateListener?.onParticleSystemEnded(
@@ -51,8 +50,8 @@ fun runKonfetti(
                             activeSystems = particleSystems.count { !it.doneEmitting() })
                     }
 
-                    particleSystem.renderSystem.particles.map {
-                        it.toParticle(screenHeight)
+                    particleSystem.renderSystem.getDrawableParticles().map {
+                        it.toParticle()
                     }
                 }.flatten()
             }
@@ -61,12 +60,7 @@ fun runKonfetti(
     return particles
 }
 
-fun Confetti.toParticle(canvasHeight: Int): Particle {
-    // if the particle is outside the bottom of the view the lifetime is over.
-    if (location.y > canvasHeight) {
-        lifespan = 0
-    }
-
+fun Confetti.toParticle(): Particle {
     val color = (alpha shl 24) or (color and 0xffffff)
     val scaleX = abs(rotationWidth / width - 0.5f) * 2
     return Particle(
