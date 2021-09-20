@@ -6,6 +6,7 @@ import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import nl.dionsegijn.konfetti_core.ParticleSystem
 import nl.dionsegijn.konfetti_core.models.Shape
+import nl.dionsegijn.konfetti_core.models.Size
 
 class KonfettiViewModel : ViewModel() {
 
@@ -19,6 +20,7 @@ class KonfettiViewModel : ViewModel() {
                     .setDirection(0.0, 359.0)
                     .addColors(0xb48def)
                     .setSpeed(1f, 5f)
+                    .addSizes(Size(8), Size(20), Size(2))
                     .setFadeOutEnabled(true)
                     .setTimeToLive(10000L)
                     .addShapes(Shape.Circle, Shape.Rectangle(0.2f), Shape.DrawableShape(drawable))
@@ -28,6 +30,7 @@ class KonfettiViewModel : ViewModel() {
                 ParticleSystem()
                     .setDirection(0.0, 359.0)
                     .addColors(0xfce18a, 0xff726d)
+                    .addSizes(Size(8), Size(20), Size(2))
                     .setSpeed(1f, 5f)
                     .setFadeOutEnabled(true)
                     .setTimeToLive(10000L)
@@ -38,6 +41,7 @@ class KonfettiViewModel : ViewModel() {
                 ParticleSystem()
                     .setDirection(0.0, 359.0)
                     .addColors(0xf4306d)
+                    .addSizes(Size(8), Size(20), Size(2))
                     .setSpeed(1f, 5f)
                     .setFadeOutEnabled(true)
                     .setTimeToLive(10000L)
