@@ -1,7 +1,7 @@
 package nl.dionsegijn.konfetti_compose
 
+import android.graphics.Rect
 import androidx.compose.foundation.Canvas
-import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
@@ -9,8 +9,7 @@ import androidx.compose.runtime.remember
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.geometry.Offset
 import androidx.compose.ui.graphics.drawscope.withTransform
-import androidx.compose.ui.layout.onSizeChanged
-import androidx.compose.ui.unit.IntSize
+import androidx.compose.ui.layout.onGloballyPositioned
 import nl.dionsegijn.konfetti_core.ParticleSystem
 
 @Composable
@@ -20,27 +19,18 @@ fun KonfettiView(
     updateListener: OnParticleSystemUpdateListener? = null
 ) {
 
-    val size = remember { mutableStateOf(IntSize.Zero) }
-    val millis by runKonfetti(
+    val drawArea = remember { mutableStateOf(Rect()) }
+    val particles by runKonfetti(
+        drawArea,
         particleSystem,
-        size,
         updateListener
     )
 
-    RenderParticles(
-        modifier = modifier
-            .fillMaxSize()
-            .onSizeChanged { size.value = it },
-        particles = millis
-    )
-}
-
-@Composable
-private fun RenderParticles(modifier: Modifier, particles: List<Particle>) {
-    // TODO: support all canvas operations
-    // TODO: Support drawing custom shapes
     Canvas(
-        modifier = modifier,
+        modifier = modifier
+            .onGloballyPositioned {
+                drawArea.value = Rect(0, 0, it.size.width, it.size.height)
+            },
         onDraw = {
             particles.forEach { particle ->
                 withTransform({
