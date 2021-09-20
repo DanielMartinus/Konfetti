@@ -2,6 +2,7 @@ package nl.dionsegijn.konfetti
 
 import android.content.Context
 import android.graphics.Canvas
+import android.graphics.Rect
 import android.util.AttributeSet
 import android.view.View
 import nl.dionsegijn.konfetti.listeners.OnParticleSystemUpdateListener
@@ -31,6 +32,8 @@ open class KonfettiView : View {
      */
     private var timer: TimerIntegration = TimerIntegration()
 
+    private var drawArea = Rect()
+
     /**
      * [OnParticleSystemUpdateListener] listener to notify when a new particle system
      * starts rendering and when a particle system stopped rendering
@@ -57,8 +60,8 @@ open class KonfettiView : View {
 
             val totalTimeRunning = timer.getTotalTimeRunning(particleSystem.renderSystem.createdAt)
             if (totalTimeRunning >= particleSystem.getDelay()) {
-                particleSystem.renderSystem.render(deltaTime)
-                particleSystem.renderSystem.particles.forEach { it.display(canvas) }
+                particleSystem.renderSystem.render(deltaTime, drawArea)
+                particleSystem.renderSystem.getDrawableParticles().forEach { it.display(canvas) }
             }
 
             if (particleSystem.doneEmitting()) {
@@ -75,17 +78,6 @@ open class KonfettiView : View {
     }
 
     private fun Confetti.display(canvas: Canvas) {
-        // if the particle is outside the bottom of the view the lifetime is over.
-        if (location.y > canvas.height) {
-            lifespan = 0
-            return
-        }
-
-        // Do not draw the particle if it's outside the canvas view
-        if (location.x > canvas.width || location.x + getSize() < 0 || location.y + getSize() < 0) {
-            return
-        }
-
         // setting alpha via paint.setAlpha allocates a temporary "ColorSpace$Named" object
         // it is more efficient via setColor
         paint.color = (this.alpha shl 24) or (color and 0xffffff)
@@ -158,5 +150,10 @@ open class KonfettiView : View {
             val currentTime = System.currentTimeMillis()
             return (currentTime - startTime)
         }
+    }
+
+    override fun onSizeChanged(w: Int, h: Int, oldw: Int, oldh: Int) {
+        super.onSizeChanged(w, h, oldw, oldh)
+        drawArea = Rect(this.left, this.top, this.right, this.bottom)
     }
 }
