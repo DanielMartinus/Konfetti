@@ -39,7 +39,7 @@ android {
 
     defaultConfig {
         minSdkVersion 23
-        targetSdkVersion 30
+        targetSdkVersion 31
         versionCode 1
         versionName PUBLISH_VERSION
 
