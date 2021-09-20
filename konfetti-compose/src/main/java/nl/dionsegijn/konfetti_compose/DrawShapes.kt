@@ -25,9 +25,10 @@ import nl.dionsegijn.konfetti_core.models.Shape.Square
 fun Shape.draw(drawScope: DrawScope, particle: Particle, imageResource: ImageBitmap? = null) {
     when (this) {
         Circle -> {
+            val offsetMiddle = particle.width / 2
             drawScope.drawCircle(
                 color = Color(particle.color),
-                center = Offset(particle.x, particle.y),
+                center = Offset(particle.x + offsetMiddle, particle.y + offsetMiddle),
                 radius = particle.width / 2
             )
         }
