@@ -15,9 +15,9 @@
             <option value="$PROJECT_DIR$/demo-compose" />
             <option value="$PROJECT_DIR$/demo-google-play" />
             <option value="$PROJECT_DIR$/demo-simple-java" />
-            <option value="$PROJECT_DIR$/konfetti" />
             <option value="$PROJECT_DIR$/konfetti-compose" />
             <option value="$PROJECT_DIR$/konfetti-core" />
+            <option value="$PROJECT_DIR$/konfetti-xml" />
           </set>
         </option>
         <option name="resolveModulePerSourceSet" value="false" />
