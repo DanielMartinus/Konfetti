@@ -5,7 +5,6 @@ import android.content.Context
 import android.view.Gravity
 import android.view.LayoutInflater
 import android.widget.LinearLayout
-import nl.dionsegijn.konfettidemo.R
 import nl.dionsegijn.konfettidemo.configurations.settings.ConfigurationManager
 import nl.dionsegijn.konfettidemo.databinding.ViewSectionGlobalConfigSelectionBinding
 import nl.dionsegijn.konfettidemo.interfaces.OnGlobalConfigurationChangedListener
@@ -16,7 +15,7 @@ import nl.dionsegijn.konfettidemo.interfaces.OnGlobalConfigurationChangedListene
 @SuppressLint("ViewConstructor")
 class GlobalConfigSelectionView(
         context: Context,
-        private val globalConfiglistener: OnGlobalConfigurationChangedListener,
+        private val globalConfigListener: OnGlobalConfigurationChangedListener,
         private val configurationManager: ConfigurationManager
 ) : LinearLayout(context) {
 
@@ -29,11 +28,11 @@ class GlobalConfigSelectionView(
 
         setLimitActiveSystemsCheckBox()
         binding.settingsLimitActiveSystems.setOnCheckedChangeListener { _, isChecked ->
-            globalConfiglistener.onLimitActiveParticleSystemsChanged(isChecked)
+            globalConfigListener.onLimitActiveParticleSystemsChanged(isChecked)
         }
 
         binding.settingsResetToDefaults.setOnClickListener {
-            globalConfiglistener.resetConfigurationsToDefaults()
+            globalConfigListener.resetConfigurationsToDefaults()
             setLimitActiveSystemsCheckBox() // Refresh checkbox
         }
     }
