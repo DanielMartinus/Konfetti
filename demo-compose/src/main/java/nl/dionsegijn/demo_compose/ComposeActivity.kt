@@ -3,6 +3,7 @@ package nl.dionsegijn.demo_compose
 import android.os.Bundle
 import androidx.activity.ComponentActivity
 import androidx.activity.compose.setContent
+import androidx.activity.viewModels
 import androidx.appcompat.content.res.AppCompatResources
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.padding
@@ -22,6 +23,9 @@ import nl.dionsegijn.konfetti_compose.OnParticleSystemUpdateListener
 import nl.dionsegijn.konfetti_core.ParticleSystem
 
 class ComposeActivity : ComponentActivity() {
+
+    private val viewModel by viewModels<KonfettiViewModel>()
+
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
 
@@ -29,7 +33,7 @@ class ComposeActivity : ComponentActivity() {
             KonfettiTheme {
                 // A surface container using the 'background' color from the theme
                 Surface(color = MaterialTheme.colors.background) {
-                    KonfettiUI()
+                    KonfettiUI(viewModel)
                 }
             }
         }
