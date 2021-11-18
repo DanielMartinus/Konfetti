@@ -37,7 +37,7 @@ fun KonfettiView(
      */
     val drawArea = remember { mutableStateOf(Rect()) }
 
-    LaunchedEffect(true) {
+    LaunchedEffect(Unit) {
         while (true) {
             withFrameMillis { frameMs ->
                 // Calculate time between frames, fallback to 0 when previous frame doesn't exist
