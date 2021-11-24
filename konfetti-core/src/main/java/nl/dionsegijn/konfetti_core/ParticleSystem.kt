@@ -235,7 +235,7 @@ open class ParticleSystem {
      * [amount] - the amount of particles created at burst
      */
     fun burst(amount: Int): ParticleSystem {
-        startRenderSystem(BurstEmitter().build(amount))
+        startRenderSystem(BurstEmitter(amount))
         return this
     }
 

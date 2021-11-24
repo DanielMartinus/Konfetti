@@ -5,23 +5,11 @@ package nl.dionsegijn.konfetti_core.emitters
  *
  * BurstEmitter creates all confetti at once when [RenderSystem] is started
  */
-class BurstEmitter : Emitter() {
-
-    private var amountOfParticles = 0
-        set(value) {
-            field = if (value > 1000) 1000 else value
-        }
+class BurstEmitter constructor(
+    private val amountOfParticles: Int
+) : Emitter() {
 
     private var isStarted = false
-
-    /**
-     * The amount of particles you want to create at once
-     */
-    fun build(amountOfParticles: Int): Emitter {
-        this.amountOfParticles = amountOfParticles
-        isStarted = false
-        return this
-    }
 
     /**
      * Create all confetti when the [RenderSystem] started, only do this once to render all
@@ -31,6 +19,7 @@ class BurstEmitter : Emitter() {
         if (!isStarted) {
             isStarted = true
             for (i in 1..amountOfParticles) {
+                if (i >= 1000) break
                 addConfettiFunc?.invoke()
             }
         }
