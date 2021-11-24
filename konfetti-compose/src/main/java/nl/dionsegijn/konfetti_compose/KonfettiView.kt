@@ -14,7 +14,6 @@ import androidx.compose.ui.layout.onGloballyPositioned
 import nl.dionsegijn.konfetti_core.Confetti
 import nl.dionsegijn.konfetti_core.ParticleSystem
 import nl.dionsegijn.konfetti_core.models.Shape
-import kotlin.math.abs
 
 @Composable
 fun KonfettiView(
@@ -95,14 +94,12 @@ fun KonfettiView(
 }
 
 fun Confetti.toParticle(): Particle {
-    val color = (alpha shl 24) or (color and 0xffffff)
-    val scaleX = abs(rotationWidth / width - 0.5f) * 2
     return Particle(
         location.x,
         location.y,
         width,
         width,
-        color,
+        alphaColor,
         rotation,
         scaleX,
         shape,

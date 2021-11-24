@@ -8,7 +8,6 @@ import android.view.View
 import nl.dionsegijn.konfetti.listeners.OnParticleSystemUpdateListener
 import nl.dionsegijn.konfetti_core.Confetti
 import nl.dionsegijn.konfetti_core.ParticleSystem
-import kotlin.math.abs
 
 /**
  * Created by dionsegijn on 3/25/17.
@@ -53,7 +52,6 @@ open class KonfettiView : View {
 
     override fun onDraw(canvas: Canvas) {
         super.onDraw(canvas)
-
         val deltaTime = timer.getDeltaTime()
         for (i in systems.size - 1 downTo 0) {
             val particleSystem = systems[i]
@@ -80,9 +78,8 @@ open class KonfettiView : View {
     private fun Confetti.display(canvas: Canvas) {
         // setting alpha via paint.setAlpha allocates a temporary "ColorSpace$Named" object
         // it is more efficient via setColor
-        paint.color = (this.alpha shl 24) or (color and 0xffffff)
+        paint.color = alphaColor
 
-        val scaleX = abs(rotationWidth / width - 0.5f) * 2
         val centerX = scaleX * width / 2
 
         val saveCount = canvas.save()

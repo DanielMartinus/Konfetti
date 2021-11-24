@@ -6,11 +6,12 @@ import android.graphics.Rect
 import nl.dionsegijn.konfetti_core.models.Shape
 import nl.dionsegijn.konfetti_core.models.Size
 import nl.dionsegijn.konfetti_core.models.Vector
+import kotlin.math.abs
 import kotlin.random.Random
 
 class Confetti(
     var location: Vector,
-    val color: Int,
+    private val color: Int,
     val size: Size,
     val shape: Shape,
     var lifespan: Long = -1L,
@@ -37,6 +38,12 @@ class Confetti(
     private var speedF = 60f
 
     var alpha: Int = 255
+    var scaleX = 0f
+
+    /**
+     * Updated color with alpha values, later move to having one color
+     */
+    var alphaColor: Int = 0
 
     /**
      * If a particle moves out of the view we keep calculating its position but do not draw them
@@ -90,6 +97,9 @@ class Confetti(
 
         rotationWidth -= rSpeed
         if (rotationWidth < 0) rotationWidth = width
+
+        scaleX = abs(rotationWidth / width - 0.5f) * 2
+        alphaColor = (alpha shl 24) or (color and 0xffffff)
 
         drawArea.inset(-width.toInt(), -width.toInt())
         drawParticle = drawArea.contains(location.x.toInt(), location.y.toInt())
