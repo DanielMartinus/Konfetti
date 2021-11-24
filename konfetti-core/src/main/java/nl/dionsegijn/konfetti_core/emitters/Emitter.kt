@@ -25,4 +25,21 @@ abstract class Emitter {
      *         false if the renderSystem is still busy
      */
     abstract fun isFinished(): Boolean
+
+    companion object {
+        fun burst(amount: Int) = BurstEmitter(amount)
+
+        fun streamFor(particlesPerSecond: Int, emittingTime: Long) =
+            StreamEmitter().build(
+                particlesPerSecond = particlesPerSecond,
+                emittingTime = emittingTime
+            )
+
+        fun streamMaxParticles(particlesPerSecond: Int, maxParticles: Int) =
+            StreamEmitter().build(
+                particlesPerSecond = particlesPerSecond,
+                maxParticles = maxParticles
+            )
+    }
 }
+

@@ -1,7 +1,5 @@
 package nl.dionsegijn.konfetti_core.emitters
 
-import android.util.Log
-
 /**
  * Created by dionsegijn on 9/03/17.
  *
