@@ -16,4 +16,10 @@ data class Size(val sizeInDp: Int, val mass: Float = 5f) {
     init {
         require(mass != 0F) { "mass=$mass must be != 0" }
     }
+
+    companion object {
+        val SMALL: Size = Size(sizeInDp = 4, mass = 4f )
+        val MEDIUM: Size = Size(8)
+        val LARGE: Size = Size(12, mass = 6f)
+    }
 }
