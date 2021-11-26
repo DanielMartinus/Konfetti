@@ -1,5 +1,7 @@
 package nl.dionsegijn.konfetti_core.emitters
 
+import java.util.concurrent.TimeUnit
+
 /**
  * Created by dionsegijn on 9/03/17.
  *
@@ -7,26 +9,19 @@ package nl.dionsegijn.konfetti_core.emitters
  * - Creating x amount of particles in a certain time frame
  * - Creating x amount of particles until the threshold [maxParticles] is met
  */
-class StreamEmitter : Emitter() {
-
-    companion object {
-        /**
-         * Start an endless stream of particles by using this property in combination with
-         * emittingTime. The stream of particles can only be stopped manually by calling reset or
-         * stopGracefully on KonfettiView.
-         */
-        @JvmField
-        val INDEFINITE = -2L
-    }
-
-    /** Max amount of particles allowed to be created */
-    private var maxParticles = -1
-
-    /** Keeping count of how many particles are created */
-    private var particlesCreated = 0
+class StreamEmitter(duration: Long, timeUnit: TimeUnit = TimeUnit.MILLISECONDS) : Emitter() {
 
     /** Max time allowed to emit in milliseconds */
-    private var emittingTime: Long = 0
+    private var duration: Long = 0
+
+    /**
+     * Max amount of particles allowed to be created. If -1 the value is unset and not
+     * used to determine whether the emitter is finished.
+     */
+    private var maxParticles = -1
+
+    /* Keeping count of how many particles are created whilst running the emitter */
+    private var particlesCreated = 0
 
     /** Elapsed time in milliseconds */
     private var elapsedTime: Float = 0f
@@ -37,14 +32,32 @@ class StreamEmitter : Emitter() {
     /** Amount of time elapsed since last particle creation in milliseconds */
     private var createParticleMs: Float = 0f
 
-    fun build(
-        particlesPerSecond: Int,
-        emittingTime: Long = 0L,
-        maxParticles: Int = -1
-    ): StreamEmitter {
-        this.maxParticles = maxParticles
-        this.emittingTime = emittingTime
-        this.amountPerMs = 1f / particlesPerSecond
+    companion object {
+        /**
+         * Start an endless stream of particles by using this property in combination with
+         * emittingTime. The stream of particles can only be stopped manually.
+         */
+        const val INDEFINITE = -2L
+    }
+
+    init {
+        if (duration == INDEFINITE) this.duration = duration
+        else this.duration = TimeUnit.MILLISECONDS.convert(duration, timeUnit)
+    }
+
+    /**
+     * Amount of particles created over the duration that is set
+     */
+    fun max(amount: Int): StreamEmitter {
+        this.amountPerMs = (duration / maxParticles) / 1000f
+        return this
+    }
+
+    /**
+     * Amount of particles that will be created per second
+     */
+    fun perSecond(amount: Int): StreamEmitter {
+        this.amountPerMs = 1f / amount
         return this
     }
 
@@ -76,14 +89,14 @@ class StreamEmitter : Emitter() {
     }
 
     /**
-     * If the [emittingTime] is 0 it's not set and not relevant
+     * If the [duration] is 0 it's not set and not relevant
      * If the emitting time is set check if [elapsedTime] exceeded the emittingTime
      */
     private fun isTimeElapsed(): Boolean {
-        return when (emittingTime) {
+        return when (duration) {
             0L -> false
             INDEFINITE -> false
-            else -> elapsedTime >= emittingTime
+            else -> elapsedTime >= duration
         }
     }
 
@@ -98,16 +111,20 @@ class StreamEmitter : Emitter() {
     private fun reachedMaxParticles(): Boolean = maxParticles in 1..(particlesCreated)
 
     /**
-     * If the [emittingTime] is set tell the [RenderSystem] the emitter is finished creating
+     * If the [duration] is set tell the [RenderSystem] the emitter is finished creating
      * particles when the elapsed time exceeded the emitting time.
-     * If the [emittingTime] is not set tell the [RenderSystem] that the emitter is finished
+     * If the [duration] is not set tell the [RenderSystem] that the emitter is finished
      * creating particles when [particlesCreated] exceeded [maxParticles]
      */
     override fun isFinished(): Boolean {
         return when {
-            emittingTime > 0L -> elapsedTime >= emittingTime
-            emittingTime == INDEFINITE -> false
-            else -> particlesCreated >= maxParticles
+            duration > 0L -> {
+                elapsedTime >= duration
+            }
+            duration == INDEFINITE -> false
+            else -> {
+                particlesCreated >= maxParticles
+            }
         }
     }
 }

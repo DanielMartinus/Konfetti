@@ -29,17 +29,15 @@ abstract class Emitter {
     companion object {
         fun burst(amount: Int) = BurstEmitter(amount)
 
-        fun streamFor(particlesPerSecond: Int, emittingTime: Long) =
-            StreamEmitter().build(
-                particlesPerSecond = particlesPerSecond,
-                emittingTime = emittingTime
-            )
+        fun streamParticlesPerSecond(particlesPerSecond: Int, emittingTime: Long) =
+            StreamEmitter().apply {
+                runParticlesPerSecond(particlesPerSecond, emittingTime)
+            }
 
-        fun streamMaxParticles(particlesPerSecond: Int, maxParticles: Int) =
-            StreamEmitter().build(
-                particlesPerSecond = particlesPerSecond,
-                maxParticles = maxParticles
-            )
+        fun streamMaxParticles(maxParticles: Int, emittingTime: Long) =
+            StreamEmitter().apply {
+                runMaxParticles(maxParticles = maxParticles, duration = emittingTime)
+            }
     }
 }
 

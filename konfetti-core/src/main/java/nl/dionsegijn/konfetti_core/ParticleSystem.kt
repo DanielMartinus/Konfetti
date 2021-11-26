@@ -239,22 +239,10 @@ open class ParticleSystem {
         return this
     }
 
-    /**
-     * Emit a certain amount of particles per second for the duration of specified time
-     * calling this function will start the system rendering the confetti
-     * [particlesPerSecond] amount of particles created per second
-     * [emittingTime] max amount of time to emit in milliseconds
-     */
-    @Deprecated(
-        message = "Deprecated in favor of better function names",
-        replaceWith = ReplaceWith(
-            expression = "streamFor(particlesPerSecond, emittingTime)",
-            imports = ["nl.dionsegijn.konfetti_core.ParticleSystem.streamFor"]
-        )
-    )
-    fun stream(particlesPerSecond: Int, emittingTime: Long) {
-        val stream = StreamEmitter().build(particlesPerSecond = particlesPerSecond, emittingTime = emittingTime)
+    fun streamTest(emittingTime: Long, maxParticles: Int): ParticleSystem {
+        val stream = StreamEmitter(emittingTime).max(maxParticles)
         startRenderSystem(stream)
+        return this
     }
 
     /**
@@ -264,31 +252,7 @@ open class ParticleSystem {
      * [emittingTime] max amount of time to emit in milliseconds
      */
     fun streamFor(particlesPerSecond: Int, emittingTime: Long): ParticleSystem {
-        val stream = StreamEmitter().build(particlesPerSecond = particlesPerSecond, emittingTime = emittingTime)
-        startRenderSystem(stream)
-        return this
-    }
-
-    /**
-     * Emit a certain amount of particles per second until [maxParticles] are created
-     * calling this function will start the system rendering the confetti
-     * [particlesPerSecond] amount of particles created per second
-     * [maxParticles] max amount of particles to emit
-     */
-    @Deprecated(
-        message = "Deprecated in favor of better function names",
-        replaceWith = ReplaceWith(
-            expression = "streamMaxParticles(particlesPerSecond, maxParticles)",
-            imports = ["nl.dionsegijn.konfetti_core.ParticleSystem.streamMaxParticles"]
-        )
-    )
-    fun stream(particlesPerSecond: Int, maxParticles: Int) {
-        val stream = StreamEmitter().build(particlesPerSecond = particlesPerSecond, maxParticles = maxParticles)
-        startRenderSystem(stream)
-    }
-
-    fun streamMaxParticles(particlesPerSecond: Int, maxParticles: Int): ParticleSystem {
-        val stream = StreamEmitter().build(particlesPerSecond = particlesPerSecond, maxParticles = maxParticles)
+        val stream = StreamEmitter(duration = emittingTime).perSecond(particlesPerSecond)
         startRenderSystem(stream)
         return this
     }
