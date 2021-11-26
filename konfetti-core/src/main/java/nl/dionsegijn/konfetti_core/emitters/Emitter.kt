@@ -27,17 +27,13 @@ abstract class Emitter {
     abstract fun isFinished(): Boolean
 
     companion object {
-        fun burst(amount: Int) = BurstEmitter(amount)
+        fun burst(amount: Int) = StreamEmitter(duration = 100L).max(amount)
 
-        fun streamParticlesPerSecond(particlesPerSecond: Int, emittingTime: Long) =
-            StreamEmitter().apply {
-                runParticlesPerSecond(particlesPerSecond, emittingTime)
-            }
+        fun streamParticlesPerSecond(particlesPerSecond: Int, durationInMillis: Long) =
+            StreamEmitter(duration = durationInMillis).perSecond(particlesPerSecond)
 
-        fun streamMaxParticles(maxParticles: Int, emittingTime: Long) =
-            StreamEmitter().apply {
-                runMaxParticles(maxParticles = maxParticles, duration = emittingTime)
-            }
+        fun streamMaxParticles(maxParticles: Int, durationInMillis: Long) =
+            StreamEmitter(durationInMillis).max(maxParticles)
     }
 }
 
