@@ -5,8 +5,10 @@ import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import nl.dionsegijn.konfetti_core.ParticleSystem
+import nl.dionsegijn.konfetti_core.emitters.StreamEmitter
 import nl.dionsegijn.konfetti_core.models.Shape
 import nl.dionsegijn.konfetti_core.models.Size
+import java.util.concurrent.TimeUnit
 
 class KonfettiViewModel : ViewModel() {
 
@@ -27,7 +29,7 @@ class KonfettiViewModel : ViewModel() {
                     .setPosition(200f, 400f)
                     .setRotationSpeedMultiplier(1.2f)
                     .setRotationSpeedVariance(0.6f)
-                    .streamTest(maxParticles = 100, emittingTime = 100L),
+                    .emitter(StreamEmitter(5, TimeUnit.SECONDS).max(500))
 //                ParticleSystem()
 //                    .setDirection(0.0, 359.0)
 //                    .addColors(0xf4306d, 0xfce18a, 0xff726d, 0xb48def)

@@ -264,8 +264,9 @@ open class ParticleSystem {
      * implementation
      * @param [emitter] Custom implementation of the Emitter class
      */
-    fun emitter(emitter: Emitter) {
+    fun emitter(emitter: Emitter): ParticleSystem {
         startRenderSystem(emitter)
+        return this
     }
 
     /**
