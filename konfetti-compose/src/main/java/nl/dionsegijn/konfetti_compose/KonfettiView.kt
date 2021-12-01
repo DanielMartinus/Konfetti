@@ -13,7 +13,7 @@ import androidx.compose.ui.graphics.drawscope.withTransform
 import androidx.compose.ui.layout.onGloballyPositioned
 import nl.dionsegijn.konfetti_core.Confetti
 import nl.dionsegijn.konfetti_core.ParticleSystem
-import nl.dionsegijn.konfetti_core.models.Shape
+import nl.dionsegijn.konfetti_core._new.Particle
 
 @Composable
 fun KonfettiView(
@@ -111,15 +111,3 @@ fun getTotalTimeRunning(startTime: Long): Long {
     val currentTime = System.currentTimeMillis()
     return (currentTime - startTime)
 }
-
-data class Particle(
-    val x: Float,
-    val y: Float,
-    val width: Float,
-    val height: Float,
-    val color: Int,
-    val rotation: Float,
-    val scaleX: Float,
-    val shape: Shape,
-    val alpha: Int
-)
