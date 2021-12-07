@@ -6,7 +6,10 @@ import nl.dionsegijn.konfetti_core._new.Party
 import nl.dionsegijn.konfetti_core._new.Rotation
 import nl.dionsegijn.konfetti_core.models.Shape
 import nl.dionsegijn.konfetti_core.models.Vector
+import java.lang.Math.toRadians
 import java.util.Random
+import kotlin.math.cos
+import kotlin.math.sin
 
 /**
  * Stream emitter is a little more complex. It has several configurations for example:
@@ -90,13 +93,13 @@ class PartyStreamEmitter(private val emitterConfig: EmitterConfig) : PartyEmitte
      */
     private fun Party.getVelocity(): Vector {
         val speed = startVelocity // TODO randomize the start speed
-        val radian = getRadian()
-        val vx = speed * Math.cos(radian).toFloat()
-        val vy = speed * Math.sin(radian).toFloat()
+        val radian = toRadians(getAngle())
+        val vx = speed * cos(radian).toFloat()
+        val vy = speed * sin(radian).toFloat()
         return Vector(vx, vy)
     }
 
-    private fun Party.getRadian(): Double {
+    private fun Party.getAngle(): Double {
         if (spread == 0) return angle.toDouble()
 
         val minAngle = angle - (spread / 2)
