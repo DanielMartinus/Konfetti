@@ -19,15 +19,16 @@ class KonfettiViewModel : ViewModel() {
             listOf(
                 Party(
                     startVelocity = 5,
-                    angle = 90, // TOP
-                    spread = 359,
+                    angle = 270, // TOP
+                    spread = 30,
                     timeToLive = 3000L,
-                    emitter = EmitterBase(duration = 5L, TimeUnit.SECONDS).perSecond(1),
-                    position = Position(200f, 400f)
+                    colors = listOf(0xfce18a, 0xff726d),
+                    emitter = EmitterBase(duration = 1L, TimeUnit.SECONDS).max(300),
+                    position = Position(400f, 600f)
                 )
 //                ParticleSystem()
 //                    .setDirection(0.0, 359.0)
-//                    .addColors(0xfce18a, 0xff726d)
+//                    .addColors()
 //                    .setSpeed(1f, 6f)
 //                    .addSizes(Size(8), Size(20), Size(2))
 //                    .setFadeOutEnabled(true)

@@ -161,7 +161,7 @@ class MainActivity : AppCompatActivity(), OnConfigurationChangedListener {
                     binding.viewKonfetti.start(
                         Party(
                             angle = degrees.toInt(),
-                            spread = 30,
+                            spread = 100,
                             colors = colors.toList(),
                             startVelocity = speed,
                             timeToLive = 10000L,
