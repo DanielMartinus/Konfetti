@@ -4,10 +4,9 @@ import android.graphics.drawable.Drawable
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
-import nl.dionsegijn.konfetti_core.ParticleSystem
-import nl.dionsegijn.konfetti_core.emitters.StreamEmitter
-import nl.dionsegijn.konfetti_core.models.Shape
-import nl.dionsegijn.konfetti_core.models.Size
+import nl.dionsegijn.konfetti_core._new.NewEmitter.EmitterBase
+import nl.dionsegijn.konfetti_core._new.Party
+import nl.dionsegijn.konfetti_core._new.Position
 import java.util.concurrent.TimeUnit
 
 class KonfettiViewModel : ViewModel() {
@@ -18,18 +17,26 @@ class KonfettiViewModel : ViewModel() {
     fun start(drawable: Drawable) {
         _state.value = State.Started(
             listOf(
-                ParticleSystem()
-                    .setDirection(0.0, 359.0)
-                    .addColors(0xfce18a, 0xff726d)
-                    .setSpeed(1f, 6f)
-                    .addSizes(Size(8), Size(20), Size(2))
-                    .setFadeOutEnabled(true)
-                    .setTimeToLive(3000L)
-                    .addShapes(Shape.Circle, Shape.Rectangle(0.2f), Shape.DrawableShape(drawable))
-                    .setPosition(200f, 400f)
-                    .setRotationSpeedMultiplier(1.2f)
-                    .setRotationSpeedVariance(0.6f)
-                    .emitter(StreamEmitter(5, TimeUnit.SECONDS).max(500))
+                Party(
+                    startVelocity = 5,
+                    angle = 90, // TOP
+                    spread = 359,
+                    timeToLive = 3000L,
+                    emitter = EmitterBase(duration = 5L, TimeUnit.SECONDS).perSecond(1),
+                    position = Position(200f, 400f)
+                )
+//                ParticleSystem()
+//                    .setDirection(0.0, 359.0)
+//                    .addColors(0xfce18a, 0xff726d)
+//                    .setSpeed(1f, 6f)
+//                    .addSizes(Size(8), Size(20), Size(2))
+//                    .setFadeOutEnabled(true)
+//                    .setTimeToLive(3000L)
+//                    .addShapes(Shape.Circle, Shape.Rectangle(0.2f), Shape.DrawableShape(drawable))
+//                    .setPosition(200f, 400f)
+//                    .setRotationSpeedMultiplier(1.2f)
+//                    .setRotationSpeedVariance(0.6f)
+//                    .emitter(StreamEmitter(5, TimeUnit.SECONDS).max(500))
 //                ParticleSystem()
 //                    .setDirection(0.0, 359.0)
 //                    .addColors(0xf4306d, 0xfce18a, 0xff726d, 0xb48def)
@@ -50,7 +57,7 @@ class KonfettiViewModel : ViewModel() {
     }
 
     sealed class State {
-        class Started(val particleSystem: List<ParticleSystem>) : State()
+        class Started(val particleSystem: List<Party>) : State()
         object Idle : State()
     }
 }

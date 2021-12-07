@@ -20,7 +20,7 @@ import androidx.compose.ui.unit.dp
 import nl.dionsegijn.demo_compose.ui.theme.KonfettiTheme
 import nl.dionsegijn.konfetti_compose.KonfettiView
 import nl.dionsegijn.konfetti_compose.OnParticleSystemUpdateListener
-import nl.dionsegijn.konfetti_core.ParticleSystem
+import nl.dionsegijn.konfetti_core._new.PartySystem
 
 class ComposeActivity : ComponentActivity() {
 
@@ -58,13 +58,13 @@ fun KonfettiUI(viewModel: KonfettiViewModel = KonfettiViewModel()) {
         }
         is KonfettiViewModel.State.Started -> KonfettiView(
             modifier = Modifier.fillMaxSize(),
-            particleSystems = newState.particleSystem,
+            particleSystems = newState.particleSystem.map { PartySystem(it) },
             updateListener = object : OnParticleSystemUpdateListener {
-                override fun onParticleSystemStarted(system: ParticleSystem, activeSystems: Int) {
+                override fun onParticleSystemStarted(system: PartySystem, activeSystems: Int) {
 
                 }
 
-                override fun onParticleSystemEnded(system: ParticleSystem, activeSystems: Int) {
+                override fun onParticleSystemEnded(system: PartySystem, activeSystems: Int) {
                     if (activeSystems == 0) viewModel.ended()
                 }
             }

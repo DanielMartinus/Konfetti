@@ -2,7 +2,6 @@ package nl.dionsegijn.konfetti_core._new
 
 import android.graphics.Color
 import nl.dionsegijn.konfetti_core._new.NewEmitter.EmitterConfig
-import nl.dionsegijn.konfetti_core._new.PartyEmitter.PartyEmitter
 import nl.dionsegijn.konfetti_core.models.Shape
 import nl.dionsegijn.konfetti_core.models.Size
 
@@ -35,21 +34,5 @@ data class Rotation(
 ) {
     companion object {
         fun disabled() = Rotation(enabled = false)
-    }
-}
-
-fun newKonfetti() {
-    val party = Party(
-        startVelocity = 5,
-        angle = 90, // TOP
-        spread = 70, // spread will look like: \/
-        emitter = PartyEmitter.burst(20),
-        rotation = Rotation.disabled()
-    )
-
-    val partySystem = PartySystem(party)
-
-    while (true) {
-        partySystem.render(16f)
     }
 }

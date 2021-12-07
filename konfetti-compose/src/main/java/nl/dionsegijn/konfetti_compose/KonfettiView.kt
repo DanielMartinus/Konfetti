@@ -11,14 +11,13 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.geometry.Offset
 import androidx.compose.ui.graphics.drawscope.withTransform
 import androidx.compose.ui.layout.onGloballyPositioned
-import nl.dionsegijn.konfetti_core.Confetti
-import nl.dionsegijn.konfetti_core.ParticleSystem
 import nl.dionsegijn.konfetti_core._new.Particle
+import nl.dionsegijn.konfetti_core._new.PartySystem
 
 @Composable
 fun KonfettiView(
     modifier: Modifier = Modifier,
-    particleSystems: List<ParticleSystem>,
+    particleSystems: List<PartySystem>,
     updateListener: OnParticleSystemUpdateListener? = null
 ) {
     /**
@@ -45,21 +44,17 @@ fun KonfettiView(
 
                 particles.value = particleSystems.map { particleSystem ->
 
-                    val totalTimeRunning = getTotalTimeRunning(particleSystem.renderSystem.createdAt)
+                    val totalTimeRunning = getTotalTimeRunning(particleSystem.createdAt)
                     // Do not start particleSystem yet if totalTimeRunning is below delay
-                    if (totalTimeRunning < particleSystem.getDelay()) return@map listOf()
+                    if (totalTimeRunning < particleSystem.party.delay) return@map listOf()
 
-                    particleSystem.renderSystem.render(deltaMs.div(1000f), drawArea.value)
-
-                    if (particleSystem.doneEmitting()) {
+                    if (particleSystem.isDoneEmitting()) {
                         updateListener?.onParticleSystemEnded(
                             system = particleSystem,
-                            activeSystems = particleSystems.count { !it.doneEmitting() })
+                            activeSystems = particleSystems.count { !it.isDoneEmitting() })
                     }
 
-                    particleSystem.renderSystem.getDrawableParticles().map {
-                        it.toParticle()
-                    }
+                    particleSystem.render(deltaMs.div(1000f), drawArea.value)
                 }.flatten()
             }
         }
@@ -90,20 +85,6 @@ fun KonfettiView(
                 }
             }
         }
-    )
-}
-
-fun Confetti.toParticle(): Particle {
-    return Particle(
-        location.x,
-        location.y,
-        width,
-        width,
-        alphaColor,
-        rotation,
-        scaleX,
-        shape,
-        alpha
     )
 }
 
