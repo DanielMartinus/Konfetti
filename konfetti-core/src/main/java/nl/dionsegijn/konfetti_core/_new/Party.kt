@@ -18,11 +18,12 @@ data class Party(
     val delay: Int = 0,
     val speedDensityIndependent: Boolean = true,
     val accelerationEnabled: Boolean = true,
-    val maxAcceleration: Float = -1f, // TODO divide maxAccelation by 10 in Confetti
+    val maxAcceleration: Float = -1f, // TODO divide maxAcceleration by 10 in Confetti
     val rotation: Rotation = Rotation(),
     val emitter: EmitterConfig
 )
 
+// TODO improve usage for JAVA code
 class PartyFactory {
     @JvmOverloads
     fun createParty(
@@ -38,7 +39,7 @@ class PartyFactory {
         delay: Int = 0,
         speedDensityIndependent: Boolean = true,
         accelerationEnabled: Boolean = true,
-        maxAcceleration: Float = -1f, // TODO divide maxAccelation by 10 in Confetti
+        maxAcceleration: Float = -1f, // TODO divide maxAcceleration by 10 in Confetti
         rotation: Rotation = Rotation(),
         emitter: EmitterConfig
     ): Party = Party(
