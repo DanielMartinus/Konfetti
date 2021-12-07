@@ -1,15 +1,19 @@
 package nl.dionsegijn.simple_demo;
 
-import android.graphics.Color;
 import android.graphics.drawable.Drawable;
 import android.os.Bundle;
 
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.core.content.ContextCompat;
 
+import java.util.concurrent.TimeUnit;
+
 import nl.dionsegijn.konfetti.KonfettiView;
+import nl.dionsegijn.konfetti_core._new.NewEmitter.EmitterBase;
+import nl.dionsegijn.konfetti_core._new.NewEmitter.EmitterConfig;
+import nl.dionsegijn.konfetti_core._new.Party;
+import nl.dionsegijn.konfetti_core._new.PartyFactory;
 import nl.dionsegijn.konfetti_core.models.Shape;
-import nl.dionsegijn.konfetti_core.models.Size;
 
 public class MainActivity extends AppCompatActivity {
 
@@ -22,15 +26,22 @@ public class MainActivity extends AppCompatActivity {
         final Shape.DrawableShape drawableShape = new Shape.DrawableShape(drawable, true);
 
         final KonfettiView konfettiView = findViewById(R.id.konfettiView);
-        konfettiView.setOnClickListener(view -> konfettiView.build()
-                .addColors(Color.YELLOW, Color.GREEN, Color.MAGENTA)
-                .setDirection(0.0, 359.0)
-                .setSpeed(1f, 5f)
-                .setFadeOutEnabled(true)
-                .setTimeToLive(2000L)
-                .addShapes(new Shape.Rectangle(0.2f), drawableShape)
-                .addSizes(new Size(12, 5f))
-                .setPosition(-50f, konfettiView.getWidth() + 50f, -50f, -50f)
-                .streamFor(300, 5000L));
+        EmitterConfig emitterConfig = new EmitterBase(5L, TimeUnit.SECONDS).perSecond(50);
+        PartyFactory partyFactory = new PartyFactory();
+        Party party = partyFactory.createParty(90, 359, 5, emitterConfig);
+        konfettiView.setOnClickListener(view ->
+                konfettiView.start(party)
+        );
+
+//                konfettiView.build()
+//                .addColors(Color.YELLOW, Color.GREEN, Color.MAGENTA)
+//                .setDirection(0.0, 359.0)
+//                .setSpeed(1f, 5f)
+//                .setFadeOutEnabled(true)
+//                .setTimeToLive(2000L)
+//                .addShapes(new Shape.Rectangle(0.2f), drawableShape)
+//                .addSizes(new Size(12, 5f))
+//                .setPosition(-50f, konfettiView.getWidth() + 50f, -50f, -50f)
+//                .streamFor(300, 5000L));
     }
 }

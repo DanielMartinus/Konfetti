@@ -2,15 +2,16 @@ package nl.dionsegijn.konfetti
 
 import android.content.Context
 import android.graphics.Canvas
+import android.graphics.Paint
 import android.graphics.Rect
 import android.util.AttributeSet
 import android.view.View
 import nl.dionsegijn.konfetti.listeners.OnParticleSystemUpdateListener
-import nl.dionsegijn.konfetti_core.Confetti
-import nl.dionsegijn.konfetti_core.ParticleSystem
+import nl.dionsegijn.konfetti_core._new.Particle
+import nl.dionsegijn.konfetti_core._new.Party
+import nl.dionsegijn.konfetti_core._new.PartySystem
 
 /**
- * Created by dionsegijn on 3/25/17.
  * Implement this view to render the particles on.
  * Call [build] to setup a particle system. KonfettiView will then invalidate
  * pass the canvas to each system where each system will handle the rendering.
@@ -24,7 +25,7 @@ open class KonfettiView : View {
     /**
      * Active particle systems
      */
-    private val systems: MutableList<ParticleSystem> = mutableListOf()
+    private val systems: MutableList<PartySystem> = mutableListOf()
 
     /**
      * Keeping track of the delta time between frame rendering
@@ -48,23 +49,22 @@ open class KonfettiView : View {
      */
     fun isActive() = systems.isNotEmpty()
 
-    fun build(): ParticleSystem = KonfettiSystem(this)
-
     override fun onDraw(canvas: Canvas) {
         super.onDraw(canvas)
         val deltaTime = timer.getDeltaTime()
         for (i in systems.size - 1 downTo 0) {
-            val particleSystem = systems[i]
+            val partySystem = systems[i]
 
-            val totalTimeRunning = timer.getTotalTimeRunning(particleSystem.renderSystem.createdAt)
-            if (totalTimeRunning >= particleSystem.getDelay()) {
-                particleSystem.renderSystem.render(deltaTime, drawArea)
-                particleSystem.renderSystem.getDrawableParticles().forEach { it.display(canvas) }
+            val totalTimeRunning = timer.getTotalTimeRunning(partySystem.createdAt)
+            if (totalTimeRunning >= partySystem.party.delay) {
+                partySystem.render(deltaTime, drawArea).forEach {
+                    it.display(canvas)
+                }
             }
 
-            if (particleSystem.doneEmitting()) {
+            if (partySystem.isDoneEmitting()) {
                 systems.removeAt(i)
-                onParticleSystemUpdateListener?.onParticleSystemEnded(this, particleSystem, systems.size)
+                onParticleSystemUpdateListener?.onParticleSystemEnded(this, partySystem.party, systems.size)
             }
         }
 
@@ -75,15 +75,17 @@ open class KonfettiView : View {
         }
     }
 
-    private fun Confetti.display(canvas: Canvas) {
+    private val paint: Paint = Paint()
+
+    private fun Particle.display(canvas: Canvas) {
         // setting alpha via paint.setAlpha allocates a temporary "ColorSpace$Named" object
         // it is more efficient via setColor
-        paint.color = alphaColor
+        paint.color = color
 
         val centerX = scaleX * width / 2
 
         val saveCount = canvas.save()
-        canvas.translate(location.x - centerX, location.y)
+        canvas.translate(x - centerX, y)
         canvas.rotate(rotation, centerX, width / 2)
         canvas.scale(scaleX, 1f)
 
@@ -91,18 +93,18 @@ open class KonfettiView : View {
         canvas.restoreToCount(saveCount)
     }
 
-    fun start(particleSystem: ParticleSystem) {
-        systems.add(particleSystem)
-        onParticleSystemUpdateListener?.onParticleSystemStarted(this, particleSystem, systems.size)
+    fun start(party: Party) {
+        systems.add(PartySystem(party))
+        onParticleSystemUpdateListener?.onParticleSystemStarted(this, party, systems.size)
         invalidate()
     }
 
     /**
      * Stop a particular particle system. All particles belonging to this system will directly disappear from the view.
      */
-    fun stop(particleSystem: ParticleSystem) {
-        systems.remove(particleSystem)
-        onParticleSystemUpdateListener?.onParticleSystemEnded(this, particleSystem, systems.size)
+    fun stop(party: Party) {
+        systems.removeAll { it.party == party }
+        onParticleSystemUpdateListener?.onParticleSystemEnded(this, party, systems.size)
     }
 
     /**
@@ -119,9 +121,10 @@ open class KonfettiView : View {
      * will continue rendering until they're done. When all particles are done rendering the system
      * will be removed.
      */
-    fun stopGracefully() {
-        systems.forEach { it.renderSystem.enabled = false }
-    }
+//    TODO: fix stopGracefully
+//    fun stopGracefully() {
+//        systems.forEach { it.enabled = false }
+//    }
 
     /**
      * TimerIntegration retrieves the delta time since the rendering of the previous frame.

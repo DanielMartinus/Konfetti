@@ -23,6 +23,42 @@ data class Party(
     val emitter: EmitterConfig
 )
 
+class PartyFactory {
+    @JvmOverloads
+    fun createParty(
+        angle: Int = 0,
+        spread: Int = 20,
+        startVelocity: Int = 20, // Add min and max velocity
+        size: List<Size> = listOf(Size.SMALL, Size.MEDIUM, Size(10)),
+        colors: List<Int> = listOf(Color.RED),
+        shapes: List<Shape> = listOf(Shape.Square, Shape.Circle),
+        timeToLive: Long = 2000, // milliseconds
+        fadeOutEnabled: Boolean = true,
+        position: Position = Position(100f, 100f),
+        delay: Int = 0,
+        speedDensityIndependent: Boolean = true,
+        accelerationEnabled: Boolean = true,
+        maxAcceleration: Float = -1f, // TODO divide maxAccelation by 10 in Confetti
+        rotation: Rotation = Rotation(),
+        emitter: EmitterConfig
+    ): Party = Party(
+        angle,
+        spread,
+        startVelocity,
+        size,
+        colors,
+        shapes,
+        timeToLive,
+        fadeOutEnabled,
+        position,
+        delay,
+        speedDensityIndependent,
+        accelerationEnabled,
+        maxAcceleration,
+        rotation,
+        emitter
+    )
+}
 
 // TODO Support relative position
 data class Position(val x: Float, val y: Float)

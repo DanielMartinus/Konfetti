@@ -7,11 +7,11 @@ class KonfettiSystem(private val konfettiView: KonfettiView) : ParticleSystem() 
     /**
      * Add the system to KonfettiView. KonfettiView will initiate the rendering
      */
-    override fun start() {
-        konfettiView.start(this)
-    }
-
-    override fun stop() {
-        konfettiView.stop(this)
-    }
+//    override fun start() {
+//        konfettiView.start(this)
+//    }
+//
+//    override fun stop() {
+//        konfettiView.stop(this)
+//    }
 }
