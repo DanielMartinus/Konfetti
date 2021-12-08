@@ -7,6 +7,7 @@ import org.mockito.Mockito
 
 /**
  * Created by dionsegijn on 4/2/17.
+ * TODO delete test
  */
 class StreamEmitterTests {
 

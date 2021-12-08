@@ -1,6 +1,5 @@
 package nl.dionsegijn.konfetti_compose
 
-import nl.dionsegijn.konfetti_core.ParticleSystem
 import nl.dionsegijn.konfetti_core._new.PartySystem
 
 interface OnParticleSystemUpdateListener {

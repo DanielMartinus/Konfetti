@@ -1,6 +1,5 @@
 package nl.dionsegijn.konfetti.emitter
 
-import nl.dionsegijn.konfetti_core.emitters.BurstEmitter
 import org.junit.Before
 import org.junit.Test
 import org.mockito.Mockito

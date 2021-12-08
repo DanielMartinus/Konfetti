@@ -3,7 +3,6 @@ package nl.dionsegijn.konfetti_core._new.PartyEmitter
 import nl.dionsegijn.konfetti_core.Confetti
 import nl.dionsegijn.konfetti_core._new.NewEmitter.EmitterBase
 import nl.dionsegijn.konfetti_core._new.Party
-import nl.dionsegijn.konfetti_core.emitters.RenderSystem
 
 /**
  * An abstract class for creating a custom emitter
