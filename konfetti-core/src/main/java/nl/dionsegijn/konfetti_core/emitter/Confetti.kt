@@ -105,7 +105,8 @@ class Confetti(
         scaleX = abs(rotationWidth / width - 0.5f) * 2
         alphaColor = (alpha shl 24) or (color and 0xffffff)
 
-        drawArea.inset(-width.toInt(), -width.toInt())
+        // TODO check if everything works without inset
+//        drawArea.inset(-width.toInt(), -width.toInt())
         drawParticle = drawArea.contains(location.x.toInt(), location.y.toInt())
     }
 

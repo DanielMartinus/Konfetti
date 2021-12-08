@@ -1,7 +1,9 @@
 package nl.dionsegijn.konfetti_core.emitter
 
+import android.graphics.Rect
 import nl.dionsegijn.konfetti_core.NewEmitter.EmitterConfig
 import nl.dionsegijn.konfetti_core.Party
+import nl.dionsegijn.konfetti_core.Position
 import nl.dionsegijn.konfetti_core.Rotation
 import nl.dionsegijn.konfetti_core.models.Shape
 import nl.dionsegijn.konfetti_core.models.Vector
@@ -30,7 +32,7 @@ class PartyEmitter(private val emitterConfig: EmitterConfig) : BaseEmitter() {
      * If timer isn't started yet, set initial start time
      * Create the first confetti immediately and update the last emitting time
      */
-    override fun createConfetti(deltaTime: Float, party: Party): List<Confetti> {
+    override fun createConfetti(deltaTime: Float, party: Party, drawArea: Rect): List<Confetti> {
         createParticleMs += deltaTime
 
         var particles = listOf<Confetti>()
@@ -41,7 +43,7 @@ class PartyEmitter(private val emitterConfig: EmitterConfig) : BaseEmitter() {
             val amount: Int = (createParticleMs / emitterConfig.amountPerMs).toInt()
 
             // TODO return created particles
-            particles = (1..amount).map { createParticle(party) }
+            particles = (1..amount).map { createParticle(party, drawArea) }
 
             // Reset timer and add left over time for next cycle
             createParticleMs %= emitterConfig.amountPerMs
@@ -56,12 +58,12 @@ class PartyEmitter(private val emitterConfig: EmitterConfig) : BaseEmitter() {
     /**
      * Create particle based on the Party configuration
      */
-    private fun createParticle(party: Party): Confetti {
+    private fun createParticle(party: Party, drawArea: Rect): Confetti {
         particlesCreated++
         with(party) {
             return Confetti(
                 // TODO base location on min and max
-                location = Vector(position.x, position.y),
+                location = getPosition(drawArea).run { Vector(x, y) },
                 size = size[random.nextInt(size.size)],
                 shape = getRandomShape(party.shapes),
                 color = colors[random.nextInt(colors.size)],
@@ -106,6 +108,21 @@ class PartyEmitter(private val emitterConfig: EmitterConfig) : BaseEmitter() {
         return (maxAngle - minAngle) * random.nextDouble() + minAngle
     }
 
+    private fun Party.getPosition(drawArea: Rect): Position.xy {
+        return when (position) {
+            is Position.xy -> Position.xy(position.x * 0.5f, position.y)
+            is Position.relative -> {
+                // TODO test drawArea where it has an offset of X pixels from the left. Right now it only takes a fullscreen canvas
+                // TODO but should also work with a canvas having an offset (width + left?)
+                Position.xy(
+                    drawArea.width() * position.x.toFloat(),
+                    drawArea.height() * position.y.toFloat()
+                )
+            }
+            is Position.between -> TODO()
+        }
+    }
+
     /**
      * When the shape is a DrawableShape, mutate the drawable so that all drawables
      * have different values when drawn on the canvas.
@@ -113,7 +130,8 @@ class PartyEmitter(private val emitterConfig: EmitterConfig) : BaseEmitter() {
     private fun getRandomShape(shapes: List<Shape>): Shape {
         return when (val shape = shapes[random.nextInt(shapes.size)]) {
             is Shape.DrawableShape -> {
-                val mutatedState = shape.drawable.constantState?.newDrawable()?.mutate() ?: shape.drawable
+                val mutatedState =
+                    shape.drawable.constantState?.newDrawable()?.mutate() ?: shape.drawable
                 shape.copy(drawable = mutatedState)
             }
             else -> shape

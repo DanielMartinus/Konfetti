@@ -24,7 +24,7 @@ class KonfettiViewModel : ViewModel() {
                     timeToLive = 3000L,
                     colors = listOf(0xfce18a, 0xff726d),
                     emitter = Emitter(duration = 1L, TimeUnit.SECONDS).max(300),
-                    position = Position(400f, 600f)
+                    position = Position.relative(0.5, 0.5)
                 )
 //                ParticleSystem()
 //                    .setDirection(0.0, 359.0)
