@@ -1,4 +1,4 @@
-package nl.dionsegijn.konfetti_core
+package nl.dionsegijn.konfetti_core.emitter
 
 import android.content.res.Resources
 import android.graphics.Paint

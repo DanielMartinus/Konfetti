@@ -1,6 +1,5 @@
-package nl.dionsegijn.konfetti_core.PartyEmitter
+package nl.dionsegijn.konfetti_core.emitter
 
-import nl.dionsegijn.konfetti_core.Confetti
 import nl.dionsegijn.konfetti_core.NewEmitter.EmitterConfig
 import nl.dionsegijn.konfetti_core.Party
 import nl.dionsegijn.konfetti_core.Rotation

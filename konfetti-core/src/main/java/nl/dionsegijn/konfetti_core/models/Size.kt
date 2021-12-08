@@ -3,7 +3,6 @@ package nl.dionsegijn.konfetti_core.models
 import android.content.res.Resources
 
 /**
- * Created by dionsegijn on 3/26/17.
  * [sizeInDp] the size of the confetti in dip
  * [mass] each size can have its own mass for slightly different behavior. For example, the closer
  * the mass is to zero the easier it will accelerate.

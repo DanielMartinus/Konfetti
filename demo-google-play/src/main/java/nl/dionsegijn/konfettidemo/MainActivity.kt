@@ -14,7 +14,7 @@ import com.google.android.material.bottomsheet.BottomSheetBehavior
 import com.google.android.material.tabs.TabLayout
 import nl.dionsegijn.konfetti_core.NewEmitter.Emitter
 import nl.dionsegijn.konfetti_core.Party
-import nl.dionsegijn.konfetti_core.PartyEmitter.BaseEmitter
+import nl.dionsegijn.konfetti_core.emitter.BaseEmitter
 import nl.dionsegijn.konfetti_core.Position
 import nl.dionsegijn.konfetti_core.models.Shape
 import nl.dionsegijn.konfettidemo.configurations.settings.Configuration
