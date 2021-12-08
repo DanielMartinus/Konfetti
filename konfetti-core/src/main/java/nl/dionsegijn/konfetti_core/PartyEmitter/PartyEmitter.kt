@@ -1,9 +1,9 @@
-package nl.dionsegijn.konfetti_core._new.PartyEmitter
+package nl.dionsegijn.konfetti_core.PartyEmitter
 
 import nl.dionsegijn.konfetti_core.Confetti
-import nl.dionsegijn.konfetti_core._new.NewEmitter.EmitterConfig
-import nl.dionsegijn.konfetti_core._new.Party
-import nl.dionsegijn.konfetti_core._new.Rotation
+import nl.dionsegijn.konfetti_core.NewEmitter.EmitterConfig
+import nl.dionsegijn.konfetti_core.Party
+import nl.dionsegijn.konfetti_core.Rotation
 import nl.dionsegijn.konfetti_core.models.Shape
 import nl.dionsegijn.konfetti_core.models.Vector
 import java.lang.Math.toRadians
@@ -16,7 +16,7 @@ import kotlin.math.sin
  * - Creating x amount of particles in a certain time frame
  * - Creating x amount of particles until the threshold [maxParticles] is met
  */
-class PartyStreamEmitter(private val emitterConfig: EmitterConfig) : PartyEmitter() {
+class PartyEmitter(private val emitterConfig: EmitterConfig) : BaseEmitter() {
 
     /* Keeping count of how many particles are created whilst running the emitter */
     private var particlesCreated = 0

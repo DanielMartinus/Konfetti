@@ -1,10 +1,14 @@
-package nl.dionsegijn.konfetti_core._new
+package nl.dionsegijn.konfetti_core
 
 import android.graphics.Color
-import nl.dionsegijn.konfetti_core._new.NewEmitter.EmitterConfig
+import nl.dionsegijn.konfetti_core.NewEmitter.EmitterConfig
 import nl.dionsegijn.konfetti_core.models.Shape
 import nl.dionsegijn.konfetti_core.models.Size
 
+/**
+ * Configuration how to confetti should be rendered
+ * TODO add property documentation
+ */
 data class Party(
     val angle: Int = 0,
     val spread: Int = 20,

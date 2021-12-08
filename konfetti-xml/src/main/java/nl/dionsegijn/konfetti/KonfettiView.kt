@@ -7,9 +7,9 @@ import android.graphics.Rect
 import android.util.AttributeSet
 import android.view.View
 import nl.dionsegijn.konfetti.listeners.OnParticleSystemUpdateListener
-import nl.dionsegijn.konfetti_core._new.Particle
-import nl.dionsegijn.konfetti_core._new.Party
-import nl.dionsegijn.konfetti_core._new.PartySystem
+import nl.dionsegijn.konfetti_core.Particle
+import nl.dionsegijn.konfetti_core.Party
+import nl.dionsegijn.konfetti_core.PartySystem
 
 /**
  * Implement this view to render the particles on.

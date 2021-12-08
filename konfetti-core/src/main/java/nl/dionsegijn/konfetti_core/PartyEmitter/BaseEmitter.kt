@@ -1,14 +1,14 @@
-package nl.dionsegijn.konfetti_core._new.PartyEmitter
+package nl.dionsegijn.konfetti_core.PartyEmitter
 
 import nl.dionsegijn.konfetti_core.Confetti
-import nl.dionsegijn.konfetti_core._new.NewEmitter.EmitterBase
-import nl.dionsegijn.konfetti_core._new.Party
+import nl.dionsegijn.konfetti_core.NewEmitter.Emitter
+import nl.dionsegijn.konfetti_core.Party
 
 /**
  * An abstract class for creating a custom emitter
  * The emitter decides if a particle should be created and when the emitter is finished
  */
-abstract class PartyEmitter {
+abstract class BaseEmitter {
 
     /**
      * This function is called on each update when the [RenderSystem] is active
@@ -23,12 +23,12 @@ abstract class PartyEmitter {
     abstract fun isFinished(): Boolean
 
     companion object {
-        fun burst(amount: Int) = EmitterBase(duration = 100L).max(amount)
+        fun burst(amount: Int) = Emitter(duration = 100L).max(amount)
 
         fun streamParticlesPerSecond(particlesPerSecond: Int, durationInMillis: Long) =
-            EmitterBase(duration = durationInMillis).perSecond(particlesPerSecond)
+            Emitter(duration = durationInMillis).perSecond(particlesPerSecond)
 
         fun streamMaxParticles(maxParticles: Int, durationInMillis: Long) =
-            EmitterBase(durationInMillis).max(maxParticles)
+            Emitter(durationInMillis).max(maxParticles)
     }
 }

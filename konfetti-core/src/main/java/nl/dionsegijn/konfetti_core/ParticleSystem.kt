@@ -1,9 +1,8 @@
-package nl.dionsegijn.konfetti_core._new
+package nl.dionsegijn.konfetti_core
 
 import android.graphics.Rect
-import nl.dionsegijn.konfetti_core.Confetti
-import nl.dionsegijn.konfetti_core._new.PartyEmitter.PartyEmitter
-import nl.dionsegijn.konfetti_core._new.PartyEmitter.PartyStreamEmitter
+import nl.dionsegijn.konfetti_core.PartyEmitter.BaseEmitter
+import nl.dionsegijn.konfetti_core.PartyEmitter.PartyEmitter
 import nl.dionsegijn.konfetti_core.models.Vector
 
 class PartySystem(
@@ -15,7 +14,7 @@ class PartySystem(
 
     private var gravity = Vector(0f, 0.01f)
 
-    private var emitter: PartyEmitter = PartyStreamEmitter(party.emitter)
+    private var emitter: BaseEmitter = PartyEmitter(party.emitter)
 
     private val activeParticles = mutableListOf<Confetti>()
 

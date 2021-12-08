@@ -12,10 +12,10 @@ import androidx.appcompat.app.AppCompatActivity
 import androidx.core.content.ContextCompat
 import com.google.android.material.bottomsheet.BottomSheetBehavior
 import com.google.android.material.tabs.TabLayout
-import nl.dionsegijn.konfetti_core._new.NewEmitter.EmitterBase
-import nl.dionsegijn.konfetti_core._new.Party
-import nl.dionsegijn.konfetti_core._new.PartyEmitter.PartyEmitter
-import nl.dionsegijn.konfetti_core._new.Position
+import nl.dionsegijn.konfetti_core.NewEmitter.Emitter
+import nl.dionsegijn.konfetti_core.Party
+import nl.dionsegijn.konfetti_core.PartyEmitter.BaseEmitter
+import nl.dionsegijn.konfetti_core.Position
 import nl.dionsegijn.konfetti_core.models.Shape
 import nl.dionsegijn.konfettidemo.configurations.settings.Configuration
 import nl.dionsegijn.konfettidemo.configurations.settings.ConfigurationManager
@@ -97,7 +97,7 @@ class MainActivity : AppCompatActivity(), OnConfigurationChangedListener {
                 timeToLive = config.timeToLive,
                 shapes = config.shapes.toList(),
                 position = Position(binding.viewKonfetti.width / 2f, -50f),
-                emitter = EmitterBase(5L, TimeUnit.SECONDS).max(300)
+                emitter = Emitter(5L, TimeUnit.SECONDS).max(300)
             )
         )
 //            .addColors(*colors)
@@ -124,7 +124,7 @@ class MainActivity : AppCompatActivity(), OnConfigurationChangedListener {
                     binding.viewKonfetti.x + binding.viewKonfetti.width / 2,
                     binding.viewKonfetti.y + binding.viewKonfetti.height / 3
                 ),
-                emitter = EmitterBase(duration = 300L).max(100)
+                emitter = Emitter(duration = 300L).max(100)
             )
         )
     }
@@ -167,7 +167,7 @@ class MainActivity : AppCompatActivity(), OnConfigurationChangedListener {
                             timeToLive = 10000L,
                             shapes = listOf(Shape.Square, Shape.Circle),
                             position = Position(startX, startY),
-                            emitter = PartyEmitter.burst(100)
+                            emitter = BaseEmitter.burst(100)
                         )
                     )
                 }

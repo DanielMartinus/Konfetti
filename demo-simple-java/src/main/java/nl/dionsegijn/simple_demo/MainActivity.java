@@ -9,10 +9,10 @@ import androidx.core.content.ContextCompat;
 import java.util.concurrent.TimeUnit;
 
 import nl.dionsegijn.konfetti.KonfettiView;
-import nl.dionsegijn.konfetti_core._new.NewEmitter.EmitterBase;
-import nl.dionsegijn.konfetti_core._new.NewEmitter.EmitterConfig;
-import nl.dionsegijn.konfetti_core._new.Party;
-import nl.dionsegijn.konfetti_core._new.PartyFactory;
+import nl.dionsegijn.konfetti_core.NewEmitter.Emitter;
+import nl.dionsegijn.konfetti_core.NewEmitter.EmitterConfig;
+import nl.dionsegijn.konfetti_core.Party;
+import nl.dionsegijn.konfetti_core.PartyFactory;
 import nl.dionsegijn.konfetti_core.models.Shape;
 
 public class MainActivity extends AppCompatActivity {
@@ -26,7 +26,7 @@ public class MainActivity extends AppCompatActivity {
         final Shape.DrawableShape drawableShape = new Shape.DrawableShape(drawable, true);
 
         final KonfettiView konfettiView = findViewById(R.id.konfettiView);
-        EmitterConfig emitterConfig = new EmitterBase(5L, TimeUnit.SECONDS).perSecond(50);
+        EmitterConfig emitterConfig = new Emitter(5L, TimeUnit.SECONDS).perSecond(50);
         PartyFactory partyFactory = new PartyFactory();
         Party party = partyFactory.createParty(90, 359, 5, emitterConfig);
         konfettiView.setOnClickListener(view ->

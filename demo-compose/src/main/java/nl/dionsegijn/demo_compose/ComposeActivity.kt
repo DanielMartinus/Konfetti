@@ -20,7 +20,7 @@ import androidx.compose.ui.unit.dp
 import nl.dionsegijn.demo_compose.ui.theme.KonfettiTheme
 import nl.dionsegijn.konfetti_compose.KonfettiView
 import nl.dionsegijn.konfetti_compose.OnParticleSystemUpdateListener
-import nl.dionsegijn.konfetti_core._new.PartySystem
+import nl.dionsegijn.konfetti_core.PartySystem
 
 class ComposeActivity : ComponentActivity() {
 

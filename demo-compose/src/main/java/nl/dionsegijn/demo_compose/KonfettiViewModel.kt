@@ -4,9 +4,9 @@ import android.graphics.drawable.Drawable
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
-import nl.dionsegijn.konfetti_core._new.NewEmitter.EmitterBase
-import nl.dionsegijn.konfetti_core._new.Party
-import nl.dionsegijn.konfetti_core._new.Position
+import nl.dionsegijn.konfetti_core.NewEmitter.Emitter
+import nl.dionsegijn.konfetti_core.Party
+import nl.dionsegijn.konfetti_core.Position
 import java.util.concurrent.TimeUnit
 
 class KonfettiViewModel : ViewModel() {
@@ -23,7 +23,7 @@ class KonfettiViewModel : ViewModel() {
                     spread = 30,
                     timeToLive = 3000L,
                     colors = listOf(0xfce18a, 0xff726d),
-                    emitter = EmitterBase(duration = 1L, TimeUnit.SECONDS).max(300),
+                    emitter = Emitter(duration = 1L, TimeUnit.SECONDS).max(300),
                     position = Position(400f, 600f)
                 )
 //                ParticleSystem()

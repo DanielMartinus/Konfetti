@@ -1,9 +1,8 @@
-package nl.dionsegijn.konfetti_core._new.NewEmitter
+package nl.dionsegijn.konfetti_core.NewEmitter
 
 import java.util.concurrent.TimeUnit
 
-// TODO rename to Emitter when done
-data class EmitterBase(
+data class Emitter(
     val duration: Long,
     val timeUnit: TimeUnit = TimeUnit.MILLISECONDS
 ) {
@@ -13,7 +12,7 @@ data class EmitterBase(
 }
 
 class EmitterConfig(
-    emitterBase: EmitterBase
+    emitter: Emitter
 ) {
 
     /** Max time allowed to emit in milliseconds */
@@ -23,7 +22,7 @@ class EmitterConfig(
     var amountPerMs: Float = 0f
 
     init {
-        val (duration, timeUnit) = emitterBase
+        val (duration, timeUnit) = emitter
         if (duration == INDEFINITE) this.emittingTime = duration
         else this.emittingTime = TimeUnit.MILLISECONDS.convert(duration, timeUnit)
     }

@@ -1,8 +1,10 @@
-package nl.dionsegijn.konfetti_core._new
+package nl.dionsegijn.konfetti_core
 
 import nl.dionsegijn.konfetti_core.models.Shape
 
-// Particle ready to render
+/**
+ * Particle holding exact data to instruct where and how to draw a particle
+ */
 data class Particle(
     val x: Float,
     val y: Float,
