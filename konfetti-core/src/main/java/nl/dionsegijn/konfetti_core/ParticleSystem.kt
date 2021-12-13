@@ -38,6 +38,7 @@ class PartySystem(
     fun isDoneEmitting(): Boolean =
         (emitter.isFinished() && activeParticles.size == 0) || (!enabled && activeParticles.size == 0)
 
+    fun getActiveParticleAmount() = activeParticles.size
 }
 
 internal fun Confetti.toParticle(): Particle {
