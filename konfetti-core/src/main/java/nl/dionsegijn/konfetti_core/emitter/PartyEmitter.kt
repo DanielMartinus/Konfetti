@@ -43,7 +43,6 @@ class PartyEmitter(private val emitterConfig: EmitterConfig) : BaseEmitter() {
             // Calculate how many particle  to create in the elapsed time
             val amount: Int = (createParticleMs / emitterConfig.amountPerMs).toInt()
 
-            // TODO return created particles
             particles = (1..amount).map { createParticle(party, drawArea) }
 
             // Reset timer and add left over time for next cycle
@@ -97,7 +96,7 @@ class PartyEmitter(private val emitterConfig: EmitterConfig) : BaseEmitter() {
      * @return [Vector] velocity
      */
     private fun Party.getVelocity(): Vector {
-        val speed = startVelocity.get() // TODO randomize the start speed
+        val speed = startVelocity.get()
         val radian = toRadians(getAngle())
         val vx = speed * cos(radian).toFloat()
         val vy = speed * sin(radian).toFloat()
