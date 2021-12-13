@@ -64,7 +64,7 @@ data class Rotation(
     }
 }
 
-// TODO improve usage for JAVA code
+// TODO improve usage for JAVA code by creating a builder
 class PartyFactory {
     @JvmOverloads
     fun createParty(
