@@ -40,7 +40,7 @@ class PartySystem(
 
 }
 
-fun Confetti.toParticle(): Particle {
+internal fun Confetti.toParticle(): Particle {
     return Particle(
         location.x,
         location.y,
