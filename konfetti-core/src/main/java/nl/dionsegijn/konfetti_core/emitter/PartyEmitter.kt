@@ -63,7 +63,7 @@ class PartyEmitter(private val emitterConfig: EmitterConfig) : BaseEmitter() {
         with(party) {
             return Confetti(
                 // TODO base location on min and max
-                location = getPosition(drawArea).run { Vector(x, y) },
+                location = position.get(drawArea).run { Vector(x, y) },
                 size = size[random.nextInt(size.size)],
                 shape = getRandomShape(party.shapes),
                 color = colors[random.nextInt(colors.size)],
@@ -108,16 +108,23 @@ class PartyEmitter(private val emitterConfig: EmitterConfig) : BaseEmitter() {
         return (maxAngle - minAngle) * random.nextDouble() + minAngle
     }
 
-    private fun Party.getPosition(drawArea: Rect): Position.xy {
-        return when (position) {
-            is Position.xy -> Position.xy(position.x * 0.5f, position.y)
+    private fun Position.get(drawArea: Rect): Position.xy {
+        return when (this) {
+            is Position.xy -> Position.xy(x * 0.5f, y)
             is Position.relative -> {
                 Position.xy(
-                    drawArea.width() * position.x.toFloat(),
-                    drawArea.height() * position.y.toFloat()
+                    drawArea.width() * x.toFloat(),
+                    drawArea.height() * y.toFloat()
                 )
             }
-            is Position.between -> TODO()
+            is Position.between -> {
+                val minPos = min.get(drawArea)
+                val maxPos = max.get(drawArea)
+                return Position.xy(
+                        x = random.nextFloat().times(maxPos.x.minus(minPos.x)) + minPos.x,
+                        y = random.nextFloat().times(maxPos.y.minus(minPos.y)) + minPos.y
+                )
+            }
         }
     }
 

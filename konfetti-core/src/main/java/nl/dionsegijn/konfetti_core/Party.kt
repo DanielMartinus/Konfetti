@@ -37,7 +37,7 @@ sealed class Position {
     data class relative(val x: Double, val y: Double): Position() {
         fun between(value: relative): Position = between(this, value)
     }
-    internal data class between(val first: Position, val second: Position): Position()
+    internal data class between(val min: Position, val max: Position): Position()
 }
 
 fun test() {
