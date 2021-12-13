@@ -14,8 +14,8 @@ import com.google.android.material.bottomsheet.BottomSheetBehavior
 import com.google.android.material.tabs.TabLayout
 import nl.dionsegijn.konfetti_core.NewEmitter.Emitter
 import nl.dionsegijn.konfetti_core.Party
-import nl.dionsegijn.konfetti_core.emitter.BaseEmitter
 import nl.dionsegijn.konfetti_core.Position
+import nl.dionsegijn.konfetti_core.emitter.BaseEmitter
 import nl.dionsegijn.konfetti_core.models.Shape
 import nl.dionsegijn.konfettidemo.configurations.settings.Configuration
 import nl.dionsegijn.konfettidemo.configurations.settings.ConfigurationManager
@@ -96,7 +96,7 @@ class MainActivity : AppCompatActivity(), OnConfigurationChangedListener {
                 startVelocity = config.minSpeed.toInt(),
                 timeToLive = config.timeToLive,
                 shapes = config.shapes.toList(),
-                position = Position(binding.viewKonfetti.width / 2f, -50f),
+                position = Position.xy(binding.viewKonfetti.width / 2f, -50f),
                 emitter = Emitter(5L, TimeUnit.SECONDS).max(300)
             )
         )
@@ -120,7 +120,7 @@ class MainActivity : AppCompatActivity(), OnConfigurationChangedListener {
                 startVelocity = (config.minSpeed.toInt() + config.maxSpeed.toInt()) / 2,
                 timeToLive = config.timeToLive,
                 shapes = config.shapes.toList(),
-                position = Position(
+                position = Position.xy(
                     binding.viewKonfetti.x + binding.viewKonfetti.width / 2,
                     binding.viewKonfetti.y + binding.viewKonfetti.height / 3
                 ),
@@ -133,6 +133,7 @@ class MainActivity : AppCompatActivity(), OnConfigurationChangedListener {
     private var startY: Float = 0f
     private var speed: Int = 0
     private var degrees: Double = 0.0
+
     @SuppressLint("ClickableViewAccessibility")
     private fun velocityTest() {
         binding.viewKonfetti.setOnTouchListener { _, event ->
@@ -166,7 +167,7 @@ class MainActivity : AppCompatActivity(), OnConfigurationChangedListener {
                             startVelocity = speed,
                             timeToLive = 10000L,
                             shapes = listOf(Shape.Square, Shape.Circle),
-                            position = Position(startX, startY),
+                            position = Position.xy(startX, startY),
                             emitter = BaseEmitter.burst(100)
                         )
                     )
