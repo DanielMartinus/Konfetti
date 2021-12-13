@@ -1,11 +1,9 @@
 package nl.dionsegijn.konfetti_core
 
 import android.graphics.Color
-import nl.dionsegijn.konfetti_core.NewEmitter.Emitter
 import nl.dionsegijn.konfetti_core.NewEmitter.EmitterConfig
 import nl.dionsegijn.konfetti_core.models.Shape
 import nl.dionsegijn.konfetti_core.models.Size
-import java.util.concurrent.TimeUnit
 
 /**
  * Configuration how to confetti should be rendered
@@ -39,18 +37,6 @@ sealed class Position {
         fun between(value: relative): Position = between(this, value)
     }
     internal data class between(val min: Position, val max: Position): Position()
-}
-
-fun test() {
-    Party(
-        startVelocity = Velocity(5f),
-        angle = 270, // TOP
-        spread = 30,
-        timeToLive = 3000L,
-        colors = listOf(0xfce18a, 0xff726d),
-        emitter = Emitter(duration = 1L, TimeUnit.SECONDS).max(300),
-        position = Position.relative(0.5, 0.5).between(Position.relative(0.6, 0.5))
-    )
 }
 
 data class Rotation(
