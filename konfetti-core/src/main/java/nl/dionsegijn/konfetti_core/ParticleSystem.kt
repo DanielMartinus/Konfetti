@@ -41,7 +41,7 @@ class PartySystem(
     fun getActiveParticleAmount() = activeParticles.size
 }
 
-internal fun Confetti.toParticle(): Particle {
+fun Confetti.toParticle(): Particle {
     return Particle(
         location.x,
         location.y,

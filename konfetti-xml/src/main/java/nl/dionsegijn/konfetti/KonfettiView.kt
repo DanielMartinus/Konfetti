@@ -154,6 +154,6 @@ open class KonfettiView : View {
 
     override fun onSizeChanged(w: Int, h: Int, oldw: Int, oldh: Int) {
         super.onSizeChanged(w, h, oldw, oldh)
-        drawArea = Rect(this.left, this.top, this.right, this.bottom)
+        drawArea = Rect(0, 0, w, h)
     }
 }

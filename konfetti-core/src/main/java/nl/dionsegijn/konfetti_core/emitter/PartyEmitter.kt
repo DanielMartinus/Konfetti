@@ -112,8 +112,6 @@ class PartyEmitter(private val emitterConfig: EmitterConfig) : BaseEmitter() {
         return when (position) {
             is Position.xy -> Position.xy(position.x * 0.5f, position.y)
             is Position.relative -> {
-                // TODO test drawArea where it has an offset of X pixels from the left. Right now it only takes a fullscreen canvas
-                // TODO but should also work with a canvas having an offset (width + left?)
                 Position.xy(
                     drawArea.width() * position.x.toFloat(),
                     drawArea.height() * position.y.toFloat()

@@ -70,12 +70,12 @@ class PartyFactory {
         angle: Int = 0,
         spread: Int = 20,
         startVelocity: Int = 20, // Add min and max velocity
+        position: Position = Position.xy(100f, 100f),
         size: List<Size> = listOf(Size.SMALL, Size.MEDIUM, Size(10)),
-        colors: List<Int> = listOf(Color.RED),
+        colors: List<Int> = listOf(Color.WHITE),
         shapes: List<Shape> = listOf(Shape.Square, Shape.Circle),
         timeToLive: Long = 2000, // milliseconds
         fadeOutEnabled: Boolean = true,
-        position: Position = Position.xy(100f, 100f),
         delay: Int = 0,
         speedDensityIndependent: Boolean = true,
         accelerationEnabled: Boolean = true,

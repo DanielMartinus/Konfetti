@@ -13,7 +13,7 @@ import kotlin.random.Random
  * Confetti holds all data to the current state of the particle
  * With every new frame render is called to update the properties in this class
  */
-internal class Confetti(
+class Confetti(
     var location: Vector,
     private val color: Int,
     val size: Size,
