@@ -8,6 +8,28 @@ import nl.dionsegijn.konfetti_core.models.Size
 /**
  * Configuration how to confetti should be rendered
  * TODO add property documentation
+ * @property angle the direction the confetti will shoot
+ * @property spread how wide the confetti will shoot in degrees. Use 1 to shoot in a straight line
+ * and 360 to form a circle
+ * @property startVelocity Use [Velocity] class to define the start speed of the confetti
+ * @property size The size of the confetti. Use: Size.SMALL, MEDIUM or LARGE for default sizes or
+ * create your custom size using a new instance of [Size].
+ * @property shapes Set the shape of the confetti. Set multiple shapes and it will be randomly
+ * assigned upon creation of the confetti. See [Shape] for possible shapes and custom drawables.
+ * @property timeToLive the amount of time in milliseconds before a particle will stop rendering
+ * or fading out if [fadeOutEnabled] is set to true.
+ * @property position the point where the confetti will spawn relative to the canvas. Use absolute
+ * coordinates with [Position.xy] or relative coordinates between 0.0 and 1.0 using [Position.relative].
+ * Spawn confetti on random positions using [Position.between].
+ * @property delay the amount of milliseconds to wait before the rendering of the confetti starts
+ * @property speedDensityIndependent Account for pixel density so that confetti move consistently across all devices.
+ * When true confetti will move in dip / second. When false confetti will move in pixels / second.
+ * @property accelerationEnabled Enable or disable the acceleration of the particle
+ * @property rotation enable the 3D rotation of a Confetti. See [Rotation] class for the configuration
+ * options. Easily enable or disable it using [Rotation].enabled() or [Rotation].disabled()
+ * @property emitter instructions how many and often a confetti particle should spawn per tick (frame)
+ * Use Emitter(duration, timeUnit).max(amount) or Emitter(duration, timeUnit).perSecond(amount) to
+ * configure the Emitter.
  */
 data class Party(
     val angle: Int = 0,
@@ -30,13 +52,15 @@ data class Party(
 data class Velocity(val min: Float, val max: Float? = null)
 
 sealed class Position {
-    data class xy(val x: Float, val y: Float): Position() {
+    data class xy(val x: Float, val y: Float) : Position() {
         fun between(value: xy): Position = between(this, value)
     }
-    data class relative(val x: Double, val y: Double): Position() {
+
+    data class relative(val x: Double, val y: Double) : Position() {
         fun between(value: relative): Position = between(this, value)
     }
-    internal data class between(val min: Position, val max: Position): Position()
+
+    internal data class between(val min: Position, val max: Position) : Position()
 }
 
 data class Rotation(
