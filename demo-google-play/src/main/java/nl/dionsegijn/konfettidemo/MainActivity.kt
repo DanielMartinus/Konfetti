@@ -206,7 +206,6 @@ class MainActivity : AppCompatActivity(), OnConfigurationChangedListener {
 
     private fun updateSystemsInfo() {
         val activeSystems = binding.viewKonfetti.getActiveSystems()
-        // TODO update activeParticles
         val activeParticles = activeSystems.sumBy { it.getActiveParticleAmount() }
         binding.viewSystemInfo.text =
             "Active systems: ${activeSystems.size} \nActive particles: $activeParticles"
