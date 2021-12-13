@@ -5,6 +5,7 @@ import nl.dionsegijn.konfetti_core.NewEmitter.EmitterConfig
 import nl.dionsegijn.konfetti_core.Party
 import nl.dionsegijn.konfetti_core.Position
 import nl.dionsegijn.konfetti_core.Rotation
+import nl.dionsegijn.konfetti_core.Velocity
 import nl.dionsegijn.konfetti_core.models.Shape
 import nl.dionsegijn.konfetti_core.models.Vector
 import java.lang.Math.toRadians
@@ -62,7 +63,6 @@ class PartyEmitter(private val emitterConfig: EmitterConfig) : BaseEmitter() {
         particlesCreated++
         with(party) {
             return Confetti(
-                // TODO base location on min and max
                 location = position.get(drawArea).run { Vector(x, y) },
                 size = size[random.nextInt(size.size)],
                 shape = getRandomShape(party.shapes),
@@ -88,12 +88,16 @@ class PartyEmitter(private val emitterConfig: EmitterConfig) : BaseEmitter() {
         return baseRotationMultiplier + (baseRotationMultiplier * rotationVariance * randomValue)
     }
 
+    private fun Velocity.get(): Float =
+        if (max == null) min
+        else ((max - min) * random.nextFloat()) + min
+
     /**
      * Calculate velocity based on radian and speed
      * @return [Vector] velocity
      */
     private fun Party.getVelocity(): Vector {
-        val speed = startVelocity // TODO randomize the start speed
+        val speed = startVelocity.get() // TODO randomize the start speed
         val radian = toRadians(getAngle())
         val vx = speed * cos(radian).toFloat()
         val vy = speed * sin(radian).toFloat()
@@ -121,8 +125,8 @@ class PartyEmitter(private val emitterConfig: EmitterConfig) : BaseEmitter() {
                 val minPos = min.get(drawArea)
                 val maxPos = max.get(drawArea)
                 return Position.xy(
-                        x = random.nextFloat().times(maxPos.x.minus(minPos.x)) + minPos.x,
-                        y = random.nextFloat().times(maxPos.y.minus(minPos.y)) + minPos.y
+                    x = random.nextFloat().times(maxPos.x.minus(minPos.x)) + minPos.x,
+                    y = random.nextFloat().times(maxPos.y.minus(minPos.y)) + minPos.y
                 )
             }
         }

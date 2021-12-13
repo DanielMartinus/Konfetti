@@ -14,6 +14,7 @@ import nl.dionsegijn.konfetti_core.NewEmitter.EmitterConfig;
 import nl.dionsegijn.konfetti_core.Party;
 import nl.dionsegijn.konfetti_core.PartyFactory;
 import nl.dionsegijn.konfetti_core.Position;
+import nl.dionsegijn.konfetti_core.Velocity;
 import nl.dionsegijn.konfetti_core.models.Shape;
 
 public class MainActivity extends AppCompatActivity {
@@ -29,7 +30,7 @@ public class MainActivity extends AppCompatActivity {
         final KonfettiView konfettiView = findViewById(R.id.konfettiView);
         EmitterConfig emitterConfig = new Emitter(5L, TimeUnit.SECONDS).perSecond(50);
         PartyFactory partyFactory = new PartyFactory();
-        Party party = partyFactory.createParty(90, 359, 5, new Position.relative(0.5, 0.5), emitterConfig);
+        Party party = partyFactory.createParty(90, 359, new Velocity(5f, null), new Position.relative(0.5, 0.5), emitterConfig);
         konfettiView.setOnClickListener(view ->
                 konfettiView.start(party)
         );

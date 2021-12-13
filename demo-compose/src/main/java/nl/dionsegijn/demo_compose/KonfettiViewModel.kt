@@ -7,6 +7,7 @@ import androidx.lifecycle.ViewModel
 import nl.dionsegijn.konfetti_core.NewEmitter.Emitter
 import nl.dionsegijn.konfetti_core.Party
 import nl.dionsegijn.konfetti_core.Position
+import nl.dionsegijn.konfetti_core.Velocity
 import java.util.concurrent.TimeUnit
 
 class KonfettiViewModel : ViewModel() {
@@ -18,7 +19,7 @@ class KonfettiViewModel : ViewModel() {
         _state.value = State.Started(
             listOf(
                 Party(
-                    startVelocity = 5,
+                    startVelocity = Velocity(5f, 7f),
                     angle = 270, // TOP
                     spread = 30,
                     timeToLive = 3000L,

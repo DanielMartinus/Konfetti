@@ -14,7 +14,7 @@ import java.util.concurrent.TimeUnit
 data class Party(
     val angle: Int = 0,
     val spread: Int = 20,
-    val startVelocity: Int = 20, // Add min and max velocity
+    val startVelocity: Velocity = Velocity(20f),
     val size: List<Size> = listOf(Size.SMALL, Size.MEDIUM, Size(10)),
     val colors: List<Int> = listOf(Color.RED),
     val shapes: List<Shape> = listOf(Shape.Square, Shape.Circle),
@@ -29,7 +29,8 @@ data class Party(
     val emitter: EmitterConfig
 )
 
-// TODO Support relative position
+data class Velocity(val min: Float, val max: Float? = null)
+
 sealed class Position {
     data class xy(val x: Float, val y: Float): Position() {
         fun between(value: xy): Position = between(this, value)
@@ -42,7 +43,7 @@ sealed class Position {
 
 fun test() {
     Party(
-        startVelocity = 5,
+        startVelocity = Velocity(5f),
         angle = 270, // TOP
         spread = 30,
         timeToLive = 3000L,
@@ -69,7 +70,7 @@ class PartyFactory {
     fun createParty(
         angle: Int = 0,
         spread: Int = 20,
-        startVelocity: Int = 20, // Add min and max velocity
+        startVelocity: Velocity = Velocity(20f), // Add min and max velocity
         position: Position = Position.xy(100f, 100f),
         size: List<Size> = listOf(Size.SMALL, Size.MEDIUM, Size(10)),
         colors: List<Int> = listOf(Color.WHITE),
