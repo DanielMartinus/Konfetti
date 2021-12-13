@@ -16,40 +16,24 @@ class KonfettiViewModel : ViewModel() {
     val state: LiveData<State> = _state
 
     fun start(drawable: Drawable) {
+        val party = Party(
+            startVelocity = Velocity(5f, 7f),
+            angle = 270, // TOP
+            spread = 30,
+            timeToLive = 3000L,
+            colors = listOf(0xfce18a, 0xff726d),
+            emitter = Emitter(duration = 150, TimeUnit.MILLISECONDS).max(50),
+            position = Position.relative(0.5, 0.5)
+        )
+
         _state.value = State.Started(
             listOf(
-                Party(
-                    startVelocity = Velocity(5f, 7f),
-                    angle = 270, // TOP
-                    spread = 30,
-                    timeToLive = 3000L,
-                    colors = listOf(0xfce18a, 0xff726d),
-                    emitter = Emitter(duration = 1L, TimeUnit.SECONDS).max(300),
-                    position = Position.relative(-0.1, 0.5).between(Position.relative(1.1, 0.5))
+                party,
+                party.copy(
+                    spread = 40,
+                    colors = listOf(0xf4306d, 0xb48def),
+                    startVelocity = Velocity(4f, 8f)
                 )
-//                ParticleSystem()
-//                    .setDirection(0.0, 359.0)
-//                    .addColors()
-//                    .setSpeed(1f, 6f)
-//                    .addSizes(Size(8), Size(20), Size(2))
-//                    .setFadeOutEnabled(true)
-//                    .setTimeToLive(3000L)
-//                    .addShapes(Shape.Circle, Shape.Rectangle(0.2f), Shape.DrawableShape(drawable))
-//                    .setPosition(200f, 400f)
-//                    .setRotationSpeedMultiplier(1.2f)
-//                    .setRotationSpeedVariance(0.6f)
-//                    .emitter(StreamEmitter(5, TimeUnit.SECONDS).max(500))
-//                ParticleSystem()
-//                    .setDirection(0.0, 359.0)
-//                    .addColors(0xf4306d, 0xfce18a, 0xff726d, 0xb48def)
-//                    .addSizes(Size(8), Size(20), Size(2))
-//                    .setSpeed(1f, 15f)
-//                    .setFadeOutEnabled(true)
-//                    .setTimeToLive(5000L)
-//                    .addShapes(Shape.Circle)
-//                    .setPosition(500f, 800f)
-//                    .setDelay(600)
-//                    .burst(100)
             )
         )
     }
