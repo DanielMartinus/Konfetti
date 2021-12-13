@@ -101,15 +101,6 @@ class MainActivity : AppCompatActivity(), OnConfigurationChangedListener {
                 emitter = Emitter(5L, TimeUnit.SECONDS).max(300)
             )
         )
-//            .addColors(*colors)
-//            .setDirection(0.0, 359.0)
-//            .setSpeed(config.minSpeed, config.maxSpeed)
-//            .setFadeOutEnabled(true)
-//            .setTimeToLive(config.timeToLive)
-//            .addShapes(*config.shapes)
-//            .addSizes(Size(12), Size(16, 6f))
-//            .setPosition(-50f, binding.viewKonfetti.width + 50f, -50f, -50f)
-//            .streamFor(300, 5000L)
     }
 
     private fun burstFromCenter(config: Configuration, colors: IntArray) {
