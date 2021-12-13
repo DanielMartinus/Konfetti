@@ -1,7 +1,6 @@
 package nl.dionsegijn.konfetti_core.emitter
 
 import android.graphics.Rect
-import nl.dionsegijn.konfetti_core.NewEmitter.Emitter
 import nl.dionsegijn.konfetti_core.Party
 
 /**
@@ -22,13 +21,4 @@ abstract class BaseEmitter {
      */
     abstract fun isFinished(): Boolean
 
-    companion object {
-        fun burst(amount: Int) = Emitter(duration = 100L).max(amount)
-
-        fun streamParticlesPerSecond(particlesPerSecond: Int, durationInMillis: Long) =
-            Emitter(duration = durationInMillis).perSecond(particlesPerSecond)
-
-        fun streamMaxParticles(maxParticles: Int, durationInMillis: Long) =
-            Emitter(durationInMillis).max(maxParticles)
-    }
 }
