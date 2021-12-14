@@ -16,7 +16,6 @@ import nl.dionsegijn.konfetti_core.NewEmitter.Emitter
 import nl.dionsegijn.konfetti_core.Party
 import nl.dionsegijn.konfetti_core.Position
 import nl.dionsegijn.konfetti_core.Velocity
-import nl.dionsegijn.konfetti_core.emitter.BaseEmitter
 import nl.dionsegijn.konfetti_core.models.Shape
 import nl.dionsegijn.konfettidemo.configurations.settings.Configuration
 import nl.dionsegijn.konfettidemo.configurations.settings.ConfigurationManager
@@ -160,7 +159,7 @@ class MainActivity : AppCompatActivity(), OnConfigurationChangedListener {
                             timeToLive = 10000L,
                             shapes = listOf(Shape.Square, Shape.Circle),
                             position = Position.xy(startX, startY),
-                            emitter = BaseEmitter.burst(100)
+                            emitter = Emitter.burst(100)
                         )
                     )
                 }
