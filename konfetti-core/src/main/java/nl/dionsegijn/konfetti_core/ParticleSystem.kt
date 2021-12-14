@@ -11,7 +11,7 @@ class PartySystem(
     val createdAt: Long = System.currentTimeMillis()
 ) {
 
-    private var enabled = true
+    var enabled = true
 
     private var gravity = Vector(0f, 0.01f)
 
@@ -22,7 +22,7 @@ class PartySystem(
     // Called every frame to create and update the particles state
     // returns a list of particles that are ready to be rendered
     fun render(deltaTime: Float, drawArea: Rect): List<Particle> {
-        activeParticles.addAll(emitter.createConfetti(deltaTime, party, drawArea))
+        if (enabled) activeParticles.addAll(emitter.createConfetti(deltaTime, party, drawArea))
 
         for (i in activeParticles.size - 1 downTo 0) {
             val particle = activeParticles[i]

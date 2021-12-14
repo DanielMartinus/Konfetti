@@ -121,10 +121,9 @@ open class KonfettiView : View {
      * will continue rendering until they're done. When all particles are done rendering the system
      * will be removed.
      */
-//    TODO: fix stopGracefully
-//    fun stopGracefully() {
-//        systems.forEach { it.enabled = false }
-//    }
+    fun stopGracefully() {
+        systems.forEach { it.enabled = false }
+    }
 
     /**
      * TimerIntegration retrieves the delta time since the rendering of the previous frame.
