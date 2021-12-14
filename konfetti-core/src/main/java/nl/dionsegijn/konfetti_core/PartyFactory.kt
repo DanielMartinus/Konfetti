@@ -36,12 +36,12 @@ class PartyFactory(val emitter: EmitterConfig) {
         return this
     }
 
-    fun addSizes(vararg sizes: Size): PartyFactory {
+    fun sizes(vararg sizes: Size): PartyFactory {
         party = party.copy(size = sizes.toList())
         return this
     }
 
-    fun addSizes(size: List<Size>): PartyFactory {
+    fun sizes(size: List<Size>): PartyFactory {
         party = party.copy(size = size)
         return this
     }
@@ -51,12 +51,12 @@ class PartyFactory(val emitter: EmitterConfig) {
         return this
     }
 
-    fun addShapes(shapes: List<Shape>): PartyFactory {
+    fun shapes(shapes: List<Shape>): PartyFactory {
         party = party.copy(shapes = shapes)
         return this
     }
 
-    fun addShapes(vararg shapes: Shape): PartyFactory {
+    fun shapes(vararg shapes: Shape): PartyFactory {
         party = party.copy(shapes = shapes.toList())
         return this
     }
