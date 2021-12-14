@@ -15,6 +15,7 @@ import nl.dionsegijn.konfetti_core.Party;
 import nl.dionsegijn.konfetti_core.PartyFactory;
 import nl.dionsegijn.konfetti_core.Position;
 import nl.dionsegijn.konfetti_core.models.Shape;
+import nl.dionsegijn.konfetti_core.models.Size;
 
 public class MainActivity extends AppCompatActivity {
 
@@ -31,8 +32,11 @@ public class MainActivity extends AppCompatActivity {
         Party party = new PartyFactory(emitterConfig)
                 .angle(359)
                 .spread(90)
-                .setStartVelocity(5f)
-                .position(new Position.relative(0.5, 0.5))
+                .setStartVelocity(1f, 5f)
+                .timeToLive(2000L)
+                .addShapes(new Shape.Rectangle(0.2f), drawableShape)
+                .addSizes(new Size(12, 5f))
+                .position(new Position.relative(0.0, 0.0).between(new Position.relative(1.0, 0.0)))
                 .build();
         konfettiView.setOnClickListener(view ->
                 konfettiView.start(party)
