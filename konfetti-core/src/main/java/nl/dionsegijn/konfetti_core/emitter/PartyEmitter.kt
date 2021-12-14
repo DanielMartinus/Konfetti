@@ -14,7 +14,7 @@ import kotlin.math.cos
 import kotlin.math.sin
 
 /**
- * Stream emitter is a little more complex. It has several configurations for example:
+ * Emitter is responsible for creating a certain amount of particles per tick.
  * - Creating x amount of particles in a certain time frame
  * - Creating x amount of particles until the threshold [maxParticles] is met
  */
