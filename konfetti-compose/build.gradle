@@ -6,8 +6,8 @@ plugins {
 
 ext {
     PUBLISH_GROUP_ID = 'nl.dionsegijn'
-    PUBLISH_VERSION = "0.1.0"
-    PUBLISH_ARTIFACT_ID = 'compose'
+    PUBLISH_VERSION = "2.0.0-alpha01"
+    PUBLISH_ARTIFACT_ID = 'konfetti-compose'
 }
 
 apply from: "${rootProject.projectDir}/scripts/publish-mavencentral.gradle"
