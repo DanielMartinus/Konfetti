@@ -45,7 +45,7 @@ class KonfettiViewModel : ViewModel() {
     }
 
     sealed class State {
-        class Started(val particleSystem: List<Party>) : State()
+        class Started(val party: List<Party>) : State()
         object Idle : State()
     }
 }

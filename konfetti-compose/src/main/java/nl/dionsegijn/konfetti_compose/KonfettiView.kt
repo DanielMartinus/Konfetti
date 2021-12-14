@@ -17,7 +17,7 @@ import nl.dionsegijn.konfetti_core.PartySystem
 @Composable
 fun KonfettiView(
     modifier: Modifier = Modifier,
-    particleSystems: List<PartySystem>,
+    partySystems: List<PartySystem>,
     updateListener: OnParticleSystemUpdateListener? = null
 ) {
     /**
@@ -42,7 +42,7 @@ fun KonfettiView(
                 val deltaMs = if (frameTime.value > 0) (frameMs - frameTime.value) else 0
                 frameTime.value = frameMs
 
-                particles.value = particleSystems.map { particleSystem ->
+                particles.value = partySystems.map { particleSystem ->
 
                     val totalTimeRunning = getTotalTimeRunning(particleSystem.createdAt)
                     // Do not start particleSystem yet if totalTimeRunning is below delay
@@ -51,7 +51,7 @@ fun KonfettiView(
                     if (particleSystem.isDoneEmitting()) {
                         updateListener?.onParticleSystemEnded(
                             system = particleSystem,
-                            activeSystems = particleSystems.count { !it.isDoneEmitting() })
+                            activeSystems = partySystems.count { !it.isDoneEmitting() })
                     }
 
                     particleSystem.render(deltaMs.div(1000f), drawArea.value)
