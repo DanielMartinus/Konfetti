@@ -12,14 +12,18 @@ import androidx.compose.ui.geometry.Offset
 import androidx.compose.ui.graphics.drawscope.withTransform
 import androidx.compose.ui.layout.onGloballyPositioned
 import nl.dionsegijn.konfetti_core.Particle
+import nl.dionsegijn.konfetti_core.Party
 import nl.dionsegijn.konfetti_core.PartySystem
 
 @Composable
 fun KonfettiView(
     modifier: Modifier = Modifier,
-    partySystems: List<PartySystem>,
+    parties: List<Party>,
     updateListener: OnParticleSystemUpdateListener? = null
 ) {
+
+    lateinit var partySystems: List<PartySystem>
+
     /**
      * Particles to draw
      */
@@ -36,6 +40,7 @@ fun KonfettiView(
     val drawArea = remember { mutableStateOf(Rect()) }
 
     LaunchedEffect(Unit) {
+        partySystems = parties.map { PartySystem(it) }
         while (true) {
             withFrameMillis { frameMs ->
                 // Calculate time between frames, fallback to 0 when previous frame doesn't exist
