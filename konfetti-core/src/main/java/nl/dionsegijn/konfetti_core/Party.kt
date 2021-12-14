@@ -48,6 +48,23 @@ data class Party(
     val emitter: EmitterConfig
 )
 
+class Angle {
+    companion object {
+        const val TOP: Int = 270
+        const val RIGHT: Int = 0
+        const val BOTTOM: Int = 90
+        const val LEFT: Int = 180
+    }
+}
+
+class Spread {
+    companion object {
+        const val SMALL: Int = 30
+        const val WIDE: Int = 100
+        const val ROUND: Int = 360
+    }
+}
+
 data class Velocity(val min: Float, val max: Float? = null)
 
 sealed class Position {

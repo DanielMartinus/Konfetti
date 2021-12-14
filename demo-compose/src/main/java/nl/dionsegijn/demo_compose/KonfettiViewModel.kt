@@ -4,9 +4,11 @@ import android.graphics.drawable.Drawable
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
+import nl.dionsegijn.konfetti_core.Angle
 import nl.dionsegijn.konfetti_core.NewEmitter.Emitter
 import nl.dionsegijn.konfetti_core.Party
 import nl.dionsegijn.konfetti_core.Position
+import nl.dionsegijn.konfetti_core.Spread
 import nl.dionsegijn.konfetti_core.Velocity
 import java.util.concurrent.TimeUnit
 
@@ -18,8 +20,8 @@ class KonfettiViewModel : ViewModel() {
     fun start(drawable: Drawable) {
         val party = Party(
             startVelocity = Velocity(5f, 7f),
-            angle = 270, // TOP
-            spread = 30,
+            angle = Angle.TOP,
+            spread = Spread.SMALL,
             timeToLive = 3000L,
             colors = listOf(0xfce18a, 0xff726d),
             emitter = Emitter(duration = 150, TimeUnit.MILLISECONDS).max(50),
