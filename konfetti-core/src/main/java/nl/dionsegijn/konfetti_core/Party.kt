@@ -7,7 +7,6 @@ import nl.dionsegijn.konfetti_core.models.Size
 
 /**
  * Configuration how to confetti should be rendered
- * TODO add property documentation
  * @property angle the direction the confetti will shoot
  * @property spread how wide the confetti will shoot in degrees. Use 1 to shoot in a straight line
  * and 360 to form a circle
