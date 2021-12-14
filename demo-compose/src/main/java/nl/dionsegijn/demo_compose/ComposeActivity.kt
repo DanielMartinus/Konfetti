@@ -60,10 +60,6 @@ fun KonfettiUI(viewModel: KonfettiViewModel = KonfettiViewModel()) {
             modifier = Modifier.fillMaxSize(),
             particleSystems = newState.particleSystem.map { PartySystem(it) },
             updateListener = object : OnParticleSystemUpdateListener {
-                override fun onParticleSystemStarted(system: PartySystem, activeSystems: Int) {
-
-                }
-
                 override fun onParticleSystemEnded(system: PartySystem, activeSystems: Int) {
                     if (activeSystems == 0) viewModel.ended()
                 }
