@@ -138,7 +138,7 @@ Read more about the latest version and kotlin via gradle here: https://kotlinlan
 
 Need help or want to receive the latest updates? Join the telegram groups:
 
-[<img src="media/social_tg_chat.png" height=28 />](https://t.me/konfetti_chat) [<img src="media/social_tg_announcements.png" height=28 />](https://t.me/konfetti_announcements)
+[<img src="media/social_tg_chat.png" height=28 />](https://t.me/konfetti_chat)
 
 ## Contribute
 
