@@ -125,7 +125,6 @@ dependencies {
       implementation 'nl.dionsegijn:konfetti:1.3.2'
 }
 ```
- [ ![Download](https://api.bintray.com/packages/danielmartinus/maven/Konfetti/images/download.svg) ](https://bintray.com/danielmartinus/maven/Konfetti/_latestVersion)
 
 ### Java project
 
