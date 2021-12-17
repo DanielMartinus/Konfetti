@@ -1,15 +1,14 @@
-<h1 align="center">Konfetti 🎊</h1></br>
+<h1 align="center">Konfetti 🥳</h1></br>
 
 <p align="center">
     <a href="https://opensource.org/licenses/ISC"><img alt="License" src="https://img.shields.io/badge/License-ISC-yellow.svg"/></a>
     <a href="https://android-arsenal.com/api?level=16s"><img alt="API level 16" src="https://img.shields.io/badge/API-16%2B-brightgreen.svg?style=flat"/></a>
-    <a href="https://github.com/KotlinBy/awesome-kotlin"><img alt="API level 16" src="https://kotlin.link/awesome-kotlin.svg"/></a>
     <a href="http://twitter.com/dionsegijn"><img alt="API level 16" src="https://img.shields.io/badge/Twitter-@dionsegijn-blue.svg?style=flat"/></a>
     <a href="https://github.com/DanielMartinus/Konfetti/actions"><img alt="Build Status" src="https://github.com/DanielMartinus/Konfetti/workflows/CI/badge.svg"/></a>
 </p>
 
 <p align="center">
-    🥳 Celebrate more with this lightweight confetti particle system. Create realistic confetti by implementing this easy to use library.
+    Celebrate every little moment with this lightweight and easy to setup lib
 <p>
 
 
@@ -151,14 +150,8 @@ Did you encounter bugs? Report them [here](https://github.com/DanielMartinus/Kon
 
 #### Contribute
 
-As mentioned, there is always room for improvement. Do you have any performance improvement ideas? Please suggest them [here](https://github.com/DanielMartinus/Konfetti/issues). Before submitting a large Pull Request, creating an issue to discuss your ideas would be the preferred way so we can be sure it is in line with other improvements currently being developed. Is it a simple improvement? Go ahead and submit a Pull Request! I very welcome any contributions.
-
-## Roadmap
-
-In line with the previous contribute section there are some already known issues that could be resolved and are open for discussion.
-
-- ~~Determining the size of the particles in the current implementation is not ideal. More here: [#7 Confetti size system](https://github.com/DanielMartinus/Konfetti/issues/7)~~
-- A performance improvement to the library could for one be to implement a shared object pool amongst all particle systems instead of having them to handle confetti instances themselves.
+Do you have any ideas for performance improvements or is a feature missing? Submit an issue [here](https://github.com/DanielMartinus/Konfetti/issues) or submit a pull request.
+Before you open a Pull Request with a lot of code changes, please create an issue or reach out to discuss your ideas. It would be a waste of your time if the changes would be for nothing. Is it a simple improvement? Go ahead and submit a Pull Request! I very welcome any contributions.
 
 ## License
 
