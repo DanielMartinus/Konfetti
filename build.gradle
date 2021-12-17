@@ -1,8 +1,8 @@
 apply plugin: 'io.codearte.nexus-staging'
 
 buildscript {
-    ext.compose_version = '1.1.0-beta02'
     ext.kotlin_version = '1.6.0'
+    ext.compose_version = '1.1.0-beta04'
     ext.coroutines_version = '1.4.2'
     repositories {
         google()
