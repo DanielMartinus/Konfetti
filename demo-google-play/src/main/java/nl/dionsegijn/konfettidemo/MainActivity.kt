@@ -93,7 +93,7 @@ class MainActivity : AppCompatActivity(), OnConfigurationChangedListener {
             Party(
                 spread = 359,
                 colors = colors.toList(),
-                startVelocity = Velocity(config.minSpeed, config.maxSpeed),
+                velocity = Velocity(config.minSpeed, config.maxSpeed),
                 timeToLive = config.timeToLive,
                 shapes = config.shapes.toList(),
                 position = Position.xy(binding.viewKonfetti.width / 2f, -50f),
@@ -108,7 +108,7 @@ class MainActivity : AppCompatActivity(), OnConfigurationChangedListener {
             Party(
                 spread = 359,
                 colors = colors.toList(),
-                startVelocity = Velocity(config.minSpeed, config.maxSpeed),
+                velocity = Velocity(config.minSpeed, config.maxSpeed),
                 timeToLive = config.timeToLive,
                 shapes = config.shapes.toList(),
                 position = Position.xy(
@@ -155,7 +155,7 @@ class MainActivity : AppCompatActivity(), OnConfigurationChangedListener {
                             angle = degrees.toInt(),
                             spread = 100,
                             colors = colors.toList(),
-                            startVelocity = Velocity(speed.toFloat()),
+                            velocity = Velocity(speed.toFloat()),
                             timeToLive = 10000L,
                             shapes = listOf(Shape.Square, Shape.Circle),
                             position = Position.xy(startX, startY),

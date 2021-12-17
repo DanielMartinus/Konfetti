@@ -19,7 +19,7 @@ class KonfettiViewModel : ViewModel() {
 
     fun start(drawable: Drawable) {
         val party = Party(
-            startVelocity = Velocity(5f, 7f),
+            velocity = Velocity(5f, 7f),
             angle = Angle.TOP,
             spread = Spread.SMALL,
             timeToLive = 3000L,
@@ -34,7 +34,7 @@ class KonfettiViewModel : ViewModel() {
                 party.copy(
                     spread = 40,
                     colors = listOf(0xf4306d, 0xb48def),
-                    startVelocity = Velocity(4f, 8f)
+                    velocity = Velocity(4f, 8f)
                 )
             )
         )

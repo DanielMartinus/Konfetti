@@ -96,7 +96,7 @@ class PartyEmitter(private val emitterConfig: EmitterConfig) : BaseEmitter() {
      * @return [Vector] velocity
      */
     private fun Party.getVelocity(): Vector {
-        val speed = startVelocity.get()
+        val speed = velocity.get()
         val radian = toRadians(getAngle())
         val vx = speed * cos(radian).toFloat()
         val vy = speed * sin(radian).toFloat()

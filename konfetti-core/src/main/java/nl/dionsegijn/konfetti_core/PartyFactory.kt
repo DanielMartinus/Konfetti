@@ -22,12 +22,12 @@ class PartyFactory(val emitter: EmitterConfig) {
     }
 
     fun setStartVelocity(velocity: Float): PartyFactory {
-        party = party.copy(startVelocity = Velocity(velocity))
+        party = party.copy(velocity = Velocity(velocity))
         return this
     }
 
     fun setStartVelocity(minVelocity: Float, maxVelocity: Float): PartyFactory {
-        party = party.copy(startVelocity = Velocity(minVelocity, maxVelocity))
+        party = party.copy(velocity = Velocity(minVelocity, maxVelocity))
         return this
     }
 
