@@ -57,8 +57,8 @@ class Confetti(
         private set
 
     init {
-        val minRotationSpeed = 0.3f
-        val maxRotationSpeed = 1.2f
+        val minRotationSpeed = 0.7f
+        val maxRotationSpeed = 1.4f
         if (rotate) {
             rotationSpeed = (maxRotationSpeed * Random.nextFloat() + minRotationSpeed) * rotationSpeedMultiplier
         }
