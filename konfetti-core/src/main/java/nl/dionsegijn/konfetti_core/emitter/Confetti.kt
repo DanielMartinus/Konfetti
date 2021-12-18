@@ -23,8 +23,6 @@ class Confetti(
     private var acceleration: Vector = Vector(0f, 0f),
     var velocity: Vector = Vector(),
     var damping: Float,
-    val accelerate: Boolean = true,
-    val maxAcceleration: Float = -1f,
     val rotationSpeed3D: Float = 1f,
     val rotationSpeed2D: Float = 1f,
 ) {
@@ -76,10 +74,8 @@ class Confetti(
             return
         }
 
-        if (accelerate && (acceleration.y < maxAcceleration || maxAcceleration == -1f)) {
-            velocity.add(acceleration)
-            velocity.mult(damping)
-        }
+        velocity.add(acceleration)
+        velocity.mult(damping)
 
         location.addScaled(velocity, deltaTime * speedF * density)
 

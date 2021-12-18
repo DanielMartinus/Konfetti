@@ -70,8 +70,6 @@ class PartyEmitter(private val emitterConfig: EmitterConfig) : BaseEmitter() {
                 fadeOut = fadeOutEnabled,
                 velocity = getVelocity(),
                 damping = party.damping,
-                maxAcceleration = maxAcceleration,
-                accelerate = party.accelerationEnabled,
                 rotationSpeed2D = rotation.rotationSpeed() * party.rotation.multiplier2D,
                 rotationSpeed3D = rotation.rotationSpeed() * party.rotation.multiplier3D,
             )

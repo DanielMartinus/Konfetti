@@ -98,16 +98,6 @@ class PartyFactory(val emitter: EmitterConfig) {
         return this
     }
 
-    fun accelerationEnabled(accelerationEnabled: Boolean): PartyFactory {
-        party = party.copy(accelerationEnabled = accelerationEnabled)
-        return this
-    }
-
-    fun maxAcceleration(maxAcceleration: Float): PartyFactory {
-        party = party.copy(maxAcceleration = maxAcceleration)
-        return this
-    }
-
     fun rotation(rotation: Rotation): PartyFactory {
         party = party.copy(rotation = rotation)
         return this
