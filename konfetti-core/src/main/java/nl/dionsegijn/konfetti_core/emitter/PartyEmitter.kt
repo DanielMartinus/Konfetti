@@ -157,9 +157,6 @@ class PartyEmitter(private val emitterConfig: EmitterConfig) : BaseEmitter() {
         }
     }
 
-    /**
-     * TODO write new documentation
-     */
     override fun isFinished(): Boolean {
         return when {
             emitterConfig.emittingTime > 0L -> {
