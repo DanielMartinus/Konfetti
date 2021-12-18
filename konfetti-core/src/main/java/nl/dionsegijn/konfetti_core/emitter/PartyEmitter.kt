@@ -62,6 +62,7 @@ class PartyEmitter(private val emitterConfig: EmitterConfig) : BaseEmitter() {
         particlesCreated++
         with(party) {
             return Confetti(
+                id = particlesCreated,
                 location = position.get(drawArea).run { Vector(x, y) },
                 size = size[random.nextInt(size.size)],
                 shape = getRandomShape(party.shapes),
@@ -69,6 +70,7 @@ class PartyEmitter(private val emitterConfig: EmitterConfig) : BaseEmitter() {
                 lifespan = timeToLive,
                 fadeOut = fadeOutEnabled,
                 velocity = getVelocity(),
+                damping = party.damping,
                 rotate = party.rotation.enabled,
                 maxAcceleration = maxAcceleration,
                 accelerate = party.accelerationEnabled,

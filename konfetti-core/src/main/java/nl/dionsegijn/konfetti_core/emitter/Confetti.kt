@@ -14,6 +14,7 @@ import kotlin.random.Random
  * With every new frame render is called to update the properties in this class
  */
 class Confetti(
+    var id: Int,
     var location: Vector,
     private val color: Int,
     val size: Size,
@@ -22,6 +23,7 @@ class Confetti(
     val fadeOut: Boolean = true,
     private var acceleration: Vector = Vector(0f, 0f),
     var velocity: Vector = Vector(),
+    var damping: Float,
     val rotate: Boolean = true,
     val accelerate: Boolean = true,
     val maxAcceleration: Float = -1f,
@@ -55,8 +57,8 @@ class Confetti(
         private set
 
     init {
-        val minRotationSpeed = 0.29f * density
-        val maxRotationSpeed = minRotationSpeed * 3
+        val minRotationSpeed = 0.3f
+        val maxRotationSpeed = 1.2f
         if (rotate) {
             rotationSpeed = (maxRotationSpeed * Random.nextFloat() + minRotationSpeed) * rotationSpeedMultiplier
         }
@@ -83,6 +85,7 @@ class Confetti(
 
         if (accelerate && (acceleration.y < maxAcceleration || maxAcceleration == -1f)) {
             velocity.add(acceleration)
+            velocity.mult(damping)
         }
 
         location.addScaled(velocity, deltaTime * speedF * density)

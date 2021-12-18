@@ -11,6 +11,7 @@ import nl.dionsegijn.konfetti_core.models.Size
  * @property spread how wide the confetti will shoot in degrees. Use 1 to shoot in a straight line
  * and 360 to form a circle
  * @property velocity Use [Velocity] class to define the start speed of the confetti
+ * @property damping The rate at which the speed will decrease right after shooting the confetti
  * @property size The size of the confetti. Use: Size.SMALL, MEDIUM or LARGE for default sizes or
  * create your custom size using a new instance of [Size].
  * @property shapes Set the shape of the confetti. Set multiple shapes and it will be randomly
@@ -32,6 +33,7 @@ data class Party(
     val angle: Int = 0,
     val spread: Int = 20,
     val velocity: Velocity = Velocity(20f),
+    val damping: Float = 0.9f,
     val size: List<Size> = listOf(Size.SMALL, Size.MEDIUM, Size(10)),
     val colors: List<Int> = listOf(Color.RED),
     val shapes: List<Shape> = listOf(Shape.Square, Shape.Circle),

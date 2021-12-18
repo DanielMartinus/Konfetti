@@ -21,6 +21,7 @@ class KonfettiViewModel : ViewModel() {
     fun start(drawable: Drawable) {
         val party = Party(
             velocity = Velocity(45f),
+            damping = 0.9f,
             angle = Angle.TOP,
             spread = Spread.SMALL,
             size = listOf(Size.MEDIUM),
@@ -33,11 +34,11 @@ class KonfettiViewModel : ViewModel() {
         _state.value = State.Started(
             listOf(
                 party,
-                party.copy(
-                    velocity = Velocity(40f, 50f),
-                    spread = Spread.SMALL - 5,
-                    colors = listOf(0xf4306d, 0xb48def),
-                )
+//                party.copy(
+//                    velocity = Velocity(40f, 50f),
+//                    spread = Spread.SMALL - 5,
+//                    colors = listOf(0xf4306d, 0xb48def),
+//                )
             )
         )
     }
