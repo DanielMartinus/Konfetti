@@ -94,7 +94,7 @@ data class Rotation(
     val enabled: Boolean = true,
     val speed: Float = 1f,
     val variance: Float = 0.5f,
-    val multiplier2D: Float = 10f,
+    val multiplier2D: Float = 8f,
     val multiplier3D: Float = 1f
 ) {
     companion object {
