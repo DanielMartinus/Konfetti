@@ -17,8 +17,8 @@ data class Size(val sizeInDp: Int, val mass: Float = 5f) {
     }
 
     companion object {
-        val SMALL: Size = Size(sizeInDp = 4, mass = 4f)
+        val SMALL: Size = Size(sizeInDp = 6, mass = 4f)
         val MEDIUM: Size = Size(8)
-        val LARGE: Size = Size(12, mass = 6f)
+        val LARGE: Size = Size(10, mass = 6f)
     }
 }

@@ -89,7 +89,7 @@ sealed class Position {
 data class Rotation(
     val enabled: Boolean = true,
     val rotationSpeed: Float = 1f,
-    val rotationVariance: Float = 0.8f
+    val rotationVariance: Float = 0.5f
 ) {
     companion object {
         fun enabled() = Rotation(enabled = true)
