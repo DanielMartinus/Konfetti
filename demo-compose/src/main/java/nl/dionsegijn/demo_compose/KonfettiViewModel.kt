@@ -10,6 +10,7 @@ import nl.dionsegijn.konfetti_core.Party
 import nl.dionsegijn.konfetti_core.Position
 import nl.dionsegijn.konfetti_core.Spread
 import nl.dionsegijn.konfetti_core.Velocity
+import nl.dionsegijn.konfetti_core.models.Size
 import java.util.concurrent.TimeUnit
 
 class KonfettiViewModel : ViewModel() {
@@ -19,22 +20,23 @@ class KonfettiViewModel : ViewModel() {
 
     fun start(drawable: Drawable) {
         val party = Party(
-            velocity = Velocity(5f, 7f),
+            velocity = Velocity(45f),
             angle = Angle.TOP,
             spread = Spread.SMALL,
+            size = listOf(Size.MEDIUM),
             timeToLive = 3000L,
             colors = listOf(0xfce18a, 0xff726d),
-            emitter = Emitter(duration = 150, TimeUnit.MILLISECONDS).max(50),
-            position = Position.relative(0.5, 0.5)
+            emitter = Emitter(duration = 200, TimeUnit.MILLISECONDS).max(100),
+            position = Position.relative(0.5, 1.0)
         )
 
         _state.value = State.Started(
             listOf(
                 party,
                 party.copy(
-                    spread = 40,
+                    velocity = Velocity(40f, 50f),
+                    spread = Spread.SMALL - 5,
                     colors = listOf(0xf4306d, 0xb48def),
-                    velocity = Velocity(4f, 8f)
                 )
             )
         )
