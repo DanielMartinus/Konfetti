@@ -37,7 +37,7 @@ class Confetti(
 
     private var rotationSpeed = 0f
     var rotation = 0f
-    var rotationWidth = width
+    private var rotationWidth = width
 
     // Expected frame rate
     private var speedF = 60f
