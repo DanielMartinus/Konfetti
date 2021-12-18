@@ -33,7 +33,7 @@ class Confetti(
     private val density = Resources.getSystem().displayMetrics.density
     private val mass = size.mass
     var width = size.sizeInPx
-    val paint: Paint = Paint()
+    private val paint: Paint = Paint()
 
     private var rotationSpeed = 0f
     var rotation = 0f
