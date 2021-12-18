@@ -31,7 +31,7 @@ public class MainActivity extends AppCompatActivity {
         Party party = new PartyFactory(emitterConfig)
                 .angle(270)
                 .spread(90)
-                .setStartVelocity(1f, 5f)
+                .setSpeedBetween(1f, 5f)
                 .timeToLive(2000L)
                 .shapes(new Shape.Rectangle(0.2f), drawableShape)
                 .sizes(new Size(12, 5f))

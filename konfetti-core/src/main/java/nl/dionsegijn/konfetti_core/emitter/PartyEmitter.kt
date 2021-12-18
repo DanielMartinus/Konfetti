@@ -5,7 +5,6 @@ import nl.dionsegijn.konfetti_core.NewEmitter.EmitterConfig
 import nl.dionsegijn.konfetti_core.Party
 import nl.dionsegijn.konfetti_core.Position
 import nl.dionsegijn.konfetti_core.Rotation
-import nl.dionsegijn.konfetti_core.Velocity
 import nl.dionsegijn.konfetti_core.models.Shape
 import nl.dionsegijn.konfetti_core.models.Vector
 import java.lang.Math.toRadians
@@ -88,16 +87,16 @@ class PartyEmitter(private val emitterConfig: EmitterConfig) : BaseEmitter() {
         return baseRotationMultiplier + (baseRotationMultiplier * rotationVariance * randomValue)
     }
 
-    private fun Velocity.get(): Float =
-        if (max == null) min
-        else ((max - min) * random.nextFloat()) + min
+    private fun Party.getSpeed(): Float =
+        if (maxSpeed == -1f) speed
+        else ((maxSpeed - speed) * random.nextFloat()) + speed
 
     /**
      * Calculate velocity based on radian and speed
      * @return [Vector] velocity
      */
     private fun Party.getVelocity(): Vector {
-        val speed = velocity.get()
+        val speed = getSpeed()
         val radian = toRadians(getAngle())
         val vx = speed * cos(radian).toFloat()
         val vy = speed * sin(radian).toFloat()

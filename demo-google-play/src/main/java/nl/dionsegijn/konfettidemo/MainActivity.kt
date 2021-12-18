@@ -15,7 +15,6 @@ import com.google.android.material.tabs.TabLayout
 import nl.dionsegijn.konfetti_core.NewEmitter.Emitter
 import nl.dionsegijn.konfetti_core.Party
 import nl.dionsegijn.konfetti_core.Position
-import nl.dionsegijn.konfetti_core.Velocity
 import nl.dionsegijn.konfetti_core.models.Shape
 import nl.dionsegijn.konfettidemo.configurations.settings.Configuration
 import nl.dionsegijn.konfettidemo.configurations.settings.ConfigurationManager
@@ -93,7 +92,8 @@ class MainActivity : AppCompatActivity(), OnConfigurationChangedListener {
             Party(
                 spread = 359,
                 colors = colors.toList(),
-                velocity = Velocity(config.minSpeed, config.maxSpeed),
+                speed = config.minSpeed,
+                maxSpeed = config.maxSpeed,
                 timeToLive = config.timeToLive,
                 shapes = config.shapes.toList(),
                 position = Position.xy(binding.viewKonfetti.width / 2f, -50f),
@@ -108,7 +108,8 @@ class MainActivity : AppCompatActivity(), OnConfigurationChangedListener {
             Party(
                 spread = 359,
                 colors = colors.toList(),
-                velocity = Velocity(config.minSpeed, config.maxSpeed),
+                speed = config.minSpeed,
+                maxSpeed = config.maxSpeed,
                 timeToLive = config.timeToLive,
                 shapes = config.shapes.toList(),
                 position = Position.xy(
@@ -155,7 +156,7 @@ class MainActivity : AppCompatActivity(), OnConfigurationChangedListener {
                             angle = degrees.toInt(),
                             spread = 100,
                             colors = colors.toList(),
-                            velocity = Velocity(speed.toFloat()),
+                            speed = speed.toFloat(),
                             timeToLive = 10000L,
                             shapes = listOf(Shape.Square, Shape.Circle),
                             position = Position.xy(startX, startY),

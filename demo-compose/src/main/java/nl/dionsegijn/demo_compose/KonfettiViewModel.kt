@@ -9,7 +9,6 @@ import nl.dionsegijn.konfetti_core.NewEmitter.Emitter
 import nl.dionsegijn.konfetti_core.Party
 import nl.dionsegijn.konfetti_core.Position
 import nl.dionsegijn.konfetti_core.Spread
-import nl.dionsegijn.konfetti_core.Velocity
 import nl.dionsegijn.konfetti_core.models.Size
 import java.util.concurrent.TimeUnit
 
@@ -20,7 +19,7 @@ class KonfettiViewModel : ViewModel() {
 
     fun start(drawable: Drawable) {
         val party = Party(
-            velocity = Velocity(45f),
+            speed = 45f,
             damping = 0.9f,
             angle = Angle.TOP,
             spread = Spread.SMALL,
@@ -35,7 +34,8 @@ class KonfettiViewModel : ViewModel() {
             listOf(
                 party,
 //                party.copy(
-//                    velocity = Velocity(40f, 50f),
+//                    speed = 40f,
+//                    maxSpeed = 45f,
 //                    spread = Spread.SMALL - 5,
 //                    colors = listOf(0xf4306d, 0xb48def),
 //                )
