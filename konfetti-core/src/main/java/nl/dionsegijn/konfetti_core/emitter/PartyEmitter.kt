@@ -73,7 +73,6 @@ class PartyEmitter(private val emitterConfig: EmitterConfig) : BaseEmitter() {
                 maxAcceleration = maxAcceleration,
                 accelerate = party.accelerationEnabled,
                 rotationSpeedMultiplier = rotation.getRotationSpeedMultiplier(),
-                speedDensityIndependent = speedDensityIndependent
             )
         }
     }

@@ -21,8 +21,6 @@ import nl.dionsegijn.konfetti_core.models.Size
  * coordinates with [Position.xy] or relative coordinates between 0.0 and 1.0 using [Position.relative].
  * Spawn confetti on random positions using [Position.between].
  * @property delay the amount of milliseconds to wait before the rendering of the confetti starts
- * @property speedDensityIndependent Account for pixel density so that confetti move consistently across all devices.
- * When true confetti will move in dip / second. When false confetti will move in pixels / second.
  * @property accelerationEnabled Enable or disable the acceleration of the particle
  * @property rotation enable the 3D rotation of a Confetti. See [Rotation] class for the configuration
  * options. Easily enable or disable it using [Rotation].enabled() or [Rotation].disabled()
@@ -41,7 +39,6 @@ data class Party(
     val fadeOutEnabled: Boolean = true,
     val position: Position = Position.xy(100f, 100f),
     val delay: Int = 0,
-    val speedDensityIndependent: Boolean = true,
     val accelerationEnabled: Boolean = true,
     val maxAcceleration: Float = -1f, // TODO divide maxAcceleration by 10 in Confetti
     val rotation: Rotation = Rotation(),

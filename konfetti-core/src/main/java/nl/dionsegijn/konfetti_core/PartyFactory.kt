@@ -98,11 +98,6 @@ class PartyFactory(val emitter: EmitterConfig) {
         return this
     }
 
-    fun speedDensityIndependent(speedDensityIndependent: Boolean): PartyFactory {
-        party = party.copy(speedDensityIndependent = speedDensityIndependent)
-        return this
-    }
-
     fun accelerationEnabled(accelerationEnabled: Boolean): PartyFactory {
         party = party.copy(accelerationEnabled = accelerationEnabled)
         return this
