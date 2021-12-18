@@ -85,8 +85,12 @@ class Confetti(
         if (lifespan <= 0) updateAlpha(deltaTime)
         else lifespan -= (deltaTime * 1000).toLong()
 
+        // Calculate the rotation speed that will be used to rotate around the center of the
+        // confetti and the 3D rotation by increasing and decreasing its width.
         val rSpeed = (rotationSpeed * deltaTime) * speedF
-        rotation += rSpeed
+
+        // Multiply rotation by 10 to faster rotation around the center to enhance the effect
+        rotation += rSpeed * 10
         if (rotation >= 360) rotation = 0f
 
         rotationWidth -= rSpeed
