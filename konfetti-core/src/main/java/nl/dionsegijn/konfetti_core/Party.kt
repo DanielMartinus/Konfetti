@@ -80,10 +80,16 @@ sealed class Position {
     internal data class between(val min: Position, val max: Position) : Position()
 }
 
+/**
+ * @property enabled by default true. Set to false to prevent the confetti from rotating
+ * @property rotationSpeed the rate at which the confetti will rotate per frame
+ * @property rotationVariance the margin in which the rotationSpeed can differ to add randomness
+ * to the rotation speed of each confetti.
+ */
 data class Rotation(
     val enabled: Boolean = true,
-    val baseRotationMultiplier: Float = 1f,
-    val rotationVariance: Float = 0.2f
+    val rotationSpeed: Float = 1f,
+    val rotationVariance: Float = 0.8f
 ) {
     companion object {
         fun enabled() = Rotation(enabled = true)

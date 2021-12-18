@@ -7,7 +7,6 @@ import nl.dionsegijn.konfetti_core.models.Shape
 import nl.dionsegijn.konfetti_core.models.Size
 import nl.dionsegijn.konfetti_core.models.Vector
 import kotlin.math.abs
-import kotlin.random.Random
 
 /**
  * Confetti holds all data to the current state of the particle
@@ -24,10 +23,9 @@ class Confetti(
     private var acceleration: Vector = Vector(0f, 0f),
     var velocity: Vector = Vector(),
     var damping: Float,
-    val rotate: Boolean = true,
     val accelerate: Boolean = true,
     val maxAcceleration: Float = -1f,
-    val rotationSpeedMultiplier: Float = 1f,
+    val rotationSpeed: Float = 1f,
 ) {
 
     private val density = Resources.getSystem().displayMetrics.density
@@ -35,7 +33,6 @@ class Confetti(
     var width = size.sizeInPx
     private val paint: Paint = Paint()
 
-    private var rotationSpeed = 0f
     var rotation = 0f
     private var rotationWidth = width
 
@@ -57,11 +54,6 @@ class Confetti(
         private set
 
     init {
-        val minRotationSpeed = 0.7f
-        val maxRotationSpeed = 1.4f
-        if (rotate) {
-            rotationSpeed = (maxRotationSpeed * Random.nextFloat() + minRotationSpeed) * rotationSpeedMultiplier
-        }
         paint.color = color
     }
 

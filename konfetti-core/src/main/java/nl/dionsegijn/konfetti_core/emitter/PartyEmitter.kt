@@ -70,21 +70,21 @@ class PartyEmitter(private val emitterConfig: EmitterConfig) : BaseEmitter() {
                 fadeOut = fadeOutEnabled,
                 velocity = getVelocity(),
                 damping = party.damping,
-                rotate = party.rotation.enabled,
                 maxAcceleration = maxAcceleration,
                 accelerate = party.accelerationEnabled,
-                rotationSpeedMultiplier = rotation.getRotationSpeedMultiplier(),
+                rotationSpeed = rotation.rotationSpeed(),
             )
         }
     }
 
     /**
      * Calculate a rotation speed multiplier based on the base and variance
-     * @return float multiplier
+     * @return rotation speed and return 0 when rotation is disabled
      */
-    private fun Rotation.getRotationSpeedMultiplier(): Float {
+    private fun Rotation.rotationSpeed(): Float {
+        if (!enabled) return 0f
         val randomValue = random.nextFloat() * 2f - 1f
-        return baseRotationMultiplier + (baseRotationMultiplier * rotationVariance * randomValue)
+        return rotationSpeed + (rotationSpeed * rotationVariance * randomValue)
     }
 
     private fun Party.getSpeed(): Float =
