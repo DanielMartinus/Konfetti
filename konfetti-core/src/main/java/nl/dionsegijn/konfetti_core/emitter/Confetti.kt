@@ -25,7 +25,6 @@ class Confetti(
     var damping: Float,
     val accelerate: Boolean = true,
     val maxAcceleration: Float = -1f,
-    val rotationSpeed: Float = 1f,
     val rotationSpeed3D: Float = 1f,
     val rotationSpeed2D: Float = 1f,
 ) {
