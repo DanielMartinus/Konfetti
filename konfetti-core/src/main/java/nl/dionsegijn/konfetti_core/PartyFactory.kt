@@ -37,23 +37,23 @@ class PartyFactory(val emitter: EmitterConfig) {
     }
 
     fun position(x: Float, y: Float): PartyFactory {
-        party = party.copy(position = Position.xy(x, y))
+        party = party.copy(position = Position.Absolute(x, y))
         return this
     }
 
     fun position(minX: Float, minY: Float, maxX: Float, maxY: Float): PartyFactory {
-        party = party.copy(position = Position.xy(minX, minY).between(Position.xy(maxX, maxY)))
+        party = party.copy(position = Position.Absolute(minX, minY).between(Position.Absolute(maxX, maxY)))
         return this
     }
 
     fun position(x: Double, y: Double): PartyFactory {
-        party = party.copy(position = Position.relative(x, y))
+        party = party.copy(position = Position.Relative(x, y))
         return this
     }
 
     fun position(minX: Double, minY: Double, maxX: Double, maxY: Double): PartyFactory {
         party = party.copy(
-            position = Position.relative(minX, minY).between(Position.relative(maxX, maxY))
+            position = Position.Relative(minX, minY).between(Position.Relative(maxX, maxY))
         )
         return this
     }

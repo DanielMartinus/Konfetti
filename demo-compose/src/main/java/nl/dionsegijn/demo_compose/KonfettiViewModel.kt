@@ -29,7 +29,7 @@ class KonfettiViewModel : ViewModel() {
             rotation = Rotation(),
             colors = listOf(0xfce18a, 0xff726d, 0xf4306d, 0xb48def),
             emitter = Emitter(duration = 100, TimeUnit.MILLISECONDS).max(30),
-            position = Position.relative(0.5, 1.0)
+            position = Position.Relative(0.5, 1.0)
         )
 
         _state.value = State.Started(

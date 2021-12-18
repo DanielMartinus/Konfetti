@@ -96,7 +96,7 @@ class MainActivity : AppCompatActivity(), OnConfigurationChangedListener {
                 maxSpeed = config.maxSpeed,
                 timeToLive = config.timeToLive,
                 shapes = config.shapes.toList(),
-                position = Position.xy(binding.viewKonfetti.width / 2f, -50f),
+                position = Position.Absolute(binding.viewKonfetti.width / 2f, -50f),
                 emitter = Emitter(5L, TimeUnit.SECONDS).max(300)
             )
         )
@@ -112,7 +112,7 @@ class MainActivity : AppCompatActivity(), OnConfigurationChangedListener {
                 maxSpeed = config.maxSpeed,
                 timeToLive = config.timeToLive,
                 shapes = config.shapes.toList(),
-                position = Position.xy(
+                position = Position.Absolute(
                     binding.viewKonfetti.x + binding.viewKonfetti.width / 2,
                     binding.viewKonfetti.y + binding.viewKonfetti.height / 3
                 ),
@@ -159,7 +159,7 @@ class MainActivity : AppCompatActivity(), OnConfigurationChangedListener {
                             speed = speed.toFloat(),
                             timeToLive = 10000L,
                             shapes = listOf(Shape.Square, Shape.Circle),
-                            position = Position.xy(startX, startY),
+                            position = Position.Absolute(startX, startY),
                             emitter = Emitter.burst(100)
                         )
                     )

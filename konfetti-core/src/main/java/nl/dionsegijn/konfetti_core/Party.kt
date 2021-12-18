@@ -22,7 +22,7 @@ import nl.dionsegijn.konfetti_core.models.Size
  * @property timeToLive the amount of time in milliseconds before a particle will stop rendering
  * or fading out if [fadeOutEnabled] is set to true.
  * @property position the point where the confetti will spawn relative to the canvas. Use absolute
- * coordinates with [Position.xy] or relative coordinates between 0.0 and 1.0 using [Position.relative].
+ * coordinates with [Position.Absolute] or relative coordinates between 0.0 and 1.0 using [Position.Relative].
  * Spawn confetti on random positions using [Position.between].
  * @property delay the amount of milliseconds to wait before the rendering of the confetti starts
  * @property rotation enable the 3D rotation of a Confetti. See [Rotation] class for the configuration
@@ -42,7 +42,7 @@ data class Party(
     val shapes: List<Shape> = listOf(Shape.Square, Shape.Circle),
     val timeToLive: Long = 2000, // milliseconds
     val fadeOutEnabled: Boolean = true,
-    val position: Position = Position.xy(100f, 100f),
+    val position: Position = Position.Absolute(100f, 100f),
     val delay: Int = 0,
     val rotation: Rotation = Rotation(),
     val emitter: EmitterConfig
@@ -66,14 +66,36 @@ class Spread {
 }
 
 sealed class Position {
-    data class xy(val x: Float, val y: Float) : Position() {
-        fun between(value: xy): Position = between(this, value)
+    /**
+     * Set absolute position on the x and y axis of the KonfettiView
+     * @property x the x coordinate in pixels
+     * @property y the y coordinate in pixels
+     */
+    data class Absolute(val x: Float, val y: Float) : Position() {
+        fun between(value: Absolute): Position = between(this, value)
     }
 
-    data class relative(val x: Double, val y: Double) : Position() {
-        fun between(value: relative): Position = between(this, value)
+    /**
+     * Set relative position on the x and y axis of the KonfettiView. Some examples:
+     * [x: 0.0, y: 0.0] Top left corner
+     * [x: 1.0, y: 0.0] Top right corner
+     * [x: 0.0, y: 1.0] Bottom left corner
+     * [x: 1.0, y: 1.0] Bottom right corner
+     * [x: 0.5, y: 0.5] Center of the view
+     *
+     * @property x the relative x coordinate as a double
+     * @property y the relative y coordinate as a double
+     */
+    data class Relative(val x: Double, val y: Double) : Position() {
+        fun between(value: Relative): Position = between(this, value)
     }
 
+    /**
+     * Use this if you want to spawn confetti between multiple locations. Use this with [Absolute]
+     * and [Relative] to connect two points
+     * Example: Relative(0.0, 0.0).between(Relative(1.0, 0.0))
+     * This will spawn confetti from the full width and top of the view
+     */
     internal data class between(val min: Position, val max: Position) : Position()
 }
 

@@ -110,11 +110,11 @@ class PartyEmitter(private val emitterConfig: EmitterConfig) : BaseEmitter() {
         return (maxAngle - minAngle) * random.nextDouble() + minAngle
     }
 
-    private fun Position.get(drawArea: Rect): Position.xy {
+    private fun Position.get(drawArea: Rect): Position.Absolute {
         return when (this) {
-            is Position.xy -> Position.xy(x * 0.5f, y)
-            is Position.relative -> {
-                Position.xy(
+            is Position.Absolute -> Position.Absolute(x * 0.5f, y)
+            is Position.Relative -> {
+                Position.Absolute(
                     drawArea.width() * x.toFloat(),
                     drawArea.height() * y.toFloat()
                 )
@@ -122,7 +122,7 @@ class PartyEmitter(private val emitterConfig: EmitterConfig) : BaseEmitter() {
             is Position.between -> {
                 val minPos = min.get(drawArea)
                 val maxPos = max.get(drawArea)
-                return Position.xy(
+                return Position.Absolute(
                     x = random.nextFloat().times(maxPos.x.minus(minPos.x)) + minPos.x,
                     y = random.nextFloat().times(maxPos.y.minus(minPos.y)) + minPos.y
                 )
