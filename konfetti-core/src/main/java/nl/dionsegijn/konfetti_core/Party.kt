@@ -82,14 +82,20 @@ sealed class Position {
 
 /**
  * @property enabled by default true. Set to false to prevent the confetti from rotating
- * @property rotationSpeed the rate at which the confetti will rotate per frame
- * @property rotationVariance the margin in which the rotationSpeed can differ to add randomness
+ * @property speed the rate at which the confetti will rotate per frame. Control the 2D and 3D rotation
+ * separately using [multiplier2D] and [multiplier3D]
+ * @property variance the margin in which the rotationSpeed can differ to add randomness
  * to the rotation speed of each confetti.
+ * @property multiplier2D Multiplier controlling the speed of the rotation around the center of the
+ * confetti. Set this value to 0 to disable the 2D rotation effect.
+ * @property multiplier3D Multiplier controlling the 3D rotation of the confetti.
  */
 data class Rotation(
     val enabled: Boolean = true,
-    val rotationSpeed: Float = 1f,
-    val rotationVariance: Float = 0.5f
+    val speed: Float = 1f,
+    val variance: Float = 0.5f,
+    val multiplier2D: Float = 10f,
+    val multiplier3D: Float = 1f
 ) {
     companion object {
         fun enabled() = Rotation(enabled = true)

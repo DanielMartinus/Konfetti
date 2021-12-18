@@ -72,7 +72,8 @@ class PartyEmitter(private val emitterConfig: EmitterConfig) : BaseEmitter() {
                 damping = party.damping,
                 maxAcceleration = maxAcceleration,
                 accelerate = party.accelerationEnabled,
-                rotationSpeed = rotation.rotationSpeed(),
+                rotationSpeed2D = rotation.rotationSpeed() * party.rotation.multiplier2D,
+                rotationSpeed3D = rotation.rotationSpeed() * party.rotation.multiplier3D,
             )
         }
     }
@@ -84,7 +85,7 @@ class PartyEmitter(private val emitterConfig: EmitterConfig) : BaseEmitter() {
     private fun Rotation.rotationSpeed(): Float {
         if (!enabled) return 0f
         val randomValue = random.nextFloat() * 2f - 1f
-        return rotationSpeed + (rotationSpeed * rotationVariance * randomValue)
+        return speed + (speed * variance * randomValue)
     }
 
     private fun Party.getSpeed(): Float =

@@ -8,6 +8,7 @@ import nl.dionsegijn.konfetti_core.Angle
 import nl.dionsegijn.konfetti_core.NewEmitter.Emitter
 import nl.dionsegijn.konfetti_core.Party
 import nl.dionsegijn.konfetti_core.Position
+import nl.dionsegijn.konfetti_core.Rotation
 import nl.dionsegijn.konfetti_core.models.Size
 import java.util.concurrent.TimeUnit
 
@@ -25,6 +26,7 @@ class KonfettiViewModel : ViewModel() {
             spread = 45,
             size = listOf(Size.SMALL, Size.LARGE),
             timeToLive = 3000L,
+            rotation = Rotation(),
             colors = listOf(0xfce18a, 0xff726d, 0xf4306d, 0xb48def),
             emitter = Emitter(duration = 100, TimeUnit.MILLISECONDS).max(30),
             position = Position.relative(0.5, 1.0)

@@ -26,6 +26,8 @@ class Confetti(
     val accelerate: Boolean = true,
     val maxAcceleration: Float = -1f,
     val rotationSpeed: Float = 1f,
+    val rotationSpeed3D: Float = 1f,
+    val rotationSpeed2D: Float = 1f,
 ) {
 
     private val density = Resources.getSystem().displayMetrics.density
@@ -85,15 +87,12 @@ class Confetti(
         if (lifespan <= 0) updateAlpha(deltaTime)
         else lifespan -= (deltaTime * 1000).toLong()
 
-        // Calculate the rotation speed that will be used to rotate around the center of the
-        // confetti and the 3D rotation by increasing and decreasing its width.
-        val rSpeed = (rotationSpeed * deltaTime) * speedF
-
-        // Multiply rotation by 10 to faster rotation around the center to enhance the effect
-        rotation += rSpeed * 10
+        // 2D rotation around the center of the confetti
+        rotation += rotationSpeed2D * deltaTime * speedF
         if (rotation >= 360) rotation = 0f
 
-        rotationWidth -= rSpeed
+        // 3D rotation effect by decreasing the width
+        rotationWidth -= rotationSpeed3D * deltaTime * speedF
         if (rotationWidth < 0) rotationWidth = width
 
         scaleX = abs(rotationWidth / width - 0.5f) * 2
