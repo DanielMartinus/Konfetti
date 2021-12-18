@@ -13,7 +13,7 @@ class PartySystem(
 
     var enabled = true
 
-    private var gravity = Vector(0f, 0.01f)
+    private var gravity = Vector(0f, 0.02f)
 
     private var emitter: BaseEmitter = PartyEmitter(party.emitter)
 
