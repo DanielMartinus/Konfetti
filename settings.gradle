@@ -1,2 +1,2 @@
 include ':demo-compose', ':demo-google-play', ':demo-simple-java'
-include ':konfetti-xml', ':konfetti-compose', ':konfetti-core'
+include ':konfetti:xml', ':konfetti:compose', ':konfetti:core'
