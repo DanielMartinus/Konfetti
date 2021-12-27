@@ -1,12 +1,12 @@
-package nl.dionsegijn.konfetti_core.emitter
+package nl.dionsegijn.konfetti.core.emitter
 
 import android.content.res.Resources
 import android.graphics.Paint
 import android.graphics.Rect
 import android.util.Log
-import nl.dionsegijn.konfetti_core.models.Shape
-import nl.dionsegijn.konfetti_core.models.Size
-import nl.dionsegijn.konfetti_core.models.Vector
+import nl.dionsegijn.konfetti.core.models.Shape
+import nl.dionsegijn.konfetti.core.models.Size
+import nl.dionsegijn.konfetti.core.models.Vector
 import kotlin.math.abs
 
 /**

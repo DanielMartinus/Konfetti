@@ -1,13 +1,13 @@
-package nl.dionsegijn.konfetti_core
+package nl.dionsegijn.konfetti.core
 
 import android.graphics.Color
-import nl.dionsegijn.konfetti_core.Angle.Companion.BOTTOM
-import nl.dionsegijn.konfetti_core.Angle.Companion.LEFT
-import nl.dionsegijn.konfetti_core.Angle.Companion.RIGHT
-import nl.dionsegijn.konfetti_core.Angle.Companion.TOP
-import nl.dionsegijn.konfetti_core.emitter.EmitterConfig
-import nl.dionsegijn.konfetti_core.models.Shape
-import nl.dionsegijn.konfetti_core.models.Size
+import nl.dionsegijn.konfetti.core.Angle.Companion.BOTTOM
+import nl.dionsegijn.konfetti.core.Angle.Companion.LEFT
+import nl.dionsegijn.konfetti.core.Angle.Companion.RIGHT
+import nl.dionsegijn.konfetti.core.Angle.Companion.TOP
+import nl.dionsegijn.konfetti.core.emitter.EmitterConfig
+import nl.dionsegijn.konfetti.core.models.Shape
+import nl.dionsegijn.konfetti.core.models.Size
 
 /**
  * Configuration how to confetti should be rendered

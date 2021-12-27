@@ -1,4 +1,4 @@
-package nl.dionsegijn.konfetti_core.models
+package nl.dionsegijn.konfetti.core.models
 
 import android.graphics.RectF
 import android.graphics.drawable.Drawable
@@ -8,11 +8,11 @@ sealed interface Shape {
         // Maintain binary and backwards compatibility with previous enum API.
         @JvmField
         @Deprecated("Use Square class, instead.", replaceWith = ReplaceWith("Shape.Square"))
-        val RECT = Shape.Square
+        val RECT = Square
 
         @JvmField
         @Deprecated("Use Circle class, instead.", replaceWith = ReplaceWith("Shape.Circle"))
-        val CIRCLE = Shape.Circle
+        val CIRCLE = Circle
     }
 
     object Circle: Shape {

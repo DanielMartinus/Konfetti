@@ -11,7 +11,7 @@ import androidx.appcompat.widget.AppCompatImageButton
 import android.view.Gravity
 import android.widget.LinearLayout
 import android.widget.Toast
-import nl.dionsegijn.konfetti_core.models.Shape
+import nl.dionsegijn.konfetti.core.models.Shape
 import nl.dionsegijn.konfettidemo.R
 import nl.dionsegijn.konfettidemo.configurations.settings.Configuration
 import nl.dionsegijn.konfettidemo.configurations.settings.ConfigurationManager

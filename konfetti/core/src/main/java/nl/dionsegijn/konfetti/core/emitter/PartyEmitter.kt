@@ -1,11 +1,11 @@
-package nl.dionsegijn.konfetti_core.emitter
+package nl.dionsegijn.konfetti.core.emitter
 
 import android.graphics.Rect
-import nl.dionsegijn.konfetti_core.Party
-import nl.dionsegijn.konfetti_core.Position
-import nl.dionsegijn.konfetti_core.Rotation
-import nl.dionsegijn.konfetti_core.models.Shape
-import nl.dionsegijn.konfetti_core.models.Vector
+import nl.dionsegijn.konfetti.core.Party
+import nl.dionsegijn.konfetti.core.Position
+import nl.dionsegijn.konfetti.core.Rotation
+import nl.dionsegijn.konfetti.core.models.Shape
+import nl.dionsegijn.konfetti.core.models.Vector
 import java.lang.Math.toRadians
 import java.util.Random
 import kotlin.math.cos

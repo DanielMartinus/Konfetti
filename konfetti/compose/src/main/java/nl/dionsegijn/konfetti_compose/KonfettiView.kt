@@ -11,9 +11,9 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.geometry.Offset
 import androidx.compose.ui.graphics.drawscope.withTransform
 import androidx.compose.ui.layout.onGloballyPositioned
-import nl.dionsegijn.konfetti_core.Particle
-import nl.dionsegijn.konfetti_core.Party
-import nl.dionsegijn.konfetti_core.PartySystem
+import nl.dionsegijn.konfetti.core.Particle
+import nl.dionsegijn.konfetti.core.Party
+import nl.dionsegijn.konfetti.core.PartySystem
 
 @Composable
 fun KonfettiView(

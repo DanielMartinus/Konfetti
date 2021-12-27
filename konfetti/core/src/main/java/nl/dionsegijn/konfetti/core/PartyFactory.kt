@@ -1,8 +1,8 @@
-package nl.dionsegijn.konfetti_core
+package nl.dionsegijn.konfetti.core
 
-import nl.dionsegijn.konfetti_core.emitter.EmitterConfig
-import nl.dionsegijn.konfetti_core.models.Shape
-import nl.dionsegijn.konfetti_core.models.Size
+import nl.dionsegijn.konfetti.core.emitter.EmitterConfig
+import nl.dionsegijn.konfetti.core.models.Shape
+import nl.dionsegijn.konfetti.core.models.Size
 
 /**
  * Factory class to enable builder methods for Java implementations
@@ -43,7 +43,8 @@ class PartyFactory(val emitter: EmitterConfig) {
     }
 
     fun position(minX: Float, minY: Float, maxX: Float, maxY: Float): PartyFactory {
-        party = party.copy(position = Position.Absolute(minX, minY).between(Position.Absolute(maxX, maxY)))
+        party = party.copy(position = Position.Absolute(minX, minY)
+            .between(Position.Absolute(maxX, maxY)))
         return this
     }
 

@@ -1,4 +1,4 @@
-package nl.dionsegijn.konfetti_core.emitter
+package nl.dionsegijn.konfetti.core.emitter
 
 import java.util.concurrent.TimeUnit
 

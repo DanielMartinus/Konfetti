@@ -1,10 +1,10 @@
-package nl.dionsegijn.konfetti_core
+package nl.dionsegijn.konfetti.core
 
 import android.graphics.Rect
-import nl.dionsegijn.konfetti_core.emitter.BaseEmitter
-import nl.dionsegijn.konfetti_core.emitter.Confetti
-import nl.dionsegijn.konfetti_core.emitter.PartyEmitter
-import nl.dionsegijn.konfetti_core.models.Vector
+import nl.dionsegijn.konfetti.core.emitter.BaseEmitter
+import nl.dionsegijn.konfetti.core.emitter.Confetti
+import nl.dionsegijn.konfetti.core.emitter.PartyEmitter
+import nl.dionsegijn.konfetti.core.models.Vector
 
 /**
  * PartySystem is responsible for starting the emitter and rendering the particles everytime

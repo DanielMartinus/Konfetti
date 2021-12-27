@@ -1,7 +1,7 @@
-package nl.dionsegijn.konfetti_core.emitter
+package nl.dionsegijn.konfetti.core.emitter
 
 import android.graphics.Rect
-import nl.dionsegijn.konfetti_core.Party
+import nl.dionsegijn.konfetti.core.Party
 
 /**
  * An abstract class for creating a custom emitter

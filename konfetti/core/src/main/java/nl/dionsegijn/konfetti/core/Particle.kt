@@ -1,6 +1,6 @@
-package nl.dionsegijn.konfetti_core
+package nl.dionsegijn.konfetti.core
 
-import nl.dionsegijn.konfetti_core.models.Shape
+import nl.dionsegijn.konfetti.core.models.Shape
 
 /**
  * Particle holding exact data to instruct where and how to draw a particle

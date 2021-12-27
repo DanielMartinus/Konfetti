@@ -9,12 +9,12 @@ import androidx.core.content.ContextCompat;
 import java.util.concurrent.TimeUnit;
 
 import nl.dionsegijn.konfetti.KonfettiView;
-import nl.dionsegijn.konfetti_core.emitter.Emitter;
-import nl.dionsegijn.konfetti_core.emitter.EmitterConfig;
-import nl.dionsegijn.konfetti_core.Party;
-import nl.dionsegijn.konfetti_core.PartyFactory;
-import nl.dionsegijn.konfetti_core.models.Shape;
-import nl.dionsegijn.konfetti_core.models.Size;
+import nl.dionsegijn.konfetti.core.emitter.Emitter;
+import nl.dionsegijn.konfetti.core.emitter.EmitterConfig;
+import nl.dionsegijn.konfetti.core.Party;
+import nl.dionsegijn.konfetti.core.PartyFactory;
+import nl.dionsegijn.konfetti.core.models.Shape;
+import nl.dionsegijn.konfetti.core.models.Size;
 
 public class MainActivity extends AppCompatActivity {
 
