@@ -6,6 +6,10 @@ import nl.dionsegijn.konfetti_core.emitter.Confetti
 import nl.dionsegijn.konfetti_core.emitter.PartyEmitter
 import nl.dionsegijn.konfetti_core.models.Vector
 
+/**
+ * PartySystem is responsible for starting the emitter and rendering the particles everytime
+ * a new frame is requested.
+ */
 class PartySystem(
     val party: Party,
     val createdAt: Long = System.currentTimeMillis()
@@ -35,12 +39,21 @@ class PartySystem(
         return activeParticles.filter { it.drawParticle }.map { it.toParticle() }
     }
 
+    /**
+     * When the emitter is done emitting.
+     * @return true if the emitter is done emitting or false when it's still busy or needs to start
+     * based on the delay
+     */
     fun isDoneEmitting(): Boolean =
         (emitter.isFinished() && activeParticles.size == 0) || (!enabled && activeParticles.size == 0)
 
     fun getActiveParticleAmount() = activeParticles.size
 }
 
+/**
+ * Convert a confetti object to a particle object with instructions on how to draw
+ * the confetti to a canvas
+ */
 fun Confetti.toParticle(): Particle {
     return Particle(
         location.x,

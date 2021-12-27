@@ -2,15 +2,28 @@ package nl.dionsegijn.konfetti_core.emitter
 
 import java.util.concurrent.TimeUnit
 
+/**
+ * Emitter class that holds the duration that the emitter will create confetti particles
+ */
 data class Emitter(
     val duration: Long,
     val timeUnit: TimeUnit = TimeUnit.MILLISECONDS
 ) {
+    /**
+     * Max amount of particles that will be created over the duration that is set
+     */
     fun max(amount: Int): EmitterConfig = EmitterConfig(this).max(amount)
 
+    /**
+     * Amount of particles that will be created per second
+     */
     fun perSecond(amount: Int): EmitterConfig = EmitterConfig(this).perSecond(amount)
 }
 
+/**
+ * EmitterConfig class that will gold the Emitter configuration and amount of particles that
+ * will be created over certain time
+ */
 class EmitterConfig(
     emitter: Emitter
 ) {

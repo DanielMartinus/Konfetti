@@ -1,6 +1,10 @@
 package nl.dionsegijn.konfetti_core
 
 import android.graphics.Color
+import nl.dionsegijn.konfetti_core.Angle.Companion.BOTTOM
+import nl.dionsegijn.konfetti_core.Angle.Companion.LEFT
+import nl.dionsegijn.konfetti_core.Angle.Companion.RIGHT
+import nl.dionsegijn.konfetti_core.Angle.Companion.TOP
 import nl.dionsegijn.konfetti_core.emitter.EmitterConfig
 import nl.dionsegijn.konfetti_core.models.Shape
 import nl.dionsegijn.konfetti_core.models.Size
@@ -48,6 +52,13 @@ data class Party(
     val emitter: EmitterConfig
 )
 
+/**
+ * Helper class for easily setting an angle based on easy understandable constants
+ * [TOP] 270 degrees
+ * [RIGHT] 0 degrees
+ * [BOTTOM] 90 degrees
+ * [LEFT] 180 degrees
+ */
 class Angle {
     companion object {
         const val TOP: Int = 270
@@ -57,6 +68,10 @@ class Angle {
     }
 }
 
+/**
+ * Helper class for for easily configuring [Spread] when creating a [Party]
+ * These are presets but any custom amount will work within 0-360 degrees
+ */
 class Spread {
     companion object {
         const val SMALL: Int = 30
