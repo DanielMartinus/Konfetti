@@ -35,6 +35,13 @@ class PartyEmitter(private val emitterConfig: EmitterConfig, val pixelDensity: F
     override fun createConfetti(deltaTime: Float, party: Party, drawArea: Rect): List<Confetti> {
         createParticleMs += deltaTime
 
+        // Initial deltaTime can't be higher than the emittingTime, if so calculate
+        // amount of particles based on max emittingTime
+        val emittingTime = emitterConfig.emittingTime / 1000f
+        if (elapsedTime == 0f && deltaTime > emittingTime) {
+            createParticleMs = emittingTime
+        }
+
         var particles = listOf<Confetti>()
 
         // Check if particle should be created
