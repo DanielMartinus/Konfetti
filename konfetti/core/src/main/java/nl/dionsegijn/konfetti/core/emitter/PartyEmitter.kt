@@ -55,7 +55,9 @@ class PartyEmitter(private val emitterConfig: EmitterConfig) : BaseEmitter() {
     private val random = Random()
 
     /**
-     * Create particle based on the Party configuration
+     * Create particle based on the [Party] configuration
+     * @param party Configurations used for creating the initial Confetti states
+     * @param drawArea the area and size of the canvas
      */
     private fun createParticle(party: Party, drawArea: Rect): Confetti {
         particlesCreated++
