@@ -1,7 +1,7 @@
 package nl.dionsegijn.konfetti_core
 
 import android.graphics.Color
-import nl.dionsegijn.konfetti_core.NewEmitter.EmitterConfig
+import nl.dionsegijn.konfetti_core.emitter.EmitterConfig
 import nl.dionsegijn.konfetti_core.models.Shape
 import nl.dionsegijn.konfetti_core.models.Size
 

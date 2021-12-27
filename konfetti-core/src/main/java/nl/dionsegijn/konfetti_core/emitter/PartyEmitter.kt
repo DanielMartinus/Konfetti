@@ -1,7 +1,6 @@
 package nl.dionsegijn.konfetti_core.emitter
 
 import android.graphics.Rect
-import nl.dionsegijn.konfetti_core.NewEmitter.EmitterConfig
 import nl.dionsegijn.konfetti_core.Party
 import nl.dionsegijn.konfetti_core.Position
 import nl.dionsegijn.konfetti_core.Rotation

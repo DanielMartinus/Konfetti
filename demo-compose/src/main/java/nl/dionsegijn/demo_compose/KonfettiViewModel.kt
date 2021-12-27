@@ -5,7 +5,7 @@ import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import nl.dionsegijn.konfetti_core.Angle
-import nl.dionsegijn.konfetti_core.NewEmitter.Emitter
+import nl.dionsegijn.konfetti_core.emitter.Emitter
 import nl.dionsegijn.konfetti_core.Party
 import nl.dionsegijn.konfetti_core.Position
 import nl.dionsegijn.konfetti_core.Rotation
