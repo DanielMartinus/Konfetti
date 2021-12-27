@@ -8,7 +8,7 @@ import androidx.core.content.ContextCompat;
 
 import java.util.concurrent.TimeUnit;
 
-import nl.dionsegijn.konfetti.KonfettiView;
+import nl.dionsegijn.konfetti.xml.KonfettiView;
 import nl.dionsegijn.konfetti.core.emitter.Emitter;
 import nl.dionsegijn.konfetti.core.emitter.EmitterConfig;
 import nl.dionsegijn.konfetti.core.Party;

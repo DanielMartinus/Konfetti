@@ -12,9 +12,9 @@ import androidx.appcompat.app.AppCompatActivity
 import androidx.core.content.ContextCompat
 import com.google.android.material.bottomsheet.BottomSheetBehavior
 import com.google.android.material.tabs.TabLayout
-import nl.dionsegijn.konfetti.core.emitter.Emitter
 import nl.dionsegijn.konfetti.core.Party
 import nl.dionsegijn.konfetti.core.Position
+import nl.dionsegijn.konfetti.core.emitter.Emitter
 import nl.dionsegijn.konfetti.core.models.Shape
 import nl.dionsegijn.konfettidemo.configurations.settings.Configuration
 import nl.dionsegijn.konfettidemo.configurations.settings.ConfigurationManager
@@ -96,7 +96,7 @@ class MainActivity : AppCompatActivity(), OnConfigurationChangedListener {
                 maxSpeed = config.maxSpeed,
                 timeToLive = config.timeToLive,
                 shapes = config.shapes.toList(),
-                position = Position.Absolute(binding.viewKonfetti.width / 2f, -50f),
+                position = Position.Relative(-0.1, 0.0).between(Position.Relative(1.1, 0.0)),
                 emitter = Emitter(5L, TimeUnit.SECONDS).max(300)
             )
         )
@@ -160,7 +160,7 @@ class MainActivity : AppCompatActivity(), OnConfigurationChangedListener {
                             timeToLive = 10000L,
                             shapes = listOf(Shape.Square, Shape.Circle),
                             position = Position.Absolute(startX, startY),
-                            emitter = Emitter.burst(100)
+                            emitter = Emitter(100L).max(100)
                         )
                     )
                 }
