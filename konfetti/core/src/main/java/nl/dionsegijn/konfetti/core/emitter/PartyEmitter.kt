@@ -64,7 +64,6 @@ class PartyEmitter(private val emitterConfig: EmitterConfig) : BaseEmitter() {
         with(party) {
             val randomSize = size[random.nextInt(size.size)]
             return Confetti(
-                id = particlesCreated,
                 location = position.get(drawArea).run { Vector(x, y) },
                 width = randomSize.sizeInPx,
                 mass = randomSize.massWithVariance(),

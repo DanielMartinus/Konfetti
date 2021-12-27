@@ -13,7 +13,6 @@ import kotlin.math.abs
  * With every new frame render is called to update the properties in this class
  */
 class Confetti(
-    var id: Int,
     var location: Vector,
     private val color: Int,
     val width: Float, // sizeInPx
