@@ -129,7 +129,7 @@ data class Rotation(
     val speed: Float = 1f,
     val variance: Float = 0.5f,
     val multiplier2D: Float = 8f,
-    val multiplier3D: Float = 1f
+    val multiplier3D: Float = 1.5f
 ) {
     companion object {
         fun enabled() = Rotation(enabled = true)

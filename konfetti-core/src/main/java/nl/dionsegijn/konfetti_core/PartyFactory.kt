@@ -6,6 +6,7 @@ import nl.dionsegijn.konfetti_core.models.Size
 
 /**
  * Factory class to enable builder methods for Java implementations
+ * See [Party] for documentation on the configuration settings
  */
 class PartyFactory(val emitter: EmitterConfig) {
 

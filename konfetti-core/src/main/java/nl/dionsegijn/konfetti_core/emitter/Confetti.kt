@@ -3,6 +3,7 @@ package nl.dionsegijn.konfetti_core.emitter
 import android.content.res.Resources
 import android.graphics.Paint
 import android.graphics.Rect
+import android.util.Log
 import nl.dionsegijn.konfetti_core.models.Shape
 import nl.dionsegijn.konfetti_core.models.Size
 import nl.dionsegijn.konfetti_core.models.Vector
@@ -86,8 +87,10 @@ class Confetti(
         rotation += rotationSpeed2D * deltaTime * speedF
         if (rotation >= 360) rotation = 0f
 
-        // 3D rotation effect by decreasing the width
-        rotationWidth -= rotationSpeed3D * deltaTime * speedF
+        // 3D rotation effect by decreasing the width and make sure that rotationSpeed is always
+        // positive by using abs
+        rotationWidth -= abs(rotationSpeed3D) * deltaTime * speedF
+        if (rotationWidth > width) Log.e("Konfetti", "rotationWidth ($rotationWidth) -= rotationSpeed3D ($rotationSpeed3D) * deltaTime ($deltaTime) * speedF ($speedF)")
         if (rotationWidth < 0) rotationWidth = width
 
         scaleX = abs(rotationWidth / width - 0.5f) * 2
