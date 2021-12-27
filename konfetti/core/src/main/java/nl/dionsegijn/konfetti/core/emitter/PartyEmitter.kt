@@ -17,7 +17,7 @@ import kotlin.math.sin
  * - Creating x amount of particles in a certain time frame
  * - Creating x amount of particles until the threshold [maxParticles] is met
  */
-class PartyEmitter(private val emitterConfig: EmitterConfig) : BaseEmitter() {
+class PartyEmitter(private val emitterConfig: EmitterConfig, val pixelDensity: Float) : BaseEmitter() {
 
     /* Keeping count of how many particles are created whilst running the emitter */
     private var particlesCreated = 0
@@ -65,7 +65,7 @@ class PartyEmitter(private val emitterConfig: EmitterConfig) : BaseEmitter() {
             val randomSize = size[random.nextInt(size.size)]
             return Confetti(
                 location = position.get(drawArea).run { Vector(x, y) },
-                width = randomSize.sizeInPx,
+                width = randomSize.sizeInDp * pixelDensity,
                 mass = randomSize.massWithVariance(),
                 shape = getRandomShape(party.shapes),
                 color = colors[random.nextInt(colors.size)],
@@ -75,6 +75,7 @@ class PartyEmitter(private val emitterConfig: EmitterConfig) : BaseEmitter() {
                 damping = party.damping,
                 rotationSpeed2D = rotation.rotationSpeed() * party.rotation.multiplier2D,
                 rotationSpeed3D = rotation.rotationSpeed() * party.rotation.multiplier3D,
+                pixelDensity = pixelDensity
             )
         }
     }

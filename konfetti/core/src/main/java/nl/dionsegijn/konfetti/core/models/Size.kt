@@ -12,9 +12,6 @@ import android.content.res.Resources
  */
 data class Size(val sizeInDp: Int, val mass: Float = 5f, val massVariance: Float = 0.2f) {
 
-    internal val sizeInPx: Float
-        get() = sizeInDp * Resources.getSystem().displayMetrics.density
-
     init {
         require(mass != 0F) { "mass=$mass must be != 0" }
     }

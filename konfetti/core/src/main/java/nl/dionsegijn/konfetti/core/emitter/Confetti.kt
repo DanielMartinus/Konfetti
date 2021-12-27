@@ -1,7 +1,5 @@
 package nl.dionsegijn.konfetti.core.emitter
 
-import android.content.res.Resources
-import android.graphics.Paint
 import android.graphics.Rect
 import android.util.Log
 import nl.dionsegijn.konfetti.core.models.Shape
@@ -25,9 +23,9 @@ class Confetti(
     var damping: Float,
     val rotationSpeed3D: Float = 1f,
     val rotationSpeed2D: Float = 1f,
+    val pixelDensity: Float
 ) {
 
-    private val density = Resources.getSystem().displayMetrics.density
     private val paint: Paint = Paint()
 
     var rotation = 0f
@@ -75,7 +73,7 @@ class Confetti(
         velocity.add(acceleration)
         velocity.mult(damping)
 
-        location.addScaled(velocity, deltaTime * speedF * density)
+        location.addScaled(velocity, deltaTime * speedF * pixelDensity)
 
         if (lifespan <= 0) updateAlpha(deltaTime)
         else lifespan -= (deltaTime * 1000).toLong()
