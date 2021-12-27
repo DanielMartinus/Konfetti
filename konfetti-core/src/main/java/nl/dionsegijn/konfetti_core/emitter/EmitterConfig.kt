@@ -9,16 +9,6 @@ data class Emitter(
     fun max(amount: Int): EmitterConfig = EmitterConfig(this).max(amount)
 
     fun perSecond(amount: Int): EmitterConfig = EmitterConfig(this).perSecond(amount)
-
-    companion object {
-        fun burst(amount: Int) = Emitter(duration = 100L).max(amount)
-
-        fun streamParticlesPerSecond(particlesPerSecond: Int, durationInMillis: Long) =
-            Emitter(duration = durationInMillis).perSecond(particlesPerSecond)
-
-        fun streamMaxParticles(maxParticles: Int, durationInMillis: Long) =
-            Emitter(durationInMillis).max(maxParticles)
-    }
 }
 
 class EmitterConfig(
