@@ -26,8 +26,6 @@ class Confetti(
     val pixelDensity: Float
 ) {
 
-    private val paint: Paint = Paint()
-
     var rotation = 0f
     private var rotationWidth = width
 
@@ -47,10 +45,6 @@ class Confetti(
      */
     var drawParticle = true
         private set
-
-    init {
-        paint.color = color
-    }
 
     fun getSize(): Float = width
 
