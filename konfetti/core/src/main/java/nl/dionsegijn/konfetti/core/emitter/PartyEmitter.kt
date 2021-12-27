@@ -5,6 +5,7 @@ import nl.dionsegijn.konfetti.core.Party
 import nl.dionsegijn.konfetti.core.Position
 import nl.dionsegijn.konfetti.core.Rotation
 import nl.dionsegijn.konfetti.core.models.Shape
+import nl.dionsegijn.konfetti.core.models.Size
 import nl.dionsegijn.konfetti.core.models.Vector
 import java.lang.Math.toRadians
 import java.util.Random
@@ -59,10 +60,12 @@ class PartyEmitter(private val emitterConfig: EmitterConfig) : BaseEmitter() {
     private fun createParticle(party: Party, drawArea: Rect): Confetti {
         particlesCreated++
         with(party) {
+            val randomSize = size[random.nextInt(size.size)]
             return Confetti(
                 id = particlesCreated,
                 location = position.get(drawArea).run { Vector(x, y) },
-                size = size[random.nextInt(size.size)],
+                width = randomSize.sizeInPx,
+                mass = randomSize.massWithVariance(),
                 shape = getRandomShape(party.shapes),
                 color = colors[random.nextInt(colors.size)],
                 lifespan = timeToLive,
@@ -88,6 +91,12 @@ class PartyEmitter(private val emitterConfig: EmitterConfig) : BaseEmitter() {
     private fun Party.getSpeed(): Float =
         if (maxSpeed == -1f) speed
         else ((maxSpeed - speed) * random.nextFloat()) + speed
+
+    /**
+     * Get the mass with a slight variance added to create randomness between how each particle
+     * will react in speed when moving up or down
+     */
+    private fun Size.massWithVariance(): Float = mass + (mass * (random.nextFloat() * massVariance))
 
     /**
      * Calculate velocity based on radian and speed

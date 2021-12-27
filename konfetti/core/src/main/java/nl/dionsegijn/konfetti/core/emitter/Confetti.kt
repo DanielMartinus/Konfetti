@@ -5,7 +5,6 @@ import android.graphics.Paint
 import android.graphics.Rect
 import android.util.Log
 import nl.dionsegijn.konfetti.core.models.Shape
-import nl.dionsegijn.konfetti.core.models.Size
 import nl.dionsegijn.konfetti.core.models.Vector
 import kotlin.math.abs
 
@@ -17,7 +16,8 @@ class Confetti(
     var id: Int,
     var location: Vector,
     private val color: Int,
-    val size: Size,
+    val width: Float, // sizeInPx
+    private val mass: Float,
     val shape: Shape,
     var lifespan: Long = -1L,
     val fadeOut: Boolean = true,
@@ -29,8 +29,6 @@ class Confetti(
 ) {
 
     private val density = Resources.getSystem().displayMetrics.density
-    private val mass = size.mass
-    var width = size.sizeInPx
     private val paint: Paint = Paint()
 
     var rotation = 0f

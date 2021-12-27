@@ -3,11 +3,14 @@ package nl.dionsegijn.konfetti.core.models
 import android.content.res.Resources
 
 /**
- * [sizeInDp] the size of the confetti in dip
- * [mass] each size can have its own mass for slightly different behavior. For example, the closer
+ * @property sizeInDp the size of the confetti in dip
+ * @property mass each size can have its own mass for slightly different behavior. For example, the closer
  * the mass is to zero the easier it will accelerate but the slower it will will fall down due to gravity.
+ * @property massVariance create slight randomness how particles react to gravity. This variance
+ * is a percentage based on [mass]. The higher the variance the bigger the difference in mass between
+ * each particle is. Default is 0.2f for a slight difference in mass for each particle.
  */
-data class Size(val sizeInDp: Int, val mass: Float = 5f) {
+data class Size(val sizeInDp: Int, val mass: Float = 5f, val massVariance: Float = 0.2f) {
 
     internal val sizeInPx: Float
         get() = sizeInDp * Resources.getSystem().displayMetrics.density
