@@ -1,4 +1,4 @@
-package nl.dionsegijn.konfetti_compose
+package nl.dionsegijn.konfetti.compose
 
 import nl.dionsegijn.konfetti.core.PartySystem
 

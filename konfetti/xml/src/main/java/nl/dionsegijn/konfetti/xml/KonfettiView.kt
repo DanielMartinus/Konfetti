@@ -1,4 +1,4 @@
-package nl.dionsegijn.konfetti
+package nl.dionsegijn.konfetti.xml
 
 import android.content.Context
 import android.graphics.Canvas
@@ -9,7 +9,7 @@ import android.view.View
 import nl.dionsegijn.konfetti.core.Particle
 import nl.dionsegijn.konfetti.core.Party
 import nl.dionsegijn.konfetti.core.PartySystem
-import nl.dionsegijn.konfetti.listeners.OnParticleSystemUpdateListener
+import nl.dionsegijn.konfetti.xml.listeners.OnParticleSystemUpdateListener
 
 /**
  * Implement this view to render the particles on.

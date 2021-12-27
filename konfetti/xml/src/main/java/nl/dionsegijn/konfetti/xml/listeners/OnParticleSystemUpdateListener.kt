@@ -1,6 +1,6 @@
-package nl.dionsegijn.konfetti.listeners
+package nl.dionsegijn.konfetti.xml.listeners
 
-import nl.dionsegijn.konfetti.KonfettiView
+import nl.dionsegijn.konfetti.xml.KonfettiView
 import nl.dionsegijn.konfetti.core.Party
 
 /**

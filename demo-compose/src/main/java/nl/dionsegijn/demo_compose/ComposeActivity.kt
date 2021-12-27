@@ -18,8 +18,8 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.unit.dp
 import nl.dionsegijn.demo_compose.ui.theme.KonfettiTheme
-import nl.dionsegijn.konfetti_compose.KonfettiView
-import nl.dionsegijn.konfetti_compose.OnParticleSystemUpdateListener
+import nl.dionsegijn.konfetti.compose.KonfettiView
+import nl.dionsegijn.konfetti.compose.OnParticleSystemUpdateListener
 import nl.dionsegijn.konfetti.core.PartySystem
 
 class ComposeActivity : ComponentActivity() {

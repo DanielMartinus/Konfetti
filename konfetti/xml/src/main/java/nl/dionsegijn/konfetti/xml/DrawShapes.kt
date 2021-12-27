@@ -1,4 +1,4 @@
-package nl.dionsegijn.konfetti
+package nl.dionsegijn.konfetti.xml
 
 import android.graphics.BlendMode
 import android.graphics.BlendModeColorFilter
