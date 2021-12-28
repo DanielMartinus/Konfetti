@@ -1,2 +1,2 @@
-include ':samples:compose-kotlin', ':samples:demo-xml-kotlin', ':samples:demo-xml-java'
+include ':samples:compose-kotlin', ':samples:demo-xml-kotlin', ':samples:demo-xml-java', ':samples:shared'
 include ':konfetti:xml', ':konfetti:compose', ':konfetti:core'

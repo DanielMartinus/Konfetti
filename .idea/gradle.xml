@@ -20,6 +20,7 @@
             <option value="$PROJECT_DIR$/samples/compose-kotlin" />
             <option value="$PROJECT_DIR$/samples/demo-xml-java" />
             <option value="$PROJECT_DIR$/samples/demo-xml-kotlin" />
+            <option value="$PROJECT_DIR$/samples/shared" />
           </set>
         </option>
         <option name="resolveModulePerSourceSet" value="false" />
