@@ -34,7 +34,7 @@ public class MainActivity extends AppCompatActivity {
                 .setSpeedBetween(1f, 5f)
                 .timeToLive(2000L)
                 .shapes(new Shape.Rectangle(0.2f), drawableShape)
-                .sizes(new Size(12, 5f))
+                .sizes(new Size(12, 5f, 0.2f))
                 .position(0.0, 0.0, 1.0, 0.0)
                 .build();
         konfettiView.setOnClickListener(view ->
