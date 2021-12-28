@@ -130,7 +130,7 @@ class PartyEmitter(private val emitterConfig: EmitterConfig, private val pixelDe
 
     private fun Position.get(drawArea: Rect): Position.Absolute {
         return when (this) {
-            is Position.Absolute -> Position.Absolute(x * 0.5f, y)
+            is Position.Absolute -> Position.Absolute(x, y)
             is Position.Relative -> {
                 Position.Absolute(
                     drawArea.width() * x.toFloat(),
