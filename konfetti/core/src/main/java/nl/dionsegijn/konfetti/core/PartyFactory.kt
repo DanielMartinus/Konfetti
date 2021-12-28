@@ -32,6 +32,11 @@ class PartyFactory(val emitter: EmitterConfig) {
         return this
     }
 
+    fun setDamping(damping: Float): PartyFactory {
+        party = party.copy(damping = damping)
+        return this
+    }
+
     fun position(position: Position): PartyFactory {
         party = party.copy(position = position)
         return this
