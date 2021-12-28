@@ -75,5 +75,29 @@ class PartySystemTest {
         val r3 = system.render(deltaTime, rect)
         Assert.assertEquals(1, r3.size)
     }
+
+    @Test
+    fun `Test PartySystem is done Emitting`() {
+        val party = Party(
+            emitter = Emitter(100L).max(2)
+        )
+        val system = PartySystem(party, pixelDensity = 1f)
+
+        // Set drawArea to 1 pixel to let every particle directly disappear for this test
+        Mockito.`when`(rect.height()).thenReturn(1)
+        Assert.assertTrue(system.enabled)
+
+        system.render(deltaTime, rect) // dt: 0.017f
+        system.render(deltaTime, rect) // dt: 0.034f
+        system.render(deltaTime, rect) // dt: 0.051f
+        system.render(deltaTime, rect) // dt: 0.068f
+        system.render(deltaTime, rect) // dt: 0.085f
+
+        // should still run because emitter isn't done yet, total delta time is < 100ms
+        Assert.assertFalse(system.isDoneEmitting())
+
+        system.render(deltaTime, rect) // dt: 0.102f // duration is higher than 100ms
+
+        Assert.assertTrue(system.isDoneEmitting())
     }
 }
