@@ -63,7 +63,6 @@ class KonfettiViewModel : ViewModel() {
                 Party(
                     speed = 0f,
                     maxSpeed = 30f,
-                    damping = 0.9f,
                     spread = 360,
                     colors = listOf(0xfce18a, 0xff726d, 0xf4306d, 0xb48def),
                     emitter = Emitter(duration = 100, TimeUnit.MILLISECONDS).max(100),
@@ -77,7 +76,6 @@ class KonfettiViewModel : ViewModel() {
         val party = Party(
             speed = 10f,
             maxSpeed = 30f,
-            damping = 0.9f,
             angle = Angle.RIGHT - 45,
             spread = Spread.SMALL,
             colors = listOf(0xfce18a, 0xff726d, 0xf4306d, 0xb48def),
@@ -92,7 +90,6 @@ class KonfettiViewModel : ViewModel() {
                     angle = party.angle - 90, // flip angle from right to left
                     position = Position.Relative(1.0, 0.5)
                 ),
-
             )
         )
     }
@@ -103,7 +100,6 @@ class KonfettiViewModel : ViewModel() {
                 Party(
                     speed = 0f,
                     maxSpeed = 15f,
-                    damping = 0.9f,
                     angle = Angle.BOTTOM,
                     spread = Spread.ROUND,
                     colors = listOf(0xfce18a, 0xff726d, 0xf4306d, 0xb48def),
