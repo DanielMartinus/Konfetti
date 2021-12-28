@@ -8,8 +8,11 @@ import nl.dionsegijn.konfetti.core.emitter.PartyEmitter
 import nl.dionsegijn.konfetti.core.models.Vector
 
 /**
- * PartySystem is responsible for starting the emitter and rendering the particles everytime
- * a new frame is requested.
+ * PartySystem is responsible for requesting particles from the emitter and updating the particles
+ * everytime a new frame is requested.
+ * @param party configuration class with instructions on how to create the particles for the Emitter
+ * @param createdAt timestamp of when the partySystem is created
+ * @param pixelDensity default value taken from resources to measure based on pixelDensity
  */
 class PartySystem(
     val party: Party,
