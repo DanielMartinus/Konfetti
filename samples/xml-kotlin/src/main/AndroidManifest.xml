@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
-        package="nl.dionsegijn.demo_xml">
+        package="nl.dionsegijn.xml.kotlin">
 
     <application
             android:allowBackup="true"
@@ -10,7 +10,7 @@
             android:supportsRtl="true"
             android:theme="@style/Theme.Konfetti">
         <activity
-                android:name=".MainActivity"
+                android:name="nl.dionsegijn.xml.kotlin.MainActivity"
                 android:exported="true">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />

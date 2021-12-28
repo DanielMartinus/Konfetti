@@ -1,4 +1,4 @@
-package nl.dionsegijn.sample.compose.ui.theme
+package nl.dionsegijn.xml.compose.ui.theme
 
 import androidx.compose.foundation.isSystemInDarkTheme
 import androidx.compose.material.MaterialTheme

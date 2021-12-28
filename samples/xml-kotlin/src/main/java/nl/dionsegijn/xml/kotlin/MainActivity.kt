@@ -1,4 +1,4 @@
-package nl.dionsegijn.demo_xml
+package nl.dionsegijn.xml.kotlin
 
 import android.os.Bundle
 import android.widget.Button
