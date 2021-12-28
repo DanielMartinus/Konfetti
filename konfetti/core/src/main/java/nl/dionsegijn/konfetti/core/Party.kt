@@ -1,6 +1,5 @@
 package nl.dionsegijn.konfetti.core
 
-import android.graphics.Color
 import nl.dionsegijn.konfetti.core.Angle.Companion.BOTTOM
 import nl.dionsegijn.konfetti.core.Angle.Companion.LEFT
 import nl.dionsegijn.konfetti.core.Angle.Companion.RIGHT
@@ -37,16 +36,16 @@ import nl.dionsegijn.konfetti.core.models.Size
  */
 data class Party(
     val angle: Int = 0,
-    val spread: Int = 20,
-    val speed: Float = 45f,
-    val maxSpeed: Float = -1f,
+    val spread: Int = 360,
+    val speed: Float = 30f,
+    val maxSpeed: Float = 0f,
     val damping: Float = 0.9f,
     val size: List<Size> = listOf(Size.SMALL, Size.MEDIUM, Size(10)),
-    val colors: List<Int> = listOf(Color.RED),
+    val colors: List<Int> = listOf(0xfce18a, 0xff726d, 0xf4306d, 0xb48def),
     val shapes: List<Shape> = listOf(Shape.Square, Shape.Circle),
-    val timeToLive: Long = 2000, // milliseconds
+    val timeToLive: Long = 2000,
     val fadeOutEnabled: Boolean = true,
-    val position: Position = Position.Absolute(100f, 100f),
+    val position: Position = Position.Relative(0.5, 0.5),
     val delay: Int = 0,
     val rotation: Rotation = Rotation(),
     val emitter: EmitterConfig
