@@ -47,8 +47,9 @@ class PartySystemTest {
         Assert.assertTrue(system.enabled)
         Assert.assertFalse(system.isDoneEmitting())
 
+        // Particles are removed because alpha is 0 with so much time passed
         val r1 = system.render(60f, rect)
-        Assert.assertEquals(2, r1.size)
+        Assert.assertEquals(0, r1.size)
     }
 
     @Test
@@ -99,5 +100,30 @@ class PartySystemTest {
         system.render(deltaTime, rect) // dt: 0.102f // duration is higher than 100ms
 
         Assert.assertTrue(system.isDoneEmitting())
+    }
+
+    @Test
+    fun `Test PartySystem remove dead particles`() {
+        val party = Party(
+            timeToLive = 18L, // removes particles after two frames
+            fadeOutEnabled = false,
+            emitter = Emitter(100L).max(5) // Create particle every 20ms
+        )
+        val system = PartySystem(party, pixelDensity = 1f)
+
+        // Every 20ms a new particle is created and every two frames they're removed
+
+        system.render(deltaTime, rect) // dt: 0.017f
+        system.render(deltaTime, rect) // dt: 0.034f
+        Assert.assertEquals(1, system.getActiveParticleAmount())
+
+        system.render(deltaTime, rect) // dt: 0.051f
+        system.render(deltaTime, rect) // dt: 0.068f
+        system.render(deltaTime, rect) // dt: 0.085f
+        system.render(deltaTime, rect) // dt: 0.102f
+
+        // All particles are created and one extra frame is executed to remove the last one
+        system.render(deltaTime, rect) // dt: 0.119f
+        Assert.assertEquals(0, system.getActiveParticleAmount())
     }
 }
