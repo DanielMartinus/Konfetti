@@ -17,7 +17,8 @@ import kotlin.math.sin
  * - Creating x amount of particles in a certain time frame
  * - Creating x amount of particles until the threshold [maxParticles] is met
  */
-class PartyEmitter(private val emitterConfig: EmitterConfig, private val pixelDensity: Float) : BaseEmitter() {
+class PartyEmitter(private val emitterConfig: EmitterConfig, private val pixelDensity: Float) :
+    BaseEmitter() {
 
     /* Keeping count of how many particles are created whilst running the emitter */
     private var particlesCreated = 0
@@ -169,18 +170,13 @@ class PartyEmitter(private val emitterConfig: EmitterConfig, private val pixelDe
     private fun isTimeElapsed(): Boolean {
         return when (emitterConfig.emittingTime) {
             0L -> false
-            EmitterConfig.INDEFINITE -> false
             else -> elapsedTime >= emitterConfig.emittingTime
         }
     }
 
     override fun isFinished(): Boolean {
-        return when {
-            emitterConfig.emittingTime > 0L -> {
-                elapsedTime >= emitterConfig.emittingTime
-            }
-            emitterConfig.emittingTime == EmitterConfig.INDEFINITE -> false
-            else -> false
-        }
+        return if (emitterConfig.emittingTime > 0L) {
+            elapsedTime >= emitterConfig.emittingTime
+        } else false
     }
 }

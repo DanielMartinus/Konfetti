@@ -87,34 +87,6 @@ Shape.DrawableShape(drawable: Drawable)
 
 The 3D flip effect works best for symmetrical shapes, for example a drawable with a width and a height of 24x24.
 
-### Indefinite streams
-
-Stream for an indefinite amount of time using `StreamEmitter.INDEFINITE`
-
-```Kotlin
-viewKonfetti.build()
-    ...
-    .streamFor(particlesPerSecond = 300, emittingTime = StreamEmitter.INDEFINITE)
-```
-
-The only way to stop streams that run for an indefinite amount of time is either by calling:
-
-#### Reset
-
-Call reset to immediately stop rendering all particles.
-
-```Kotlin
-viewKonfetti.reset()
-```
-
-#### stopGracefully
-
-Call this function to stop rendering new particles. The ones visible will live out their lifetime.
-
-```Kotlin
-viewKonfetti.stopGracefully()
-```
-
 ## Download
 
 Add the following dependency in your app's build.gradle

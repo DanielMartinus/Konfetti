@@ -36,8 +36,7 @@ class EmitterConfig(
 
     init {
         val (duration, timeUnit) = emitter
-        if (duration == INDEFINITE) this.emittingTime = duration
-        else this.emittingTime = TimeUnit.MILLISECONDS.convert(duration, timeUnit)
+        this.emittingTime = TimeUnit.MILLISECONDS.convert(duration, timeUnit)
     }
 
     /**
@@ -54,14 +53,6 @@ class EmitterConfig(
     fun perSecond(amount: Int): EmitterConfig {
         this.amountPerMs = 1f / amount
         return this
-    }
-
-    companion object {
-        /**
-         * Start an endless stream of particles by using this property in combination with
-         * emittingTime. The stream of particles can only be stopped manually.
-         */
-        const val INDEFINITE = -2L
     }
 }
 
