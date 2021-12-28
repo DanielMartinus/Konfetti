@@ -32,10 +32,7 @@ class PartySystem(
             activeParticles.addAll(emitter.createConfetti(deltaTime, party, drawArea))
         }
 
-        for (i in activeParticles.size - 1 downTo 0) {
-            val particle = activeParticles[i]
-            particle.render(deltaTime, drawArea)
-        }
+        activeParticles.forEach { it.render(deltaTime, drawArea) }
 
         activeParticles.removeAll { it.isDead() }
 
