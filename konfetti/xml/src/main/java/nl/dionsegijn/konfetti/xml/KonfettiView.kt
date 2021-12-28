@@ -93,7 +93,7 @@ open class KonfettiView : View {
         canvas.restoreToCount(saveCount)
     }
 
-    fun start(party: List<Party>) {
+    fun start(vararg party: Party) {
         systems.addAll(party.map {
             onParticleSystemUpdateListener?.onParticleSystemStarted(this, it, systems.size)
             PartySystem(it)
