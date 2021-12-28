@@ -10,7 +10,7 @@ import org.mockito.Mockito
 class PartySystemTest {
 
     private val rect: Rect = Mockito.mock(Rect::class.java).apply {
-        Mockito.`when`(height()).thenReturn(100)
+        Mockito.`when`(height()).thenReturn(1000)
         Mockito.`when`(contains(anyInt(), anyInt())).thenReturn(true)
     }
 
