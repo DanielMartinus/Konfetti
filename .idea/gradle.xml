@@ -13,7 +13,7 @@
           <set>
             <option value="$PROJECT_DIR$" />
             <option value="$PROJECT_DIR$/demo-compose" />
-            <option value="$PROJECT_DIR$/demo-simple-java" />
+            <option value="$PROJECT_DIR$/demo-xml-java" />
             <option value="$PROJECT_DIR$/demo-xml-kotlin" />
             <option value="$PROJECT_DIR$/konfetti" />
             <option value="$PROJECT_DIR$/konfetti/compose" />
