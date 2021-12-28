@@ -18,9 +18,9 @@
             <option value="$PROJECT_DIR$/konfetti/xml" />
             <option value="$PROJECT_DIR$/samples" />
             <option value="$PROJECT_DIR$/samples/compose-kotlin" />
-            <option value="$PROJECT_DIR$/samples/demo-xml-java" />
-            <option value="$PROJECT_DIR$/samples/demo-xml-kotlin" />
             <option value="$PROJECT_DIR$/samples/shared" />
+            <option value="$PROJECT_DIR$/samples/xml-java" />
+            <option value="$PROJECT_DIR$/samples/xml-kotlin" />
           </set>
         </option>
         <option name="resolveModulePerSourceSet" value="false" />
