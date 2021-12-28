@@ -1,4 +1,4 @@
-package nl.dionsegijn.simple_demo;
+package nl.dionsegijn.java_demo;
 
 import static nl.dionsegijn.konfetti.core.Position.Relative;
 
