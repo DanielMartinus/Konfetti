@@ -22,8 +22,6 @@ class PartySystem(
 
     var enabled = true
 
-    private var gravity = Vector(0f, 0.02f)
-
     private var emitter: BaseEmitter = PartyEmitter(party.emitter, pixelDensity)
 
     private val activeParticles = mutableListOf<Confetti>()
@@ -37,7 +35,6 @@ class PartySystem(
 
         for (i in activeParticles.size - 1 downTo 0) {
             val particle = activeParticles[i]
-            particle.applyForce(gravity)
             particle.render(deltaTime, drawArea)
         }
 

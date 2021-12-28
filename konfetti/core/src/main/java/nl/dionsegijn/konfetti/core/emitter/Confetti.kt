@@ -31,6 +31,7 @@ class Confetti(
 
     // Expected frame rate
     private var speedF = 60f
+    private var gravity = Vector(0f, 0.02f)
 
     var alpha: Int = 255
     var scaleX = 0f
@@ -55,6 +56,7 @@ class Confetti(
     }
 
     fun render(deltaTime: Float, drawArea: Rect) {
+        applyForce(gravity)
         update(deltaTime, drawArea)
     }
 
