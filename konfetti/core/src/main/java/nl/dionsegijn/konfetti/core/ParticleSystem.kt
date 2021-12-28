@@ -5,7 +5,6 @@ import android.graphics.Rect
 import nl.dionsegijn.konfetti.core.emitter.BaseEmitter
 import nl.dionsegijn.konfetti.core.emitter.Confetti
 import nl.dionsegijn.konfetti.core.emitter.PartyEmitter
-import nl.dionsegijn.konfetti.core.models.Vector
 
 /**
  * PartySystem is responsible for requesting particles from the emitter and updating the particles
