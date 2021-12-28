@@ -71,8 +71,8 @@ class Confetti(
 
         location.addScaled(velocity, deltaTime * speedF * pixelDensity)
 
+        lifespan -= (deltaTime * 1000).toLong()
         if (lifespan <= 0) updateAlpha(deltaTime)
-        else lifespan -= (deltaTime * 1000).toLong()
 
         // 2D rotation around the center of the confetti
         rotation += rotationSpeed2D * deltaTime * speedF
