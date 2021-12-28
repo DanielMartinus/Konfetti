@@ -9,8 +9,13 @@ import org.mockito.Mockito
 
 class PartySystemTest {
 
+    private val rect: Rect = Mockito.mock(Rect::class.java).apply {
+        Mockito.`when`(height()).thenReturn(100)
+        Mockito.`when`(contains(anyInt(), anyInt())).thenReturn(true)
+    }
+
     @Test
-    fun `Test creating particles every 50ms per frame`() {
+    fun `Test creating particle after 50ms`() {
         val party = Party(
             emitter = Emitter(100L).max(2)
         )
@@ -19,15 +24,8 @@ class PartySystemTest {
         Assert.assertTrue(system.enabled)
         Assert.assertFalse(system.isDoneEmitting())
 
-        val rect = Mockito.mock(Rect::class.java)
-        Mockito.`when`(rect.height()).thenReturn(100)
-        Mockito.`when`(rect.contains(anyInt(), anyInt())).thenReturn(true)
-
         val render1 = system.render(0.05f, rect)
         Assert.assertEquals(1, render1.size)
-
-        val render2 = system.render(0.06f, rect)
-        Assert.assertEquals(2, render2.size)
     }
 
     @Test
@@ -39,10 +37,6 @@ class PartySystemTest {
 
         Assert.assertTrue(system.enabled)
         Assert.assertFalse(system.isDoneEmitting())
-
-        val rect = Mockito.mock(Rect::class.java)
-        Mockito.`when`(rect.height()).thenReturn(100)
-        Mockito.`when`(rect.contains(anyInt(), anyInt())).thenReturn(true)
 
         val particles = system.render(60f, rect)
         Assert.assertEquals(2, particles.size)
