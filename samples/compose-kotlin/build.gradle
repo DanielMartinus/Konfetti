@@ -21,7 +21,7 @@ android {
     buildToolsVersion "30.0.3"
 
     defaultConfig {
-        applicationId "nl.dionsegijn.demo_compose"
+        applicationId "nl.dionsegijn.sample.demo_compose"
         minSdk 23
         targetSdk 31
         versionCode 1

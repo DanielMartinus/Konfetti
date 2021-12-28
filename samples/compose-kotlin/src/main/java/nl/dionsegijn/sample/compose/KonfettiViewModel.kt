@@ -1,4 +1,4 @@
-package nl.dionsegijn.demo_compose
+package nl.dionsegijn.sample.compose
 
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData

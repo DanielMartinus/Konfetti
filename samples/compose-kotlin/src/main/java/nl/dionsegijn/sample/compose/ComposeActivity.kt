@@ -1,4 +1,4 @@
-package nl.dionsegijn.demo_compose
+package nl.dionsegijn.sample.compose
 
 import android.os.Bundle
 import androidx.activity.ComponentActivity
@@ -20,7 +20,7 @@ import androidx.compose.runtime.livedata.observeAsState
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.platform.LocalContext
-import nl.dionsegijn.demo_compose.ui.theme.KonfettiTheme
+import nl.dionsegijn.sample.compose.ui.theme.KonfettiTheme
 import nl.dionsegijn.konfetti.compose.KonfettiView
 import nl.dionsegijn.konfetti.compose.OnParticleSystemUpdateListener
 import nl.dionsegijn.konfetti.core.PartySystem
