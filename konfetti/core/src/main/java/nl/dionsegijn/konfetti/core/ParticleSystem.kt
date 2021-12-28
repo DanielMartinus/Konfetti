@@ -31,9 +31,9 @@ class PartySystem(
     // Called every frame to create and update the particles state
     // returns a list of particles that are ready to be rendered
     fun render(deltaTime: Float, drawArea: Rect): List<Particle> {
-        if (enabled) activeParticles.addAll(
-            emitter.createConfetti(deltaTime, party, drawArea)
-        )
+        if (enabled) {
+            activeParticles.addAll(emitter.createConfetti(deltaTime, party, drawArea))
+        }
 
         for (i in activeParticles.size - 1 downTo 0) {
             val particle = activeParticles[i]

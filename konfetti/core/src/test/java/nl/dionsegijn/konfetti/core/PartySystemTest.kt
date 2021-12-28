@@ -67,6 +67,7 @@ class PartySystemTest {
         val r2 = system.render(deltaTime, rect) // render 2, total deltaTime = 2 * 0.017f = 0.034f
         Assert.assertEquals(1, r2.size) // Expected 1, one for every 0.025ms
 
+        // System set to false, emitter will no longer asked for new particles
         system.enabled = false
         Assert.assertFalse(system.enabled)
 
