@@ -17,8 +17,11 @@ import kotlin.math.sin
  * - Creating x amount of particles in a certain time frame
  * - Creating x amount of particles until the threshold [maxParticles] is met
  */
-class PartyEmitter(private val emitterConfig: EmitterConfig, private val pixelDensity: Float) :
-    BaseEmitter() {
+class PartyEmitter(
+    private val emitterConfig: EmitterConfig,
+    private val pixelDensity: Float,
+    private val random: Random = Random()
+) : BaseEmitter() {
 
     /* Keeping count of how many particles are created whilst running the emitter */
     private var particlesCreated = 0
@@ -59,8 +62,6 @@ class PartyEmitter(private val emitterConfig: EmitterConfig, private val pixelDe
         elapsedTime += deltaTime * 1000
         return particles
     }
-
-    private val random = Random()
 
     /**
      * Create particle based on the [Party] configuration
