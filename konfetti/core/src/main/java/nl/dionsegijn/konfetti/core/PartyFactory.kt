@@ -48,8 +48,10 @@ class PartyFactory(val emitter: EmitterConfig) {
     }
 
     fun position(minX: Float, minY: Float, maxX: Float, maxY: Float): PartyFactory {
-        party = party.copy(position = Position.Absolute(minX, minY)
-            .between(Position.Absolute(maxX, maxY)))
+        party = party.copy(
+            position = Position.Absolute(minX, minY)
+                .between(Position.Absolute(maxX, maxY))
+        )
         return this
     }
 

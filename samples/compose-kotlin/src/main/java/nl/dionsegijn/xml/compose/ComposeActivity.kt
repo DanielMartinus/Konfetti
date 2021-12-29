@@ -20,10 +20,10 @@ import androidx.compose.runtime.livedata.observeAsState
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.platform.LocalContext
-import nl.dionsegijn.xml.compose.ui.theme.KonfettiTheme
 import nl.dionsegijn.konfetti.compose.KonfettiView
 import nl.dionsegijn.konfetti.compose.OnParticleSystemUpdateListener
 import nl.dionsegijn.konfetti.core.PartySystem
+import nl.dionsegijn.xml.compose.ui.theme.KonfettiTheme
 
 class ComposeActivity : ComponentActivity() {
 

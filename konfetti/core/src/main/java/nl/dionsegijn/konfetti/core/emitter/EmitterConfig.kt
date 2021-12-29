@@ -55,4 +55,3 @@ class EmitterConfig(
         return this
     }
 }
-

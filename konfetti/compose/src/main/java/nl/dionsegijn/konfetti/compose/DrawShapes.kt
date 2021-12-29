@@ -73,4 +73,3 @@ fun Shape.draw(drawScope: DrawScope, particle: Particle, imageResource: ImageBit
         }
     }
 }
-

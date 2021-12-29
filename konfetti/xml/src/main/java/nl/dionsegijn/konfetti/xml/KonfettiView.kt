@@ -94,18 +94,22 @@ open class KonfettiView : View {
     }
 
     fun start(vararg party: Party) {
-        systems.addAll(party.map {
-            onParticleSystemUpdateListener?.onParticleSystemStarted(this, it, systems.size)
-            PartySystem(it)
-        })
+        systems.addAll(
+            party.map {
+                onParticleSystemUpdateListener?.onParticleSystemStarted(this, it, systems.size)
+                PartySystem(it)
+            }
+        )
         invalidate()
     }
 
     fun start(party: List<Party>) {
-        systems.addAll(party.map {
-            onParticleSystemUpdateListener?.onParticleSystemStarted(this, it, systems.size)
-            PartySystem(it)
-        })
+        systems.addAll(
+            party.map {
+                onParticleSystemUpdateListener?.onParticleSystemStarted(this, it, systems.size)
+                PartySystem(it)
+            }
+        )
         invalidate()
     }
 

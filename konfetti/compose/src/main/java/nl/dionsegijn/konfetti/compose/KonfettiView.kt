@@ -56,7 +56,8 @@ fun KonfettiView(
                     if (particleSystem.isDoneEmitting()) {
                         updateListener?.onParticleSystemEnded(
                             system = particleSystem,
-                            activeSystems = partySystems.count { !it.isDoneEmitting() })
+                            activeSystems = partySystems.count { !it.isDoneEmitting() }
+                        )
                     }
 
                     particleSystem.render(deltaMs.div(1000f), drawArea.value)

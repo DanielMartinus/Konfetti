@@ -36,12 +36,14 @@ class MainActivity : AppCompatActivity() {
         /**
          * See [Presets] for this configuration
          */
-        viewKonfetti.start(listOf(
-            Party(
-                emitter = Emitter(duration = 100, TimeUnit.MILLISECONDS).max(100),
-                position = Position.Relative(0.5, 0.3)
+        viewKonfetti.start(
+            listOf(
+                Party(
+                    emitter = Emitter(duration = 100, TimeUnit.MILLISECONDS).max(100),
+                    position = Position.Relative(0.5, 0.3)
+                )
             )
-        ))
+        )
     }
 
     private fun parade() {

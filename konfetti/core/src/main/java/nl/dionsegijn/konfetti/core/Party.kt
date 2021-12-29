@@ -139,4 +139,3 @@ data class Rotation(
         fun disabled() = Rotation(enabled = false)
     }
 }
-
