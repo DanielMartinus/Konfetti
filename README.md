@@ -1,9 +1,8 @@
-
 <!-- LOGO -->
 <br />
 <h1>
 <p align="center">
-  <img src="https://user-images.githubusercontent.com/1636897/147644088-201716cb-5741-4a4d-8c9d-2d30e64fd09c.png" alt="Logo">
+  <img src="https://user-images.githubusercontent.com/1636897/147644327-112cc446-75ea-4477-80ac-1d0cd60fc45e.png" alt="Logo">
   <br>
 </h1>
   <p align="center">
