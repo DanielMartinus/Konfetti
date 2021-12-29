@@ -3,7 +3,6 @@
 <h1>
 <p align="center">
   <img src="https://user-images.githubusercontent.com/1636897/147644327-112cc446-75ea-4477-80ac-1d0cd60fc45e.png" alt="Logo">
-  <br>
 </h1>
   <p align="center">
     Celebrate every little moment with this lightweight and easy to setup library
@@ -17,10 +16,6 @@
     <a href="http://twitter.com/dionsegijn"><img alt="API level 16" src="https://img.shields.io/badge/Twitter-@dionsegijn-blue.svg?style=flat"/></a>
     <a href="https://github.com/DanielMartinus/Konfetti/actions"><img alt="Build Status" src="https://github.com/DanielMartinus/Konfetti/workflows/CI/badge.svg"/></a>
 </p>
-
-<p align="center">
-    Celebrate every little moment with this lightweight and easy to setup library
-<p>
 
 
 ## Demo app
