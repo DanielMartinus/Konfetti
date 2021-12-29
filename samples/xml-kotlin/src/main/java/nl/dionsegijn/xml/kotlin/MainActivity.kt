@@ -3,12 +3,8 @@ package nl.dionsegijn.xml.kotlin
 import android.os.Bundle
 import android.widget.Button
 import androidx.appcompat.app.AppCompatActivity
-import nl.dionsegijn.konfetti.core.Party
-import nl.dionsegijn.konfetti.core.Position
-import nl.dionsegijn.konfetti.core.emitter.Emitter
 import nl.dionsegijn.konfetti.xml.KonfettiView
 import nl.dionsegijn.samples.shared.Presets
-import java.util.concurrent.TimeUnit
 
 class MainActivity : AppCompatActivity() {
 
@@ -36,14 +32,7 @@ class MainActivity : AppCompatActivity() {
         /**
          * See [Presets] for this configuration
          */
-        viewKonfetti.start(
-            listOf(
-                Party(
-                    emitter = Emitter(duration = 100, TimeUnit.MILLISECONDS).max(100),
-                    position = Position.Relative(0.5, 0.3)
-                )
-            )
-        )
+        viewKonfetti.start(Presets.explode())
     }
 
     private fun parade() {
