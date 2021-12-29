@@ -5,7 +5,7 @@
   <img src="https://user-images.githubusercontent.com/1636897/147644327-112cc446-75ea-4477-80ac-1d0cd60fc45e.png" alt="Logo">
 </h1>
 <p align="center">
-    Celebrate every little moment with this lightweight and easy to setup library
+    Easily celebrate little and big moments in your app with this lightweight confetti library!
     <br />
 </p>
 
