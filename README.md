@@ -111,7 +111,7 @@ See Party implementation [here](/konfetti/core/src/main/java/nl/dionsegijn/konfe
 
 Create a `KonfettiView` in your compose UI or add one to your xml layout depending on your setup.
 
-compose
+Compose
 ```Kotlin
 KonfettiView(
     modifier = Modifier.fillMaxSize(),
