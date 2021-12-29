@@ -1,4 +1,16 @@
-<h1 align="center">Konfetti 🥳</h1></br>
+
+<!-- LOGO -->
+<br />
+<h1>
+<p align="center">
+  <img src="https://user-images.githubusercontent.com/1636897/147644088-201716cb-5741-4a4d-8c9d-2d30e64fd09c.png" alt="Logo">
+  <br>
+</h1>
+  <p align="center">
+    Celebrate every little moment with this lightweight and easy to setup library
+    <br />
+    </p>
+</p>
 
 <p align="center">
     <a href="https://opensource.org/licenses/ISC"><img alt="License" src="https://img.shields.io/badge/License-ISC-yellow.svg"/></a>
@@ -8,7 +20,7 @@
 </p>
 
 <p align="center">
-    Celebrate every little moment with this lightweight and easy to setup lib
+    Celebrate every little moment with this lightweight and easy to setup library
 <p>
 
 
