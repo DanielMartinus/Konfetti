@@ -140,7 +140,7 @@ Party(
 viewKonfetti.start(party)
 ```
 
-And that's it! There are endless ways that you're able to configure the confetti. If you want to learn more on how to implement Konfetti in a java, xml or compose project then see the samples linked at the top of [this section](#usage)_
+And that's it! There are endless ways that you're able to configure the confetti. If you want to learn more on how to implement Konfetti in a java, xml or compose project then see the samples linked at the top of [this section](#usage)
 
 ## Community
 
