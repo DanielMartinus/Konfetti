@@ -6,7 +6,7 @@ plugins {
 
 ext {
     PUBLISH_GROUP_ID = 'nl.dionsegijn'
-    PUBLISH_VERSION = "2.0.0-alpha02"
+    PUBLISH_VERSION = "2.0.0"
     PUBLISH_ARTIFACT_ID = 'konfetti-compose'
 }
 
