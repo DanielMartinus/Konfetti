@@ -140,12 +140,30 @@ And that's it! There are endless ways that you're able to configure the confetti
 
 ## Community
 
+- Follow me on twitter for updates [here](https://twitter.com/dionsegijn)
+- Do you have any questions or need help implementing this library? Search if your question is already asked [here](https://github.com/DanielMartinus/Konfetti/issues?q=is%3Aissue)
+- Or join our telegram chat group and maybe someone can help you out [here](https://t.me/konfetti_chat) 
+
 ## Contribute
+
+Do you see any improvements or want to implement a missing feature? Contributions are very welcome!
+- Is your contribution relatively small? Make your changes, run the code checks, open a PR and make sure the CI is green! 
+- Are the changes big and do they make a lot of impact? Please open an issue [here](https://github.com/DanielMartinus/Konfetti/issues?q=is%3Aissue) or reach out and let's discuss.
+
+Take into account that changes and requests can be rejected if they don't align with the **purpose of the library**. To not waste any time you can always open an issue [here](https://github.com/DanielMartinus/Konfetti/issues?q=is%3Aissue) to talk before you start making any changes.
+
+### What is the purpose of this library?
+To have a lightweight particle system to easily generate confetti particles to celebrate little and big moments. Even though this is a particle system the purpose is not to be a fully fledged particle system. Changes and features are meant to be in line with being a confetti library. A great example is the implementation of custom shapes by [@mattprecious](https://github.com/mattprecious) [here](https://github.com/DanielMartinus/Konfetti/pull/129).
 
 ## Report an issue
 
+Did you find an issue? 
+- Want to fix it yourself? See [Contribute](#contribute) for more information
+- Want to report an issue? You can do that [here](https://github.com/DanielMartinus/Konfetti/issues?q=is%3Aissue). By adding as much details when reporting the issue and steps to reproduce you improve the change it will be solved quickly. 
+
 ## License
 
+Konfetti is released under the ISC license. See [LICENSE](https://github.com/DanielMartinus/Konfetti/blob/main/LICENSE) for details.
 
 
 ## Demo app
