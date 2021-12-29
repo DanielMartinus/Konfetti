@@ -80,7 +80,9 @@ class PartySystemTest {
     @Test
     fun `Test PartySystem is done Emitting`() {
         val party = Party(
-            emitter = Emitter(100L).max(2)
+            timeToLive = 1L,
+            fadeOutEnabled = false,
+            emitter = Emitter(100).max(2)
         )
         val system = PartySystem(party, pixelDensity = 1f)
 
@@ -99,6 +101,7 @@ class PartySystemTest {
 
         system.render(deltaTime, rect) // dt: 0.102f // duration is higher than 100ms
 
+        Assert.assertEquals(0, system.getActiveParticleAmount())
         Assert.assertTrue(system.isDoneEmitting())
     }
 
