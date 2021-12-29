@@ -157,8 +157,7 @@ To have a lightweight particle system to easily generate confetti particles to c
 
 ## Report an issue
 
-Did you find an issue? 
-- Want to fix it yourself? See [Contribute](#contribute) for more information
+- Did you find an issue and want to fix it yourself? See [Contribute](#contribute) for more information
 - Want to report an issue? You can do that [here](https://github.com/DanielMartinus/Konfetti/issues?q=is%3Aissue). By adding as much details when reporting the issue and steps to reproduce you improve the change it will be solved quickly. 
 
 ## License
