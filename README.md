@@ -62,7 +62,7 @@ Configure your confetti using the Party configuration object. This holds all the
 Almost all properties of a Party object have a default configuration! This makes it super easy to create beautiful and natural looking confetti.
 
 
-The bare minimum you need is an **Emitter**, like this:
+The bare minimum you need is an **Emitter** to tell how often and how many confetti should spawn, like this:
 ```kotlin
 Party(
     emitter = Emitter(duration = 5, TimeUnit.SECONDS).perSecond(30)
@@ -79,8 +79,8 @@ Party(
     damping = 0.9f,
     spread = 360,
     colors = listOf(0xfce18a, 0xff726d, 0xf4306d, 0xb48def),
-    emitter = Emitter(duration = 100, TimeUnit.MILLISECONDS).max(100),
-    position = Position.Relative(0.5, 0.3)
+    position = Position.Relative(0.5, 0.3),
+    emitter = Emitter(duration = 100, TimeUnit.MILLISECONDS).max(100)
 )
 ```
 _To learn more, see more samples linked at the top of [this section](#usage)_
