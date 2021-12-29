@@ -29,7 +29,6 @@
   <strong>New version: 2.0.0 is now released! Jetpack compose support - improved animations and API - <a href="https://dionsegijn.dev/konfetti-migration-guide-v2.0.0">see migration guide here</a></strong>
 </p>
 
-
 ## Getting started
 
 Compose project:
@@ -57,6 +56,10 @@ Find latest version [here](https://github.com/DanielMartinus/Konfetti/releases)
   <a href="/samples/xml-java/src/main">xml-java</a> •
   <a href="/samples/shared/src/main/java/nl/dionsegijn/samples/shared/Presets.kt">presets</a>
 </p>  
+
+<p align="center">
+  <img width=300 src="https://user-images.githubusercontent.com/1636897/147699597-2d177073-a2f8-4f49-ad7e-c390dd374557.gif"/>
+</p>
 
 Configure your confetti using the Party configuration object. This holds all the information on how the confetti will be generated.
 Almost all properties of a Party object have a default configuration! This makes it super easy to create beautiful and natural looking confetti.
