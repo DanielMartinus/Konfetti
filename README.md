@@ -17,7 +17,7 @@
 </p>
 
 <p align="center">
-  <a href="#getting-started">About The Project</a> •
+  <a href="#getting-started">Getting started</a> •
   <a href="#usage">How To Use</a> •
   <a href="#community">Community</a> •
   <a href="#contribute">Contribute</a> •
@@ -70,7 +70,7 @@ An example of a customized Party configuration is this:
 
 ```kotlin
 Party(
-    speed [Default: 0] // The direction the confetti will shoot. Use any integer between `0-360` or use presets like: Angle.TOP, Angle.RIGHT, Angle.BOTTOM, Angle.LEFT
+    speed = 0f,
     maxSpeed = 30f,
     damping = 0.9f,
     spread = 360,
@@ -103,6 +103,40 @@ _To learn more, see more samples linked at the top of [this section](#usage)_
 
 See Party implementation [here](/konfetti/core/src/main/java/nl/dionsegijn/konfetti/core/Party.kt)
 
+### KonfettiView
+
+Create a `KonfettiView` in your compose UI or add one to your xml layout depending on your setup.
+
+compose
+```Kotlin
+KonfettiView(
+    modifier = Modifier.fillMaxSize(),
+    parties = state.party,
+)
+```
+
+View-based (xml)
+```xml
+<nl.dionsegijn.konfetti.xml.KonfettiView
+    android:id="@+id/konfettiView"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent" />
+```
+
+```kotlin
+Party(
+    speed = 0f,
+    maxSpeed = 30f,
+    damping = 0.9f,
+    spread = 360,
+    colors = listOf(0xfce18a, 0xff726d, 0xf4306d, 0xb48def),
+    emitter = Emitter(duration = 100, TimeUnit.MILLISECONDS).max(100),
+    position = Position.Relative(0.5, 0.3)
+)
+viewKonfetti.start(party)
+```
+
+And that's it! There are endless ways that you're able to configure the confetti. If you want to learn more on how to implement Konfetti in a java, xml or compose project then see the samples linked at the top of [this section](#usage)_
 
 ## Community
 
