@@ -34,7 +34,7 @@ import nl.dionsegijn.konfetti.core.models.Size
  * @property rotation enable the 3D rotation of a Confetti. See [Rotation] class for the configuration
  * options. Easily enable or disable it using [Rotation].enabled() or [Rotation].disabled() and
  * control the speed of rotations.
- * @property emitter instructions how many and often a confetti particle should spawn per tick (frame)
+ * @property emitter instructions how many and often a confetti particle should spawn.
  * Use Emitter(duration, timeUnit).max(amount) or Emitter(duration, timeUnit).perSecond(amount) to
  * configure the Emitter.
  */

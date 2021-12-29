@@ -99,7 +99,7 @@ _To learn more, see more samples linked at the top of [this section](#usage)_
  - `delay` - **Int (default: 0)**: the amount of milliseconds to wait before the rendering of the confetti starts
  - `rotation` - **Rotation (default: Rotation)**: enable the 3D rotation of a Confetti. See [Rotation] class for the configuration
  options. Easily enable or disable it using [Rotation].enabled() or [Rotation].disabled() and control the speed of rotations.
- - `emitter` - **EmitterConfig**: Instructions how many and often a confetti particle should spawn per tick (frame). Use Emitter(duration, timeUnit).max(amount) or Emitter(duration, timeUnit).perSecond(amount) to configure the Emitter. 
+ - `emitter` - **EmitterConfig**: Instructions how many and how often a confetti particle should spawn. Use Emitter(duration, timeUnit).max(amount) or Emitter(duration, timeUnit).perSecond(amount) to configure the Emitter. 
 
 See Party implementation [here](/konfetti/core/src/main/java/nl/dionsegijn/konfetti/core/Party.kt)
 
