@@ -23,7 +23,11 @@
   <a href="#contribute">Contribute</a> •
   <a href="#report-an-issue">Report issue</a> •
   <a href="#license">License</a>
-</p>  
+</p>
+
+<p align="center">
+  <strong>New version: 2.0.0 is now released! Jetpack compose support - improved animations and API - <a href="https://www.dionsegijn.dev">see migration guide here</a></strong>
+</p>
 
 
 ## Getting started
