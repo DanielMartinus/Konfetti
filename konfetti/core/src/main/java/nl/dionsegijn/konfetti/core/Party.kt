@@ -20,16 +20,20 @@ import nl.dionsegijn.konfetti.core.models.Size
  * @property damping The rate at which the speed will decrease right after shooting the confetti
  * @property size The size of the confetti. Use: Size.SMALL, MEDIUM or LARGE for default sizes or
  * create your custom size using a new instance of [Size].
+ * @property colors List of colors that will be randomly picked from
  * @property shapes Set the shape of the confetti. Set multiple shapes and it will be randomly
  * assigned upon creation of the confetti. See [Shape] for possible shapes and custom drawables.
  * @property timeToLive the amount of time in milliseconds before a particle will stop rendering
- * or fading out if [fadeOutEnabled] is set to true.
+ * or fade out if [fadeOutEnabled] is set to true.
+ * @property fadeOutEnabled If true and a confetti disappears because it ran out of time (set with timeToLive)
+ * it will slowly fade out. If set to falls it will instantly disappear from the screen.
  * @property position the point where the confetti will spawn relative to the canvas. Use absolute
  * coordinates with [Position.Absolute] or relative coordinates between 0.0 and 1.0 using [Position.Relative].
  * Spawn confetti on random positions using [Position.between].
  * @property delay the amount of milliseconds to wait before the rendering of the confetti starts
  * @property rotation enable the 3D rotation of a Confetti. See [Rotation] class for the configuration
- * options. Easily enable or disable it using [Rotation].enabled() or [Rotation].disabled()
+ * options. Easily enable or disable it using [Rotation].enabled() or [Rotation].disabled() and
+ * control the speed of rotations.
  * @property emitter instructions how many and often a confetti particle should spawn per tick (frame)
  * Use Emitter(duration, timeUnit).max(amount) or Emitter(duration, timeUnit).perSecond(amount) to
  * configure the Emitter.
@@ -40,7 +44,7 @@ data class Party(
     val speed: Float = 30f,
     val maxSpeed: Float = 0f,
     val damping: Float = 0.9f,
-    val size: List<Size> = listOf(Size.SMALL, Size.MEDIUM, Size(10)),
+    val size: List<Size> = listOf(Size.SMALL, Size.MEDIUM, Size.LARGE),
     val colors: List<Int> = listOf(0xfce18a, 0xff726d, 0xf4306d, 0xb48def),
     val shapes: List<Shape> = listOf(Shape.Square, Shape.Circle),
     val timeToLive: Long = 2000,
