@@ -1,0 +1,62 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+        xmlns:app="http://schemas.android.com/apk/res-auto"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent">
+
+    <nl.dionsegijn.konfetti.xml.KonfettiView
+            android:id="@+id/konfettiView"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintLeft_toLeftOf="parent"
+            app:layout_constraintRight_toRightOf="parent"
+            app:layout_constraintTop_toTopOf="parent" />
+
+    <Button
+            android:id="@+id/btnFestive"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Festive"
+            app:layout_constraintBottom_toTopOf="@+id/btnExplode"
+            app:layout_constraintHorizontal_bias="0.5"
+            app:layout_constraintLeft_toLeftOf="parent"
+            app:layout_constraintRight_toRightOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/konfettiView" />
+
+    <Button
+            android:id="@+id/btnExplode"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Explode"
+            app:layout_constraintBottom_toTopOf="@+id/btnParade"
+            app:layout_constraintHorizontal_bias="0.5"
+            app:layout_constraintLeft_toLeftOf="parent"
+            app:layout_constraintRight_toRightOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/btnFestive" />
+
+
+    <Button
+            android:id="@+id/btnParade"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Parade"
+            app:layout_constraintBottom_toTopOf="@+id/btnRain"
+            app:layout_constraintHorizontal_bias="0.5"
+            app:layout_constraintLeft_toLeftOf="parent"
+            app:layout_constraintRight_toRightOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/btnExplode" />
+
+
+    <Button
+            android:id="@+id/btnRain"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Rain"
+            app:layout_constraintBottom_toTopOf="@+id/konfettiView"
+            app:layout_constraintHorizontal_bias="0.5"
+            app:layout_constraintLeft_toLeftOf="parent"
+            app:layout_constraintRight_toRightOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/btnParade" />
+
+</androidx.constraintlayout.widget.ConstraintLayout>

@@ -1,163 +1,168 @@
-<h1 align="center">Konfetti 🎊</h1></br>
+<!-- LOGO -->
+<br />
+<h1>
+<p align="center">
+  <img src="https://user-images.githubusercontent.com/1636897/147644327-112cc446-75ea-4477-80ac-1d0cd60fc45e.png" alt="Logo">
+</h1>
+<p align="center">
+    Easily celebrate little and big moments in your app with this lightweight confetti library!
+    <br />
+</p>
 
 <p align="center">
     <a href="https://opensource.org/licenses/ISC"><img alt="License" src="https://img.shields.io/badge/License-ISC-yellow.svg"/></a>
     <a href="https://android-arsenal.com/api?level=16s"><img alt="API level 16" src="https://img.shields.io/badge/API-16%2B-brightgreen.svg?style=flat"/></a>
-    <a href="https://github.com/KotlinBy/awesome-kotlin"><img alt="API level 16" src="https://kotlin.link/awesome-kotlin.svg"/></a>
     <a href="http://twitter.com/dionsegijn"><img alt="API level 16" src="https://img.shields.io/badge/Twitter-@dionsegijn-blue.svg?style=flat"/></a>
     <a href="https://github.com/DanielMartinus/Konfetti/actions"><img alt="Build Status" src="https://github.com/DanielMartinus/Konfetti/workflows/CI/badge.svg"/></a>
 </p>
 
 <p align="center">
-    🥳 Celebrate more with this lightweight confetti particle system. Create realistic confetti by implementing this easy to use library.
-<p>
+  <a href="#getting-started">Getting started</a> •
+  <a href="#usage">How To Use</a> •
+  <a href="#community">Community</a> •
+  <a href="#contribute">Contribute</a> •
+  <a href="#report-an-issue">Report issue</a> •
+  <a href="#license">License</a>
+</p>
+
+<p align="center">
+  <strong>New version: 2.0.0 is now released! Jetpack compose support - improved animations and API - <a href="https://dionsegijn.dev/konfetti-migration-guide-v2.0.0">see migration guide here</a></strong>
+</p>
 
 
-## Demo app
+## Getting started
 
-[<img src="media/konfetti_demo.gif" width="250" />]()
-
-#### Sample app
-
-Download on Google Play:
-
-<a href="https://play.google.com/store/apps/details?id=nl.dionsegijn.confettiattempt">
-  <img alt="Android app on Google Play" src="https://developer.android.com/images/brand/en_app_rgb_wo_45.png" />
-</a>
-
-Or download the APK [here](https://github.com/DanielMartinus/Konfetti/releases/download/1.0/sample_app.apk)
-
-## Usage
-
-
-### XML
-
-All you need in your layout is the KonfettiView to render the particles on:
-
-```XML
-<nl.dionsegijn.konfetti.KonfettiView
-        android:id="@+id/viewKonfetti"
-        android:layout_width="match_parent"
-        android:layout_height="match_parent" />
-```
-
-### Example in Kotlin
-
-```Kotlin
-viewKonfetti.build()
-    .addColors(Color.YELLOW, Color.GREEN, Color.MAGENTA)
-    .setDirection(0.0, 359.0)
-    .setSpeed(1f, 5f)
-    .setFadeOutEnabled(true)
-    .setTimeToLive(2000L)
-    .addShapes(Shape.Square, Shape.Circle)
-    .addSizes(Size(12))
-    .setPosition(-50f, viewKonfetti.width + 50f, -50f, -50f)
-    .streamFor(300, 5000L)
-```
-
-### Example in Java
-
-```Kotlin
-final KonfettiView konfettiView = findViewById(R.id.konfettiView);
-konfettiView.setOnClickListener(new View.OnClickListener() {
-    @Override
-    public void onClick(final View view) {
-        konfettiView.build()
-                .addColors(Color.YELLOW, Color.GREEN, Color.MAGENTA)
-                .setDirection(0.0, 359.0)
-                .setSpeed(1f, 5f)
-                .setFadeOutEnabled(true)
-                .setTimeToLive(2000L)
-                .addShapes(Shape.Square.INSTANCE, Shape.Circle.INSTANCE)
-                .addSizes(new Size(12, 5f))
-                .setPosition(-50f, konfettiView.getWidth() + 50f, -50f, -50f)
-                .streamFor(300, 5000L);
-    }
-});
-```
-See sample code here: https://github.com/DanielMartinus/Konfetti/blob/main/demo-simple-java/src/main/java/nl/dionsegijn/simple_demo/MainActivity.java
-
-### Custom shapes
-
-Add a custom shape by using:
-
-```Kotlin
-Shape.DrawableShape(drawable: Drawable)
-```
-
-The 3D flip effect works best for symmetrical shapes, for example a drawable with a width and a height of 24x24.
-
-### Indefinite streams
-
-Stream for an indefinite amount of time using `StreamEmitter.INDEFINITE`
-
-```Kotlin
-viewKonfetti.build()
-    ...
-    .streamFor(particlesPerSecond = 300, emittingTime = StreamEmitter.INDEFINITE)
-```
-
-The only way to stop streams that run for an indefinite amount of time is either by calling:
-
-#### Reset
-
-Call reset to immediately stop rendering all particles.
-
-```Kotlin
-viewKonfetti.reset()
-```
-
-#### stopGracefully
-
-Call this function to stop rendering new particles. The ones visible will live out their lifetime.
-
-```Kotlin
-viewKonfetti.stopGracefully()
-```
-
-## Download
-
-Add the following dependency in your app's build.gradle
-
+Compose project:
 ```groovy
 dependencies {
-      implementation 'nl.dionsegijn:konfetti:1.3.2'
+    implementation 'nl.dionsegijn:konfetti-compose:$latest-version'
 }
 ```
 
-### Java project
+View based (XML) project:
+```groovy
+dependencies {
+    implementation 'nl.dionsegijn:konfetti-xml:$latest-version'
+}
+```
 
-If you haven't configured Kotlin for your Java only project, add the following to your project:
+Find latest version [here](https://github.com/DanielMartinus/Konfetti/releases)
 
-`implementation 'org.jetbrains.kotlin:kotlin-stdlib-jdk7:$latest_version'`
+## Usage
 
-Read more about the latest version and kotlin via gradle here: https://kotlinlang.org/docs/reference/using-gradle.html
+<p align="center">
+  <strong>Samples:</strong></br>
+  <a href="/samples/compose-kotlin/src/main">compose</a> •
+  <a href="/samples/xml-kotlin/src/main">xml-kotlin</a> •
+  <a href="/samples/xml-java/src/main">xml-java</a> •
+  <a href="/samples/shared/src/main/java/nl/dionsegijn/samples/shared/Presets.kt">presets</a>
+</p>  
+
+Configure your confetti using the Party configuration object. This holds all the information on how the confetti will be generated.
+Almost all properties of a Party object have a default configuration! This makes it super easy to create beautiful and natural looking confetti.
+
+
+The bare minimum you need is an **Emitter** to tell how often and how many confetti should spawn, like this:
+```kotlin
+Party(
+    emitter = Emitter(duration = 5, TimeUnit.SECONDS).perSecond(30)
+)
+```
+
+**But the possibilities are endless!** You can fully control how the confetti will be generated and behave by customizing the values of the Party object.
+An example of a customized Party configuration is this:
+
+```kotlin
+Party(
+    speed = 0f,
+    maxSpeed = 30f,
+    damping = 0.9f,
+    spread = 360,
+    colors = listOf(0xfce18a, 0xff726d, 0xf4306d, 0xb48def),
+    position = Position.Relative(0.5, 0.3),
+    emitter = Emitter(duration = 100, TimeUnit.MILLISECONDS).max(100)
+)
+```
+_To learn more, see more samples linked at the top of [this section](#usage)_
+
+### Party options
+
+- `Angle` - **Int (default: 0)**: The direction the confetti will shoot. Use any integer between `0-360` or use presets like: Angle.TOP, Angle.RIGHT, Angle.BOTTOM, Angle.LEFT
+- `spread` - **Int (default: 360)**: How wide the confetti will shoot in the direction of Angle. Use any integer between `0-360`. Use 1 to shoot in a straight line and 360 to form a circle
+- `speed` - **Float (default: 30f)**: The start speed of the confetti at the time of creation.
+- `maxSpeed` - **Float (default: 0f)**: Set to -1 to disable maxSpeed. A random speed between `speed` and `maxSpeed` will be chosen. Using randomness creates a more natural and realistic look to the confetti when animating.)
+- `damping` - **Float (default: 0.9f)**: The rate at which the speed will decrease right after shooting the confetti
+- `size` - **`List<Size>` (default: SMALL, MEDIUM, LARGE)**: The size of the confetti. Use: Size.SMALL, MEDIUM or LARGE for default sizes or
+ create your custom size using a new instance of `Size`.
+- `colors` - **`List<Int>` (default: 0xfce18a, 0xff726d, 0xf4306d, 0xb48def)**: List of colors that will be randomly picked from
+- `shapes` - **`List<Shape>` (default: Shape.Square, Shape.Circle)**: Or use a custom shape with `Shape.DrawableShape`
+- `timeToLive` - **Long (default: 2000)**: The time in milliseconds a particle will stay alive after that the confetti will disappear.
+- `fadeOutEnabled` - **Boolean (default: true)**: If true and a confetti disappears because it ran out of time (set with timeToLive) it will slowly fade out. If set to falls it will instantly disappear from the screen.
+- `position` - **Position (default: Position.Relative(0.5, 0.5))**: the location where the confetti will spawn from relative to the canvas. Use absolute
+ coordinates with `[Position.Absolute]` or relative coordinates between 0.0 and 1.0 using `[Position.Relative]`. Spawn confetti between random locations using `[Position.between]`.
+ - `delay` - **Int (default: 0)**: the amount of milliseconds to wait before the rendering of the confetti starts
+ - `rotation` - **Rotation (default: Rotation)**: enable the 3D rotation of a Confetti. See [Rotation] class for the configuration
+ options. Easily enable or disable it using [Rotation].enabled() or [Rotation].disabled() and control the speed of rotations.
+ - `emitter` - **EmitterConfig**: Instructions how many and how often a confetti particle should spawn. Use Emitter(duration, timeUnit).max(amount) or Emitter(duration, timeUnit).perSecond(amount) to configure the Emitter. 
+
+See Party implementation [here](/konfetti/core/src/main/java/nl/dionsegijn/konfetti/core/Party.kt)
+
+### KonfettiView
+
+Create a `KonfettiView` in your compose UI or add one to your xml layout depending on your setup.
+
+compose
+```Kotlin
+KonfettiView(
+    modifier = Modifier.fillMaxSize(),
+    parties = state.party,
+)
+```
+
+View-based (xml)
+```xml
+<nl.dionsegijn.konfetti.xml.KonfettiView
+    android:id="@+id/konfettiView"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent" />
+```
+
+```kotlin
+Party(
+    speed = 0f,
+    maxSpeed = 30f,
+    damping = 0.9f,
+    spread = 360,
+    colors = listOf(0xfce18a, 0xff726d, 0xf4306d, 0xb48def),
+    emitter = Emitter(duration = 100, TimeUnit.MILLISECONDS).max(100),
+    position = Position.Relative(0.5, 0.3)
+)
+viewKonfetti.start(party)
+```
+
+And that's it! There are endless ways that you're able to configure the confetti. If you want to learn more on how to implement Konfetti in a java, xml or compose project then see the samples linked at the top of [this section](#usage)
 
 ## Community
 
-Need help or want to receive the latest updates? Join the telegram groups:
-
-[<img src="media/social_tg_chat.png" height=28 />](https://t.me/konfetti_chat)
+- Follow me on twitter for updates [here](https://twitter.com/dionsegijn)
+- Do you have any questions or need help implementing this library? Search if your question is already asked [here](https://github.com/DanielMartinus/Konfetti/issues?q=is%3Aissue)
+- Or join our telegram chat group and maybe someone can help you out [here](https://t.me/konfetti_chat) 
 
 ## Contribute
 
-There is always room for improvement.
+Do you see any improvements or want to implement a missing feature? Contributions are very welcome!
+- Is your contribution relatively small? Make your changes, run the code checks, open a PR and make sure the CI is green! 
+- Are the changes big and do they make a lot of impact? Please open an issue [here](https://github.com/DanielMartinus/Konfetti/issues?q=is%3Aissue) or reach out and let's discuss.
 
-#### Report issue
+Take into account that changes and requests can be rejected if they don't align with the **purpose of the library**. To not waste any time you can always open an issue [here](https://github.com/DanielMartinus/Konfetti/issues?q=is%3Aissue) to talk before you start making any changes.
 
-Did you encounter bugs? Report them [here](https://github.com/DanielMartinus/Konfetti/issues). The more relevant information you provide the easier and faster it can be resolved.
+### What is the purpose of this library?
+To have a lightweight particle system to easily generate confetti particles to celebrate little and big moments. Even though this is a particle system the purpose is not to be a fully fledged particle system. Changes and features are meant to be in line with being a confetti library. A great example is the implementation of custom shapes by @mattprecious [here](https://github.com/DanielMartinus/Konfetti/pull/129).
 
-#### Contribute
+## Report an issue
 
-As mentioned, there is always room for improvement. Do you have any performance improvement ideas? Please suggest them [here](https://github.com/DanielMartinus/Konfetti/issues). Before submitting a large Pull Request, creating an issue to discuss your ideas would be the preferred way so we can be sure it is in line with other improvements currently being developed. Is it a simple improvement? Go ahead and submit a Pull Request! I very welcome any contributions.
-
-## Roadmap
-
-In line with the previous contribute section there are some already known issues that could be resolved and are open for discussion.
-
-- ~~Determining the size of the particles in the current implementation is not ideal. More here: [#7 Confetti size system](https://github.com/DanielMartinus/Konfetti/issues/7)~~
-- A performance improvement to the library could for one be to implement a shared object pool amongst all particle systems instead of having them to handle confetti instances themselves.
+- Did you find an issue and want to fix it yourself? See [Contribute](#contribute) for more information
+- Want to report an issue? You can do that [here](https://github.com/DanielMartinus/Konfetti/issues?q=is%3Aissue). By adding as much details when reporting the issue and steps to reproduce you improve the change it will be solved quickly. 
 
 ## License
 
