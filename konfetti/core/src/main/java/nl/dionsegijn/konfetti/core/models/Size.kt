@@ -1,7 +1,5 @@
 package nl.dionsegijn.konfetti.core.models
 
-import android.content.res.Resources
-
 /**
  * @property sizeInDp the size of the confetti in dip
  * @property mass each size can have its own mass for slightly different behavior. For example, the closer
