@@ -81,7 +81,6 @@ class Confetti(
         // 3D rotation effect by decreasing the width and make sure that rotationSpeed is always
         // positive by using abs
         rotationWidth -= abs(rotationSpeed3D) * deltaTime * speedF
-        if (rotationWidth > width) Log.e("Konfetti", "rotationWidth ($rotationWidth) -= rotationSpeed3D ($rotationSpeed3D) * deltaTime ($deltaTime) * speedF ($speedF)")
         if (rotationWidth < 0) rotationWidth = width
 
         scaleX = abs(rotationWidth / width - 0.5f) * 2
