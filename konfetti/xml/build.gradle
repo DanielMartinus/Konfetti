@@ -4,7 +4,7 @@ apply plugin: "com.diffplug.spotless"
 
 ext {
     PUBLISH_GROUP_ID = 'nl.dionsegijn'
-    PUBLISH_VERSION = "2.0.0"
+    PUBLISH_VERSION = "2.0.1-alpha01"
     PUBLISH_ARTIFACT_ID = 'konfetti-xml'
 }
 
