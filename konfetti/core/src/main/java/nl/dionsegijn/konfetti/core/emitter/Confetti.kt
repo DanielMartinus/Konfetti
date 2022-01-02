@@ -1,7 +1,6 @@
 package nl.dionsegijn.konfetti.core.emitter
 
 import android.graphics.Rect
-import android.util.Log
 import nl.dionsegijn.konfetti.core.models.Shape
 import nl.dionsegijn.konfetti.core.models.Vector
 import kotlin.math.abs
