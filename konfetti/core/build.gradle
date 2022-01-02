@@ -4,6 +4,14 @@ plugins {
     id 'com.diffplug.spotless'
 }
 
+ext {
+    PUBLISH_GROUP_ID = 'nl.dionsegijn'
+    PUBLISH_VERSION = "2.0.1-alpha01"
+    PUBLISH_ARTIFACT_ID = 'konfetti-core'
+}
+
+apply from: "${rootProject.projectDir}/scripts/publish-mavencentral.gradle"
+
 spotless {
     kotlin {
         ktlint("0.37.2")
