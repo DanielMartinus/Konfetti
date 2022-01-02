@@ -34,18 +34,18 @@
 Compose project:
 ```groovy
 dependencies {
-    implementation 'nl.dionsegijn:konfetti-compose:$latest-version'
+    implementation 'nl.dionsegijn:konfetti-compose:2.0.1'
 }
 ```
 
 View based (XML) project:
 ```groovy
 dependencies {
-    implementation 'nl.dionsegijn:konfetti-xml:$latest-version'
+    implementation 'nl.dionsegijn:konfetti-xml:2.0.1'
 }
 ```
 
-Find latest version [here](https://github.com/DanielMartinus/Konfetti/releases)
+Find latest version and release notes [here](https://github.com/DanielMartinus/Konfetti/releases)
 
 ## Usage
 
