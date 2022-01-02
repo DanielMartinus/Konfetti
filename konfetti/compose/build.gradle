@@ -6,7 +6,7 @@ plugins {
 
 ext {
     PUBLISH_GROUP_ID = 'nl.dionsegijn'
-    PUBLISH_VERSION = "2.0.1-alpha01"
+    PUBLISH_VERSION = "2.0.1"
     PUBLISH_ARTIFACT_ID = 'konfetti-compose'
 }
 
@@ -63,7 +63,7 @@ android {
 }
 
 dependencies {
-    api project(path: ':konfetti:core')
+    api 'nl.dionsegijn:konfetti-core:2.0.1'
 
     implementation "androidx.compose.foundation:foundation:$compose_version"
     implementation "androidx.compose.ui:ui:$compose_version"
