@@ -7,7 +7,7 @@ plugins {
 ext {
     PUBLISH_GROUP_ID = 'nl.dionsegijn'
     PUBLISH_VERSION = "2.0.1"
-    PUBLISH_ARTIFACT_ID = 'konfetti-core'
+    PUBLISH_ARTIFACT_ID = 'konfetti'
 }
 
 apply from: "${rootProject.projectDir}/scripts/publish-mavencentral.gradle"
