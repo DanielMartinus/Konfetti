@@ -81,10 +81,11 @@ fun KonfettiUI(viewModel: KonfettiViewModel = KonfettiViewModel()) {
                 }
             }
         }
-        is KonfettiViewModel.State.Started -> KonfettiView(
+        is KonfettiViewModel.State.Started -> nl.dionsegijn.konfetti.compose.KonfettiView(
             modifier = Modifier.fillMaxSize(),
             parties = newState.party,
-            updateListener = object : OnParticleSystemUpdateListener {
+            updateListener = object :
+                nl.dionsegijn.konfetti.compose.OnParticleSystemUpdateListener {
                 override fun onParticleSystemEnded(system: PartySystem, activeSystems: Int) {
                     if (activeSystems == 0) viewModel.ended()
                 }
