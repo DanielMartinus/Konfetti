@@ -56,8 +56,8 @@ android {
 }
 
 dependencies {
-    implementation project(path: ':konfetti:compose')
-    implementation project(path: ':samples:shared')
+    implementation project(':konfetti')
+    implementation project(':samples:shared')
 
     implementation 'androidx.core:core-ktx:1.7.0'
     implementation 'androidx.appcompat:appcompat:1.4.0'

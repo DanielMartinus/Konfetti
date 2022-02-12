@@ -13,9 +13,6 @@
           <set>
             <option value="$PROJECT_DIR$" />
             <option value="$PROJECT_DIR$/konfetti" />
-            <option value="$PROJECT_DIR$/konfetti/compose" />
-            <option value="$PROJECT_DIR$/konfetti/konfetti" />
-            <option value="$PROJECT_DIR$/konfetti/xml" />
             <option value="$PROJECT_DIR$/samples" />
             <option value="$PROJECT_DIR$/samples/compose-kotlin" />
             <option value="$PROJECT_DIR$/samples/shared" />
