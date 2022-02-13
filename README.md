@@ -26,7 +26,7 @@
 </p>
 
 <p align="center">
-  <strong>New version: 2.0.0 is now released! Jetpack compose support - improved animations and API - <a href="https://dionsegijn.dev/konfetti-migration-guide-v2.0.0">see migration guide here</a></strong>
+  <strong>New version: 2.0.0 is now released! Jetpack compose support - improved animations and API - <a href="https://dionsegijn.dev/konfetti-migration-guide-v2.x.x">see migration guide here</a></strong>
 </p>
 
 ## Getting started
