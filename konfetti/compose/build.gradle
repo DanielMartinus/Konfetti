@@ -63,7 +63,7 @@ android {
 }
 
 dependencies {
-    api project(':konfetti:core')
+    api project(':konfetti:konfetti-core')
 
     implementation "androidx.compose.foundation:foundation:$compose_version"
     implementation "androidx.compose.ui:ui:$compose_version"
