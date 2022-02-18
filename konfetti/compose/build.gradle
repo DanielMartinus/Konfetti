@@ -63,7 +63,8 @@ android {
 }
 
 dependencies {
-    api 'nl.dionsegijn:konfetti-core:2.0.1'
+    debugApi project(path: ':konfetti:core')
+    releaseApi "nl.dionsegijn:konfetti-core:$konfetti_version"
 
     implementation "androidx.compose.foundation:foundation:$compose_version"
     implementation "androidx.compose.ui:ui:$compose_version"
