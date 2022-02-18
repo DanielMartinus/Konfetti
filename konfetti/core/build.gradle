@@ -10,7 +10,7 @@ ext {
     PUBLISH_ARTIFACT_ID = 'konfetti-core'
 }
 
-apply from: "${rootProject.projectDir}/scripts/publish-mavencentral.gradle"
+apply from: "${rootProject.projectDir}/scripts/publish-module.gradle"
 
 spotless {
     kotlin {
