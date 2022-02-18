@@ -56,7 +56,6 @@ android {
 }
 
 dependencies {
-    api 'nl.dionsegijn:konfetti-core:2.0.1'
     implementation "org.jetbrains.kotlin:kotlin-stdlib:$kotlin_version"
     testImplementation 'junit:junit:4.13.2'
     testImplementation 'org.mockito:mockito-core:3.11.2'
