@@ -1,10 +1,12 @@
-apply plugin: 'io.codearte.nexus-staging'
+apply plugin: 'io.github.gradle-nexus.publish-plugin'
 
 buildscript {
+    ext.konfetti_version = '2.0.1'
     ext.kotlin_version = '1.6.0'
     ext.compose_version = '1.1.0-rc01'
     ext.coroutines_version = '1.4.2'
     repositories {
+        maven { url "https://plugins.gradle.org/m2/" }
         google()
         mavenCentral()
     }
@@ -13,7 +15,7 @@ buildscript {
         classpath "org.jetbrains.kotlin:kotlin-gradle-plugin:$kotlin_version"
         classpath 'com.github.dcendents:android-maven-gradle-plugin:2.1'
         classpath "com.diffplug.spotless:spotless-plugin-gradle:5.14.2"
-        classpath 'io.codearte.gradle.nexus:gradle-nexus-staging-plugin:0.30.0'
+        classpath 'io.github.gradle-nexus:publish-plugin:1.1.0'
     }
 }
 
@@ -23,3 +25,5 @@ allprojects {
         mavenCentral()
     }
 }
+
+apply from: "${rootDir}/scripts/publish-root.gradle"

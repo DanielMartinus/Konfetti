@@ -26,7 +26,7 @@
 </p>
 
 <p align="center">
-  <strong>New version: 2.0.0 is now released! Jetpack compose support - improved animations and API - <a href="https://dionsegijn.dev/konfetti-migration-guide-v2.0.0">see migration guide here</a></strong>
+  <strong>New version: 2.0.0 is now released! Jetpack compose support - improved animations and API - <a href="https://dionsegijn.dev/konfetti-migration-guide-v2.x.x">see migration guide here</a></strong>
 </p>
 
 ## Getting started
@@ -154,7 +154,7 @@ And that's it! There are endless possibilities to configure the confetti. If you
 ## Contribute
 
 Do you see any improvements or want to implement a missing feature? Contributions are very welcome!
-- Is your contribution relatively small? Make your changes, run the code checks, open a PR and make sure the CI is green! 
+- Is your contribution relatively small? You can, make your changes, run the code checks, open a PR and make sure the CI is green. That's it! 
 - Are the changes big and do they make a lot of impact? Please open an issue [here](https://github.com/DanielMartinus/Konfetti/issues?q=is%3Aissue) or reach out and let's discuss.
 
 Take into account that changes and requests can be rejected if they don't align with the **purpose of the library**. To not waste any time you can always open an issue [here](https://github.com/DanielMartinus/Konfetti/issues?q=is%3Aissue) to talk before you start making any changes.

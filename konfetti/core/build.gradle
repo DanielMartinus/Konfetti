@@ -6,11 +6,11 @@ plugins {
 
 ext {
     PUBLISH_GROUP_ID = 'nl.dionsegijn'
-    PUBLISH_VERSION = "2.0.1"
+    PUBLISH_VERSION = konfetti_version
     PUBLISH_ARTIFACT_ID = 'konfetti-core'
 }
 
-apply from: "${rootProject.projectDir}/scripts/publish-mavencentral.gradle"
+apply from: "${rootProject.projectDir}/scripts/publish-module.gradle"
 
 spotless {
     kotlin {
@@ -56,7 +56,6 @@ android {
 }
 
 dependencies {
-    api 'nl.dionsegijn:konfetti-core:2.0.1'
     implementation "org.jetbrains.kotlin:kotlin-stdlib:$kotlin_version"
     testImplementation 'junit:junit:4.13.2'
     testImplementation 'org.mockito:mockito-core:3.11.2'
