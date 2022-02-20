@@ -1,7 +1,7 @@
 apply plugin: 'io.github.gradle-nexus.publish-plugin'
 
 buildscript {
-    ext.konfetti_version = '2.0.1'
+    ext.konfetti_version = '2.0.2'
     ext.kotlin_version = '1.6.0'
     ext.compose_version = '1.1.0-rc01'
     ext.coroutines_version = '1.4.2'
