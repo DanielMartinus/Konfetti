@@ -34,14 +34,14 @@
 Compose project:
 ```groovy
 dependencies {
-    implementation 'nl.dionsegijn:konfetti-compose:2.0.1'
+    implementation 'nl.dionsegijn:konfetti-compose:2.0.2'
 }
 ```
 
 View based (XML) project:
 ```groovy
 dependencies {
-    implementation 'nl.dionsegijn:konfetti-xml:2.0.1'
+    implementation 'nl.dionsegijn:konfetti-xml:2.0.2'
 }
 ```
 
