@@ -175,4 +175,9 @@ open class KonfettiView : View {
         super.onSizeChanged(w, h, oldw, oldh)
         drawArea = Rect(0, 0, w, h)
     }
+
+    override fun onVisibilityChanged(changedView: View, visibility: Int) {
+        super.onVisibilityChanged(changedView, visibility)
+        timer.reset()
+    }
 }
