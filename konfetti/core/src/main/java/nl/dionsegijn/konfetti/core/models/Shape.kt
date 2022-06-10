@@ -32,4 +32,9 @@ sealed interface Shape {
                 drawable.intrinsicHeight.toFloat() / drawable.intrinsicWidth
             }
     }
+
+    data class Text(
+        val text: String,
+        val textSizeInPixels: Float
+    ) : Shape
 }
