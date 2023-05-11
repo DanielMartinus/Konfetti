@@ -38,7 +38,7 @@ fun Shape.draw(canvas: Canvas, paint: Paint, size: Float) {
                 } else {
                     drawable.setColorFilter(paint.color, PorterDuff.Mode.SRC_IN)
                 }
-            } else {
+            } else if (applyAlpha) {
                 drawable.alpha = paint.alpha
             }
 
