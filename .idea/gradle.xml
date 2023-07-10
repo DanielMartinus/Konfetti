@@ -23,7 +23,6 @@
             <option value="$PROJECT_DIR$/samples/xml-kotlin" />
           </set>
         </option>
-        <option name="resolveModulePerSourceSet" value="false" />
       </GradleProjectSettings>
     </option>
   </component>
