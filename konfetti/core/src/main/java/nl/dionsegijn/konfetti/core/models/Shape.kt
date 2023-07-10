@@ -21,7 +21,7 @@ sealed interface Shape {
      * A drawable shape
      * @param drawable drawable
      * @param tint Set to `false` to opt out of tinting the drawable, keeping its original colors.
-     * @param applyAlpha if tint is `false` then apply alpha or not on drawable
+     * @param applyAlpha Set to false to not apply alpha to drawables
      */
     data class DrawableShape(
         val drawable: Drawable,
