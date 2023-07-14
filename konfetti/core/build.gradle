@@ -25,7 +25,7 @@ spotless {
 }
 
 android {
-    compileSdkVersion 31
+    compileSdkVersion 33
     buildToolsVersion "30.0.3"
 
     compileOptions {
@@ -39,7 +39,7 @@ android {
 
     defaultConfig {
         minSdkVersion 15
-        targetSdkVersion 31
+        targetSdkVersion 33
     }
     buildTypes {
         release {
