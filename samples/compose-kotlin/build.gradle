@@ -18,7 +18,7 @@ spotless {
 
 android {
     compileSdk 33
-    buildToolsVersion "30.0.3"
+    buildToolsVersion "34.0.0"
 
     defaultConfig {
         applicationId "nl.dionsegijn.sample.demo_compose"
