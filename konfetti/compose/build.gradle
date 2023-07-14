@@ -58,6 +58,7 @@ android {
     composeOptions {
         kotlinCompilerExtensionVersion compose_version
     }
+    namespace 'nl.dionsegijn.konfetti.compose'
 }
 
 dependencies {

@@ -49,6 +49,7 @@ android {
         abortOnError true
         baseline file("lint-baseline.xml")
     }
+    namespace 'nl.dionsegijn.konfetti.xml'
 }
 
 dependencies {

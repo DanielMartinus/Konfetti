@@ -52,6 +52,7 @@ android {
     composeOptions {
         kotlinCompilerExtensionVersion compose_version
     }
+    namespace 'nl.dionsegijn.xml.compose'
 }
 
 dependencies {

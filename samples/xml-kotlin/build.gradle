@@ -42,6 +42,7 @@ android {
     kotlinOptions {
         jvmTarget = '1.8'
     }
+    namespace 'nl.dionsegijn.xml.kotlin'
 }
 
 dependencies {
