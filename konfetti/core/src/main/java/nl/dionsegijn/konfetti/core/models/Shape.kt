@@ -16,10 +16,17 @@ sealed interface Shape {
             require(heightRatio in 0f..1f)
         }
     }
+
+    /**
+     * A drawable shape
+     * @param drawable drawable
+     * @param tint Set to `false` to opt out of tinting the drawable, keeping its original colors.
+     * @param applyAlpha Set to false to not apply alpha to drawables
+     */
     data class DrawableShape(
         val drawable: Drawable,
-        /** Set to `false` to opt out of tinting the drawable, keeping its original colors. */
-        val tint: Boolean = true
+        val tint: Boolean = true,
+        val applyAlpha: Boolean = true,
     ) : Shape {
         val heightRatio =
             if (drawable.intrinsicHeight == -1 && drawable.intrinsicWidth == -1) {
