@@ -25,8 +25,8 @@ spotless {
 }
 
 android {
-    compileSdkVersion 33
-    buildToolsVersion "34.0.0"
+    compileSdkVersion = 33
+    buildToolsVersion = "34.0.0"
 
     compileOptions {
         sourceCompatibility = JavaVersion.VERSION_1_8
@@ -38,24 +38,24 @@ android {
     }
 
     defaultConfig {
-        minSdkVersion 15
-        targetSdkVersion 33
+        minSdk = 15
+        targetSdk = 33
     }
     buildTypes {
         release {
-            minifyEnabled false
-            proguardFiles getDefaultProguardFile("proguard-android.txt"), "proguard-rules.pro"
+            minifyEnabled = false
+            proguardFiles(getDefaultProguardFile("proguard-android.txt"), "proguard-rules.pro")
         }
     }
-    namespace "nl.dionsegijn.konfetti.core"
+    namespace = "nl.dionsegijn.konfetti.core"
     lint {
-        abortOnError true
-        baseline file("lint-baseline.xml")
+        abortOnError = true
+        baseline(file("lint-baseline.xml"))
     }
 }
 
 dependencies {
-    implementation "org.jetbrains.kotlin:kotlin-stdlib:$kotlin_version"
-    testImplementation "junit:junit:4.13.2"
-    testImplementation "org.mockito:mockito-core:3.11.2"
+    implementation("org.jetbrains.kotlin:kotlin-stdlib:$kotlin_version")
+    testImplementation("junit:junit:4.13.2")
+    testImplementation("org.mockito:mockito-core:3.11.2")
 }

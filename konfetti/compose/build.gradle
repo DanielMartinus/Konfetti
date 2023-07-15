@@ -25,12 +25,12 @@ spotless {
 }
 
 android {
-    compileSdkVersion 33
-    buildToolsVersion "34.0.0"
+    compileSdkVersion = 33
+    buildToolsVersion = "34.0.0"
 
     compileOptions {
-        sourceCompatibility JavaVersion.VERSION_1_8
-        targetCompatibility JavaVersion.VERSION_1_8
+        sourceCompatibility = JavaVersion.VERSION_1_8
+        targetCompatibility = JavaVersion.VERSION_1_8
     }
 
     kotlinOptions {
@@ -38,37 +38,37 @@ android {
     }
 
     defaultConfig {
-        minSdkVersion 21
-        targetSdkVersion 33
+        minSdk = 21
+        targetSdk = 33
 
-        testInstrumentationRunner "androidx.test.runner.AndroidJUnitRunner"
+        testInstrumentationRunner = "androidx.test.runner.AndroidJUnitRunner"
     }
 
     buildTypes {
         release {
-            minifyEnabled false
-            proguardFiles getDefaultProguardFile("proguard-android-optimize.txt"), "proguard-rules.pro"
+            minifyEnabled = false
+            proguardFiles(getDefaultProguardFile("proguard-android-optimize.txt"), "proguard-rules.pro")
         }
     }
 
     buildFeatures {
-        compose true
+        compose = true
     }
 
     composeOptions {
-        kotlinCompilerExtensionVersion compose_version
+        kotlinCompilerExtensionVersion = compose_version
     }
-    namespace "nl.dionsegijn.konfetti.compose"
+    namespace = "nl.dionsegijn.konfetti.compose"
 }
 
 dependencies {
-    debugApi project(path: ":konfetti:core")
-    releaseApi "nl.dionsegijn:konfetti-core:$konfetti_version"
+    debugApi(project(path: ":konfetti:core"))
+    releaseApi("nl.dionsegijn:konfetti-core:$konfetti_version")
 
-    implementation "androidx.compose.foundation:foundation:$compose_version"
-    implementation "androidx.compose.ui:ui:$compose_version"
+    implementation("androidx.compose.foundation:foundation:$compose_version")
+    implementation("androidx.compose.ui:ui:$compose_version")
 
-    testImplementation "junit:junit:4.13.2"
-    androidTestImplementation "androidx.test.ext:junit:1.1.5"
-    androidTestImplementation "androidx.compose.ui:ui-test-junit4:$compose_version"
+    testImplementation("junit:junit:4.13.2")
+    androidTestImplementation("androidx.test.ext:junit:1.1.5")
+    androidTestImplementation("androidx.compose.ui:ui-test-junit4:$compose_version")
 }
