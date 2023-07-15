@@ -1,18 +1,18 @@
 plugins {
-    id "com.android.application"
-    id "kotlin-android"
-    id "com.diffplug.spotless"
+    id("com.android.application")
+    id("kotlin-android")
+    id("com.diffplug.spotless")
 }
 
 spotless {
     kotlin {
         ktlint("0.37.2")
-        target "src/**/*.kt"
+        target("src/**/*.kt")
     }
     java {
         removeUnusedImports()
         googleJavaFormat("1.5")
-        target "**/*.java"
+        target("**/*.java")
     }
 }
 
@@ -20,7 +20,6 @@ android {
     compileSdk = 33
 
     defaultConfig {
-        applicationId("nl.dionsegijn.demo_xml")
         minSdk = 23
         targetSdk=  33
 
@@ -29,7 +28,7 @@ android {
 
     buildTypes {
         release {
-            minifyEnabled = false
+            isMinifyEnabled = false
             proguardFiles(getDefaultProguardFile("proguard-android-optimize.txt"), "proguard-rules.pro")
         }
     }
@@ -44,8 +43,8 @@ android {
 }
 
 dependencies {
-    implementation(project(path: ":konfetti:xml"))
-    implementation(project(path: ":samples:shared"))
+    implementation(project(path = ":konfetti:xml"))
+    implementation(project(path = ":samples:shared"))
     implementation("androidx.core:core-ktx:1.7.0")
     implementation("androidx.appcompat:appcompat:1.4.1")
     implementation("com.google.android.material:material:1.5.0")
