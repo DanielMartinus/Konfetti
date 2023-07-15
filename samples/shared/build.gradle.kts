@@ -1,6 +1,6 @@
 plugins {
-    id "com.android.library"
-    id "kotlin-android"
+    id("com.android.library")
+    id("kotlin-android")
 }
 
 android {
@@ -16,7 +16,7 @@ android {
 
     buildTypes {
         release {
-            minifyEnabled = false
+            isMinifyEnabled = false
             proguardFiles(getDefaultProguardFile("proguard-android-optimize.txt"), "proguard-rules.pro")
         }
     }
@@ -31,7 +31,7 @@ android {
 }
 
 dependencies {
-    implementation(project(path: ":konfetti:core"))
+    implementation(project(path = ":konfetti:core"))
     implementation("androidx.core:core-ktx:1.7.0")
     implementation("androidx.appcompat:appcompat:1.4.0")
     implementation("com.google.android.material:material:1.4.0")

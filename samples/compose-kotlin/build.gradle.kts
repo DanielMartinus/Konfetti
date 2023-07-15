@@ -1,18 +1,18 @@
 plugins {
-    id "com.android.application"
-    id "kotlin-android"
-    id "com.diffplug.spotless"
+    id("com.android.application")
+    id("kotlin-android")
+    id("com.diffplug.spotless")
 }
 
 spotless {
     kotlin {
         ktlint("0.37.2")
-        target "src/**/*.kt"
+        target("src/**/*.kt")
     }
     java {
         removeUnusedImports()
         googleJavaFormat("1.5")
-        target "**/*.java"
+        target("**/*.java")
     }
 }
 
@@ -21,21 +21,18 @@ android {
     buildToolsVersion = "34.0.0"
 
     defaultConfig {
-        applicationId = "nl.dionsegijn.sample.demo_compose"
         minSdk = 21
         targetSdk = 33
-        versionCode = 1
-        versionName = "1.0"
 
         testInstrumentationRunner = "androidx.test.runner.AndroidJUnitRunner"
         vectorDrawables {
-            useSupportLibrary=  true
+            useSupportLibrary = true
         }
     }
 
     buildTypes {
         release {
-            minifyEnabled = false
+            isMinifyEnabled = false
             proguardFiles(getDefaultProguardFile("proguard-android-optimize.txt"), "proguard-rules.pro")
         }
     }
@@ -50,14 +47,16 @@ android {
         compose = true
     }
     composeOptions {
-        kotlinCompilerExtensionVersion = compose_version
+        kotlinCompilerExtensionVersion = Constants.composeVersion
     }
     namespace = "nl.dionsegijn.xml.compose"
 }
 
 dependencies {
-    implementation(project(path: ":konfetti:compose"))
-    implementation(project(path: ":samples:shared"))
+    val composeVersion: String = Constants.composeVersion
+
+    implementation(project(path = ":konfetti:compose"))
+    implementation(project(path = ":samples:shared"))
 
     implementation("androidx.core:core-ktx:1.7.0")
     implementation("androidx.appcompat:appcompat:1.4.1")
@@ -67,9 +66,9 @@ dependencies {
     implementation("androidx.lifecycle:lifecycle-runtime-ktx:2.4.1")
     implementation("androidx.lifecycle:lifecycle-livedata-ktx:2.4.1")
 
-    implementation("androidx.compose.ui:ui:$compose_version")
-    implementation("androidx.compose.material:material:$compose_version")
-    implementation("androidx.compose.ui:ui-tooling:$compose_version")
-    implementation("androidx.compose.runtime:runtime:$compose_version")
-    implementation("androidx.compose.runtime:runtime-livedata:$compose_version")
+    implementation("androidx.compose.ui:ui:$composeVersion")
+    implementation("androidx.compose.material:material:$composeVersion")
+    implementation("androidx.compose.ui:ui-tooling:$composeVersion")
+    implementation("androidx.compose.runtime:runtime:$composeVersion")
+    implementation("androidx.compose.runtime:runtime-livedata:$composeVersion")
 }
