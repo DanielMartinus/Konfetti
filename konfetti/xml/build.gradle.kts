@@ -1,31 +1,26 @@
 plugins {
-    id "com.android.library"
-    id "kotlin-android"
-    id "com.diffplug.spotless"
+    id("com.android.library")
+    id("kotlin-android")
+    id("com.diffplug.spotless")
 }
 
-ext {
-    PUBLISH_GROUP_ID = "nl.dionsegijn"
-    PUBLISH_VERSION = konfetti_version
-    PUBLISH_ARTIFACT_ID = "konfetti-core"
-}
-
-apply from: "${rootProject.projectDir}/scripts/publish-module.gradle"
+NexusConfig.PUBLISH_ARTIFACT_ID = "konfetti-xml"
+apply(from = "../../publish-module.gradle.kts")
 
 spotless {
     kotlin {
         ktlint("0.37.2")
-        target "src/**/*.kt"
+        target("src/**/*.kt")
     }
     java {
         removeUnusedImports()
         googleJavaFormat("1.5")
-        target "**/*.java"
+        target("**/*.java")
     }
 }
 
 android {
-    compileSdkVersion = 33
+    compileSdk = 33
     buildToolsVersion = "34.0.0"
 
     compileOptions {
@@ -43,19 +38,22 @@ android {
     }
     buildTypes {
         release {
-            minifyEnabled = false
+            isMinifyEnabled = false
             proguardFiles(getDefaultProguardFile("proguard-android.txt"), "proguard-rules.pro")
         }
     }
-    namespace = "nl.dionsegijn.konfetti.core"
+    namespace = "nl.dionsegijn.konfetti.xml"
     lint {
         abortOnError = true
-        baseline(file("lint-baseline.xml"))
+        baseline = file("lint-baseline.xml")
     }
 }
 
 dependencies {
-    implementation("org.jetbrains.kotlin:kotlin-stdlib:$kotlin_version")
+    debugApi(project(path = ":konfetti:core"))
+    releaseApi("nl.dionsegijn:konfetti-core:${Constants.konfettiVersion}")
+
+    implementation("org.jetbrains.kotlin:kotlin-stdlib:${Constants.kotlinVersion}")
     testImplementation("junit:junit:4.13.2")
     testImplementation("org.mockito:mockito-core:3.11.2")
 }
