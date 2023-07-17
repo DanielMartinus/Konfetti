@@ -4,6 +4,9 @@ plugins {
     id("com.diffplug.spotless")
 }
 
+NexusConfig.PUBLISH_ARTIFACT_ID = "konfetti-core"
+apply(from = "../../publish-module.gradle.kts")
+
 spotless {
     kotlin {
         ktlint("0.37.2")
@@ -47,12 +50,7 @@ android {
 }
 
 dependencies {
-    val kotlin_version = Constants.kotlinVersion
-    implementation("org.jetbrains.kotlin:kotlin-stdlib:$kotlin_version")
+    implementation("org.jetbrains.kotlin:kotlin-stdlib:${Constants.kotlinVersion}")
     testImplementation("junit:junit:4.13.2")
     testImplementation("org.mockito:mockito-core:3.11.2")
 }
-
-NexusConfig.PUBLISH_ARTIFACT_ID = "konfetti-core"
-apply(from = "../../publish-module.gradle.kts")
-//apply from: "${rootProject.projectDir}/scripts/publish-module.gradle"
