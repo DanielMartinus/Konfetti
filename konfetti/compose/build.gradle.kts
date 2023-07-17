@@ -5,7 +5,7 @@ plugins {
 }
 
 NexusConfig.PUBLISH_ARTIFACT_ID = "konfetti-compose"
-apply(from = "../../publish-module.gradle.kts")
+apply(from = "../../scripts/publish-module.gradle.kts")
 
 spotless {
     kotlin {
