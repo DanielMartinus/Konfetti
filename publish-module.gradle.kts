@@ -75,13 +75,16 @@ afterEvaluate {
 
     configure<SigningExtension> {
         // Get signing properties
-        val properties = File(rootDir, "local.properties").inputStream().use {
-            java.util.Properties().apply { load(it) }
+        val properties = File(rootDir, "local.properties")
+        if(properties.exists()) {
+            val localProperties = properties.inputStream().use {
+                java.util.Properties().apply { load(it) }
+            }
+            val signingKeyId: String? = localProperties.getValue("signing.keyId") as String
+            val signingKey: String? = localProperties.getValue("signing.key") as String
+            val signingPassword: String? = localProperties.getValue("signing.password") as String
+            useInMemoryPgpKeys(signingKeyId, signingKey, signingPassword)
         }
-        val signingKeyId: String? = properties.getValue("signing.keyId") as String
-        val signingKey: String? = properties.getValue("signing.key") as String
-        val signingPassword: String? = properties.getValue("signing.password") as String
-        useInMemoryPgpKeys(signingKeyId, signingKey, signingPassword)
 
         // Start signing publication
         val pubExt = checkNotNull(extensions.findByType(PublishingExtension::class.java))
