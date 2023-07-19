@@ -1,0 +1,6 @@
+[versions]
+compose = "1.4.3"
+
+[libraries]
+compose-foundation = { group = "androidx.compose.foundation", name = "foundation", version.ref = "compose" }
+compose-ui = { group = "androidx.compose.ui", name = "ui", version.ref = "compose" }

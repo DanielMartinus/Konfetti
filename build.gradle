@@ -18,11 +18,5 @@ buildscript {
     }
 }
 
-allprojects {
-    repositories {
-        google()
-        mavenCentral()
-    }
-}
 
 apply from: "${rootDir}/scripts/publish-root.gradle"
