@@ -62,10 +62,10 @@ dependencies {
     debugApi(project(path = ":konfetti:core"))
     releaseApi("nl.dionsegijn:konfetti-core:${Constants.konfettiVersion}")
 
-    implementation("androidx.compose.foundation:foundation:$composeVersion")
-    implementation("androidx.compose.ui:ui:$composeVersion")
+    implementation(lib.compose.foundation)
+    implementation(lib.compose.ui)
 
-    testImplementation("junit:junit:4.13.2")
-    androidTestImplementation("androidx.test.ext:junit:1.1.5")
-    androidTestImplementation("androidx.compose.ui:ui-test-junit4:$composeVersion")
+    testImplementation(lib.test.junit)
+    androidTestImplementation(lib.test.junit.ext)
+    androidTestImplementation(lib.compose.ui)
 }
