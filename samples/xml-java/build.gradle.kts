@@ -28,7 +28,7 @@ android {
 
 dependencies {
     implementation(project(path = ":konfetti:xml"))
-    implementation("androidx.appcompat:appcompat:1.4.1")
-    implementation("com.google.android.material:material:1.5.0")
-    implementation("androidx.constraintlayout:constraintlayout:2.1.3")
+    implementation(lib.androidx.appcomat)
+    implementation(lib.android.material)
+    implementation(lib.androidx.constraintlayout)
 }
