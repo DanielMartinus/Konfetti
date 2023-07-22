@@ -12,3 +12,10 @@ include(
     ":samples:shared"
 )
 
+dependencyResolutionManagement {
+    repositories {
+        gradlePluginPortal()
+        google()
+        mavenCentral()
+    }
+}
