@@ -1,11 +1,13 @@
 [versions]
 compose = "1.4.3"
+mockito = "3.11.2"
 junit = "4.13.2"
 junit-ext = "1.1.5"
 
 [libraries]
 compose-foundation = { group = "androidx.compose.foundation", name = "foundation", version.ref = "compose" }
 compose-ui = { group = "androidx.compose.ui", name = "ui", version.ref = "compose" }
+test-mockito = { group = "org.mockito", name = "mockito-core", version.ref = "junit" }
 test-junit = { group = "junit", name = "junit", version.ref = "junit" }
 test-junit-ext = { group = "androidx.test.ext", name = "junit", version.ref = "junit-ext" }
 test-compose-ui = { group = "androidx.compose.ui", name = "ui-test-junit4", version.ref = "compose" }

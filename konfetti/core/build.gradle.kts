@@ -51,6 +51,7 @@ android {
 
 dependencies {
     implementation("org.jetbrains.kotlin:kotlin-stdlib:${Constants.kotlinVersion}")
-    testImplementation("junit:junit:4.13.2")
-    testImplementation("org.mockito:mockito-core:3.11.2")
+    testImplementation(lib.test.junit)
+    testImplementation(lib.test.mockito)
+
 }
