@@ -13,7 +13,7 @@ buildscript {
         classpath("org.jetbrains.kotlin:kotlin-gradle-plugin:${Constants.kotlinVersion}")
         classpath("com.github.dcendents:android-maven-gradle-plugin:2.1")
         classpath("com.diffplug.spotless:spotless-plugin-gradle:5.14.2")
-        classpath("io.github.gradle-nexus:publish-plugin:1.1.0")
+        classpath("io.github.gradle-nexus:publish-plugin:1.3.0")
     }
 }
 
