@@ -58,17 +58,17 @@ dependencies {
     implementation(project(path = ":konfetti:compose"))
     implementation(project(path = ":samples:shared"))
 
-    implementation(lib.androidx.core.ktx)
-    implementation(lib.androidx.appcomat)
-    implementation(lib.android.material)
-    implementation(lib.androidx.activity.compose)
+    implementation(libs.androidx.core.ktx)
+    implementation(libs.androidx.appcomat)
+    implementation(libs.android.material)
+    implementation(libs.androidx.activity.compose)
 
-    implementation(lib.androidx.lifecycle.runtime)
-    implementation(lib.androidx.lifecycle.livedata.ktx)
+    implementation(libs.androidx.lifecycle.runtime)
+    implementation(libs.androidx.lifecycle.livedata.ktx)
 
-    implementation(lib.compose.ui)
-    implementation(lib.compose.ui.tooling)
-    implementation(lib.compose.material)
-    implementation(lib.compose.runtime)
-    implementation(lib.compose.runtime.livedata)
+    implementation(libs.compose.ui)
+    implementation(libs.compose.ui.tooling)
+    implementation(libs.compose.material)
+    implementation(libs.compose.runtime)
+    implementation(libs.compose.runtime.livedata)
 }

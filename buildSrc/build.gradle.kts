@@ -3,8 +3,8 @@ plugins {
 }
 
 repositories {
-    mavenCentral()
     google()
+    mavenCentral()
 }
 
 dependencies {

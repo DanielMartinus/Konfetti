@@ -62,10 +62,10 @@ dependencies {
     debugApi(project(path = ":konfetti:core"))
     releaseApi("nl.dionsegijn:konfetti-core:${Constants.konfettiVersion}")
 
-    implementation(lib.compose.foundation)
-    implementation(lib.compose.ui)
+    implementation(libs.compose.foundation)
+    implementation(libs.compose.ui)
 
-    testImplementation(lib.test.junit)
-    androidTestImplementation(lib.test.junit.ext)
-    androidTestImplementation(lib.compose.ui)
+    testImplementation(libs.test.junit)
+    androidTestImplementation(libs.test.junit.ext)
+    androidTestImplementation(libs.compose.ui)
 }

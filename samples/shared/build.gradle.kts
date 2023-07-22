@@ -33,7 +33,7 @@ android {
 dependencies {
     implementation(project(path = ":konfetti:core"))
 
-    implementation(lib.androidx.core.ktx)
-    implementation(lib.androidx.appcomat)
-    implementation(lib.android.material)
+    implementation(libs.androidx.core.ktx)
+    implementation(libs.androidx.appcomat)
+    implementation(libs.android.material)
 }

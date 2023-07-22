@@ -55,6 +55,6 @@ dependencies {
 
     implementation("org.jetbrains.kotlin:kotlin-stdlib:${Constants.kotlinVersion}")
 
-    testImplementation(lib.test.junit)
-    testImplementation(lib.test.mockito)
+    testImplementation(libs.test.junit)
+    testImplementation(libs.test.mockito)
 }

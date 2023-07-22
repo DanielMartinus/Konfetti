@@ -45,8 +45,8 @@ android {
 dependencies {
     implementation(project(path = ":konfetti:xml"))
     implementation(project(path = ":samples:shared"))
-    implementation(lib.androidx.core.ktx)
-    implementation(lib.androidx.appcomat)
-    implementation(lib.android.material)
-    implementation(lib.androidx.constraintlayout)
+    implementation(libs.androidx.core.ktx)
+    implementation(libs.androidx.appcomat)
+    implementation(libs.android.material)
+    implementation(libs.androidx.constraintlayout)
 }
