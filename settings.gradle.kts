@@ -11,3 +11,11 @@ include(
     ":samples:xml-java",
     ":samples:shared"
 )
+
+dependencyResolutionManagement {
+    repositories {
+        gradlePluginPortal()
+        google()
+        mavenCentral()
+    }
+}
