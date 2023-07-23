@@ -49,4 +49,8 @@ dependencies {
     implementation(libs.androidx.appcomat)
     implementation(libs.android.material)
     implementation(libs.androidx.constraintlayout)
+
+    debugImplementation(libs.androidx.tracing)
+    androidTestImplementation(libs.androidx.test.espresso)
+    androidTestImplementation(libs.test.junit.ext)
 }
