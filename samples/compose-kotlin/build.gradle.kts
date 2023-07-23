@@ -17,12 +17,12 @@ spotless {
 }
 
 android {
-    compileSdk = 33
+    compileSdk = buildVersions.compileSdk
     buildToolsVersion = "34.0.0"
 
     defaultConfig {
         minSdk = 21
-        targetSdk = 33
+        targetSdk = buildVersions.targetSdk
 
         testInstrumentationRunner = "androidx.test.runner.AndroidJUnitRunner"
         vectorDrawables {

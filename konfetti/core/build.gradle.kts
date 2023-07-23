@@ -20,8 +20,7 @@ spotless {
 }
 
 android {
-    compileSdk = 33
-    buildToolsVersion = "34.0.0"
+    compileSdk = buildVersions.compileSdk
 
     compileOptions {
         sourceCompatibility = JavaVersion.VERSION_1_8
@@ -34,7 +33,6 @@ android {
 
     defaultConfig {
         minSdk = 15
-        targetSdk = 33
     }
     buildTypes {
         release {
