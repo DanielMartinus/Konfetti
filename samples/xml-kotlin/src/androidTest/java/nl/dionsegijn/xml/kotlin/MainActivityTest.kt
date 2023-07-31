@@ -25,67 +25,35 @@ class MainActivityTest {
     @JvmField
     var mActivityScenarioRule = ActivityScenarioRule(MainActivity::class.java)
 
+    private val testButtons = listOf(
+        TestButton(R.id.btnFestive, "Festive"),
+        TestButton(R.id.btnExplode, "Explode"),
+        TestButton(R.id.btnParade, "Parade"),
+        TestButton(R.id.btnRain, "Rain"),
+    )
+
     @Test
     fun mainActivityTest() {
+        testButtons.forEachIndexed { pos, button ->
+            runTestForButtonWithText(button.viewId, button.buttonText, pos + 1)
+        }
+    }
+
+    private fun runTestForButtonWithText(viewId: Int, buttonText: String, position: Int) {
         val materialButton = onView(
             allOf(
-                withId(R.id.btnFestive), withText("Festive"),
+                withId(viewId), withText(buttonText),
                 childAtPosition(
                     childAtPosition(
                         withId(android.R.id.content),
                         0
                     ),
-                    1
+                    position
                 ),
                 isDisplayed()
             )
         )
         materialButton.perform(click())
-
-        val materialButton2 = onView(
-            allOf(
-                withId(R.id.btnExplode), withText("Explode"),
-                childAtPosition(
-                    childAtPosition(
-                        withId(android.R.id.content),
-                        0
-                    ),
-                    2
-                ),
-                isDisplayed()
-            )
-        )
-        materialButton2.perform(click())
-
-        val materialButton3 = onView(
-            allOf(
-                withId(R.id.btnParade), withText("Parade"),
-                childAtPosition(
-                    childAtPosition(
-                        withId(android.R.id.content),
-                        0
-                    ),
-                    3
-                ),
-                isDisplayed()
-            )
-        )
-        materialButton3.perform(click())
-
-        val materialButton4 = onView(
-            allOf(
-                withId(R.id.btnRain), withText("Rain"),
-                childAtPosition(
-                    childAtPosition(
-                        withId(android.R.id.content),
-                        0
-                    ),
-                    4
-                ),
-                isDisplayed()
-            )
-        )
-        materialButton4.perform(click())
     }
 
     private fun childAtPosition(
@@ -105,4 +73,6 @@ class MainActivityTest {
             }
         }
     }
+
+    data class TestButton(val viewId: Int, val buttonText: String)
 }
