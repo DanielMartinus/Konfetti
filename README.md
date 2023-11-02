@@ -90,7 +90,7 @@ _To learn more, see more samples linked at the top of [this section](#usage)_
 
 ### Party options
 
-- `Angle` - **Int (default: 0)**: The direction the confetti will shoot. Use any integer between `0-360` or use presets like: Angle.TOP, Angle.RIGHT, Angle.BOTTOM, Angle.LEFT
+- `Angle` - **Int (default: 0)**: The direction the confetti will shoot. Use any integer between `0-360` or use presets like: Angle.TOP, Angle.RIGHT, Angle.BOTTOM, Angle.LEFT. Angle.RIGHT equates to `0` degrees, and larger values move clockwise from this position.
 - `spread` - **Int (default: 360)**: How wide the confetti will shoot in the direction of Angle. Use any integer between `0-360`. Use 1 to shoot in a straight line and 360 to form a circle
 - `speed` - **Float (default: 30f)**: The start speed of the confetti at the time of creation.
 - `maxSpeed` - **Float (default: 0f)**: Set to -1 to disable maxSpeed. A random speed between `speed` and `maxSpeed` will be chosen. Using randomness creates a more natural and realistic look to the confetti when animating.)
