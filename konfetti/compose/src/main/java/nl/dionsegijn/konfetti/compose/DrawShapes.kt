@@ -57,8 +57,8 @@ fun Shape.draw(drawScope: DrawScope, particle: Particle, imageResource: ImageBit
                     } else {
                         drawable.setColorFilter(particle.color, PorterDuff.Mode.SRC_IN)
                     }
-                } else {
-                    drawable.alpha = (particle.alpha shl 24) or (particle.color and 0xffffff)
+                } else if (applyAlpha) {
+                    drawable.alpha = particle.alpha
                 }
 
                 val size = particle.width

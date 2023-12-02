@@ -6,7 +6,12 @@ jobs:
   run-test:
     runs-on: ubuntu-latest
     steps:
-      - uses: actions/checkout@v2
+      - uses: actions/checkout@v3
+
+      - uses: actions/setup-java@v2
+        with:
+          java-version: 17
+          distribution: zulu
 
       - uses: gradle/wrapper-validation-action@v1
 
@@ -20,4 +25,4 @@ jobs:
             ${{ runner.os }}-gradle-
 
       - name: Run build and checks
-        run: ./gradlew build
+        run: ./gradlew buildDebug

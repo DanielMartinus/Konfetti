@@ -57,3 +57,4 @@ captures/
 /.idea/caches
 /.DS_Store
 jarRepositories.xml
+androidTestResultsUserPreferences.xml
