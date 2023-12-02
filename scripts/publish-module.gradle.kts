@@ -80,9 +80,9 @@ afterEvaluate {
             val localProperties = properties.inputStream().use {
                 java.util.Properties().apply { load(it) }
             }
-            val signingKeyId: String? = localProperties.getValue("signing.keyId") as String
-            val signingKey: String? = localProperties.getValue("signing.key") as String
-            val signingPassword: String? = localProperties.getValue("signing.password") as String
+            val signingKeyId: String? = localProperties.getOrDefault("signing.keyId", null) as String?
+            val signingKey: String? = localProperties.getOrDefault("signing.key", null) as String?
+            val signingPassword: String? = localProperties.getOrDefault("signing.password", null) as String?
             useInMemoryPgpKeys(signingKeyId, signingKey, signingPassword)
         }
 

@@ -25,9 +25,9 @@ if(properties.exists()) {
     nexusPublishing {
         repositories {
             sonatype {
-                stagingProfileId.set(localProperties["sonatypeStagingProfileId"] as String)
-                username.set(localProperties["ossrhUsername"] as String)
-                password.set(localProperties["ossrhPassword"] as String)
+                stagingProfileId.set(localProperties["sonatypeStagingProfileId"] as String?)
+                username.set(localProperties["ossrhUsername"] as String?)
+                password.set(localProperties["ossrhPassword"] as String?)
             }
         }
     }
