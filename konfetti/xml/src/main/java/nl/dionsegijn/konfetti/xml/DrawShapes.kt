@@ -6,19 +6,21 @@ import android.graphics.Canvas
 import android.graphics.Paint
 import android.graphics.PorterDuff
 import android.os.Build
+import nl.dionsegijn.konfetti.core.Particle
 import nl.dionsegijn.konfetti.core.models.Shape
 import nl.dionsegijn.konfetti.core.models.Shape.Circle
 import nl.dionsegijn.konfetti.core.models.Shape.Circle.rect
 import nl.dionsegijn.konfetti.core.models.Shape.DrawableShape
 import nl.dionsegijn.konfetti.core.models.Shape.Rectangle
 import nl.dionsegijn.konfetti.core.models.Shape.Square
+import nl.dionsegijn.konfetti.core.models.Shape.Text
 
 /**
  * Draw a shape to `canvas`. Implementations are expected to draw within a square of size
  * `size` and must vertically/horizontally center their asset if it does not have an equal width
  * and height.
  */
-fun Shape.draw(canvas: Canvas, paint: Paint, size: Float) {
+fun Shape.draw(particle: Particle, canvas: Canvas, paint: Paint, size: Float) {
 
     when (this) {
         Square -> canvas.drawRect(0f, 0f, size, size, paint)
@@ -47,6 +49,9 @@ fun Shape.draw(canvas: Canvas, paint: Paint, size: Float) {
 
             drawable.setBounds(0, top, size.toInt(), top + height)
             drawable.draw(canvas)
+        }
+        is Text -> {
+            canvas.drawText(text, particle.x, particle.y, particle.paint)
         }
     }
 }

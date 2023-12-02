@@ -71,5 +71,10 @@ fun Shape.draw(drawScope: DrawScope, particle: Particle, imageResource: ImageBit
                 drawable.draw(it.nativeCanvas)
             }
         }
+        is Shape.Text -> {
+            drawScope.drawIntoCanvas {
+                it.nativeCanvas.drawText(text, particle.x, particle.y, particle.paint)
+            }
+        }
     }
 }
