@@ -26,12 +26,20 @@ class Confetti(
     val pixelDensity: Float
 ) {
 
+    companion object {
+        private const val DEFAULT_FRAME_RATE = 60f
+        private const val GRAVITY = 0.02f
+        private const val ALPHA_DECREMENT = 5
+        private const val MILLIS_IN_SECOND = 1000
+        private const val FULL_CIRCLE = 360f
+    }
+
     var rotation = 0f
     private var rotationWidth = width
 
     // Expected frame rate
-    private var frameRate = 60f
-    private var gravity = Vector(0f, 0.02f)
+    private var frameRate = DEFAULT_FRAME_RATE
+    private var gravity = Vector(0f, GRAVITY)
 
     var alpha: Int = 255
     var scaleX = 0f
@@ -62,7 +70,7 @@ class Confetti(
 
     private fun update(deltaTime: Float, drawArea: Rect) {
         // Calculate frameRate dynamically, fallback to 60fps in case deltaTime is 0
-        frameRate = if (deltaTime > 0) 1f / deltaTime else 60f
+        frameRate = if (deltaTime > 0) 1f / deltaTime else DEFAULT_FRAME_RATE
 
         if (location.y > drawArea.height()) {
             alpha = 0
@@ -74,12 +82,12 @@ class Confetti(
 
         location.addScaled(velocity, deltaTime * frameRate * pixelDensity)
 
-        lifespan -= (deltaTime * 1000).toLong()
+        lifespan -= (deltaTime * MILLIS_IN_SECOND).toLong()
         if (lifespan <= 0) updateAlpha(deltaTime)
 
         // 2D rotation around the center of the confetti
         rotation += rotationSpeed2D * deltaTime * frameRate
-        if (rotation >= 360) rotation = 0f
+        if (rotation >= FULL_CIRCLE) rotation = 0f
 
         // 3D rotation effect by decreasing the width and make sure that rotationSpeed is always
         // positive by using abs
@@ -94,7 +102,7 @@ class Confetti(
 
     private fun updateAlpha(deltaTime: Float) {
         alpha = if (fadeOut) {
-            val interval = 5 * deltaTime * frameRate
+            val interval = ALPHA_DECREMENT * deltaTime * frameRate
             (alpha - interval.toInt()).coerceAtLeast(0)
         } else {
             0
