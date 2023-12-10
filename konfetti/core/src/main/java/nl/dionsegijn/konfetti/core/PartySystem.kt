@@ -65,6 +65,5 @@ fun Confetti.toParticle(): Particle {
         scaleX,
         shape,
         alpha,
-        paint
     )
 }

@@ -89,7 +89,7 @@ open class KonfettiView : View {
         canvas.rotate(rotation, centerX, width / 2)
         canvas.scale(scaleX, 1f)
 
-        shape.draw(this, canvas, paint, width)
+        shape.draw(canvas, paint, width)
         canvas.restoreToCount(saveCount)
     }
 

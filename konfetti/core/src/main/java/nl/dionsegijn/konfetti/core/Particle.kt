@@ -1,6 +1,5 @@
 package nl.dionsegijn.konfetti.core
 
-import android.graphics.Paint
 import nl.dionsegijn.konfetti.core.models.Shape
 
 /**
@@ -25,5 +24,4 @@ data class Particle(
     val scaleX: Float,
     val shape: Shape,
     val alpha: Int,
-    val paint: Paint
 )
