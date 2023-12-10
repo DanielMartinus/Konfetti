@@ -25,13 +25,6 @@ class Confetti(
     val rotationSpeed2D: Float = 1f,
     val pixelDensity: Float
 ) {
-    val paint: Paint = Paint()
-
-    init {
-        if (shape is Shape.Text) {
-            paint.textSize = shape.textSizeInPixels
-        }
-    }
 
     var rotation = 0f
     private var rotationWidth = width
