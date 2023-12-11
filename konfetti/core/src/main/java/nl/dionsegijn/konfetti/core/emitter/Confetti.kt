@@ -8,7 +8,21 @@ import kotlin.math.abs
 
 /**
  * Confetti holds all data to the current state of the particle
- * With every new frame render is called to update the properties in this class
+ * Each frame update triggers the `render` method, which recalculates the particle's properties based on its current state.
+ *
+ * @property location The current position of the particle as a Vector object that contains x and y coordinates.
+ * @property color The color of the particle, represented as an integer. (AARRGGBB)
+ * @property width The width of the particle in pixels.
+ * @property mass The mass of the particle, affecting how forces like gravity influence it. A particle with more mass will move slower under the same force.
+ * @property shape The geometric shape of the particle.
+ * @property lifespan The duration the particle should exist for in milliseconds.
+ * @property fadeOut If true, the particle will gradually become transparent over its lifespan.
+ * @property acceleration The current acceleration of the particle.
+ * @property velocity The current velocity of the particle.
+ * @property damping A factor that reduces the particle's velocity over time, simulating air resistance. A higher damping value will slow down the particle faster.
+ * @property rotationSpeed3D The speed at which the particle rotates.
+ * @property rotationSpeed2D The speed at which the particle rotates in 2D space.
+ * @property pixelDensity The pixel density of the device's screen. This is used to ensure that the particle's movement looks consistent across devices with different screen densities.
  */
 class Confetti(
     var location: Vector,
