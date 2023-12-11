@@ -59,29 +59,46 @@ class Confetti(
     var scaleX = 0f
 
     /**
-     * Updated color with alpha values, later move to having one color
+     * The color of the particle with the current alpha value applied
      */
     var alphaColor: Int = 0
 
     /**
-     * If a particle moves out of the view we keep calculating its position but do not draw them
+     * Determines whether the particle should be drawn.
+     * Set to false when the particle moves out of the view
      */
     var drawParticle = true
         private set
 
+    /**
+     * Returns the size of the particle in pixels
+     */
     fun getSize(): Float = width
 
+    /**
+     * Checks if the particle is "dead", i.e., its alpha value has reached 0
+     */
     fun isDead(): Boolean = alpha <= 0
 
+    /**
+     * Applies a force to the particle, which affects its acceleration
+     */
     fun applyForce(force: Vector) {
         acceleration.addScaled(force, 1f / mass)
     }
 
+    /**
+     * Updates the state of the particle for each frame of the animation.
+     */
     fun render(deltaTime: Float, drawArea: Rect) {
         applyForce(gravity)
         update(deltaTime, drawArea)
     }
 
+    /**
+     * Updates the state of the particle based on its current acceleration, velocity, and location.
+     * Also handles the fading out of the particle when its lifespan is over.
+     */
     private fun update(deltaTime: Float, drawArea: Rect) {
         // Calculate frameRate dynamically, fallback to 60fps in case deltaTime is 0
         frameRate = if (deltaTime > 0) 1f / deltaTime else DEFAULT_FRAME_RATE
