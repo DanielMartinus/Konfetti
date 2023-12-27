@@ -58,3 +58,4 @@ captures/
 /.DS_Store
 jarRepositories.xml
 androidTestResultsUserPreferences.xml
+migrations.xml

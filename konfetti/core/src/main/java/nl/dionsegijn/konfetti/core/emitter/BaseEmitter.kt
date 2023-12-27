@@ -1,7 +1,7 @@
 package nl.dionsegijn.konfetti.core.emitter
 
-import android.graphics.Rect
 import nl.dionsegijn.konfetti.core.Party
+import nl.dionsegijn.konfetti.core.models.CoreRect
 
 /**
  * An abstract class for creating a custom emitter
@@ -16,7 +16,7 @@ abstract class BaseEmitter {
     abstract fun createConfetti(
         deltaTime: Float,
         party: Party,
-        drawArea: Rect,
+        drawArea: CoreRect,
     ): List<Confetti>
 
     /**

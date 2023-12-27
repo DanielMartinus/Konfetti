@@ -1,10 +1,9 @@
 package nl.dionsegijn.konfetti.core
 
-import android.content.res.Resources
-import android.graphics.Rect
 import nl.dionsegijn.konfetti.core.emitter.BaseEmitter
 import nl.dionsegijn.konfetti.core.emitter.Confetti
 import nl.dionsegijn.konfetti.core.emitter.PartyEmitter
+import nl.dionsegijn.konfetti.core.models.CoreRect
 
 /**
  * PartySystem is responsible for requesting particles from the emitter and updating the particles
@@ -16,7 +15,7 @@ import nl.dionsegijn.konfetti.core.emitter.PartyEmitter
 class PartySystem(
     val party: Party,
     val createdAt: Long = System.currentTimeMillis(),
-    pixelDensity: Float = Resources.getSystem().displayMetrics.density
+    pixelDensity: Float = 1f
 ) {
 
     var enabled = true
@@ -27,7 +26,7 @@ class PartySystem(
 
     // Called every frame to create and update the particles state
     // returns a list of particles that are ready to be rendered
-    fun render(deltaTime: Float, drawArea: Rect): List<Particle> {
+    fun render(deltaTime: Float, drawArea: CoreRect): List<Particle> {
         if (enabled) {
             activeParticles.addAll(emitter.createConfetti(deltaTime, party, drawArea))
         }

@@ -1,6 +1,7 @@
 package nl.dionsegijn.konfetti.xml
 
 import android.content.Context
+import android.content.res.Resources
 import android.graphics.Canvas
 import android.graphics.Paint
 import android.graphics.Rect
@@ -9,6 +10,8 @@ import android.view.View
 import nl.dionsegijn.konfetti.core.Particle
 import nl.dionsegijn.konfetti.core.Party
 import nl.dionsegijn.konfetti.core.PartySystem
+import nl.dionsegijn.konfetti.core.models.CoreRect
+import nl.dionsegijn.konfetti.core.models.CoreRectImpl
 import nl.dionsegijn.konfetti.xml.listeners.OnParticleSystemUpdateListener
 
 /**
@@ -32,7 +35,7 @@ open class KonfettiView : View {
      */
     private var timer: TimerIntegration = TimerIntegration()
 
-    private var drawArea = Rect()
+    private var drawArea = CoreRectImpl()
 
     /**
      * [OnParticleSystemUpdateListener] listener to notify when a new particle system
@@ -97,7 +100,7 @@ open class KonfettiView : View {
         systems.addAll(
             party.map {
                 onParticleSystemUpdateListener?.onParticleSystemStarted(this, it, systems.size)
-                PartySystem(it)
+                PartySystem(party = it, pixelDensity = Resources.getSystem().displayMetrics.density)
             }
         )
         invalidate()
@@ -107,14 +110,14 @@ open class KonfettiView : View {
         systems.addAll(
             party.map {
                 onParticleSystemUpdateListener?.onParticleSystemStarted(this, it, systems.size)
-                PartySystem(it)
+                PartySystem(party = it, pixelDensity = Resources.getSystem().displayMetrics.density)
             }
         )
         invalidate()
     }
 
     fun start(party: Party) {
-        systems.add(PartySystem(party))
+        systems.add(PartySystem(party = party, pixelDensity = Resources.getSystem().displayMetrics.density))
         onParticleSystemUpdateListener?.onParticleSystemStarted(this, party, systems.size)
         invalidate()
     }
@@ -173,7 +176,7 @@ open class KonfettiView : View {
 
     override fun onSizeChanged(w: Int, h: Int, oldw: Int, oldh: Int) {
         super.onSizeChanged(w, h, oldw, oldh)
-        drawArea = Rect(0, 0, w, h)
+        drawArea = CoreRectImpl(0f, 0f, w.toFloat(), h.toFloat())
     }
 
     override fun onVisibilityChanged(changedView: View, visibility: Int) {

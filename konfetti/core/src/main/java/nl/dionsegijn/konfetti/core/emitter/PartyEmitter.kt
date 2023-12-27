@@ -1,9 +1,9 @@
 package nl.dionsegijn.konfetti.core.emitter
 
-import android.graphics.Rect
 import nl.dionsegijn.konfetti.core.Party
 import nl.dionsegijn.konfetti.core.Position
 import nl.dionsegijn.konfetti.core.Rotation
+import nl.dionsegijn.konfetti.core.models.CoreRect
 import nl.dionsegijn.konfetti.core.models.Shape
 import nl.dionsegijn.konfetti.core.models.Size
 import nl.dionsegijn.konfetti.core.models.Vector
@@ -36,7 +36,7 @@ class PartyEmitter(
      * If timer isn't started yet, set initial start time
      * Create the first confetti immediately and update the last emitting time
      */
-    override fun createConfetti(deltaTime: Float, party: Party, drawArea: Rect): List<Confetti> {
+    override fun createConfetti(deltaTime: Float, party: Party, drawArea: CoreRect): List<Confetti> {
         createParticleMs += deltaTime
 
         // Initial deltaTime can't be higher than the emittingTime, if so calculate
@@ -68,7 +68,7 @@ class PartyEmitter(
      * @param party Configurations used for creating the initial Confetti states
      * @param drawArea the area and size of the canvas
      */
-    private fun createParticle(party: Party, drawArea: Rect): Confetti {
+    private fun createParticle(party: Party, drawArea: CoreRect): Confetti {
         particlesCreated++
         with(party) {
             val randomSize = size[random.nextInt(size.size)]
@@ -129,13 +129,13 @@ class PartyEmitter(
         return (maxAngle - minAngle) * random.nextDouble() + minAngle
     }
 
-    private fun Position.get(drawArea: Rect): Position.Absolute {
+    private fun Position.get(drawArea: CoreRect): Position.Absolute {
         return when (this) {
             is Position.Absolute -> Position.Absolute(x, y)
             is Position.Relative -> {
                 Position.Absolute(
-                    drawArea.width() * x.toFloat(),
-                    drawArea.height() * y.toFloat()
+                    drawArea.width * x.toFloat(),
+                    drawArea.height * y.toFloat()
                 )
             }
             is Position.between -> {
