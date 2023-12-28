@@ -1,5 +1,6 @@
 package nl.dionsegijn.konfetti.compose
 
+import android.content.res.Resources
 import android.graphics.Rect
 import androidx.compose.foundation.Canvas
 import androidx.compose.runtime.Composable
@@ -14,6 +15,8 @@ import androidx.compose.ui.layout.onGloballyPositioned
 import nl.dionsegijn.konfetti.core.Particle
 import nl.dionsegijn.konfetti.core.Party
 import nl.dionsegijn.konfetti.core.PartySystem
+import nl.dionsegijn.konfetti.core.models.CoreRect
+import nl.dionsegijn.konfetti.core.models.CoreRectImpl
 
 @Composable
 fun KonfettiView(
@@ -37,10 +40,15 @@ fun KonfettiView(
     /**
      * Area in which the particles are being drawn
      */
-    val drawArea = remember { mutableStateOf(Rect()) }
+    val drawArea = remember { mutableStateOf(CoreRectImpl()) }
 
     LaunchedEffect(Unit) {
-        partySystems = parties.map { PartySystem(it) }
+        partySystems = parties.map {
+            PartySystem(
+                party = it,
+                pixelDensity = Resources.getSystem().displayMetrics.density
+            )
+        }
         while (true) {
             withFrameMillis { frameMs ->
                 // Calculate time between frames, fallback to 0 when previous frame doesn't exist
@@ -69,7 +77,8 @@ fun KonfettiView(
     Canvas(
         modifier = modifier
             .onGloballyPositioned {
-                drawArea.value = Rect(0, 0, it.size.width, it.size.height)
+                drawArea.value =
+                    CoreRectImpl(0f, 0f, it.size.width.toFloat(), it.size.height.toFloat())
             },
         onDraw = {
             particles.value.forEach { particle ->
