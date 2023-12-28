@@ -1,11 +1,11 @@
 package nl.dionsegijn.konfetti.core.emitter
 
-import android.graphics.Color
-import android.graphics.Rect
 import nl.dionsegijn.konfetti.core.Angle
 import nl.dionsegijn.konfetti.core.Party
 import nl.dionsegijn.konfetti.core.Position
 import nl.dionsegijn.konfetti.core.Rotation
+import nl.dionsegijn.konfetti.core.models.CoreRect
+import nl.dionsegijn.konfetti.core.models.CoreRectImpl
 import nl.dionsegijn.konfetti.core.models.Shape
 import nl.dionsegijn.konfetti.core.models.Size
 import nl.dionsegijn.konfetti.core.models.Vector
@@ -16,13 +16,13 @@ import org.mockito.Mockito
 import java.util.Random
 
 class PartyEmitterTest {
-
-    private val drawArea: Rect = Mockito.mock(Rect::class.java).apply {
-        Mockito.`when`(height()).thenReturn(1000)
-        Mockito.`when`(width()).thenReturn(1000)
-        Mockito.`when`(contains(ArgumentMatchers.anyInt(), ArgumentMatchers.anyInt()))
-            .thenReturn(true)
-    }
+    private val drawArea: CoreRect =
+        Mockito.mock(CoreRectImpl::class.java).apply {
+            Mockito.`when`(height).thenReturn(1000f)
+            Mockito.`when`(width).thenReturn(1000f)
+            Mockito.`when`(contains(ArgumentMatchers.anyInt(), ArgumentMatchers.anyInt()))
+                .thenReturn(true)
+        }
 
     // Average time between for each frame
     private val deltaTime = 0.017f
@@ -35,7 +35,7 @@ class PartyEmitterTest {
         maxSpeed = -1f,
         damping = 0.9f,
         size = listOf(Size(sizeInDp = 6, mass = 5f, massVariance = 0f)),
-        colors = listOf(Color.RED),
+        colors = listOf(0xFF0000),
         shapes = listOf(Shape.Square),
         timeToLive = 1000L,
         fadeOutEnabled = false,
