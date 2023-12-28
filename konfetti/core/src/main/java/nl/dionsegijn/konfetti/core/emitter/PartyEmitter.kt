@@ -76,7 +76,7 @@ class PartyEmitter(
                 location = position.get(drawArea).run { Vector(x, y) },
                 width = randomSize.sizeInDp * pixelDensity,
                 mass = randomSize.massWithVariance(),
-                shape = getRandomShape(party.shapes),
+                shape = getRandomShape(shapes),
                 color = colors[random.nextInt(colors.size)],
                 lifespan = timeToLive,
                 fadeOut = fadeOutEnabled,
@@ -150,18 +150,10 @@ class PartyEmitter(
     }
 
     /**
-     * When the shape is a DrawableShape, mutate the drawable so that all drawables
-     * have different values when drawn on the canvas.
+     * Get a random shape from the list of shapes
      */
     private fun getRandomShape(shapes: List<Shape>): Shape {
-        return when (val shape = shapes[random.nextInt(shapes.size)]) {
-            is Shape.DrawableShape -> {
-                val mutatedState =
-                    shape.drawable.constantState?.newDrawable()?.mutate() ?: shape.drawable
-                shape.copy(drawable = mutatedState)
-            }
-            else -> shape
-        }
+        return shapes[random.nextInt(shapes.size)]
     }
 
     /**

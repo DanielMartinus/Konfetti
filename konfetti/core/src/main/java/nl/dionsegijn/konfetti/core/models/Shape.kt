@@ -1,11 +1,9 @@
 package nl.dionsegijn.konfetti.core.models
 
-import android.graphics.RectF
-import android.graphics.drawable.Drawable
-
 sealed interface Shape {
     object Circle : Shape {
-        val rect = RectF()
+        // Default replacement for RectF
+        val rect = CoreRectImpl()
     }
     object Square : Shape
     class Rectangle(
@@ -19,24 +17,25 @@ sealed interface Shape {
 
     /**
      * A drawable shape
-     * @param drawable drawable
+     * @param image CoreImage
      * @param tint Set to `false` to opt out of tinting the drawable, keeping its original colors.
      * @param applyAlpha Set to false to not apply alpha to drawables
      */
     data class DrawableShape(
-        val drawable: Drawable,
+        val image: CoreImage,
         val tint: Boolean = true,
         val applyAlpha: Boolean = true,
     ) : Shape {
+
         val heightRatio =
-            if (drawable.intrinsicHeight == -1 && drawable.intrinsicWidth == -1) {
-                // If the drawable has no intrinsic size, fill the available space.
+            if (image.height == -1 && image.width == -1) {
+                // If the image has no intrinsic size, fill the available space.
                 1f
-            } else if (drawable.intrinsicHeight == -1 || drawable.intrinsicWidth == -1) {
-                // Currently cannot handle a drawable with only one intrinsic dimension.
+            } else if (image.height == -1 || image.width == -1) {
+                // Currently cannot handle an image with only one intrinsic dimension.
                 0f
             } else {
-                drawable.intrinsicHeight.toFloat() / drawable.intrinsicWidth
+                image.height.toFloat() / image.width.toFloat()
             }
     }
 }

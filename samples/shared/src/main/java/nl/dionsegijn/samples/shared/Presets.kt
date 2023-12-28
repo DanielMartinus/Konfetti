@@ -18,7 +18,7 @@ class Presets {
                 damping = 0.9f,
                 angle = Angle.TOP,
                 spread = 45,
-                size = listOf(Size.SMALL, Size.LARGE),
+                size = listOf(Size.SMALL, Size.LARGE, Size.LARGE),
                 timeToLive = 3000L,
                 rotation = Rotation(),
                 colors = listOf(0xfce18a, 0xff726d, 0xf4306d, 0xb48def),
