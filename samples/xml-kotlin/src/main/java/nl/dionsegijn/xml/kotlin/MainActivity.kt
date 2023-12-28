@@ -3,7 +3,9 @@ package nl.dionsegijn.xml.kotlin
 import android.os.Bundle
 import android.widget.Button
 import androidx.appcompat.app.AppCompatActivity
+import androidx.appcompat.content.res.AppCompatResources
 import nl.dionsegijn.konfetti.xml.KonfettiView
+import nl.dionsegijn.konfetti.xml.image.ImageUtil
 import nl.dionsegijn.samples.shared.Presets
 
 class MainActivity : AppCompatActivity() {
@@ -22,10 +24,13 @@ class MainActivity : AppCompatActivity() {
     }
 
     private fun festive() {
+        val drawable = AppCompatResources.getDrawable(applicationContext, R.drawable.ic_heart)
+        val drawableShape = ImageUtil.loadDrawable(drawable!!)
+
         /**
          * See [Presets] for this configuration
          */
-        viewKonfetti.start(Presets.festive())
+        viewKonfetti.start(Presets.festive(drawableShape))
     }
 
     private fun explode() {

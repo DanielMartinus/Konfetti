@@ -1,17 +1,19 @@
 package nl.dionsegijn.samples.shared
 
+import android.graphics.drawable.Drawable
 import nl.dionsegijn.konfetti.core.Angle
 import nl.dionsegijn.konfetti.core.Party
 import nl.dionsegijn.konfetti.core.Position
 import nl.dionsegijn.konfetti.core.Rotation
 import nl.dionsegijn.konfetti.core.Spread
 import nl.dionsegijn.konfetti.core.emitter.Emitter
+import nl.dionsegijn.konfetti.core.models.Shape
 import nl.dionsegijn.konfetti.core.models.Size
 import java.util.concurrent.TimeUnit
 
 class Presets {
     companion object {
-        fun festive(): List<Party> {
+        fun festive(drawable: Shape.DrawableShape? = null): List<Party> {
             val party = Party(
                 speed = 30f,
                 maxSpeed = 50f,
@@ -19,6 +21,7 @@ class Presets {
                 angle = Angle.TOP,
                 spread = 45,
                 size = listOf(Size.SMALL, Size.LARGE, Size.LARGE),
+                shapes = listOf(Shape.Square, Shape.Circle, drawable).filterNotNull(),
                 timeToLive = 3000L,
                 rotation = Rotation(),
                 colors = listOf(0xfce18a, 0xff726d, 0xf4306d, 0xb48def),
