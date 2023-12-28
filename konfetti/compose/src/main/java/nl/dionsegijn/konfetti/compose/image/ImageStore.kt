@@ -14,7 +14,7 @@ import nl.dionsegijn.konfetti.core.models.CoreImageStore
  *
  * The ImageStore provides methods to store a Drawable and retrieve it using its reference.
  */
-class ImageStore: CoreImageStore<Drawable> {
+class ImageStore : CoreImageStore<Drawable> {
     private val images = mutableMapOf<Int, Drawable>()
 
     override fun storeImage(image: Drawable): Int {

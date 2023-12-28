@@ -1,9 +1,7 @@
 package nl.dionsegijn.konfetti.xml.image
 
 import android.graphics.drawable.Drawable
-import nl.dionsegijn.konfetti.core.models.CoreImage
 import nl.dionsegijn.konfetti.core.models.CoreImageStore
-import nl.dionsegijn.konfetti.core.models.Shape
 
 /**
  * The ImageStore class is used to store Drawable objects and provide a way to reference them.
@@ -16,7 +14,7 @@ import nl.dionsegijn.konfetti.core.models.Shape
  *
  * The ImageStore provides methods to store a Drawable and retrieve it using its reference.
  */
-class ImageStore: CoreImageStore<Drawable> {
+class ImageStore : CoreImageStore<Drawable> {
     private val images = mutableMapOf<Int, Drawable>()
 
     override fun storeImage(image: Drawable): Int {

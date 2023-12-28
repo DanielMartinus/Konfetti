@@ -1,7 +1,6 @@
 package nl.dionsegijn.konfetti.compose
 
 import android.content.res.Resources
-import android.graphics.Rect
 import android.graphics.drawable.Drawable
 import androidx.compose.foundation.Canvas
 import androidx.compose.runtime.Composable
@@ -16,7 +15,6 @@ import androidx.compose.ui.layout.onGloballyPositioned
 import nl.dionsegijn.konfetti.core.Particle
 import nl.dionsegijn.konfetti.core.Party
 import nl.dionsegijn.konfetti.core.PartySystem
-import nl.dionsegijn.konfetti.core.models.CoreRect
 import nl.dionsegijn.konfetti.core.models.CoreRectImpl
 import nl.dionsegijn.konfetti.core.models.ReferenceImage
 import nl.dionsegijn.konfetti.core.models.Shape
@@ -148,4 +146,3 @@ fun getTotalTimeRunning(startTime: Long): Long {
     val currentTime = System.currentTimeMillis()
     return (currentTime - startTime)
 }
-
