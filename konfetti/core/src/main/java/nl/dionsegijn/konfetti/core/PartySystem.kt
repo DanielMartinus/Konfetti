@@ -15,7 +15,7 @@ import nl.dionsegijn.konfetti.core.models.CoreRect
 class PartySystem(
     val party: Party,
     val createdAt: Long = System.currentTimeMillis(),
-    pixelDensity: Float = 1f
+    pixelDensity: Float
 ) {
 
     var enabled = true
