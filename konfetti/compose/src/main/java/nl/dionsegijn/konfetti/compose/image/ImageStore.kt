@@ -1,9 +1,7 @@
 package nl.dionsegijn.konfetti.xml.image
 
 import android.graphics.drawable.Drawable
-import nl.dionsegijn.konfetti.core.models.CoreImage
 import nl.dionsegijn.konfetti.core.models.CoreImageStore
-import nl.dionsegijn.konfetti.core.models.Shape
 
 /**
  * The ImageStore class is used to store Drawable objects and provide a way to reference them.
