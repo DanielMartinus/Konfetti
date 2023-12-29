@@ -4,6 +4,7 @@ import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import nl.dionsegijn.konfetti.core.Party
+import nl.dionsegijn.konfetti.core.models.Shape
 import nl.dionsegijn.samples.shared.Presets
 
 class KonfettiViewModel : ViewModel() {
@@ -11,11 +12,11 @@ class KonfettiViewModel : ViewModel() {
     private val _state = MutableLiveData<State>(State.Idle)
     val state: LiveData<State> = _state
 
-    fun festive() {
+    fun festive(drawable: Shape.DrawableShape) {
         /**
          * See [Presets] for this configuration
          */
-        _state.value = State.Started(Presets.festive())
+        _state.value = State.Started(Presets.festive(drawable))
     }
 
     fun explode() {

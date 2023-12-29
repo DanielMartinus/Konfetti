@@ -1,5 +1,6 @@
 apply(plugin = "maven-publish")
 apply(plugin = "signing")
+apply(plugin = "org.jetbrains.dokka")
 
 val PLUGIN_ANDROID_LIBRARY = "com.android.library"
 val PUBLICATION_NAME = "release"
@@ -18,6 +19,15 @@ val sourcesJar by tasks.registering(Jar::class) {
 
         from(mainSourceSet.java.srcDirs)
     }
+}
+
+val javadocJar by tasks.registering(Jar::class) {
+    archiveClassifier.set("javadoc")
+
+    val dokkaJavadocTask = tasks.getByName("dokkaJavadoc")
+
+    from(dokkaJavadocTask)
+    dependsOn(dokkaJavadocTask)
 }
 
 val group = NexusConfig.PUBLISH_GROUP_ID
@@ -41,6 +51,7 @@ afterEvaluate {
                 }
 
                 artifact(sourcesJar.get())
+                artifact(javadocJar.get())
 
                 // Mostly self-explanatory metadata
                 pom {

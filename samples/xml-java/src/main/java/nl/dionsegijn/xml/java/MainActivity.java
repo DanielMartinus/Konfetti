@@ -19,6 +19,7 @@ import nl.dionsegijn.konfetti.core.emitter.Emitter;
 import nl.dionsegijn.konfetti.core.emitter.EmitterConfig;
 import nl.dionsegijn.konfetti.core.models.Shape;
 import nl.dionsegijn.konfetti.core.models.Size;
+import nl.dionsegijn.konfetti.xml.image.ImageUtil;
 import nl.dionsegijn.konfetti.xml.KonfettiView;
 
 public class MainActivity extends AppCompatActivity {
@@ -32,7 +33,7 @@ public class MainActivity extends AppCompatActivity {
         setContentView(R.layout.activity_main);
 
         final Drawable drawable = ContextCompat.getDrawable(getApplicationContext(), R.drawable.ic_heart);
-        drawableShape = new Shape.DrawableShape(drawable, true, true);
+        drawableShape = ImageUtil.loadDrawable(drawable, true, true);
 
         konfettiView = findViewById(R.id.konfettiView);
         EmitterConfig emitterConfig = new Emitter(5L, TimeUnit.SECONDS).perSecond(50);

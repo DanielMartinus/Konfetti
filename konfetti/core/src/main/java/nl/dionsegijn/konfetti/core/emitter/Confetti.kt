@@ -1,7 +1,6 @@
 package nl.dionsegijn.konfetti.core.emitter
 
-import android.graphics.Paint
-import android.graphics.Rect
+import nl.dionsegijn.konfetti.core.models.CoreRect
 import nl.dionsegijn.konfetti.core.models.Shape
 import nl.dionsegijn.konfetti.core.models.Vector
 import kotlin.math.abs
@@ -90,7 +89,7 @@ class Confetti(
     /**
      * Updates the state of the particle for each frame of the animation.
      */
-    fun render(deltaTime: Float, drawArea: Rect) {
+    fun render(deltaTime: Float, drawArea: CoreRect) {
         applyForce(gravity)
         update(deltaTime, drawArea)
     }
@@ -99,11 +98,11 @@ class Confetti(
      * Updates the state of the particle based on its current acceleration, velocity, and location.
      * Also handles the fading out of the particle when its lifespan is over.
      */
-    private fun update(deltaTime: Float, drawArea: Rect) {
+    private fun update(deltaTime: Float, drawArea: CoreRect) {
         // Calculate frameRate dynamically, fallback to 60fps in case deltaTime is 0
         frameRate = if (deltaTime > 0) 1f / deltaTime else DEFAULT_FRAME_RATE
 
-        if (location.y > drawArea.height()) {
+        if (location.y > drawArea.height) {
             alpha = 0
             return
         }

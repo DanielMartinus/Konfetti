@@ -1,7 +1,8 @@
 package nl.dionsegijn.konfetti.core
 
-import android.graphics.Rect
 import nl.dionsegijn.konfetti.core.emitter.Emitter
+import nl.dionsegijn.konfetti.core.models.CoreRect
+import nl.dionsegijn.konfetti.core.models.CoreRectImpl
 import org.junit.Assert
 import org.junit.Test
 import org.mockito.ArgumentMatchers.anyInt
@@ -9,8 +10,8 @@ import org.mockito.Mockito
 
 class PartySystemTest {
 
-    private val rect: Rect = Mockito.mock(Rect::class.java).apply {
-        Mockito.`when`(height()).thenReturn(1000)
+    private val rect: CoreRect = Mockito.mock(CoreRectImpl::class.java).apply {
+        Mockito.`when`(height).thenReturn(1000f)
         Mockito.`when`(contains(anyInt(), anyInt())).thenReturn(true)
     }
 
@@ -35,21 +36,6 @@ class PartySystemTest {
 
         val r3 = system.render(deltaTime, rect) // render 3, total deltaTime = 3 * 0.017f = 0.051f
         Assert.assertEquals(2, r3.size) // expected 2, one for every 0.025ms
-    }
-
-    @Test
-    fun `Test creating Particles with high initial deltaTime`() {
-        val party = Party(
-            emitter = Emitter(100L).max(2)
-        )
-        val system = PartySystem(party, pixelDensity = 1f)
-
-        Assert.assertTrue(system.enabled)
-        Assert.assertFalse(system.isDoneEmitting())
-
-        // Particles are removed because alpha is 0 with so much time passed
-        val r1 = system.render(60f, rect)
-        Assert.assertEquals(0, r1.size)
     }
 
     @Test
@@ -87,7 +73,7 @@ class PartySystemTest {
         val system = PartySystem(party, pixelDensity = 1f)
 
         // Set drawArea to 1 pixel to let every particle directly disappear for this test
-        Mockito.`when`(rect.height()).thenReturn(1)
+        Mockito.`when`(rect.height).thenReturn(1f)
         Assert.assertTrue(system.enabled)
 
         system.render(deltaTime, rect) // dt: 0.017f

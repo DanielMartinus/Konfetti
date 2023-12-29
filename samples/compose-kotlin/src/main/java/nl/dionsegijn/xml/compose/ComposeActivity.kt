@@ -23,6 +23,7 @@ import androidx.compose.ui.platform.LocalContext
 import nl.dionsegijn.konfetti.compose.KonfettiView
 import nl.dionsegijn.konfetti.compose.OnParticleSystemUpdateListener
 import nl.dionsegijn.konfetti.core.PartySystem
+import nl.dionsegijn.konfetti.xml.image.ImageUtil
 import nl.dionsegijn.xml.compose.ui.theme.KonfettiTheme
 
 class ComposeActivity : ComponentActivity() {
@@ -59,7 +60,7 @@ fun KonfettiUI(viewModel: KonfettiViewModel = KonfettiViewModel()) {
                 verticalArrangement = Arrangement.Center,
                 horizontalAlignment = Alignment.CenterHorizontally
             ) {
-                Button(onClick = { viewModel.festive() }) {
+                Button(onClick = { viewModel.festive(ImageUtil.loadDrawable(drawable!!)) }) {
                     Text(
                         text = "Festive",
                     )
