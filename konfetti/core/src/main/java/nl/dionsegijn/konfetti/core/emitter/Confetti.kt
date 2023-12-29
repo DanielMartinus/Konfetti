@@ -26,7 +26,7 @@ import kotlin.math.abs
 class Confetti(
     var location: Vector,
     private val color: Int,
-    val width: Float, // sizeInPx
+    val width: Float,
     private val mass: Float,
     val shape: Shape,
     var lifespan: Long = -1L,
@@ -36,9 +36,8 @@ class Confetti(
     var damping: Float,
     val rotationSpeed3D: Float = 1f,
     val rotationSpeed2D: Float = 1f,
-    val pixelDensity: Float
+    val pixelDensity: Float,
 ) {
-
     companion object {
         private const val DEFAULT_FRAME_RATE = 60f
         private const val GRAVITY = 0.02f
@@ -89,7 +88,10 @@ class Confetti(
     /**
      * Updates the state of the particle for each frame of the animation.
      */
-    fun render(deltaTime: Float, drawArea: CoreRect) {
+    fun render(
+        deltaTime: Float,
+        drawArea: CoreRect,
+    ) {
         applyForce(gravity)
         update(deltaTime, drawArea)
     }
@@ -98,7 +100,10 @@ class Confetti(
      * Updates the state of the particle based on its current acceleration, velocity, and location.
      * Also handles the fading out of the particle when its lifespan is over.
      */
-    private fun update(deltaTime: Float, drawArea: CoreRect) {
+    private fun update(
+        deltaTime: Float,
+        drawArea: CoreRect,
+    ) {
         // Calculate frameRate dynamically, fallback to 60fps in case deltaTime is 0
         frameRate = if (deltaTime > 0) 1f / deltaTime else DEFAULT_FRAME_RATE
 
@@ -131,11 +136,12 @@ class Confetti(
     }
 
     private fun updateAlpha(deltaTime: Float) {
-        alpha = if (fadeOut) {
-            val interval = ALPHA_DECREMENT * deltaTime * frameRate
-            (alpha - interval.toInt()).coerceAtLeast(0)
-        } else {
-            0
-        }
+        alpha =
+            if (fadeOut) {
+                val interval = ALPHA_DECREMENT * deltaTime * frameRate
+                (alpha - interval.toInt()).coerceAtLeast(0)
+            } else {
+                0
+            }
     }
 }

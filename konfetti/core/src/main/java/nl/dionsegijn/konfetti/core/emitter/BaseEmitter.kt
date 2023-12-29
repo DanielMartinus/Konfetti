@@ -8,7 +8,6 @@ import nl.dionsegijn.konfetti.core.models.CoreRect
  * The emitter decides if a particle should be created and when the emitter is finished
  */
 abstract class BaseEmitter {
-
     /**
      * This function is called on each update when the [RenderSystem] is active
      * Keep this function as light as possible otherwise you'll slow down the render system

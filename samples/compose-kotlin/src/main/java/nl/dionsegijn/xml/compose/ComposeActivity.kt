@@ -27,7 +27,6 @@ import nl.dionsegijn.konfetti.xml.image.ImageUtil
 import nl.dionsegijn.xml.compose.ui.theme.KonfettiTheme
 
 class ComposeActivity : ComponentActivity() {
-
     private val viewModel by viewModels<KonfettiViewModel>()
 
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -46,19 +45,19 @@ class ComposeActivity : ComponentActivity() {
 
 @Composable
 fun KonfettiUI(viewModel: KonfettiViewModel = KonfettiViewModel()) {
-
     val state: KonfettiViewModel.State by viewModel.state.observeAsState(
-        KonfettiViewModel.State.Idle
+        KonfettiViewModel.State.Idle,
     )
     val drawable = AppCompatResources.getDrawable(LocalContext.current, R.drawable.ic_heart)
     when (val newState = state) {
         KonfettiViewModel.State.Idle -> {
             Column(
-                modifier = Modifier
-                    .fillMaxWidth()
-                    .fillMaxHeight(),
+                modifier =
+                    Modifier
+                        .fillMaxWidth()
+                        .fillMaxHeight(),
                 verticalArrangement = Arrangement.Center,
-                horizontalAlignment = Alignment.CenterHorizontally
+                horizontalAlignment = Alignment.CenterHorizontally,
             ) {
                 Button(onClick = { viewModel.festive(ImageUtil.loadDrawable(drawable!!)) }) {
                     Text(
@@ -82,14 +81,19 @@ fun KonfettiUI(viewModel: KonfettiViewModel = KonfettiViewModel()) {
                 }
             }
         }
-        is KonfettiViewModel.State.Started -> KonfettiView(
-            modifier = Modifier.fillMaxSize(),
-            parties = newState.party,
-            updateListener = object : OnParticleSystemUpdateListener {
-                override fun onParticleSystemEnded(system: PartySystem, activeSystems: Int) {
-                    if (activeSystems == 0) viewModel.ended()
-                }
-            }
-        )
+        is KonfettiViewModel.State.Started ->
+            KonfettiView(
+                modifier = Modifier.fillMaxSize(),
+                parties = newState.party,
+                updateListener =
+                    object : OnParticleSystemUpdateListener {
+                        override fun onParticleSystemEnded(
+                            system: PartySystem,
+                            activeSystems: Int,
+                        ) {
+                            if (activeSystems == 0) viewModel.ended()
+                        }
+                    },
+            )
     }
 }

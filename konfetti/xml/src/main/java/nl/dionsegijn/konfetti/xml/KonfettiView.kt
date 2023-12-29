@@ -23,7 +23,6 @@ import nl.dionsegijn.konfetti.xml.listeners.OnParticleSystemUpdateListener
  * pass the canvas to each system where each system will handle the rendering.
  */
 open class KonfettiView : View {
-
     constructor(context: Context?) : super(context)
     constructor(context: Context?, attrs: AttributeSet?) : super(context, attrs)
     constructor(context: Context?, attrs: AttributeSet?, defStyleAttr: Int) : super(context, attrs, defStyleAttr)
@@ -106,7 +105,7 @@ open class KonfettiView : View {
             party.map {
                 onParticleSystemUpdateListener?.onParticleSystemStarted(this, it, systems.size)
                 PartySystem(party = storeImages(it), pixelDensity = Resources.getSystem().displayMetrics.density)
-            }
+            },
         )
         invalidate()
     }
@@ -117,7 +116,7 @@ open class KonfettiView : View {
                 storeImages(it)
                 onParticleSystemUpdateListener?.onParticleSystemStarted(this, it, systems.size)
                 PartySystem(party = storeImages(it), pixelDensity = Resources.getSystem().displayMetrics.density)
-            }
+            },
         )
         invalidate()
     }
@@ -136,15 +135,16 @@ open class KonfettiView : View {
      * @return A new Party object with the transformed shapes.
      */
     private fun storeImages(party: Party): Party {
-        val transformedShapes = party.shapes.map { shape ->
-            when (shape) {
-                is Shape.DrawableShape -> {
-                    val referenceImage = drawableToReferenceImage(shape.image as DrawableImage)
-                    shape.copy(image = referenceImage)
+        val transformedShapes =
+            party.shapes.map { shape ->
+                when (shape) {
+                    is Shape.DrawableShape -> {
+                        val referenceImage = drawableToReferenceImage(shape.image as DrawableImage)
+                        shape.copy(image = referenceImage)
+                    }
+                    else -> shape
                 }
-                else -> shape
             }
-        }
         return party.copy(shapes = transformedShapes)
     }
 
@@ -211,12 +211,20 @@ open class KonfettiView : View {
         }
     }
 
-    override fun onSizeChanged(w: Int, h: Int, oldw: Int, oldh: Int) {
+    override fun onSizeChanged(
+        w: Int,
+        h: Int,
+        oldw: Int,
+        oldh: Int,
+    ) {
         super.onSizeChanged(w, h, oldw, oldh)
         drawArea = CoreRectImpl(0f, 0f, w.toFloat(), h.toFloat())
     }
 
-    override fun onVisibilityChanged(changedView: View, visibility: Int) {
+    override fun onVisibilityChanged(
+        changedView: View,
+        visibility: Int,
+    ) {
         super.onVisibilityChanged(changedView, visibility)
         timer.reset()
     }

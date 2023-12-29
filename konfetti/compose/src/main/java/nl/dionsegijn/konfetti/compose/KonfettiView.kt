@@ -25,9 +25,8 @@ import nl.dionsegijn.konfetti.xml.image.ImageStore
 fun KonfettiView(
     modifier: Modifier = Modifier,
     parties: List<Party>,
-    updateListener: OnParticleSystemUpdateListener? = null
+    updateListener: OnParticleSystemUpdateListener? = null,
 ) {
-
     lateinit var partySystems: List<PartySystem>
 
     /**
@@ -51,63 +50,67 @@ fun KonfettiView(
     val imageStore = remember { ImageStore() }
 
     LaunchedEffect(Unit) {
-        partySystems = parties.map {
-            PartySystem(
-                party = storeImages(it, imageStore),
-                pixelDensity = Resources.getSystem().displayMetrics.density
-            )
-        }
+        partySystems =
+            parties.map {
+                PartySystem(
+                    party = storeImages(it, imageStore),
+                    pixelDensity = Resources.getSystem().displayMetrics.density,
+                )
+            }
         while (true) {
             withFrameMillis { frameMs ->
                 // Calculate time between frames, fallback to 0 when previous frame doesn't exist
                 val deltaMs = if (frameTime.value > 0) (frameMs - frameTime.value) else 0
                 frameTime.value = frameMs
 
-                particles.value = partySystems.map { particleSystem ->
+                particles.value =
+                    partySystems.map { particleSystem ->
 
-                    val totalTimeRunning = getTotalTimeRunning(particleSystem.createdAt)
-                    // Do not start particleSystem yet if totalTimeRunning is below delay
-                    if (totalTimeRunning < particleSystem.party.delay) return@map listOf()
+                        val totalTimeRunning = getTotalTimeRunning(particleSystem.createdAt)
+                        // Do not start particleSystem yet if totalTimeRunning is below delay
+                        if (totalTimeRunning < particleSystem.party.delay) return@map listOf()
 
-                    if (particleSystem.isDoneEmitting()) {
-                        updateListener?.onParticleSystemEnded(
-                            system = particleSystem,
-                            activeSystems = partySystems.count { !it.isDoneEmitting() }
-                        )
-                    }
+                        if (particleSystem.isDoneEmitting()) {
+                            updateListener?.onParticleSystemEnded(
+                                system = particleSystem,
+                                activeSystems = partySystems.count { !it.isDoneEmitting() },
+                            )
+                        }
 
-                    particleSystem.render(deltaMs.div(1000f), drawArea.value)
-                }.flatten()
+                        particleSystem.render(deltaMs.div(1000f), drawArea.value)
+                    }.flatten()
             }
         }
     }
 
     Canvas(
-        modifier = modifier
-            .onGloballyPositioned {
-                drawArea.value =
-                    CoreRectImpl(0f, 0f, it.size.width.toFloat(), it.size.height.toFloat())
-            },
+        modifier =
+            modifier
+                .onGloballyPositioned {
+                    drawArea.value =
+                        CoreRectImpl(0f, 0f, it.size.width.toFloat(), it.size.height.toFloat())
+                },
         onDraw = {
             particles.value.forEach { particle ->
                 withTransform({
                     rotate(
                         degrees = particle.rotation,
-                        pivot = Offset(
-                            x = particle.x + (particle.width / 2),
-                            y = particle.y + (particle.height / 2)
-                        )
+                        pivot =
+                            Offset(
+                                x = particle.x + (particle.width / 2),
+                                y = particle.y + (particle.height / 2),
+                            ),
                     )
                     scale(
                         scaleX = particle.scaleX,
                         scaleY = 1f,
-                        pivot = Offset(particle.x + (particle.width / 2), particle.y)
+                        pivot = Offset(particle.x + (particle.width / 2), particle.y),
                     )
                 }) {
                     particle.shape.draw(drawScope = this, particle = particle, imageStore = imageStore)
                 }
             }
-        }
+        },
     )
 }
 
@@ -118,16 +121,20 @@ fun KonfettiView(
  * @param party The Party object containing the shapes to be transformed.
  * @return A new Party object with the transformed shapes.
  */
-fun storeImages(party: Party, imageStore: ImageStore): Party {
-    val transformedShapes = party.shapes.map { shape ->
-        when (shape) {
-            is Shape.DrawableShape -> {
-                val referenceImage = drawableToReferenceImage(shape.image as DrawableImage, imageStore)
-                shape.copy(image = referenceImage)
+fun storeImages(
+    party: Party,
+    imageStore: ImageStore,
+): Party {
+    val transformedShapes =
+        party.shapes.map { shape ->
+            when (shape) {
+                is Shape.DrawableShape -> {
+                    val referenceImage = drawableToReferenceImage(shape.image as DrawableImage, imageStore)
+                    shape.copy(image = referenceImage)
+                }
+                else -> shape
             }
-            else -> shape
         }
-    }
     return party.copy(shapes = transformedShapes)
 }
 
@@ -137,7 +144,10 @@ fun storeImages(party: Party, imageStore: ImageStore): Party {
  * @param drawableImage The DrawableImage to be converted.
  * @return A ReferenceImage with the same dimensions as the DrawableImage and a reference to the stored Drawable.
  */
-fun drawableToReferenceImage(drawableImage: DrawableImage, imageStore: ImageStore): ReferenceImage {
+fun drawableToReferenceImage(
+    drawableImage: DrawableImage,
+    imageStore: ImageStore,
+): ReferenceImage {
     val id = imageStore.storeImage(drawableImage.drawable)
     return ReferenceImage(id, drawableImage.width, drawableImage.height)
 }

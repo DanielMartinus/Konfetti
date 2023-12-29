@@ -1,9 +1,10 @@
 import android.view.View
 import android.view.ViewGroup
 import androidx.test.espresso.Espresso.onView
-import androidx.test.espresso.action.ViewActions.*
-import androidx.test.espresso.assertion.ViewAssertions.*
-import androidx.test.espresso.matcher.ViewMatchers.*
+import androidx.test.espresso.action.ViewActions.click
+import androidx.test.espresso.matcher.ViewMatchers.isDisplayed
+import androidx.test.espresso.matcher.ViewMatchers.withId
+import androidx.test.espresso.matcher.ViewMatchers.withText
 import androidx.test.ext.junit.rules.ActivityScenarioRule
 import androidx.test.ext.junit.runners.AndroidJUnit4
 import androidx.test.filters.LargeTest
@@ -20,17 +21,17 @@ import org.junit.runner.RunWith
 @LargeTest
 @RunWith(AndroidJUnit4::class)
 class MainActivityTest {
-
     @Rule
     @JvmField
     var mActivityScenarioRule = ActivityScenarioRule(MainActivity::class.java)
 
-    private val testButtons = listOf(
-        TestButton(R.id.btnFestive, "Festive"),
-        TestButton(R.id.btnExplode, "Explode"),
-        TestButton(R.id.btnParade, "Parade"),
-        TestButton(R.id.btnRain, "Rain"),
-    )
+    private val testButtons =
+        listOf(
+            TestButton(R.id.btnFestive, "Festive"),
+            TestButton(R.id.btnExplode, "Explode"),
+            TestButton(R.id.btnParade, "Parade"),
+            TestButton(R.id.btnRain, "Rain"),
+        )
 
     @Test
     fun mainActivityTest() {
@@ -39,27 +40,33 @@ class MainActivityTest {
         }
     }
 
-    private fun runTestForButtonWithText(viewId: Int, buttonText: String, position: Int) {
-        val materialButton = onView(
-            allOf(
-                withId(viewId), withText(buttonText),
-                childAtPosition(
+    private fun runTestForButtonWithText(
+        viewId: Int,
+        buttonText: String,
+        position: Int,
+    ) {
+        val materialButton =
+            onView(
+                allOf(
+                    withId(viewId),
+                    withText(buttonText),
                     childAtPosition(
-                        withId(android.R.id.content),
-                        0
+                        childAtPosition(
+                            withId(android.R.id.content),
+                            0,
+                        ),
+                        position,
                     ),
-                    position
+                    isDisplayed(),
                 ),
-                isDisplayed()
             )
-        )
         materialButton.perform(click())
     }
 
     private fun childAtPosition(
-        parentMatcher: Matcher<View>, position: Int
+        parentMatcher: Matcher<View>,
+        position: Int,
     ): Matcher<View> {
-
         return object : TypeSafeMatcher<View>() {
             override fun describeTo(description: Description) {
                 description.appendText("Child at position $position in parent ")
@@ -68,8 +75,8 @@ class MainActivityTest {
 
             public override fun matchesSafely(view: View): Boolean {
                 val parent = view.parent
-                return parent is ViewGroup && parentMatcher.matches(parent)
-                    && view == parent.getChildAt(position)
+                return parent is ViewGroup && parentMatcher.matches(parent) &&
+                    view == parent.getChildAt(position)
             }
         }
     }

@@ -6,7 +6,10 @@ data class Vector(var x: Float = 0f, var y: Float = 0f) {
         y += v.y
     }
 
-    fun addScaled(v: Vector, s: Float) {
+    fun addScaled(
+        v: Vector,
+        s: Float,
+    ) {
         x += v.x * s
         y += v.y * s
     }
