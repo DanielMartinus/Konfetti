@@ -9,7 +9,6 @@ import nl.dionsegijn.konfetti.core.models.Size
  * See [Party] for documentation on the configuration settings
  */
 class PartyFactory(val emitter: EmitterConfig) {
-
     private var party: Party = Party(emitter = emitter)
 
     fun angle(angle: Int): PartyFactory {
@@ -27,7 +26,10 @@ class PartyFactory(val emitter: EmitterConfig) {
         return this
     }
 
-    fun setSpeedBetween(minSpeed: Float, maxSpeed: Float): PartyFactory {
+    fun setSpeedBetween(
+        minSpeed: Float,
+        maxSpeed: Float,
+    ): PartyFactory {
         party = party.copy(speed = minSpeed, maxSpeed = maxSpeed)
         return this
     }
@@ -42,28 +44,47 @@ class PartyFactory(val emitter: EmitterConfig) {
         return this
     }
 
-    fun position(x: Float, y: Float): PartyFactory {
+    fun position(
+        x: Float,
+        y: Float,
+    ): PartyFactory {
         party = party.copy(position = Position.Absolute(x, y))
         return this
     }
 
-    fun position(minX: Float, minY: Float, maxX: Float, maxY: Float): PartyFactory {
-        party = party.copy(
-            position = Position.Absolute(minX, minY)
-                .between(Position.Absolute(maxX, maxY))
-        )
+    fun position(
+        minX: Float,
+        minY: Float,
+        maxX: Float,
+        maxY: Float,
+    ): PartyFactory {
+        party =
+            party.copy(
+                position =
+                    Position.Absolute(minX, minY)
+                        .between(Position.Absolute(maxX, maxY)),
+            )
         return this
     }
 
-    fun position(x: Double, y: Double): PartyFactory {
+    fun position(
+        x: Double,
+        y: Double,
+    ): PartyFactory {
         party = party.copy(position = Position.Relative(x, y))
         return this
     }
 
-    fun position(minX: Double, minY: Double, maxX: Double, maxY: Double): PartyFactory {
-        party = party.copy(
-            position = Position.Relative(minX, minY).between(Position.Relative(maxX, maxY))
-        )
+    fun position(
+        minX: Double,
+        minY: Double,
+        maxX: Double,
+        maxY: Double,
+    ): PartyFactory {
+        party =
+            party.copy(
+                position = Position.Relative(minX, minY).between(Position.Relative(maxX, maxY)),
+            )
         return this
     }
 

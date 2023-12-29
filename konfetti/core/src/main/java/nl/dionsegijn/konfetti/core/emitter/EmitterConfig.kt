@@ -7,7 +7,7 @@ import java.util.concurrent.TimeUnit
  */
 data class Emitter(
     val duration: Long,
-    val timeUnit: TimeUnit = TimeUnit.MILLISECONDS
+    val timeUnit: TimeUnit = TimeUnit.MILLISECONDS,
 ) {
     /**
      * Max amount of particles that will be created over the duration that is set
@@ -25,9 +25,8 @@ data class Emitter(
  * will be created over certain time
  */
 class EmitterConfig(
-    emitter: Emitter
+    emitter: Emitter,
 ) {
-
     /** Max time allowed to emit in milliseconds */
     var emittingTime: Long = 0
 

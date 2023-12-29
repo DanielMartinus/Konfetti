@@ -21,8 +21,12 @@ import nl.dionsegijn.konfetti.xml.image.ImageStore
  * `size` and must vertically/horizontally center their asset if it does not have an equal width
  * and height.
  */
-fun Shape.draw(canvas: Canvas, paint: Paint, size: Float, imageStore: ImageStore) {
-
+fun Shape.draw(
+    canvas: Canvas,
+    paint: Paint,
+    size: Float,
+    imageStore: ImageStore,
+) {
     when (this) {
         Square -> canvas.drawRect(0f, 0f, size, size, paint)
         Circle -> {

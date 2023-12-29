@@ -6,12 +6,12 @@ plugins {
 
 spotless {
     kotlin {
-        ktlint("0.37.2")
+        ktlint("1.1.0")
         target("src/**/*.kt")
     }
     java {
         removeUnusedImports()
-        googleJavaFormat("1.5")
+        googleJavaFormat("1.15.0")
         target("**/*.java")
     }
 }

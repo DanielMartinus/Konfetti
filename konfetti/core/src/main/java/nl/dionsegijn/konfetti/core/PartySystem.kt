@@ -15,9 +15,8 @@ import nl.dionsegijn.konfetti.core.models.CoreRect
 class PartySystem(
     val party: Party,
     val createdAt: Long = System.currentTimeMillis(),
-    pixelDensity: Float
+    pixelDensity: Float,
 ) {
-
     var enabled = true
 
     private var emitter: BaseEmitter = PartyEmitter(party.emitter, pixelDensity)
@@ -26,7 +25,10 @@ class PartySystem(
 
     // Called every frame to create and update the particles state
     // returns a list of particles that are ready to be rendered
-    fun render(deltaTime: Float, drawArea: CoreRect): List<Particle> {
+    fun render(
+        deltaTime: Float,
+        drawArea: CoreRect,
+    ): List<Particle> {
         if (enabled) {
             activeParticles.addAll(emitter.createConfetti(deltaTime, party, drawArea))
         }
@@ -43,8 +45,7 @@ class PartySystem(
      * @return true if the emitter is done emitting or false when it's still busy or needs to start
      * based on the delay
      */
-    fun isDoneEmitting(): Boolean =
-        (emitter.isFinished() && activeParticles.size == 0) || (!enabled && activeParticles.size == 0)
+    fun isDoneEmitting(): Boolean = (emitter.isFinished() && activeParticles.size == 0) || (!enabled && activeParticles.size == 0)
 
     fun getActiveParticleAmount() = activeParticles.size
 }

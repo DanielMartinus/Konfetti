@@ -25,14 +25,19 @@ import nl.dionsegijn.konfetti.xml.image.ImageStore
  * `size` and must vertically/horizontally center their asset if it does not have an equal width
  * and height.
  */
-fun Shape.draw(drawScope: DrawScope, particle: Particle, imageResource: ImageBitmap? = null, imageStore: ImageStore) {
+fun Shape.draw(
+    drawScope: DrawScope,
+    particle: Particle,
+    imageResource: ImageBitmap? = null,
+    imageStore: ImageStore,
+) {
     when (this) {
         Circle -> {
             val offsetMiddle = particle.width / 2
             drawScope.drawCircle(
                 color = Color(particle.color),
                 center = Offset(particle.x + offsetMiddle, particle.y + offsetMiddle),
-                radius = particle.width / 2
+                radius = particle.width / 2,
             )
         }
         Square -> {
@@ -48,7 +53,7 @@ fun Shape.draw(drawScope: DrawScope, particle: Particle, imageResource: ImageBit
             drawScope.drawRect(
                 color = Color(particle.color),
                 topLeft = Offset(particle.x, particle.y),
-                size = Size(size, height)
+                size = Size(size, height),
             )
         }
         is DrawableShape -> {

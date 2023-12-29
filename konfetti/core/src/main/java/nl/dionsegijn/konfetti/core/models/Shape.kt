@@ -5,10 +5,12 @@ sealed interface Shape {
         // Default replacement for RectF
         val rect = CoreRectImpl()
     }
+
     object Square : Shape
+
     class Rectangle(
         /** The ratio of height to width. Must be within range [0, 1] */
-        val heightRatio: Float
+        val heightRatio: Float,
     ) : Shape {
         init {
             require(heightRatio in 0f..1f)
@@ -26,7 +28,6 @@ sealed interface Shape {
         val tint: Boolean = true,
         val applyAlpha: Boolean = true,
     ) : Shape {
-
         val heightRatio =
             if (image.height == -1 && image.width == -1) {
                 // If the image has no intrinsic size, fill the available space.

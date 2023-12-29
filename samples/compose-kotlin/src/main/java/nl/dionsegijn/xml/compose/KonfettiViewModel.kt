@@ -8,7 +8,6 @@ import nl.dionsegijn.konfetti.core.models.Shape
 import nl.dionsegijn.samples.shared.Presets
 
 class KonfettiViewModel : ViewModel() {
-
     private val _state = MutableLiveData<State>(State.Idle)
     val state: LiveData<State> = _state
 
@@ -46,6 +45,7 @@ class KonfettiViewModel : ViewModel() {
 
     sealed class State {
         class Started(val party: List<Party>) : State()
+
         object Idle : State()
     }
 }

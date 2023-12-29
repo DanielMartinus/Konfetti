@@ -28,28 +28,32 @@ class PartyEmitterTest {
     private val deltaTime = 0.017f
 
     // Test Party object
-    private val party = Party(
-        angle = Angle.TOP,
-        spread = 0,
-        speed = 30f,
-        maxSpeed = -1f,
-        damping = 0.9f,
-        size = listOf(Size(sizeInDp = 6, mass = 5f, massVariance = 0f)),
-        colors = listOf(0xFF0000),
-        shapes = listOf(Shape.Square),
-        timeToLive = 1000L,
-        fadeOutEnabled = false,
-        position = Position.Absolute(100f, 100f),
-        delay = 0,
-        rotation = Rotation(),
-        emitter = Emitter(100L).max(10) // Create confetti every 10ms
-    )
+    // Create confetti every 10ms
+    private val party =
+        Party(
+            angle = Angle.TOP,
+            spread = 0,
+            speed = 30f,
+            maxSpeed = -1f,
+            damping = 0.9f,
+            size = listOf(Size(sizeInDp = 6, mass = 5f, massVariance = 0f)),
+            colors = listOf(0xFF0000),
+            shapes = listOf(Shape.Square),
+            timeToLive = 1000L,
+            fadeOutEnabled = false,
+            position = Position.Absolute(100f, 100f),
+            delay = 0,
+            rotation = Rotation(),
+            emitter = Emitter(100L).max(10),
+        )
 
     @Test
     fun `Create confetti every 25ms and then finish`() {
-        val party = Party(
-            emitter = Emitter(100L).max(4) // Create confetti every 25ms
-        )
+        // Create confetti every 25ms
+        val party =
+            Party(
+                emitter = Emitter(100L).max(4),
+            )
         val emitter = PartyEmitter(party.emitter, 1f)
 
         val r1 = emitter.createConfetti(deltaTime, party, drawArea) // 0.017f
@@ -93,11 +97,12 @@ class PartyEmitterTest {
     fun `Initial state confetti with rotation disabled`() {
         val emitter = PartyEmitter(party.emitter, 1f)
 
-        val r1 = emitter.createConfetti(
-            deltaTime,
-            party.copy(rotation = Rotation.disabled()),
-            drawArea
-        ) // 0.017f
+        val r1 =
+            emitter.createConfetti(
+                deltaTime,
+                party.copy(rotation = Rotation.disabled()),
+                drawArea,
+            ) // 0.017f
 
         with(r1.first()) {
             Assert.assertEquals(0.0f, rotationSpeed2D)
@@ -109,11 +114,12 @@ class PartyEmitterTest {
     fun `Initial state confetti with relative position`() {
         val emitter = PartyEmitter(party.emitter, 1f)
 
-        val r1 = emitter.createConfetti(
-            deltaTime,
-            party.copy(position = Position.Relative(0.5, 0.5)),
-            drawArea
-        ) // 0.017f
+        val r1 =
+            emitter.createConfetti(
+                deltaTime,
+                party.copy(position = Position.Relative(0.5, 0.5)),
+                drawArea,
+            ) // 0.017f
 
         with(r1.first()) {
             Assert.assertEquals(Vector(500f, 500f), location)

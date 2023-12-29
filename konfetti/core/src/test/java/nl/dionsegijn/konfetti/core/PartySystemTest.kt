@@ -9,20 +9,21 @@ import org.mockito.ArgumentMatchers.anyInt
 import org.mockito.Mockito
 
 class PartySystemTest {
-
-    private val rect: CoreRect = Mockito.mock(CoreRectImpl::class.java).apply {
-        Mockito.`when`(height).thenReturn(1000f)
-        Mockito.`when`(contains(anyInt(), anyInt())).thenReturn(true)
-    }
+    private val rect: CoreRect =
+        Mockito.mock(CoreRectImpl::class.java).apply {
+            Mockito.`when`(height).thenReturn(1000f)
+            Mockito.`when`(contains(anyInt(), anyInt())).thenReturn(true)
+        }
 
     // Average between for each frame
     private val deltaTime = 0.017f
 
     @Test
     fun `Test creating particle every 25ms`() {
-        val party = Party(
-            emitter = Emitter(100L).max(4)
-        )
+        val party =
+            Party(
+                emitter = Emitter(100L).max(4),
+            )
         val system = PartySystem(party, pixelDensity = 1f)
 
         Assert.assertTrue(system.enabled)
@@ -40,9 +41,10 @@ class PartySystemTest {
 
     @Test
     fun `Test PartySystem set to disabled stops generating particles`() {
-        val party = Party(
-            emitter = Emitter(100L).max(4)
-        )
+        val party =
+            Party(
+                emitter = Emitter(100L).max(4),
+            )
         val system = PartySystem(party, pixelDensity = 1f)
 
         Assert.assertTrue(system.enabled)
@@ -65,11 +67,12 @@ class PartySystemTest {
 
     @Test
     fun `Test PartySystem is done Emitting`() {
-        val party = Party(
-            timeToLive = 1L,
-            fadeOutEnabled = false,
-            emitter = Emitter(100).max(2)
-        )
+        val party =
+            Party(
+                timeToLive = 1L,
+                fadeOutEnabled = false,
+                emitter = Emitter(100).max(2),
+            )
         val system = PartySystem(party, pixelDensity = 1f)
 
         // Set drawArea to 1 pixel to let every particle directly disappear for this test
@@ -93,11 +96,14 @@ class PartySystemTest {
 
     @Test
     fun `Test PartySystem remove dead particles`() {
-        val party = Party(
-            timeToLive = 18L, // removes particles after two frames
-            fadeOutEnabled = false,
-            emitter = Emitter(100L).max(5) // Create particle every 20ms
-        )
+        // removes particles after two frames
+        // Create particle every 20ms
+        val party =
+            Party(
+                timeToLive = 18L,
+                fadeOutEnabled = false,
+                emitter = Emitter(100L).max(5),
+            )
         val system = PartySystem(party, pixelDensity = 1f)
 
         // Every 20ms a new particle is created and every two frames they're removed

@@ -9,7 +9,6 @@ import nl.dionsegijn.konfetti.xml.image.ImageUtil
 import nl.dionsegijn.samples.shared.Presets
 
 class MainActivity : AppCompatActivity() {
-
     private lateinit var viewKonfetti: KonfettiView
 
     override fun onCreate(savedInstanceState: Bundle?) {

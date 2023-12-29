@@ -20,10 +20,9 @@ import kotlin.math.sin
 class PartyEmitter(
     private val emitterConfig: EmitterConfig,
     private val pixelDensity: Float,
-    private val random: Random = Random()
+    private val random: Random = Random(),
 ) : BaseEmitter() {
-
-    /* Keeping count of how many particles are created whilst running the emitter */
+    // Keeping count of how many particles are created whilst running the emitter
     private var particlesCreated = 0
 
     /** Elapsed time in milliseconds */
@@ -36,7 +35,11 @@ class PartyEmitter(
      * If timer isn't started yet, set initial start time
      * Create the first confetti immediately and update the last emitting time
      */
-    override fun createConfetti(deltaTime: Float, party: Party, drawArea: CoreRect): List<Confetti> {
+    override fun createConfetti(
+        deltaTime: Float,
+        party: Party,
+        drawArea: CoreRect,
+    ): List<Confetti> {
         createParticleMs += deltaTime
 
         // Initial deltaTime can't be higher than the emittingTime, if so calculate
@@ -68,7 +71,10 @@ class PartyEmitter(
      * @param party Configurations used for creating the initial Confetti states
      * @param drawArea the area and size of the canvas
      */
-    private fun createParticle(party: Party, drawArea: CoreRect): Confetti {
+    private fun createParticle(
+        party: Party,
+        drawArea: CoreRect,
+    ): Confetti {
         particlesCreated++
         with(party) {
             val randomSize = size[random.nextInt(size.size)]
@@ -84,7 +90,7 @@ class PartyEmitter(
                 damping = party.damping,
                 rotationSpeed2D = rotation.rotationSpeed() * party.rotation.multiplier2D,
                 rotationSpeed3D = rotation.rotationSpeed() * party.rotation.multiplier3D,
-                pixelDensity = pixelDensity
+                pixelDensity = pixelDensity,
             )
         }
     }
@@ -100,8 +106,11 @@ class PartyEmitter(
     }
 
     private fun Party.getSpeed(): Float =
-        if (maxSpeed == -1f) speed
-        else ((maxSpeed - speed) * random.nextFloat()) + speed
+        if (maxSpeed == -1f) {
+            speed
+        } else {
+            ((maxSpeed - speed) * random.nextFloat()) + speed
+        }
 
     /**
      * Get the mass with a slight variance added to create randomness between how each particle
@@ -135,15 +144,15 @@ class PartyEmitter(
             is Position.Relative -> {
                 Position.Absolute(
                     drawArea.width * x.toFloat(),
-                    drawArea.height * y.toFloat()
+                    drawArea.height * y.toFloat(),
                 )
             }
-            is Position.between -> {
+            is Position.Between -> {
                 val minPos = min.get(drawArea)
                 val maxPos = max.get(drawArea)
                 return Position.Absolute(
                     x = random.nextFloat().times(maxPos.x.minus(minPos.x)) + minPos.x,
-                    y = random.nextFloat().times(maxPos.y.minus(minPos.y)) + minPos.y
+                    y = random.nextFloat().times(maxPos.y.minus(minPos.y)) + minPos.y,
                 )
             }
         }
@@ -170,6 +179,8 @@ class PartyEmitter(
     override fun isFinished(): Boolean {
         return if (emitterConfig.emittingTime > 0L) {
             elapsedTime >= emitterConfig.emittingTime
-        } else false
+        } else {
+            false
+        }
     }
 }

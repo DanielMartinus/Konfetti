@@ -29,7 +29,7 @@ import nl.dionsegijn.konfetti.core.models.Size
  * it will slowly fade out. If set to falls it will instantly disappear from the screen.
  * @property position the point where the confetti will spawn relative to the canvas. Use absolute
  * coordinates with [Position.Absolute] or relative coordinates between 0.0 and 1.0 using [Position.Relative].
- * Spawn confetti on random positions using [Position.between].
+ * Spawn confetti on random positions using [Position.Between].
  * @property delay the amount of milliseconds to wait before the rendering of the confetti starts
  * @property rotation enable the 3D rotation of a Confetti. See [Rotation] class for the configuration
  * options. Easily enable or disable it using [Rotation].enabled() or [Rotation].disabled() and
@@ -52,7 +52,7 @@ data class Party(
     val position: Position = Position.Relative(0.5, 0.5),
     val delay: Int = 0,
     val rotation: Rotation = Rotation(),
-    val emitter: EmitterConfig
+    val emitter: EmitterConfig,
 )
 
 /**
@@ -90,7 +90,7 @@ sealed class Position {
      * @property y the y coordinate in pixels
      */
     data class Absolute(val x: Float, val y: Float) : Position() {
-        fun between(value: Absolute): Position = between(this, value)
+        fun between(value: Absolute): Position = Between(this, value)
     }
 
     /**
@@ -105,7 +105,7 @@ sealed class Position {
      * @property y the relative y coordinate as a double
      */
     data class Relative(val x: Double, val y: Double) : Position() {
-        fun between(value: Relative): Position = between(this, value)
+        fun between(value: Relative): Position = Between(this, value)
     }
 
     /**
@@ -114,7 +114,7 @@ sealed class Position {
      * Example: Relative(0.0, 0.0).between(Relative(1.0, 0.0))
      * This will spawn confetti from the full width and top of the view
      */
-    internal data class between(val min: Position, val max: Position) : Position()
+    internal data class Between(val min: Position, val max: Position) : Position()
 }
 
 /**
@@ -132,10 +132,11 @@ data class Rotation(
     val speed: Float = 1f,
     val variance: Float = 0.5f,
     val multiplier2D: Float = 8f,
-    val multiplier3D: Float = 1.5f
+    val multiplier3D: Float = 1.5f,
 ) {
     companion object {
         fun enabled() = Rotation(enabled = true)
+
         fun disabled() = Rotation(enabled = false)
     }
 }

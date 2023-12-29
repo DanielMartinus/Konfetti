@@ -9,7 +9,6 @@ package nl.dionsegijn.konfetti.core.models
  * each particle is. Default is 0.2f for a slight difference in mass for each particle.
  */
 data class Size(val sizeInDp: Int, val mass: Float = 5f, val massVariance: Float = 0.2f) {
-
     init {
         require(mass != 0F) { "mass=$mass must be != 0" }
     }
