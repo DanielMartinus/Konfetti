@@ -2,12 +2,12 @@ package nl.dionsegijn.konfetti.compose
 
 import android.content.res.Resources
 import android.graphics.drawable.Drawable
+import androidx.compose.animation.core.withInfiniteAnimationFrameMillis
 import androidx.compose.foundation.Canvas
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
-import androidx.compose.runtime.withFrameMillis
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.geometry.Offset
 import androidx.compose.ui.graphics.drawscope.withTransform
@@ -58,7 +58,7 @@ fun KonfettiView(
                 )
             }
         while (true) {
-            withFrameMillis { frameMs ->
+            withInfiniteAnimationFrameMillis { frameMs ->
                 // Calculate time between frames, fallback to 0 when previous frame doesn't exist
                 val deltaMs = if (frameTime.value > 0) (frameMs - frameTime.value) else 0
                 frameTime.value = frameMs
