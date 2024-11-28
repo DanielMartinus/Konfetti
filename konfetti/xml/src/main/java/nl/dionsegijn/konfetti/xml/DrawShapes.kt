@@ -4,6 +4,7 @@ import android.graphics.BlendMode
 import android.graphics.BlendModeColorFilter
 import android.graphics.Canvas
 import android.graphics.Paint
+import android.graphics.Path
 import android.graphics.PorterDuff
 import android.graphics.RectF
 import android.os.Build
@@ -15,6 +16,7 @@ import nl.dionsegijn.konfetti.core.models.Shape.DrawableShape
 import nl.dionsegijn.konfetti.core.models.Shape.Rectangle
 import nl.dionsegijn.konfetti.core.models.Shape.Square
 import nl.dionsegijn.konfetti.xml.image.ImageStore
+import kotlin.math.sqrt
 
 /**
  * Draw a shape to `canvas`. Implementations are expected to draw within a square of size
@@ -60,6 +62,16 @@ fun Shape.draw(
                 drawable.setBounds(0, top, size.toInt(), top + height)
                 drawable.draw(canvas)
             }
+        }
+        Shape.Triangle -> {
+            val triangleHeight = size * sqrt(3.0) / 2
+            val trianglePath =
+                Path().apply {
+                    moveTo(size / 2, 0f)
+                    lineTo(size, triangleHeight.toFloat())
+                    lineTo(0f, triangleHeight.toFloat())
+                }
+            canvas.drawPath(trianglePath, paint)
         }
     }
 }
