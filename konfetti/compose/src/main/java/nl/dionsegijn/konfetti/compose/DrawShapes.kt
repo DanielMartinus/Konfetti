@@ -8,6 +8,7 @@ import androidx.compose.ui.geometry.Offset
 import androidx.compose.ui.geometry.Size
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.graphics.ImageBitmap
+import androidx.compose.ui.graphics.Path
 import androidx.compose.ui.graphics.drawscope.DrawScope
 import androidx.compose.ui.graphics.drawscope.drawIntoCanvas
 import androidx.compose.ui.graphics.nativeCanvas
@@ -19,6 +20,7 @@ import nl.dionsegijn.konfetti.core.models.Shape.DrawableShape
 import nl.dionsegijn.konfetti.core.models.Shape.Rectangle
 import nl.dionsegijn.konfetti.core.models.Shape.Square
 import nl.dionsegijn.konfetti.xml.image.ImageStore
+import kotlin.math.sqrt
 
 /**
  * Draw a shape to `compose canvas`. Implementations are expected to draw within a square of size
@@ -83,6 +85,20 @@ fun Shape.draw(
                     drawable.draw(it.nativeCanvas)
                 }
             }
+        }
+        Shape.Triangle -> {
+            val triangleWidth = particle.width
+            val triangleHeight = triangleWidth * sqrt(3.0) / 2
+            val trianglePath =
+                Path().apply {
+                    moveTo(particle.x + particle.width / 2, particle.y)
+                    lineTo(particle.x + triangleWidth, particle.y + triangleHeight.toFloat())
+                    lineTo(particle.x, particle.y + triangleHeight.toFloat())
+                }
+            drawScope.drawPath(
+                color = Color(particle.color),
+                path = trianglePath,
+            )
         }
     }
 }
