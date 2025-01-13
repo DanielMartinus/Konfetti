@@ -132,7 +132,7 @@ View-based (xml)
 
 ```kotlin
 Party(
-    speed = 0f,
+    speed = 10f,
     maxSpeed = 30f,
     damping = 0.9f,
     spread = 360,
