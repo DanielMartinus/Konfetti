@@ -10,6 +10,7 @@ import nl.dionsegijn.konfetti.core.models.Vector
 import java.lang.Math.toRadians
 import java.util.Random
 import kotlin.math.cos
+import kotlin.math.min
 import kotlin.math.sin
 
 /**
@@ -40,11 +41,12 @@ class PartyEmitter(
         party: Party,
         drawArea: CoreRect,
     ): List<Confetti> {
-        createParticleMs += deltaTime
+        val emittingTime = emitterConfig.emittingTime / 1000f
+
+        createParticleMs = min(createParticleMs + deltaTime, emittingTime)
 
         // Initial deltaTime can't be higher than the emittingTime, if so calculate
         // amount of particles based on max emittingTime
-        val emittingTime = emitterConfig.emittingTime / 1000f
         if (elapsedTime == 0f && deltaTime > emittingTime) {
             createParticleMs = emittingTime
         }
