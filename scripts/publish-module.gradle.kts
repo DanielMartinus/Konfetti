@@ -61,8 +61,7 @@ afterEvaluate {
 
                     licenses {
                         license {
-                            name.set("Konfetti License")
-                            url.set("https://github.com/DanielMartinus/Konfetti/blob/main/LICENSE")
+                            name.set("ISC")
                         }
                     }
 
