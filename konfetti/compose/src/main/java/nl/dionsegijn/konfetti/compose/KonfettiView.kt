@@ -12,6 +12,8 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.geometry.Offset
 import androidx.compose.ui.graphics.drawscope.withTransform
 import androidx.compose.ui.layout.onGloballyPositioned
+import androidx.lifecycle.Lifecycle
+import androidx.lifecycle.compose.LifecycleEventEffect
 import nl.dionsegijn.konfetti.core.Particle
 import nl.dionsegijn.konfetti.core.Party
 import nl.dionsegijn.konfetti.core.PartySystem
@@ -49,6 +51,9 @@ fun KonfettiView(
      */
     val imageStore = remember { ImageStore() }
 
+    LifecycleEventEffect(event = Lifecycle.Event.ON_RESUME) {
+        frameTime.value = 0L
+    }
     LaunchedEffect(Unit) {
         partySystems =
             parties.map {
