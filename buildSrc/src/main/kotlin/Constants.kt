@@ -4,7 +4,7 @@ object buildVersions {
 }
 
 object Constants {
-    const val konfettiVersion = "2.0.6"
+    const val konfettiVersion = "2.0.7"
     const val kotlinVersion = "2.4.21"
 }
 
