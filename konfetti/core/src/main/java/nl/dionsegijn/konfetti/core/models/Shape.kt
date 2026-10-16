@@ -8,6 +8,8 @@ sealed interface Shape {
 
     object Square : Shape
 
+    object Triangle : Shape
+
     class Rectangle(
         /** The ratio of height to width. Must be within range [0, 1] */
         val heightRatio: Float,
