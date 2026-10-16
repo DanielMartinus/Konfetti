@@ -1,0 +1,107 @@
+name: Benchmark
+
+on: pull_request
+
+permissions:
+  contents: read
+
+concurrency:
+  group: benchmark-${{ github.event.pull_request.number }}
+  cancel-in-progress: true
+
+env:
+  # Each round runs one JMH fork per side. Rounds alternate which side goes first so that
+  # slow drifts on the runner affect base and head equally.
+  ROUNDS: 3
+  JMH_ARGS: -f 1 -wi 5 -i 10 -w 500ms -r 500ms -prof gc -jvmArgsAppend "-Xms1g -Xmx1g"
+
+jobs:
+  benchmark:
+    runs-on: ubuntu-24.04
+    timeout-minutes: 45
+    steps:
+      # The default ref is GitHub's merge commit for the PR: the PR applied on top of the
+      # current target branch. Its first parent is that target commit, so comparing the two
+      # measures exactly what merging the PR would change.
+      - uses: actions/checkout@v4
+        with:
+          path: head
+          fetch-depth: 0
+
+      - name: Find target commit the PR was merged onto
+        id: base
+        working-directory: head
+        run: |
+          sha=$(git rev-parse HEAD^1)
+          echo "sha=$sha" >> "$GITHUB_OUTPUT"
+          git worktree add ../base "$sha"
+
+      - uses: actions/setup-java@v4
+        with:
+          java-version: 21
+          distribution: zulu
+
+      - uses: gradle/actions/setup-gradle@v4
+
+      - name: Build head benchmarks
+        working-directory: head
+        run: ./gradlew --configure-on-demand :konfetti:benchmark:jmhJar
+
+      - name: Build base benchmarks
+        id: base-build
+        working-directory: base
+        run: |
+          # The benchmarks always come from the head, so both sides measure the same code paths
+          # even when the PR changes the benchmarks themselves.
+          rm -rf konfetti/benchmark
+          cp -r ../head/konfetti/benchmark konfetti/benchmark
+          rm -rf konfetti/benchmark/build
+          grep -q ':konfetti:benchmark' settings.gradle.kts || echo 'include(":konfetti:benchmark")' >> settings.gradle.kts
+          if ./gradlew --configure-on-demand :konfetti:benchmark:jmhJar; then
+            echo "ok=true" >> "$GITHUB_OUTPUT"
+          else
+            echo "::warning::Base commit could not be built with the PR's benchmarks, reporting without a baseline"
+            echo "ok=false" >> "$GITHUB_OUTPUT"
+          fi
+
+      - name: Run benchmarks
+        env:
+          BASE_OK: ${{ steps.base-build.outputs.ok }}
+        run: |
+          mkdir -p results
+          run() {
+            eval java -jar "$1/konfetti/benchmark/build/libs/benchmark-jmh.jar" $JMH_ARGS -rf json -rff "results/$1-$2.json"
+          }
+          # Discarded pass so CPU frequency scaling and file caches settle before the first measured round
+          java -jar head/konfetti/benchmark/build/libs/benchmark-jmh.jar -f 1 -wi 3 -i 1 -w 500ms -r 500ms > /dev/null
+          for round in $(seq 1 "$ROUNDS"); do
+            if [ "$BASE_OK" != "true" ]; then
+              run head "$round"
+            elif [ $((round % 2)) -eq 1 ]; then
+              run base "$round"; run head "$round"
+            else
+              run head "$round"; run base "$round"
+            fi
+          done
+
+      - name: Compare results
+        env:
+          BASE_REF: ${{ github.base_ref }}
+          BASE_SHA: ${{ steps.base.outputs.sha }}
+          HEAD_SHA: ${{ github.event.pull_request.head.sha }}
+          PR_NUMBER: ${{ github.event.pull_request.number }}
+        run: |
+          java_version=$(java -version 2>&1 | head -1)
+          python3 head/scripts/bench-compare.py \
+            --base results/base-*.json \
+            --head results/head-*.json \
+            --base-label "\`$BASE_REF\` (${BASE_SHA::7})" \
+            --head-label "PR #$PR_NUMBER (${HEAD_SHA::7})" \
+            --details "Runner: ubuntu-24.04, $java_version. $ROUNDS interleaved rounds per side, each 1 fork × 10 iterations of 500ms after 5 warmup iterations. Raw JMH JSON is attached to the workflow run as the \`benchmark-results\` artifact." \
+            --output results/report.md
+          cat results/report.md >> "$GITHUB_STEP_SUMMARY"
+
+      - uses: actions/upload-artifact@v4
+        with:
+          name: benchmark-results
+          path: results/

@@ -4,6 +4,8 @@ include(
     ":konfetti:compose",
     ":konfetti:core"
 )
+// Benchmark modules
+include(":konfetti:benchmark")
 // Sample modules
 include(
     ":samples:compose-kotlin",
