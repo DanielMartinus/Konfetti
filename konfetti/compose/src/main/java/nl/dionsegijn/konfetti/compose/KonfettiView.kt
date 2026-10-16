@@ -5,6 +5,7 @@ import android.graphics.drawable.Drawable
 import androidx.compose.animation.core.withInfiniteAnimationFrameMillis
 import androidx.compose.foundation.Canvas
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.DisposableEffect
 import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
@@ -12,6 +13,9 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.geometry.Offset
 import androidx.compose.ui.graphics.drawscope.withTransform
 import androidx.compose.ui.layout.onGloballyPositioned
+import androidx.compose.ui.platform.LocalLifecycleOwner
+import androidx.lifecycle.Lifecycle
+import androidx.lifecycle.LifecycleEventObserver
 import nl.dionsegijn.konfetti.core.Particle
 import nl.dionsegijn.konfetti.core.Party
 import nl.dionsegijn.konfetti.core.PartySystem
@@ -35,9 +39,22 @@ fun KonfettiView(
     val particles = remember { mutableStateOf(emptyList<Particle>()) }
 
     /**
-     * Latest stored frameTimeMilliseconds
+     * Latest stored frame time in milliseconds.
+     * Cleared when the app resumes so a background pause is not applied as one frame.
      */
     val frameTime = remember { mutableStateOf(0L) }
+
+    val lifecycleOwner = LocalLifecycleOwner.current
+    DisposableEffect(lifecycleOwner) {
+        val observer =
+            LifecycleEventObserver { _, event ->
+                if (event == Lifecycle.Event.ON_RESUME) {
+                    frameTime.value = 0L
+                }
+            }
+        lifecycleOwner.lifecycle.addObserver(observer)
+        onDispose { lifecycleOwner.lifecycle.removeObserver(observer) }
+    }
 
     /**
      * Area in which the particles are being drawn
@@ -59,8 +76,7 @@ fun KonfettiView(
             }
         while (true) {
             withInfiniteAnimationFrameMillis { frameMs ->
-                // Calculate time between frames, fallback to 0 when previous frame doesn't exist
-                val deltaMs = if (frameTime.value > 0) (frameMs - frameTime.value) else 0
+                val deltaMs = frameDeltaMillis(frameTime.value, frameMs)
                 frameTime.value = frameMs
 
                 particles.value =
