@@ -20,20 +20,19 @@ jobs:
     runs-on: ubuntu-24.04
     timeout-minutes: 45
     steps:
+      # The default ref is GitHub's merge commit for the PR: the PR applied on top of the
+      # current target branch. Its first parent is that target commit, so comparing the two
+      # measures exactly what merging the PR would change.
       - uses: actions/checkout@v4
         with:
-          ref: ${{ github.event.pull_request.head.sha }}
           path: head
           fetch-depth: 0
 
-      - name: Find merge-base with target branch
+      - name: Find target commit the PR was merged onto
         id: base
         working-directory: head
-        env:
-          BASE_REF: ${{ github.base_ref }}
         run: |
-          git fetch --no-tags origin "$BASE_REF"
-          sha=$(git merge-base HEAD "origin/$BASE_REF")
+          sha=$(git rev-parse HEAD^1)
           echo "sha=$sha" >> "$GITHUB_OUTPUT"
           git worktree add ../base "$sha"
 
@@ -53,7 +52,7 @@ jobs:
         working-directory: base
         run: |
           # The benchmarks always come from the head, so both sides measure the same code paths
-          # and a base without the benchmark module can still be measured.
+          # even when the PR changes the benchmarks themselves.
           rm -rf konfetti/benchmark
           cp -r ../head/konfetti/benchmark konfetti/benchmark
           rm -rf konfetti/benchmark/build
