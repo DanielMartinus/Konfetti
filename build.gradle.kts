@@ -29,6 +29,9 @@ if(properties.exists()) {
     nexusPublishing {
         repositories {
             sonatype {
+                nexusUrl.set(uri("https://ossrh-staging-api.central.sonatype.com/service/local/"))
+                snapshotRepositoryUrl.set(uri("https://central.sonatype.com/repository/maven-snapshots/"))
+                packageGroup.set("nl.dionsegijn")
                 stagingProfileId.set(localProperties["sonatypeStagingProfileId"] as String?)
                 username.set(localProperties["ossrhUsername"] as String?)
                 password.set(localProperties["ossrhPassword"] as String?)
