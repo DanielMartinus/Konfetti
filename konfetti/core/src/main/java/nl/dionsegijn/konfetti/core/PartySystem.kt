@@ -4,6 +4,7 @@ import nl.dionsegijn.konfetti.core.emitter.BaseEmitter
 import nl.dionsegijn.konfetti.core.emitter.Confetti
 import nl.dionsegijn.konfetti.core.emitter.PartyEmitter
 import nl.dionsegijn.konfetti.core.models.CoreRect
+import java.util.Random
 
 /**
  * PartySystem is responsible for requesting particles from the emitter and updating the particles
@@ -11,15 +12,23 @@ import nl.dionsegijn.konfetti.core.models.CoreRect
  * @param party configuration class with instructions on how to create the particles for the Emitter
  * @param createdAt timestamp of when the partySystem is created
  * @param pixelDensity default value taken from resources to measure based on pixelDensity
+ * @param random source of randomness for the emitter, pass a seeded instance for reproducible output
  */
 class PartySystem(
     val party: Party,
     val createdAt: Long = System.currentTimeMillis(),
     pixelDensity: Float,
+    random: Random,
 ) {
+    constructor(
+        party: Party,
+        createdAt: Long = System.currentTimeMillis(),
+        pixelDensity: Float,
+    ) : this(party, createdAt, pixelDensity, Random())
+
     var enabled = true
 
-    private var emitter: BaseEmitter = PartyEmitter(party.emitter, pixelDensity)
+    private var emitter: BaseEmitter = PartyEmitter(party.emitter, pixelDensity, random)
 
     private val activeParticles = mutableListOf<Confetti>()
 

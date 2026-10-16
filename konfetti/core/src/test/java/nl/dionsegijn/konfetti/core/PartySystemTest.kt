@@ -7,6 +7,7 @@ import org.junit.Assert
 import org.junit.Test
 import org.mockito.ArgumentMatchers.anyInt
 import org.mockito.Mockito
+import java.util.Random
 
 class PartySystemTest {
     private val rect: CoreRect =
@@ -120,5 +121,22 @@ class PartySystemTest {
         // All particles are created and one extra frame is executed to remove the last one
         system.render(deltaTime, rect) // dt: 0.119f
         Assert.assertEquals(0, system.getActiveParticleAmount())
+    }
+
+    @Test
+    fun `Test PartySystem with the same seed produces identical particles`() {
+        val drawArea = CoreRectImpl(0f, 0f, 1080f, 1920f)
+        val party =
+            Party(
+                maxSpeed = 50f,
+                emitter = Emitter(100L).max(20),
+            )
+        val first = PartySystem(party, pixelDensity = 1f, random = Random(42L))
+        val second = PartySystem(party, pixelDensity = 1f, random = Random(42L))
+
+        repeat(10) {
+            Assert.assertEquals(first.render(deltaTime, drawArea), second.render(deltaTime, drawArea))
+        }
+        Assert.assertTrue(first.getActiveParticleAmount() > 0)
     }
 }
