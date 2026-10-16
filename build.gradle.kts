@@ -1,6 +1,7 @@
 plugins {
-    id("io.github.gradle-nexus.publish-plugin") version "1.3.0"
-    id("org.jetbrains.dokka") version "1.7.0"
+    id("io.github.gradle-nexus.publish-plugin") version "2.0.0"
+    id("org.jetbrains.dokka") version "2.2.0" apply false
+    id("org.jetbrains.dokka-javadoc") version "2.2.0" apply false
 }
 
 buildscript {
@@ -10,12 +11,13 @@ buildscript {
         mavenCentral()
     }
     dependencies {
-        classpath("com.android.tools.build:gradle:8.0.2")
+        classpath("com.android.tools.build:gradle:9.4.1")
         classpath("org.jetbrains.kotlin:kotlin-gradle-plugin:${Constants.kotlinVersion}")
-        classpath("com.github.dcendents:android-maven-gradle-plugin:2.1")
-        classpath("com.diffplug.spotless:spotless-plugin-gradle:6.23.3")
-        classpath("io.github.gradle-nexus:publish-plugin:1.3.0")
-        classpath("org.jetbrains.dokka:dokka-gradle-plugin:1.7.0")
+        classpath("org.jetbrains.kotlin.plugin.compose:org.jetbrains.kotlin.plugin.compose.gradle.plugin:${Constants.kotlinVersion}")
+        classpath("com.diffplug.spotless:spotless-plugin-gradle:8.10.4")
+        classpath("io.github.gradle-nexus:publish-plugin:2.0.0")
+        classpath("org.jetbrains.dokka:dokka-gradle-plugin:2.2.0")
+        classpath("org.jetbrains.dokka-javadoc:org.jetbrains.dokka-javadoc.gradle.plugin:2.2.0")
     }
 }
 

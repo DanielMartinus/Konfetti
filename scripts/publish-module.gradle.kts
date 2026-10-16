@@ -1,18 +1,17 @@
 apply(plugin = "maven-publish")
 apply(plugin = "signing")
 apply(plugin = "org.jetbrains.dokka")
+apply(plugin = "org.jetbrains.dokka-javadoc")
 
 val PLUGIN_ANDROID_LIBRARY = "com.android.library"
 val PUBLICATION_NAME = "release"
 
-val sourcesJar by tasks.registering(Jar::class) {
+val sourcesJar = tasks.register<Jar>("sourcesJar") {
     archiveClassifier.set("sources")
 
     if (project.plugins.hasPlugin(PLUGIN_ANDROID_LIBRARY)) {
-        val libExt = checkNotNull(project.extensions.findByType(com.android.build.gradle.LibraryExtension::class.java))
-        val libMainSourceSet = libExt.sourceSets.getByName("main")
-
-        from(libMainSourceSet.java.srcDirs)
+        from("src/main/java")
+        from("src/main/kotlin")
     } else {
         val sourceSetExt = checkNotNull(project.extensions.findByType(SourceSetContainer::class.java))
         val mainSourceSet = sourceSetExt.getByName("main")
@@ -21,12 +20,12 @@ val sourcesJar by tasks.registering(Jar::class) {
     }
 }
 
-val javadocJar by tasks.registering(Jar::class) {
+val javadocJar = tasks.register<Jar>("javadocJar") {
     archiveClassifier.set("javadoc")
 
-    val dokkaJavadocTask = tasks.getByName("dokkaJavadoc")
+    val dokkaJavadocTask = tasks.named("dokkaGeneratePublicationJavadoc")
 
-    from(dokkaJavadocTask)
+    from(dokkaJavadocTask.map { it.outputs.files })
     dependsOn(dokkaJavadocTask)
 }
 
@@ -50,8 +49,8 @@ afterEvaluate {
                     from(components["java"])
                 }
 
-                artifact(sourcesJar.get())
-                artifact(javadocJar.get())
+                artifact(sourcesJar)
+                artifact(javadocJar)
 
                 // Mostly self-explanatory metadata
                 pom {

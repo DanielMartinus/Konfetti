@@ -4,9 +4,8 @@ object buildVersions {
 }
 
 object Constants {
-    const val composeVersion = "1.4.3"
     const val konfettiVersion = "2.0.5"
-    const val kotlinVersion = "1.8.10"
+    const val kotlinVersion = "2.4.21"
 }
 
 object NexusConfig {

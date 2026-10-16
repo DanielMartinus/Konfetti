@@ -10,7 +10,7 @@ jobs:
 
       - uses: actions/setup-java@v2
         with:
-          java-version: 17
+          java-version: 21
           distribution: zulu
 
       - uses: gradle/wrapper-validation-action@v1

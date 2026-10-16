@@ -8,7 +8,7 @@ androidx-lifecycle = "1.4.0"
 espresso = "3.5.1"
 tracing = "1.1.0"
 material = "1.4.0"
-mockito = "3.11.2"
+mockito = "5.24.0"
 junit = "4.13.2"
 junit-ext = "1.1.5"
 
