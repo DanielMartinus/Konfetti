@@ -55,11 +55,9 @@ dependencies {
     implementation(libs.androidx.activity.compose)
 
     implementation(libs.androidx.lifecycle.runtime)
-    implementation(libs.androidx.lifecycle.livedata.ktx)
 
     implementation(libs.compose.ui)
     implementation(libs.compose.ui.tooling)
     implementation(libs.compose.material)
     implementation(libs.compose.runtime)
-    implementation(libs.compose.runtime.livedata)
 }
