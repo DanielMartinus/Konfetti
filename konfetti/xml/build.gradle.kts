@@ -13,7 +13,7 @@ spotless {
     }
     java {
         removeUnusedImports()
-        googleJavaFormat("1.15.0")
+        googleJavaFormat("1.36.1")
         target("**/*.java")
     }
 }
