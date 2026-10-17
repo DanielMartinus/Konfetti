@@ -53,6 +53,7 @@ android {
 
 dependencies {
     api(project(path = ":konfetti:core"))
+    api(project(path = ":konfetti:image"))
 
     implementation(libs.compose.foundation)
     implementation(libs.compose.ui)

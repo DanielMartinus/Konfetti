@@ -47,6 +47,7 @@ android {
 
 dependencies {
     api(project(path = ":konfetti:core"))
+    api(project(path = ":konfetti:image"))
 
     implementation("org.jetbrains.kotlin:kotlin-stdlib:${Constants.kotlinVersion}")
 
