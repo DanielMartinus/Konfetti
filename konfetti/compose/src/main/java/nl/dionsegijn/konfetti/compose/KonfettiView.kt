@@ -10,6 +10,7 @@ import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
 import androidx.compose.runtime.rememberUpdatedState
+import androidx.compose.runtime.snapshotFlow
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.geometry.Offset
 import androidx.compose.ui.graphics.drawscope.withTransform
@@ -18,6 +19,7 @@ import androidx.compose.ui.platform.LocalDensity
 import androidx.compose.ui.platform.LocalLifecycleOwner
 import androidx.lifecycle.Lifecycle
 import androidx.lifecycle.LifecycleEventObserver
+import kotlinx.coroutines.flow.first
 import nl.dionsegijn.konfetti.core.Particle
 import nl.dionsegijn.konfetti.core.Party
 import nl.dionsegijn.konfetti.core.PartySystem
@@ -27,11 +29,47 @@ import nl.dionsegijn.konfetti.core.models.Shape
 import nl.dionsegijn.konfetti.xml.image.DrawableImage
 import nl.dionsegijn.konfetti.xml.image.ImageStore
 
+/**
+ * Draws the confetti of [state]. Start parties with [KonfettiState.start] or [KonfettiState.burst].
+ *
+ * @param onPartyEnded Called once for each party that finishes, with the number of parties still running.
+ */
+@Composable
+fun KonfettiView(
+    state: KonfettiState,
+    modifier: Modifier = Modifier,
+    onPartyEnded: ((activeParties: Int) -> Unit)? = null,
+) {
+    val currentOnPartyEnded by rememberUpdatedState(onPartyEnded)
+    KonfettiCanvas(state, modifier) { _, activeSystems -> currentOnPartyEnded?.invoke(activeSystems) }
+}
+
 @Composable
 fun KonfettiView(
     modifier: Modifier = Modifier,
     parties: List<Party>,
     updateListener: OnParticleSystemUpdateListener? = null,
+) {
+    val state = rememberKonfettiState()
+
+    // Start over whenever a different list of parties comes in
+    LaunchedEffect(parties) {
+        state.reset()
+        state.start(parties)
+    }
+
+    // A running party calls the latest listener, not the one from the first composition
+    val currentUpdateListener by rememberUpdatedState(updateListener)
+    KonfettiCanvas(state, modifier) { system, activeSystems ->
+        currentUpdateListener?.onParticleSystemEnded(system, activeSystems)
+    }
+}
+
+@Composable
+private fun KonfettiCanvas(
+    state: KonfettiState,
+    modifier: Modifier,
+    onSystemEnded: (system: PartySystem, activeSystems: Int) -> Unit,
 ) {
     /**
      * Particles to draw
@@ -61,38 +99,37 @@ fun KonfettiView(
      */
     val drawArea = remember { mutableStateOf(CoreRectImpl()) }
 
-    /**
-     * Store for drawable images
-     */
-    val imageStore = remember { ImageStore() }
-
-    // A running party calls the latest listener, not the one from the first composition
-    val currentUpdateListener by rememberUpdatedState(updateListener)
-
     // The density of this composition, which follows display size and density overrides
-    val pixelDensity = LocalDensity.current.density
+    val pixelDensity by rememberUpdatedState(LocalDensity.current.density)
 
-    // Start over whenever a different list of parties comes in
-    LaunchedEffect(parties) {
-        // The previous run's last frame time would count as one long frame
-        frameTime.value = 0L
-        val partySystems =
-            parties.map {
-                PartySystem(
-                    party = storeImages(it, imageStore),
-                    pixelDensity = pixelDensity,
-                )
-            }.toMutableList()
-        // Stop asking for frames once every system is done
-        while (partySystems.isNotEmpty()) {
-            withInfiniteAnimationFrameMillis { frameMs ->
-                val deltaMs = frameDeltaMillis(frameTime.value, frameMs)
-                frameTime.value = frameMs
-
-                particles.value = renderFrame(partySystems, deltaMs.div(1000f), drawArea.value, currentUpdateListener)
+    val currentOnSystemEnded by rememberUpdatedState(onSystemEnded)
+    val listener =
+        remember {
+            object : OnParticleSystemUpdateListener {
+                override fun onParticleSystemEnded(
+                    system: PartySystem,
+                    activeSystems: Int,
+                ) = currentOnSystemEnded(system, activeSystems)
             }
         }
-        particles.value = emptyList()
+
+    LaunchedEffect(state) {
+        while (true) {
+            // Wait for a party to start, so an idle view doesn't ask for frames
+            snapshotFlow { state.pending.size }.first { it > 0 }
+            // The gap since the last party would count as one long frame
+            frameTime.value = 0L
+            while (state.isRunning()) {
+                withInfiniteAnimationFrameMillis { frameMs ->
+                    state.startPending(pixelDensity)
+                    val deltaMs = frameDeltaMillis(frameTime.value, frameMs)
+                    frameTime.value = frameMs
+
+                    particles.value = renderFrame(state.systems, deltaMs.div(1000f), drawArea.value, listener)
+                }
+            }
+            particles.value = emptyList()
+        }
     }
 
     Canvas(
@@ -119,7 +156,7 @@ fun KonfettiView(
                         pivot = Offset(particle.x + (particle.width / 2), particle.y),
                     )
                 }) {
-                    particle.shape.draw(drawScope = this, particle = particle, imageStore = imageStore)
+                    particle.shape.draw(drawScope = this, particle = particle, imageStore = state.imageStore)
                 }
             }
         },
