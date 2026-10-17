@@ -49,21 +49,35 @@ class PartyEmitter(
             createParticleMs = emittingTime
         }
 
-        var particles = listOf<Confetti>()
+        val particles = mutableListOf<Confetti>()
 
-        // Check if particle should be created
-        if (createParticleMs >= emitterConfig.amountPerMs && !isTimeElapsed()) {
-            // Calculate how many particle  to create in the elapsed time
-            val amount: Int = (createParticleMs / emitterConfig.amountPerMs).toInt()
+        // Check if particle should be created. A non-positive interval is invalid
+        // and used to divide into an unbounded burst, so it creates nothing.
+        val amountPerMs = emitterConfig.amountPerMs
+        if (amountPerMs > 0f && createParticleMs >= amountPerMs && !isTimeElapsed()) {
+            val requested = (createParticleMs / amountPerMs).toInt()
+            val amount = requested.coerceAtMost(remainingParticleAllowance())
 
-            particles = (1..amount).map { createParticle(party, drawArea) }
+            repeat(amount) {
+                particles.add(createParticle(party, drawArea))
+            }
 
             // Reset timer and add left over time for next cycle
-            createParticleMs %= emitterConfig.amountPerMs
+            createParticleMs %= amountPerMs
         }
 
         elapsedTime += deltaTime * 1000
         return particles
+    }
+
+    /**
+     * How many more particles [EmitterConfig.max] still allows.
+     * [Emitter.perSecond] has no bound.
+     */
+    private fun remainingParticleAllowance(): Int {
+        val maxParticles = emitterConfig.maxParticles
+        if (maxParticles < 0) return Int.MAX_VALUE
+        return (maxParticles - particlesCreated).coerceAtLeast(0)
     }
 
     /**

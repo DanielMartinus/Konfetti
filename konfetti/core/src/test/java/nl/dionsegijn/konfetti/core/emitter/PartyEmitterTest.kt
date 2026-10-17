@@ -125,4 +125,35 @@ class PartyEmitterTest {
             Assert.assertEquals(Vector(500f, 500f), location)
         }
     }
+
+    @Test
+    fun `max keeps the same interval when the duration divides evenly`() {
+        val config = Emitter(100L).max(4)
+
+        Assert.assertEquals(0.025f, config.amountPerMs)
+        Assert.assertEquals(4, config.maxParticles)
+    }
+
+    @Test
+    fun `max does not spawn more particles than the cap on a long frame`() {
+        val party = Party(emitter = Emitter(1000L).max(10))
+        val emitter = PartyEmitter(party.emitter, 1f)
+
+        Assert.assertEquals(0, emitter.createConfetti(deltaTime, party, drawArea).size)
+
+        val burst = emitter.createConfetti(5f, party, drawArea)
+        Assert.assertEquals(10, burst.size)
+    }
+
+    @Test
+    fun `max with more particles than milliseconds does not divide to zero`() {
+        val config = Emitter(50L).max(5_000)
+        Assert.assertTrue(config.amountPerMs > 0f)
+
+        val party = Party(emitter = config)
+        val emitter = PartyEmitter(party.emitter, 1f)
+        val created = emitter.createConfetti(1f, party, drawArea)
+
+        Assert.assertTrue(created.size in 1..5_000)
+    }
 }

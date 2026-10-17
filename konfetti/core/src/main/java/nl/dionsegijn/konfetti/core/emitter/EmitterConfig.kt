@@ -33,6 +33,12 @@ class EmitterConfig(
     /** Amount of time needed for each particle creation in milliseconds */
     var amountPerMs: Float = 0f
 
+    /**
+     * Upper bound on particles this emitter may create.
+     * Negative means there is no bound, which is what [Emitter.perSecond] uses.
+     */
+    internal var maxParticles: Int = -1
+
     init {
         val (duration, timeUnit) = emitter
         this.emittingTime = TimeUnit.MILLISECONDS.convert(duration, timeUnit)
@@ -42,7 +48,15 @@ class EmitterConfig(
      * Amount of particles created over the duration that is set
      */
     fun max(amount: Int): EmitterConfig {
-        this.amountPerMs = (emittingTime / amount) / 1000f
+        maxParticles = amount.coerceAtLeast(0)
+        // Float division so a count larger than the duration in milliseconds
+        // cannot collapse to a 0 interval and spawn an unbounded burst.
+        amountPerMs =
+            if (amount <= 0) {
+                Float.POSITIVE_INFINITY
+            } else {
+                (emittingTime.toFloat() / amount) / 1000f
+            }
         return this
     }
 
