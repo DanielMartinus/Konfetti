@@ -2,6 +2,7 @@ plugins {
     id("io.github.gradle-nexus.publish-plugin") version "2.0.0"
     id("org.jetbrains.dokka") version "2.2.0" apply false
     id("org.jetbrains.dokka-javadoc") version "2.2.0" apply false
+    id("org.jetbrains.kotlinx.binary-compatibility-validator") version "0.18.2"
 }
 
 buildscript {
@@ -38,4 +39,16 @@ if(properties.exists()) {
             }
         }
     }
+}
+
+apiValidation {
+    ignoredProjects.addAll(
+        listOf(
+            "benchmark",
+            "compose-kotlin",
+            "xml-kotlin",
+            "xml-java",
+            "shared",
+        ),
+    )
 }
