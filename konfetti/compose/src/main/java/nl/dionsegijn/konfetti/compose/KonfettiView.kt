@@ -31,8 +31,6 @@ fun KonfettiView(
     parties: List<Party>,
     updateListener: OnParticleSystemUpdateListener? = null,
 ) {
-    lateinit var partySystems: List<PartySystem>
-
     /**
      * Particles to draw
      */
@@ -67,36 +65,23 @@ fun KonfettiView(
     val imageStore = remember { ImageStore() }
 
     LaunchedEffect(Unit) {
-        partySystems =
+        val partySystems =
             parties.map {
                 PartySystem(
                     party = storeImages(it, imageStore),
                     pixelDensity = Resources.getSystem().displayMetrics.density,
                 )
-            }
-        while (true) {
+            }.toMutableList()
+        // Stop asking for frames once every system is done
+        while (partySystems.isNotEmpty()) {
             withInfiniteAnimationFrameMillis { frameMs ->
                 val deltaMs = frameDeltaMillis(frameTime.value, frameMs)
                 frameTime.value = frameMs
 
-                particles.value =
-                    partySystems.map { particleSystem ->
-
-                        val totalTimeRunning = getTotalTimeRunning(particleSystem.createdAt)
-                        // Do not start particleSystem yet if totalTimeRunning is below delay
-                        if (totalTimeRunning < particleSystem.party.delay) return@map listOf()
-
-                        if (particleSystem.isDoneEmitting()) {
-                            updateListener?.onParticleSystemEnded(
-                                system = particleSystem,
-                                activeSystems = partySystems.count { !it.isDoneEmitting() },
-                            )
-                        }
-
-                        particleSystem.render(deltaMs.div(1000f), drawArea.value)
-                    }.flatten()
+                particles.value = renderFrame(partySystems, deltaMs.div(1000f), drawArea.value, updateListener)
             }
         }
+        particles.value = emptyList()
     }
 
     Canvas(
