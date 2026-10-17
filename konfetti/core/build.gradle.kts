@@ -2,8 +2,8 @@ import org.jetbrains.kotlin.gradle.dsl.JvmTarget
 
 plugins {
     id("java-library")
-    id("kotlin")
-    id("com.diffplug.spotless")
+    alias(libs.plugins.kotlin.jvm)
+    alias(libs.plugins.spotless)
 }
 
 kotlin {

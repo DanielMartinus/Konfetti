@@ -1,8 +1,8 @@
 plugins {
     id("java-library")
-    id("kotlin")
-    id("com.diffplug.spotless")
-    id("me.champeau.jmh") version "0.7.2"
+    alias(libs.plugins.kotlin.jvm)
+    alias(libs.plugins.spotless)
+    alias(libs.plugins.jmh)
 }
 
 spotless {

@@ -1,6 +1,6 @@
 plugins {
-    id("com.android.library")
-    id("com.diffplug.spotless")
+    alias(libs.plugins.android.library)
+    alias(libs.plugins.spotless)
 }
 
 NexusConfig.PUBLISH_ARTIFACT_ID = "konfetti-image"

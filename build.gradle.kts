@@ -3,27 +3,15 @@ import kotlinx.validation.KotlinApiCompareTask
 import org.jetbrains.kotlin.gradle.tasks.KotlinCompile
 
 plugins {
-    id("io.github.gradle-nexus.publish-plugin") version "2.0.0"
-    id("org.jetbrains.dokka") version "2.2.0" apply false
-    id("org.jetbrains.dokka-javadoc") version "2.2.0" apply false
-    id("org.jetbrains.kotlinx.binary-compatibility-validator") version "0.18.2"
-}
-
-buildscript {
-    repositories {
-        gradlePluginPortal()
-        google()
-        mavenCentral()
-    }
-    dependencies {
-        classpath("com.android.tools.build:gradle:9.4.1")
-        classpath("org.jetbrains.kotlin:kotlin-gradle-plugin:${libs.versions.kotlin.get()}")
-        classpath("org.jetbrains.kotlin.plugin.compose:org.jetbrains.kotlin.plugin.compose.gradle.plugin:${libs.versions.kotlin.get()}")
-        classpath("com.diffplug.spotless:spotless-plugin-gradle:8.10.4")
-        classpath("io.github.gradle-nexus:publish-plugin:2.0.0")
-        classpath("org.jetbrains.dokka:dokka-gradle-plugin:2.2.0")
-        classpath("org.jetbrains.dokka-javadoc:org.jetbrains.dokka-javadoc.gradle.plugin:2.2.0")
-    }
+    alias(libs.plugins.android.application) apply false
+    alias(libs.plugins.android.library) apply false
+    alias(libs.plugins.kotlin.jvm) apply false
+    alias(libs.plugins.kotlin.compose) apply false
+    alias(libs.plugins.spotless) apply false
+    alias(libs.plugins.dokka) apply false
+    alias(libs.plugins.dokka.javadoc) apply false
+    alias(libs.plugins.nexus.publish)
+    alias(libs.plugins.binary.compatibility.validator)
 }
 
 // Connect with the repository using properties from local.properties in the root of the project

@@ -1,6 +1,6 @@
 plugins {
-    id("com.android.application")
-    id("com.diffplug.spotless")
+    alias(libs.plugins.android.application)
+    alias(libs.plugins.spotless)
 }
 
 spotless {

@@ -1,5 +1,11 @@
 [versions]
+agp = "9.4.1"
 kotlin = "2.4.21"
+spotless = "8.10.4"
+nexus-publish = "2.0.0"
+dokka = "2.2.0"
+binary-compatibility-validator = "0.18.2"
+jmh = "0.7.2"
 compileSdk = "34"
 targetSdk = "34"
 compose = "1.4.3"
@@ -35,3 +41,15 @@ android-material = { group = "com.google.android.material", name = "material", v
 test-mockito = { group = "org.mockito", name = "mockito-core", version.ref = "mockito" }
 test-junit = { group = "junit", name = "junit", version.ref = "junit" }
 test-junit-ext = { group = "androidx.test.ext", name = "junit", version.ref = "junit-ext" }
+
+[plugins]
+android-application = { id = "com.android.application", version.ref = "agp" }
+android-library = { id = "com.android.library", version.ref = "agp" }
+kotlin-jvm = { id = "org.jetbrains.kotlin.jvm", version.ref = "kotlin" }
+kotlin-compose = { id = "org.jetbrains.kotlin.plugin.compose", version.ref = "kotlin" }
+spotless = { id = "com.diffplug.spotless", version.ref = "spotless" }
+nexus-publish = { id = "io.github.gradle-nexus.publish-plugin", version.ref = "nexus-publish" }
+dokka = { id = "org.jetbrains.dokka", version.ref = "dokka" }
+dokka-javadoc = { id = "org.jetbrains.dokka-javadoc", version.ref = "dokka" }
+binary-compatibility-validator = { id = "org.jetbrains.kotlinx.binary-compatibility-validator", version.ref = "binary-compatibility-validator" }
+jmh = { id = "me.champeau.jmh", version.ref = "jmh" }

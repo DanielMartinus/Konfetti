@@ -1,7 +1,7 @@
 plugins {
-    id("com.android.library")
-    id("org.jetbrains.kotlin.plugin.compose")
-    id("com.diffplug.spotless")
+    alias(libs.plugins.android.library)
+    alias(libs.plugins.kotlin.compose)
+    alias(libs.plugins.spotless)
 }
 
 NexusConfig.PUBLISH_ARTIFACT_ID = "konfetti-compose"
