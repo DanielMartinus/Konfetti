@@ -15,6 +15,11 @@ sealed interface Shape {
         init {
             require(heightRatio in 0f..1f)
         }
+
+        // Equal by value, so a party built inline in a composable doesn't count as new every recomposition
+        override fun equals(other: Any?): Boolean = other is Rectangle && other.heightRatio == heightRatio
+
+        override fun hashCode(): Int = heightRatio.hashCode()
     }
 
     /**

@@ -348,7 +348,9 @@ public final class nl/dionsegijn/konfetti/core/models/Shape$DrawableShape : nl/d
 
 public final class nl/dionsegijn/konfetti/core/models/Shape$Rectangle : nl/dionsegijn/konfetti/core/models/Shape {
 	public fun <init> (F)V
+	public fun equals (Ljava/lang/Object;)Z
 	public final fun getHeightRatio ()F
+	public fun hashCode ()I
 }
 
 public final class nl/dionsegijn/konfetti/core/models/Shape$Square : nl/dionsegijn/konfetti/core/models/Shape {

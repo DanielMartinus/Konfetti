@@ -7,8 +7,10 @@ import androidx.compose.foundation.Canvas
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.DisposableEffect
 import androidx.compose.runtime.LaunchedEffect
+import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
+import androidx.compose.runtime.rememberUpdatedState
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.geometry.Offset
 import androidx.compose.ui.graphics.drawscope.withTransform
@@ -64,7 +66,13 @@ fun KonfettiView(
      */
     val imageStore = remember { ImageStore() }
 
-    LaunchedEffect(Unit) {
+    // A running party calls the latest listener, not the one from the first composition
+    val currentUpdateListener by rememberUpdatedState(updateListener)
+
+    // Start over whenever a different list of parties comes in
+    LaunchedEffect(parties) {
+        // The previous run's last frame time would count as one long frame
+        frameTime.value = 0L
         val partySystems =
             parties.map {
                 PartySystem(
@@ -78,7 +86,7 @@ fun KonfettiView(
                 val deltaMs = frameDeltaMillis(frameTime.value, frameMs)
                 frameTime.value = frameMs
 
-                particles.value = renderFrame(partySystems, deltaMs.div(1000f), drawArea.value, updateListener)
+                particles.value = renderFrame(partySystems, deltaMs.div(1000f), drawArea.value, currentUpdateListener)
             }
         }
         particles.value = emptyList()
