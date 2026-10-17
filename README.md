@@ -115,11 +115,34 @@ See Party implementation [here](/konfetti/core/src/main/java/nl/dionsegijn/konfe
 Create a `KonfettiView` in your compose UI or add one to your xml layout depending on your setup.
 
 Compose
-```Kotlin
+```kotlin
+val konfetti = rememberKonfettiState()
+
+Button(onClick = { konfetti.start(party) }) {
+    Text("Celebrate")
+}
+
 KonfettiView(
+    state = konfetti,
     modifier = Modifier.fillMaxSize(),
-    parties = state.party,
 )
+```
+
+`start` adds a party on top of whatever is already running, so you can call it as often as you like. Some other things you can do with the state:
+
+```kotlin
+konfetti.burst(at = offset, party = party) // start a party where the user tapped, in pixels
+konfetti.stopGracefully()                  // stop spawning and let the confetti finish
+konfetti.reset()                           // remove all confetti right away
+```
+
+Want to know when it's done? `KonfettiView(state = konfetti, onPartyEnded = { activeParties -> })` is called once for every party that finishes.
+
+If you only need confetti when a screen shows up, you can still pass the parties directly. `KonfettiView` starts over whenever the list changes, so `remember` your parties (and drawables) to avoid restarting on every recomposition:
+
+```kotlin
+val parties = remember { listOf(party) }
+KonfettiView(modifier = Modifier.fillMaxSize(), parties = parties)
 ```
 
 View-based (xml)
