@@ -69,9 +69,12 @@ fun Shape.draw(
                         } else {
                             drawable.setColorFilter(particle.color, PorterDuff.Mode.SRC_IN)
                         }
-                    } else if (applyAlpha) {
-                        drawable.alpha = particle.alpha
+                    } else {
+                        // Clear a tint left on the shared drawable by another shape
+                        drawable.colorFilter = null
                     }
+                    // Set the alpha every time, another shape may have faded the shared drawable
+                    drawable.alpha = if (!tint && applyAlpha) particle.alpha else 255
 
                     val size = particle.width
                     val height = (size * heightRatio).toInt()
