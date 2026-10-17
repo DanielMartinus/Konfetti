@@ -116,7 +116,6 @@ open class KonfettiView : View {
     fun start(party: List<Party>) {
         systems.addAll(
             party.map {
-                storeImages(it)
                 onParticleSystemUpdateListener?.onParticleSystemStarted(this, it, systems.size)
                 PartySystem(party = storeImages(it), pixelDensity = Resources.getSystem().displayMetrics.density)
             },
