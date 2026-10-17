@@ -16,11 +16,11 @@ spotless {
 }
 
 android {
-    compileSdk = buildVersions.compileSdk
+    compileSdk = libs.versions.compileSdk.get().toInt()
 
     defaultConfig {
         minSdk = 23
-        targetSdk = buildVersions.targetSdk
+        targetSdk = libs.versions.targetSdk.get().toInt()
 
         testInstrumentationRunner = "androidx.test.runner.AndroidJUnitRunner"
     }

@@ -14,7 +14,7 @@ spotless {
 }
 
 android {
-    compileSdk = buildVersions.compileSdk
+    compileSdk = libs.versions.compileSdk.get().toInt()
 
     compileOptions {
         sourceCompatibility = JavaVersion.VERSION_1_8

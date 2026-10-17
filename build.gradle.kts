@@ -17,8 +17,8 @@ buildscript {
     }
     dependencies {
         classpath("com.android.tools.build:gradle:9.4.1")
-        classpath("org.jetbrains.kotlin:kotlin-gradle-plugin:${Constants.kotlinVersion}")
-        classpath("org.jetbrains.kotlin.plugin.compose:org.jetbrains.kotlin.plugin.compose.gradle.plugin:${Constants.kotlinVersion}")
+        classpath("org.jetbrains.kotlin:kotlin-gradle-plugin:${libs.versions.kotlin.get()}")
+        classpath("org.jetbrains.kotlin.plugin.compose:org.jetbrains.kotlin.plugin.compose.gradle.plugin:${libs.versions.kotlin.get()}")
         classpath("com.diffplug.spotless:spotless-plugin-gradle:8.10.4")
         classpath("io.github.gradle-nexus:publish-plugin:2.0.0")
         classpath("org.jetbrains.dokka:dokka-gradle-plugin:2.2.0")

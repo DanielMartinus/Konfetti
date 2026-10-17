@@ -19,7 +19,7 @@ spotless {
 }
 
 android {
-    compileSdk = buildVersions.compileSdk
+    compileSdk = libs.versions.compileSdk.get().toInt()
 
     compileOptions {
         sourceCompatibility = JavaVersion.VERSION_1_8
@@ -48,7 +48,7 @@ dependencies {
     api(project(path = ":konfetti:core"))
     api(project(path = ":konfetti:image"))
 
-    implementation("org.jetbrains.kotlin:kotlin-stdlib:${Constants.kotlinVersion}")
+    implementation(libs.kotlin.stdlib)
 
     testImplementation(libs.test.junit)
     testImplementation(libs.test.mockito)

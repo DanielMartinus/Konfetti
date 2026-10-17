@@ -33,7 +33,7 @@ spotless {
 }
 
 dependencies {
-    implementation("org.jetbrains.kotlin:kotlin-stdlib:${Constants.kotlinVersion}")
+    implementation(libs.kotlin.stdlib)
     testImplementation(libs.test.junit)
     testImplementation(libs.test.mockito)
 }

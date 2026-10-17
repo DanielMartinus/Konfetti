@@ -1,11 +1,5 @@
-object buildVersions {
-    const val compileSdk = 34
-    const val targetSdk = 34
-}
-
 object Constants {
     const val konfettiVersion = "2.0.8"
-    const val kotlinVersion = "2.4.21"
 }
 
 object NexusConfig {

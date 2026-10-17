@@ -14,7 +14,7 @@ spotless {
 
 dependencies {
     jmh(project(":konfetti:core"))
-    jmh("org.jetbrains.kotlin:kotlin-stdlib:${Constants.kotlinVersion}")
+    jmh(libs.kotlin.stdlib)
 }
 
 // Defaults for local runs via `./gradlew :konfetti:benchmark:jmh`.
