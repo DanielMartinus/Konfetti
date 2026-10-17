@@ -1,5 +1,5 @@
 object Constants {
-    const val konfettiVersion = "2.0.8"
+    const val konfettiVersion = "2.1.0"
 }
 
 object NexusConfig {
