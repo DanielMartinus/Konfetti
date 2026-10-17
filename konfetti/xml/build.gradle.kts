@@ -46,8 +46,7 @@ android {
 }
 
 dependencies {
-    debugApi(project(path = ":konfetti:core"))
-    releaseApi("nl.dionsegijn:konfetti-core:${Constants.konfettiVersion}")
+    api(project(path = ":konfetti:core"))
 
     implementation("org.jetbrains.kotlin:kotlin-stdlib:${Constants.kotlinVersion}")
 
