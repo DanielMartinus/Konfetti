@@ -1,6 +1,5 @@
 package nl.dionsegijn.konfetti.compose
 
-import android.content.res.Resources
 import android.graphics.drawable.Drawable
 import androidx.compose.animation.core.withInfiniteAnimationFrameMillis
 import androidx.compose.foundation.Canvas
@@ -15,6 +14,7 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.geometry.Offset
 import androidx.compose.ui.graphics.drawscope.withTransform
 import androidx.compose.ui.layout.onGloballyPositioned
+import androidx.compose.ui.platform.LocalDensity
 import androidx.compose.ui.platform.LocalLifecycleOwner
 import androidx.lifecycle.Lifecycle
 import androidx.lifecycle.LifecycleEventObserver
@@ -69,6 +69,9 @@ fun KonfettiView(
     // A running party calls the latest listener, not the one from the first composition
     val currentUpdateListener by rememberUpdatedState(updateListener)
 
+    // The density of this composition, which follows display size and density overrides
+    val pixelDensity = LocalDensity.current.density
+
     // Start over whenever a different list of parties comes in
     LaunchedEffect(parties) {
         // The previous run's last frame time would count as one long frame
@@ -77,7 +80,7 @@ fun KonfettiView(
             parties.map {
                 PartySystem(
                     party = storeImages(it, imageStore),
-                    pixelDensity = Resources.getSystem().displayMetrics.density,
+                    pixelDensity = pixelDensity,
                 )
             }.toMutableList()
         // Stop asking for frames once every system is done
