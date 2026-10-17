@@ -38,7 +38,6 @@ android {
     namespace = "nl.dionsegijn.konfetti.xml"
     lint {
         abortOnError = true
-        baseline = file("lint-baseline.xml")
     }
     publishing {
         singleVariant("release")
