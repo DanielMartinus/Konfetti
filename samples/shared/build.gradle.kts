@@ -29,6 +29,6 @@ dependencies {
     implementation(project(path = ":konfetti:core"))
 
     implementation(libs.androidx.core.ktx)
-    implementation(libs.androidx.appcomat)
+    implementation(libs.androidx.appcompat)
     implementation(libs.android.material)
 }

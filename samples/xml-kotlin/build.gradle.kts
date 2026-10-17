@@ -42,7 +42,7 @@ dependencies {
     implementation(project(path = ":konfetti:xml"))
     implementation(project(path = ":samples:shared"))
     implementation(libs.androidx.core.ktx)
-    implementation(libs.androidx.appcomat)
+    implementation(libs.androidx.appcompat)
     implementation(libs.android.material)
     implementation(libs.androidx.constraintlayout)
 

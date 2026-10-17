@@ -58,9 +58,8 @@ dependencies {
     implementation(libs.compose.foundation)
     implementation(libs.compose.ui)
     // Compose UI 1.4.3 already uses this at runtime. It has to be declared here
-    // so LocalLifecycleOwner is on the compile classpath. The catalog version
-    // of lifecycle-runtime does not exist.
-    implementation("androidx.lifecycle:lifecycle-runtime:2.6.1")
+    // so LocalLifecycleOwner is on the compile classpath.
+    implementation(libs.androidx.lifecycle.runtime)
 
     testImplementation(libs.test.junit)
     androidTestImplementation(libs.test.junit.ext)
