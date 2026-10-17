@@ -33,9 +33,11 @@ open class KonfettiView : View {
     private val systems: MutableList<PartySystem> = mutableListOf()
 
     /**
-     * Keeping track of the delta time between frame rendering
+     * Keeping track of the delta time between frame rendering.
+     * Nullable because API 21 and 22 call [onVisibilityChanged] from the [View]
+     * constructor, before this initializer has run.
      */
-    private var timer: TimerIntegration = TimerIntegration()
+    private var timer: TimerIntegration? = TimerIntegration()
 
     private var drawArea = CoreRectImpl()
 
@@ -58,11 +60,12 @@ open class KonfettiView : View {
 
     override fun onDraw(canvas: Canvas) {
         super.onDraw(canvas)
-        val deltaTime = timer.getDeltaTime()
+        val frameTimer = timer ?: return
+        val deltaTime = frameTimer.getDeltaTime()
         for (i in systems.size - 1 downTo 0) {
             val partySystem = systems[i]
 
-            val totalTimeRunning = timer.getTotalTimeRunning(partySystem.createdAt)
+            val totalTimeRunning = frameTimer.getTotalTimeRunning(partySystem.createdAt)
             if (totalTimeRunning >= partySystem.party.delay) {
                 partySystem.render(deltaTime, drawArea).forEach {
                     it.display(canvas)
@@ -78,7 +81,7 @@ open class KonfettiView : View {
         if (systems.size != 0) {
             invalidate()
         } else {
-            timer.reset()
+            frameTimer.reset()
         }
     }
 
@@ -226,6 +229,6 @@ open class KonfettiView : View {
         visibility: Int,
     ) {
         super.onVisibilityChanged(changedView, visibility)
-        timer.reset()
+        timer?.reset()
     }
 }
