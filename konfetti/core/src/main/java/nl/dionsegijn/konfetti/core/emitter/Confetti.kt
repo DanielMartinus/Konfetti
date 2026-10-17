@@ -44,6 +44,9 @@ class Confetti(
         private const val ALPHA_DECREMENT = 5
         private const val MILLIS_IN_SECOND = 1000
         private const val FULL_CIRCLE = 360f
+
+        // Half the diagonal of a square, so the reach covers the piece at any rotation
+        private const val HALF_DIAGONAL = 0.7072f
     }
 
     var rotation = 0f
@@ -63,7 +66,7 @@ class Confetti(
 
     /**
      * Determines whether the particle should be drawn.
-     * Set to false when the particle moves out of the view
+     * Set to false when no part of the particle is inside the view
      */
     var drawParticle = true
         private set
@@ -107,7 +110,8 @@ class Confetti(
         // Calculate frameRate dynamically, fallback to 60fps in case deltaTime is 0
         frameRate = if (deltaTime > 0) 1f / deltaTime else DEFAULT_FRAME_RATE
 
-        if (location.y > drawArea.height) {
+        // Below the view nothing comes back up, so the particle is dead once it has fully left
+        if (centerY() - reach() > drawArea.y + drawArea.height) {
             alpha = 0
             return
         }
@@ -132,7 +136,28 @@ class Confetti(
         scaleX = abs(rotationWidth / width - 0.5f) * 2
         alphaColor = (alpha shl 24) or (color and 0xffffff)
 
-        drawParticle = drawArea.contains(location.x.toInt(), location.y.toInt())
+        drawParticle = isInside(drawArea)
+    }
+
+    private fun centerX() = location.x + width / 2
+
+    private fun centerY() = location.y + width / 2
+
+    // How far any part of the particle can reach from its center, whatever its rotation
+    private fun reach() = width * HALF_DIAGONAL
+
+    /**
+     * True while any part of the particle overlaps the draw area.
+     * Checking only the top-left point made particles pop in at the top and left edges.
+     */
+    private fun isInside(drawArea: CoreRect): Boolean {
+        val reach = reach()
+        val centerX = centerX()
+        val centerY = centerY()
+        return centerX + reach >= drawArea.x &&
+            centerX - reach <= drawArea.x + drawArea.width &&
+            centerY + reach >= drawArea.y &&
+            centerY - reach <= drawArea.y + drawArea.height
     }
 
     private fun updateAlpha(deltaTime: Float) {

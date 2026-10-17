@@ -5,15 +5,14 @@ import nl.dionsegijn.konfetti.core.models.CoreRect
 import nl.dionsegijn.konfetti.core.models.CoreRectImpl
 import org.junit.Assert
 import org.junit.Test
-import org.mockito.ArgumentMatchers.anyInt
 import org.mockito.Mockito
 import java.util.Random
 
 class PartySystemTest {
     private val rect: CoreRect =
         Mockito.mock(CoreRectImpl::class.java).apply {
+            Mockito.`when`(width).thenReturn(1000f)
             Mockito.`when`(height).thenReturn(1000f)
-            Mockito.`when`(contains(anyInt(), anyInt())).thenReturn(true)
         }
 
     // Average between for each frame
