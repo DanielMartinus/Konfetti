@@ -16,6 +16,13 @@ import nl.dionsegijn.konfetti.core.models.Shape
 import nl.dionsegijn.konfetti.xml.image.DrawableImage
 import nl.dionsegijn.konfetti.xml.image.ImageStore
 import nl.dionsegijn.konfetti.xml.listeners.OnParticleSystemUpdateListener
+import kotlin.math.min
+
+/**
+ * Longest gap, in seconds, that one frame is allowed to apply. The same as the Compose view.
+ * An app paused while this view stays visible would otherwise replay the whole pause in one frame.
+ */
+private const val MAX_FRAME_DELTA_SECONDS = 0.1f
 
 /**
  * Implement this view to render the particles on.
@@ -190,6 +197,7 @@ open class KonfettiView : View {
     /**
      * TimerIntegration retrieves the delta time since the rendering of the previous frame.
      * Delta time is used to draw the confetti correctly if any frame drops occur.
+     * One frame never applies more than [MAX_FRAME_DELTA_SECONDS].
      */
     class TimerIntegration {
         private var previousTime: Long = -1L
@@ -204,7 +212,7 @@ open class KonfettiView : View {
             val currentTime = System.nanoTime()
             val dt = (currentTime - previousTime) / 1000000f
             previousTime = currentTime
-            return dt / 1000
+            return min(dt / 1000, MAX_FRAME_DELTA_SECONDS)
         }
 
         fun getTotalTimeRunning(startTime: Long): Long {
