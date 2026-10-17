@@ -1,0 +1,16 @@
+public final class nl/dionsegijn/konfetti/compose/DrawShapesKt {
+	public static final fun draw (Lnl/dionsegijn/konfetti/core/models/Shape;Landroidx/compose/ui/graphics/drawscope/DrawScope;Lnl/dionsegijn/konfetti/core/Particle;Landroidx/compose/ui/graphics/ImageBitmap;Lnl/dionsegijn/konfetti/xml/image/ImageStore;)V
+	public static synthetic fun draw$default (Lnl/dionsegijn/konfetti/core/models/Shape;Landroidx/compose/ui/graphics/drawscope/DrawScope;Lnl/dionsegijn/konfetti/core/Particle;Landroidx/compose/ui/graphics/ImageBitmap;Lnl/dionsegijn/konfetti/xml/image/ImageStore;ILjava/lang/Object;)V
+}
+
+public final class nl/dionsegijn/konfetti/compose/KonfettiViewKt {
+	public static final fun KonfettiView (Landroidx/compose/ui/Modifier;Ljava/util/List;Lnl/dionsegijn/konfetti/compose/OnParticleSystemUpdateListener;Landroidx/compose/runtime/Composer;II)V
+	public static final fun drawableToReferenceImage (Lnl/dionsegijn/konfetti/xml/image/DrawableImage;Lnl/dionsegijn/konfetti/xml/image/ImageStore;)Lnl/dionsegijn/konfetti/core/models/ReferenceImage;
+	public static final fun getTotalTimeRunning (J)J
+	public static final fun storeImages (Lnl/dionsegijn/konfetti/core/Party;Lnl/dionsegijn/konfetti/xml/image/ImageStore;)Lnl/dionsegijn/konfetti/core/Party;
+}
+
+public abstract interface class nl/dionsegijn/konfetti/compose/OnParticleSystemUpdateListener {
+	public abstract fun onParticleSystemEnded (Lnl/dionsegijn/konfetti/core/PartySystem;I)V
+}
+

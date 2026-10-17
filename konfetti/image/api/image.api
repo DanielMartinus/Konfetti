@@ -1,0 +1,29 @@
+public final class nl/dionsegijn/konfetti/xml/image/DrawableImage : nl/dionsegijn/konfetti/core/models/CoreImage {
+	public fun <init> (Landroid/graphics/drawable/Drawable;II)V
+	public final fun component1 ()Landroid/graphics/drawable/Drawable;
+	public final fun component2 ()I
+	public final fun component3 ()I
+	public final fun copy (Landroid/graphics/drawable/Drawable;II)Lnl/dionsegijn/konfetti/xml/image/DrawableImage;
+	public static synthetic fun copy$default (Lnl/dionsegijn/konfetti/xml/image/DrawableImage;Landroid/graphics/drawable/Drawable;IIILjava/lang/Object;)Lnl/dionsegijn/konfetti/xml/image/DrawableImage;
+	public fun equals (Ljava/lang/Object;)Z
+	public final fun getDrawable ()Landroid/graphics/drawable/Drawable;
+	public fun getHeight ()I
+	public fun getWidth ()I
+	public fun hashCode ()I
+	public fun toString ()Ljava/lang/String;
+}
+
+public final class nl/dionsegijn/konfetti/xml/image/ImageStore : nl/dionsegijn/konfetti/core/models/CoreImageStore {
+	public fun <init> ()V
+	public fun getImage (I)Landroid/graphics/drawable/Drawable;
+	public synthetic fun getImage (I)Ljava/lang/Object;
+	public fun storeImage (Landroid/graphics/drawable/Drawable;)I
+	public synthetic fun storeImage (Ljava/lang/Object;)I
+}
+
+public final class nl/dionsegijn/konfetti/xml/image/ImageUtil {
+	public static final field INSTANCE Lnl/dionsegijn/konfetti/xml/image/ImageUtil;
+	public static final fun loadDrawable (Landroid/graphics/drawable/Drawable;ZZ)Lnl/dionsegijn/konfetti/core/models/Shape$DrawableShape;
+	public static synthetic fun loadDrawable$default (Landroid/graphics/drawable/Drawable;ZZILjava/lang/Object;)Lnl/dionsegijn/konfetti/core/models/Shape$DrawableShape;
+}
+

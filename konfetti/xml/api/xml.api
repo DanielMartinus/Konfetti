@@ -1,0 +1,36 @@
+public final class nl/dionsegijn/konfetti/xml/DrawShapesKt {
+	public static final fun draw (Lnl/dionsegijn/konfetti/core/models/Shape;Landroid/graphics/Canvas;Landroid/graphics/Paint;FLnl/dionsegijn/konfetti/xml/image/ImageStore;)V
+}
+
+public class nl/dionsegijn/konfetti/xml/KonfettiView : android/view/View {
+	public fun <init> (Landroid/content/Context;)V
+	public fun <init> (Landroid/content/Context;Landroid/util/AttributeSet;)V
+	public fun <init> (Landroid/content/Context;Landroid/util/AttributeSet;I)V
+	public final fun drawableToReferenceImage (Lnl/dionsegijn/konfetti/xml/image/DrawableImage;)Lnl/dionsegijn/konfetti/core/models/ReferenceImage;
+	public final fun getActiveSystems ()Ljava/util/List;
+	public final fun getOnParticleSystemUpdateListener ()Lnl/dionsegijn/konfetti/xml/listeners/OnParticleSystemUpdateListener;
+	public final fun isActive ()Z
+	protected fun onDraw (Landroid/graphics/Canvas;)V
+	protected fun onSizeChanged (IIII)V
+	protected fun onVisibilityChanged (Landroid/view/View;I)V
+	public final fun reset ()V
+	public final fun setOnParticleSystemUpdateListener (Lnl/dionsegijn/konfetti/xml/listeners/OnParticleSystemUpdateListener;)V
+	public final fun start (Ljava/util/List;)V
+	public final fun start (Lnl/dionsegijn/konfetti/core/Party;)V
+	public final fun start ([Lnl/dionsegijn/konfetti/core/Party;)V
+	public final fun stop (Lnl/dionsegijn/konfetti/core/Party;)V
+	public final fun stopGracefully ()V
+}
+
+public final class nl/dionsegijn/konfetti/xml/KonfettiView$TimerIntegration {
+	public fun <init> ()V
+	public final fun getDeltaTime ()F
+	public final fun getTotalTimeRunning (J)J
+	public final fun reset ()V
+}
+
+public abstract interface class nl/dionsegijn/konfetti/xml/listeners/OnParticleSystemUpdateListener {
+	public abstract fun onParticleSystemEnded (Lnl/dionsegijn/konfetti/xml/KonfettiView;Lnl/dionsegijn/konfetti/core/Party;I)V
+	public abstract fun onParticleSystemStarted (Lnl/dionsegijn/konfetti/xml/KonfettiView;Lnl/dionsegijn/konfetti/core/Party;I)V
+}
+

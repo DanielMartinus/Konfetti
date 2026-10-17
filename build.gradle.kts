@@ -1,3 +1,7 @@
+import kotlinx.validation.KotlinApiBuildTask
+import kotlinx.validation.KotlinApiCompareTask
+import org.jetbrains.kotlin.gradle.tasks.KotlinCompile
+
 plugins {
     id("io.github.gradle-nexus.publish-plugin") version "2.0.0"
     id("org.jetbrains.dokka") version "2.2.0" apply false
@@ -51,4 +55,32 @@ apiValidation {
             "shared",
         ),
     )
+}
+
+// The validator only hooks into the kotlin-android plugin, so it skips modules on AGP built-in Kotlin.
+// Register its tasks by hand against the release classes. apiDump and apiCheck work the same as in core.
+
+// Core has the validator's own runtime classpath, reuse it so the versions stay in sync
+val validatorClasspath = provider { project(":konfetti:core").configurations.getByName("bcv-rt-jvm-cp-resolver") }
+listOf(":konfetti:image", ":konfetti:compose", ":konfetti:xml").forEach { path ->
+    project(path) {
+        pluginManager.withPlugin("com.android.library") {
+            val apiBuild =
+                tasks.register<KotlinApiBuildTask>("apiBuild") {
+                    inputClassesDirs.from(tasks.named<KotlinCompile>("compileReleaseKotlin").flatMap { it.destinationDirectory })
+                    outputApiFile.set(layout.buildDirectory.file("api/${project.name}.api"))
+                    runtimeClasspath.from(validatorClasspath)
+                }
+            tasks.register<Copy>("apiDump") {
+                from(apiBuild.flatMap { it.outputApiFile })
+                into(layout.projectDirectory.dir("api"))
+            }
+            val apiCheck =
+                tasks.register<KotlinApiCompareTask>("apiCheck") {
+                    projectApiFile.set(layout.projectDirectory.file("api/${project.name}.api"))
+                    generatedApiFile.set(apiBuild.flatMap { it.outputApiFile })
+                }
+            tasks.named("check") { dependsOn(apiCheck) }
+        }
+    }
 }
