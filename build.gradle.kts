@@ -6,9 +6,11 @@ import org.jetbrains.kotlin.gradle.tasks.KotlinCompile
 plugins {
     alias(libs.plugins.android.application) apply false
     alias(libs.plugins.android.library) apply false
+    alias(libs.plugins.android.kotlin.multiplatform.library) apply false
     alias(libs.plugins.kotlin.jvm) apply false
     alias(libs.plugins.kotlin.multiplatform) apply false
     alias(libs.plugins.kotlin.compose) apply false
+    alias(libs.plugins.compose.multiplatform) apply false
     alias(libs.plugins.spotless) apply false
     alias(libs.plugins.dokka) apply false
     alias(libs.plugins.dokka.javadoc) apply false
@@ -76,6 +78,8 @@ apiValidation {
             "xml-kotlin",
             "xml-java",
             "shared",
+            // Compose checks its API with Kotlin's own abiValidation
+            "compose",
         ),
     )
 }
@@ -85,7 +89,7 @@ apiValidation {
 
 // Core has the validator's own runtime classpath, reuse it so the versions stay in sync
 val validatorClasspath = provider { project(":konfetti:core").configurations.getByName("bcv-rt-jvm-cp-resolver") }
-listOf(":konfetti:image", ":konfetti:compose", ":konfetti:xml").forEach { path ->
+listOf(":konfetti:image", ":konfetti:xml").forEach { path ->
     project(path) {
         pluginManager.withPlugin("com.android.library") {
             val apiBuild =
