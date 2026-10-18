@@ -1,8 +1,12 @@
+import com.vanniktech.maven.publish.JavadocJar
+import com.vanniktech.maven.publish.KotlinMultiplatform
 import org.jetbrains.kotlin.gradle.dsl.JvmTarget
 
 plugins {
     alias(libs.plugins.kotlin.multiplatform)
     alias(libs.plugins.spotless)
+    alias(libs.plugins.dokka)
+    alias(libs.plugins.maven.publish)
 }
 
 kotlin {
@@ -28,6 +32,17 @@ kotlin {
             implementation(libs.kotlin.test)
         }
     }
+}
+
+mavenPublishing {
+    coordinates(artifactId = "konfetti-core")
+    pom { name.set("konfetti-core") }
+    configure(
+        KotlinMultiplatform(
+            javadocJar = JavadocJar.Dokka("dokkaGeneratePublicationHtml"),
+            sourcesJar = true,
+        ),
+    )
 }
 
 spotless {

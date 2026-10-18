@@ -1,3 +1,4 @@
+import com.vanniktech.maven.publish.MavenPublishBaseExtension
 import kotlinx.validation.KotlinApiBuildTask
 import kotlinx.validation.KotlinApiCompareTask
 import org.jetbrains.kotlin.gradle.tasks.KotlinCompile
@@ -12,6 +13,7 @@ plugins {
     alias(libs.plugins.dokka) apply false
     alias(libs.plugins.dokka.javadoc) apply false
     alias(libs.plugins.nexus.publish)
+    alias(libs.plugins.maven.publish) apply false
     alias(libs.plugins.binary.compatibility.validator)
 }
 
@@ -29,6 +31,58 @@ if(properties.exists()) {
                 stagingProfileId.set(localProperties["sonatypeStagingProfileId"] as String?)
                 username.set(localProperties["ossrhUsername"] as String?)
                 password.set(localProperties["ossrhPassword"] as String?)
+            }
+        }
+    }
+}
+
+// Shared Maven Central setup for the library modules that apply the publish plugin.
+// Each module only sets its own artifactId.
+subprojects {
+    pluginManager.withPlugin("com.vanniktech.maven.publish") {
+        configure<MavenPublishBaseExtension> {
+            coordinates(groupId = "nl.dionsegijn", version = Constants.konfettiVersion)
+            publishToMavenCentral(automaticRelease = true)
+            signAllPublications()
+
+            pom {
+                description.set("Lightweight particle system to celebrate with confetti in your app")
+                url.set("https://github.com/DanielMartinus/Konfetti")
+
+                licenses {
+                    license {
+                        name.set("ISC")
+                        url.set("https://github.com/DanielMartinus/Konfetti/blob/main/LICENSE")
+                        distribution.set("repo")
+                    }
+                }
+
+                developers {
+                    developer {
+                        id.set("DanielMartinus")
+                        name.set("Dion Segijn")
+                        email.set("danielsegijn@gmail.com")
+                    }
+                }
+
+                scm {
+                    connection.set("scm:git:github.com/DanielMartinus/konfetti.git")
+                    developerConnection.set("scm:git:ssh://github.com/DanielMartinus/konfetti.git")
+                    url.set("https://github.com/DanielMartinus/konfetti/tree/main")
+                }
+            }
+        }
+
+        // Sign with the same keys from local.properties as the old publish script
+        val properties = File(rootDir, "local.properties")
+        if (properties.exists()) {
+            val localProperties = properties.inputStream().use { java.util.Properties().apply { load(it) } }
+            configure<SigningExtension> {
+                useInMemoryPgpKeys(
+                    localProperties["signing.keyId"] as String?,
+                    localProperties["signing.key"] as String?,
+                    localProperties["signing.password"] as String?,
+                )
             }
         }
     }
