@@ -10,6 +10,23 @@ abstract interface nl.dionsegijn.konfetti.compose/OnParticleSystemUpdateListener
     abstract fun onParticleSystemEnded(nl.dionsegijn.konfetti.core/PartySystem, kotlin/Int) // nl.dionsegijn.konfetti.compose/OnParticleSystemUpdateListener.onParticleSystemEnded|onParticleSystemEnded(nl.dionsegijn.konfetti.core.PartySystem;kotlin.Int){}[0]
 }
 
+final class nl.dionsegijn.konfetti.compose/ImageBitmapImage : nl.dionsegijn.konfetti.core.models/CoreImage { // nl.dionsegijn.konfetti.compose/ImageBitmapImage|null[0]
+    constructor <init>(androidx.compose.ui.graphics/ImageBitmap) // nl.dionsegijn.konfetti.compose/ImageBitmapImage.<init>|<init>(androidx.compose.ui.graphics.ImageBitmap){}[0]
+
+    final val bitmap // nl.dionsegijn.konfetti.compose/ImageBitmapImage.bitmap|{}bitmap[0]
+        final fun <get-bitmap>(): androidx.compose.ui.graphics/ImageBitmap // nl.dionsegijn.konfetti.compose/ImageBitmapImage.bitmap.<get-bitmap>|<get-bitmap>(){}[0]
+    final val height // nl.dionsegijn.konfetti.compose/ImageBitmapImage.height|{}height[0]
+        final fun <get-height>(): kotlin/Int // nl.dionsegijn.konfetti.compose/ImageBitmapImage.height.<get-height>|<get-height>(){}[0]
+    final val width // nl.dionsegijn.konfetti.compose/ImageBitmapImage.width|{}width[0]
+        final fun <get-width>(): kotlin/Int // nl.dionsegijn.konfetti.compose/ImageBitmapImage.width.<get-width>|<get-width>(){}[0]
+
+    final fun component1(): androidx.compose.ui.graphics/ImageBitmap // nl.dionsegijn.konfetti.compose/ImageBitmapImage.component1|component1(){}[0]
+    final fun copy(androidx.compose.ui.graphics/ImageBitmap = ...): nl.dionsegijn.konfetti.compose/ImageBitmapImage // nl.dionsegijn.konfetti.compose/ImageBitmapImage.copy|copy(androidx.compose.ui.graphics.ImageBitmap){}[0]
+    final fun equals(kotlin/Any?): kotlin/Boolean // nl.dionsegijn.konfetti.compose/ImageBitmapImage.equals|equals(kotlin.Any?){}[0]
+    final fun hashCode(): kotlin/Int // nl.dionsegijn.konfetti.compose/ImageBitmapImage.hashCode|hashCode(){}[0]
+    final fun toString(): kotlin/String // nl.dionsegijn.konfetti.compose/ImageBitmapImage.toString|toString(){}[0]
+}
+
 final class nl.dionsegijn.konfetti.compose/KonfettiState { // nl.dionsegijn.konfetti.compose/KonfettiState|null[0]
     final fun burst(androidx.compose.ui.geometry/Offset, nl.dionsegijn.konfetti.core/Party) // nl.dionsegijn.konfetti.compose/KonfettiState.burst|burst(androidx.compose.ui.geometry.Offset;nl.dionsegijn.konfetti.core.Party){}[0]
     final fun reset() // nl.dionsegijn.konfetti.compose/KonfettiState.reset|reset(){}[0]
@@ -19,11 +36,34 @@ final class nl.dionsegijn.konfetti.compose/KonfettiState { // nl.dionsegijn.konf
     final fun stopGracefully() // nl.dionsegijn.konfetti.compose/KonfettiState.stopGracefully|stopGracefully(){}[0]
 }
 
+final class nl.dionsegijn.konfetti.compose/PainterImage : nl.dionsegijn.konfetti.core.models/CoreImage { // nl.dionsegijn.konfetti.compose/PainterImage|null[0]
+    constructor <init>(androidx.compose.ui.graphics.painter/Painter) // nl.dionsegijn.konfetti.compose/PainterImage.<init>|<init>(androidx.compose.ui.graphics.painter.Painter){}[0]
+
+    final val height // nl.dionsegijn.konfetti.compose/PainterImage.height|{}height[0]
+        final fun <get-height>(): kotlin/Int // nl.dionsegijn.konfetti.compose/PainterImage.height.<get-height>|<get-height>(){}[0]
+    final val painter // nl.dionsegijn.konfetti.compose/PainterImage.painter|{}painter[0]
+        final fun <get-painter>(): androidx.compose.ui.graphics.painter/Painter // nl.dionsegijn.konfetti.compose/PainterImage.painter.<get-painter>|<get-painter>(){}[0]
+    final val width // nl.dionsegijn.konfetti.compose/PainterImage.width|{}width[0]
+        final fun <get-width>(): kotlin/Int // nl.dionsegijn.konfetti.compose/PainterImage.width.<get-width>|<get-width>(){}[0]
+
+    final fun component1(): androidx.compose.ui.graphics.painter/Painter // nl.dionsegijn.konfetti.compose/PainterImage.component1|component1(){}[0]
+    final fun copy(androidx.compose.ui.graphics.painter/Painter = ...): nl.dionsegijn.konfetti.compose/PainterImage // nl.dionsegijn.konfetti.compose/PainterImage.copy|copy(androidx.compose.ui.graphics.painter.Painter){}[0]
+    final fun equals(kotlin/Any?): kotlin/Boolean // nl.dionsegijn.konfetti.compose/PainterImage.equals|equals(kotlin.Any?){}[0]
+    final fun hashCode(): kotlin/Int // nl.dionsegijn.konfetti.compose/PainterImage.hashCode|hashCode(){}[0]
+    final fun toString(): kotlin/String // nl.dionsegijn.konfetti.compose/PainterImage.toString|toString(){}[0]
+}
+
+final val nl.dionsegijn.konfetti.compose/nl_dionsegijn_konfetti_compose_ImageBitmapImage$stableprop // nl.dionsegijn.konfetti.compose/nl_dionsegijn_konfetti_compose_ImageBitmapImage$stableprop|#static{}nl_dionsegijn_konfetti_compose_ImageBitmapImage$stableprop[0]
 final val nl.dionsegijn.konfetti.compose/nl_dionsegijn_konfetti_compose_KonfettiState$stableprop // nl.dionsegijn.konfetti.compose/nl_dionsegijn_konfetti_compose_KonfettiState$stableprop|#static{}nl_dionsegijn_konfetti_compose_KonfettiState$stableprop[0]
+final val nl.dionsegijn.konfetti.compose/nl_dionsegijn_konfetti_compose_PainterImage$stableprop // nl.dionsegijn.konfetti.compose/nl_dionsegijn_konfetti_compose_PainterImage$stableprop|#static{}nl_dionsegijn_konfetti_compose_PainterImage$stableprop[0]
 
 final fun nl.dionsegijn.konfetti.compose/KonfettiView(androidx.compose.ui/Modifier?, kotlin.collections/List<nl.dionsegijn.konfetti.core/Party>, nl.dionsegijn.konfetti.compose/OnParticleSystemUpdateListener?, androidx.compose.runtime/Composer?, kotlin/Int, kotlin/Int) // nl.dionsegijn.konfetti.compose/KonfettiView|KonfettiView(androidx.compose.ui.Modifier?;kotlin.collections.List<nl.dionsegijn.konfetti.core.Party>;nl.dionsegijn.konfetti.compose.OnParticleSystemUpdateListener?;androidx.compose.runtime.Composer?;kotlin.Int;kotlin.Int){}[0]
 final fun nl.dionsegijn.konfetti.compose/KonfettiView(nl.dionsegijn.konfetti.compose/KonfettiState, androidx.compose.ui/Modifier?, kotlin/Function1<kotlin/Int, kotlin/Unit>?, androidx.compose.runtime/Composer?, kotlin/Int, kotlin/Int) // nl.dionsegijn.konfetti.compose/KonfettiView|KonfettiView(nl.dionsegijn.konfetti.compose.KonfettiState;androidx.compose.ui.Modifier?;kotlin.Function1<kotlin.Int,kotlin.Unit>?;androidx.compose.runtime.Composer?;kotlin.Int;kotlin.Int){}[0]
 final fun nl.dionsegijn.konfetti.compose/getTotalTimeRunning(kotlin/Long): kotlin/Long // nl.dionsegijn.konfetti.compose/getTotalTimeRunning|getTotalTimeRunning(kotlin.Long){}[0]
+final fun nl.dionsegijn.konfetti.compose/imageShape(androidx.compose.ui.graphics.painter/Painter, kotlin/Boolean = ..., kotlin/Boolean = ...): nl.dionsegijn.konfetti.core.models/Shape.DrawableShape // nl.dionsegijn.konfetti.compose/imageShape|imageShape(androidx.compose.ui.graphics.painter.Painter;kotlin.Boolean;kotlin.Boolean){}[0]
+final fun nl.dionsegijn.konfetti.compose/imageShape(androidx.compose.ui.graphics/ImageBitmap, kotlin/Boolean = ..., kotlin/Boolean = ...): nl.dionsegijn.konfetti.core.models/Shape.DrawableShape // nl.dionsegijn.konfetti.compose/imageShape|imageShape(androidx.compose.ui.graphics.ImageBitmap;kotlin.Boolean;kotlin.Boolean){}[0]
+final fun nl.dionsegijn.konfetti.compose/nl_dionsegijn_konfetti_compose_ImageBitmapImage$stableprop_getter(): kotlin/Int // nl.dionsegijn.konfetti.compose/nl_dionsegijn_konfetti_compose_ImageBitmapImage$stableprop_getter|nl_dionsegijn_konfetti_compose_ImageBitmapImage$stableprop_getter(){}[0]
 final fun nl.dionsegijn.konfetti.compose/nl_dionsegijn_konfetti_compose_KonfettiState$stableprop_getter(): kotlin/Int // nl.dionsegijn.konfetti.compose/nl_dionsegijn_konfetti_compose_KonfettiState$stableprop_getter|nl_dionsegijn_konfetti_compose_KonfettiState$stableprop_getter(){}[0]
+final fun nl.dionsegijn.konfetti.compose/nl_dionsegijn_konfetti_compose_PainterImage$stableprop_getter(): kotlin/Int // nl.dionsegijn.konfetti.compose/nl_dionsegijn_konfetti_compose_PainterImage$stableprop_getter|nl_dionsegijn_konfetti_compose_PainterImage$stableprop_getter(){}[0]
 final fun nl.dionsegijn.konfetti.compose/rememberKonfettiState(androidx.compose.runtime/Composer?, kotlin/Int): nl.dionsegijn.konfetti.compose/KonfettiState // nl.dionsegijn.konfetti.compose/rememberKonfettiState|rememberKonfettiState(androidx.compose.runtime.Composer?;kotlin.Int){}[0]
 final fun nl.dionsegijn.konfetti.compose/rememberReduceMotion(androidx.compose.runtime/Composer?, kotlin/Int): kotlin/Boolean // nl.dionsegijn.konfetti.compose/rememberReduceMotion|rememberReduceMotion(androidx.compose.runtime.Composer?;kotlin.Int){}[0]

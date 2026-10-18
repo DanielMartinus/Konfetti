@@ -76,6 +76,9 @@ kotlin {
             implementation(libs.cmp.ui)
             implementation(libs.jetbrains.lifecycle.runtime.compose)
         }
+        commonTest.dependencies {
+            implementation(libs.kotlin.test)
+        }
         androidMain.dependencies {
             // Drawable images, shared with konfetti-xml
             api(project(path = ":konfetti:image"))

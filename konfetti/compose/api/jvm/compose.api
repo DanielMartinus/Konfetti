@@ -1,3 +1,24 @@
+public final class nl/dionsegijn/konfetti/compose/ComposeImagesKt {
+	public static final fun imageShape (Landroidx/compose/ui/graphics/ImageBitmap;ZZ)Lnl/dionsegijn/konfetti/core/models/Shape$DrawableShape;
+	public static final fun imageShape (Landroidx/compose/ui/graphics/painter/Painter;ZZ)Lnl/dionsegijn/konfetti/core/models/Shape$DrawableShape;
+	public static synthetic fun imageShape$default (Landroidx/compose/ui/graphics/ImageBitmap;ZZILjava/lang/Object;)Lnl/dionsegijn/konfetti/core/models/Shape$DrawableShape;
+	public static synthetic fun imageShape$default (Landroidx/compose/ui/graphics/painter/Painter;ZZILjava/lang/Object;)Lnl/dionsegijn/konfetti/core/models/Shape$DrawableShape;
+}
+
+public final class nl/dionsegijn/konfetti/compose/ImageBitmapImage : nl/dionsegijn/konfetti/core/models/CoreImage {
+	public static final field $stable I
+	public fun <init> (Landroidx/compose/ui/graphics/ImageBitmap;)V
+	public final fun component1 ()Landroidx/compose/ui/graphics/ImageBitmap;
+	public final fun copy (Landroidx/compose/ui/graphics/ImageBitmap;)Lnl/dionsegijn/konfetti/compose/ImageBitmapImage;
+	public static synthetic fun copy$default (Lnl/dionsegijn/konfetti/compose/ImageBitmapImage;Landroidx/compose/ui/graphics/ImageBitmap;ILjava/lang/Object;)Lnl/dionsegijn/konfetti/compose/ImageBitmapImage;
+	public fun equals (Ljava/lang/Object;)Z
+	public final fun getBitmap ()Landroidx/compose/ui/graphics/ImageBitmap;
+	public fun getHeight ()I
+	public fun getWidth ()I
+	public fun hashCode ()I
+	public fun toString ()Ljava/lang/String;
+}
+
 public final class nl/dionsegijn/konfetti/compose/KonfettiState {
 	public static final field $stable I
 	public final fun burst-3MmeM6k (JLnl/dionsegijn/konfetti/core/Party;)V
@@ -20,6 +41,20 @@ public final class nl/dionsegijn/konfetti/compose/KonfettiViewKt {
 
 public abstract interface class nl/dionsegijn/konfetti/compose/OnParticleSystemUpdateListener {
 	public abstract fun onParticleSystemEnded (Lnl/dionsegijn/konfetti/core/PartySystem;I)V
+}
+
+public final class nl/dionsegijn/konfetti/compose/PainterImage : nl/dionsegijn/konfetti/core/models/CoreImage {
+	public static final field $stable I
+	public fun <init> (Landroidx/compose/ui/graphics/painter/Painter;)V
+	public final fun component1 ()Landroidx/compose/ui/graphics/painter/Painter;
+	public final fun copy (Landroidx/compose/ui/graphics/painter/Painter;)Lnl/dionsegijn/konfetti/compose/PainterImage;
+	public static synthetic fun copy$default (Lnl/dionsegijn/konfetti/compose/PainterImage;Landroidx/compose/ui/graphics/painter/Painter;ILjava/lang/Object;)Lnl/dionsegijn/konfetti/compose/PainterImage;
+	public fun equals (Ljava/lang/Object;)Z
+	public fun getHeight ()I
+	public final fun getPainter ()Landroidx/compose/ui/graphics/painter/Painter;
+	public fun getWidth ()I
+	public fun hashCode ()I
+	public fun toString ()Ljava/lang/String;
 }
 
 public final class nl/dionsegijn/konfetti/compose/ReduceMotionKt {

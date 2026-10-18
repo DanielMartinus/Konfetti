@@ -2,9 +2,14 @@ package nl.dionsegijn.konfetti.compose
 
 import androidx.compose.ui.geometry.Offset
 import androidx.compose.ui.geometry.Size
+import androidx.compose.ui.graphics.BlendMode
 import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.graphics.ColorFilter
 import androidx.compose.ui.graphics.Path
 import androidx.compose.ui.graphics.drawscope.DrawScope
+import androidx.compose.ui.graphics.drawscope.translate
+import androidx.compose.ui.unit.IntOffset
+import androidx.compose.ui.unit.IntSize
 import nl.dionsegijn.konfetti.core.Particle
 import nl.dionsegijn.konfetti.core.models.CoreImageStore
 import nl.dionsegijn.konfetti.core.models.Shape
@@ -63,6 +68,49 @@ internal fun Shape.drawShape(
             polygonPath.close()
             drawScope.drawPath(path = polygonPath, color = Color(particle.color))
         }
-        is DrawableShape -> drawScope.drawPlatformImage(this, particle, imageStore)
+        is DrawableShape ->
+            when (val image = image) {
+                is ImageBitmapImage -> drawScope.drawBitmap(this, image, particle)
+                is PainterImage -> drawScope.drawPainter(this, image, particle)
+                else -> drawScope.drawPlatformImage(this, particle, imageStore)
+            }
+    }
+}
+
+// Same rules as the Android drawables: tint with the confetti color, or fade the image itself
+private fun DrawableShape.colorFilter(particle: Particle) = if (tint) ColorFilter.tint(Color(particle.color), BlendMode.SrcIn) else null
+
+private fun DrawableShape.alpha(particle: Particle) = if (!tint && applyAlpha) particle.alpha / 255f else 1f
+
+// The image keeps its aspect ratio and is centered vertically in the confetti's square
+private fun DrawScope.drawBitmap(
+    shape: DrawableShape,
+    image: ImageBitmapImage,
+    particle: Particle,
+) {
+    val size = particle.width
+    val height = size * shape.heightRatio
+    val top = (size - height) / 2f
+    drawImage(
+        image = image.bitmap,
+        dstOffset = IntOffset(particle.x.toInt(), (particle.y + top).toInt()),
+        dstSize = IntSize(size.toInt(), height.toInt()),
+        alpha = shape.alpha(particle),
+        colorFilter = shape.colorFilter(particle),
+    )
+}
+
+private fun DrawScope.drawPainter(
+    shape: DrawableShape,
+    image: PainterImage,
+    particle: Particle,
+) {
+    val size = particle.width
+    val height = size * shape.heightRatio
+    val top = (size - height) / 2f
+    translate(left = particle.x, top = particle.y + top) {
+        with(image.painter) {
+            draw(Size(size, height), shape.alpha(particle), shape.colorFilter(particle))
+        }
     }
 }

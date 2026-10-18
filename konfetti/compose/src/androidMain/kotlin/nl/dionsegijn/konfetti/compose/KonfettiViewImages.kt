@@ -25,9 +25,10 @@ fun storeImages(
     val transformedShapes =
         party.shapes.map { shape ->
             when (shape) {
+                // Compose images like ImageBitmapImage draw without the store
                 is Shape.DrawableShape -> {
-                    val referenceImage = drawableToReferenceImage(shape.image as DrawableImage, imageStore)
-                    shape.copy(image = referenceImage)
+                    val image = shape.image
+                    if (image is DrawableImage) shape.copy(image = drawableToReferenceImage(image, imageStore)) else shape
                 }
                 else -> shape
             }
