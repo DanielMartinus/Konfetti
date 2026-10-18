@@ -22,6 +22,7 @@ include(
     ":samples:xml-java",
     ":samples:shared",
     ":samples:multiplatform:composeApp",
+    ":samples:multiplatform:androidApp",
 )
 
 dependencyResolutionManagement {

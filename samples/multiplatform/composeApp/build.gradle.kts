@@ -1,5 +1,8 @@
+import org.jetbrains.kotlin.gradle.dsl.JvmTarget
+
 plugins {
     alias(libs.plugins.kotlin.multiplatform)
+    alias(libs.plugins.android.kotlin.multiplatform.library)
     alias(libs.plugins.compose.multiplatform)
     alias(libs.plugins.kotlin.compose)
     alias(libs.plugins.spotless)
@@ -13,6 +16,21 @@ spotless {
 }
 
 kotlin {
+    // AGP 9 wants the Android app in its own module, see androidApp
+    android {
+        namespace = "nl.dionsegijn.samples.multiplatform.shared"
+        compileSdk = libs.versions.compileSdk.get().toInt()
+        minSdk = 23
+
+        // Compose resources, like the heart, ship as Android assets
+        androidResources {
+            enable = true
+        }
+
+        compilerOptions {
+            jvmTarget.set(JvmTarget.JVM_11)
+        }
+    }
     jvm()
 
     sourceSets {
