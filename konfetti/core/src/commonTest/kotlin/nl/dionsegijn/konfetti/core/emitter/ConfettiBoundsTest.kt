@@ -3,9 +3,9 @@ package nl.dionsegijn.konfetti.core.emitter
 import nl.dionsegijn.konfetti.core.models.CoreRectImpl
 import nl.dionsegijn.konfetti.core.models.Shape
 import nl.dionsegijn.konfetti.core.models.Vector
-import org.junit.Assert.assertFalse
-import org.junit.Assert.assertTrue
-import org.junit.Test
+import kotlin.test.Test
+import kotlin.test.assertFalse
+import kotlin.test.assertTrue
 
 class ConfettiBoundsTest {
     private val drawArea = CoreRectImpl(0f, 0f, 100f, 100f)

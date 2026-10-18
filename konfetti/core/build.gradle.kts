@@ -1,38 +1,38 @@
 import org.jetbrains.kotlin.gradle.dsl.JvmTarget
 
 plugins {
-    id("java-library")
-    alias(libs.plugins.kotlin.jvm)
+    alias(libs.plugins.kotlin.multiplatform)
     alias(libs.plugins.spotless)
 }
 
 kotlin {
-    compilerOptions {
-        jvmTarget.set(JvmTarget.JVM_1_8)
+    // Android, desktop, the XML view and the Java sample all use the jvm target
+    jvm {
+        compilerOptions {
+            jvmTarget.set(JvmTarget.JVM_1_8)
+        }
+    }
+    iosArm64()
+    iosSimulatorArm64()
+    wasmJs {
+        browser()
+        nodejs()
+    }
+    js {
+        browser()
+        nodejs()
+    }
+
+    sourceSets {
+        commonTest.dependencies {
+            implementation(libs.kotlin.test)
+        }
     }
 }
-
-java {
-    sourceCompatibility = JavaVersion.VERSION_1_8
-    targetCompatibility = JavaVersion.VERSION_1_8
-}
-
-NexusConfig.PUBLISH_ARTIFACT_ID = "konfetti-core"
-apply(from = "../../scripts/publish-module.gradle.kts")
 
 spotless {
     kotlin {
         ktlint("1.1.0")
         target("src/**/*.kt")
     }
-    java {
-        removeUnusedImports()
-        googleJavaFormat("1.36.1")
-        target("**/*.java")
-    }
-}
-
-dependencies {
-    implementation(libs.kotlin.stdlib)
-    testImplementation(libs.test.junit)
 }

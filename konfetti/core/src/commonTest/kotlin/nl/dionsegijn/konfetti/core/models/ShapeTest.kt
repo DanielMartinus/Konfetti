@@ -2,11 +2,11 @@ package nl.dionsegijn.konfetti.core.models
 
 import nl.dionsegijn.konfetti.core.Party
 import nl.dionsegijn.konfetti.core.emitter.Emitter
-import org.junit.Assert.assertEquals
-import org.junit.Assert.assertNotEquals
-import org.junit.Assert.assertThrows
-import org.junit.Assert.assertTrue
-import org.junit.Test
+import kotlin.test.Test
+import kotlin.test.assertEquals
+import kotlin.test.assertFailsWith
+import kotlin.test.assertNotEquals
+import kotlin.test.assertTrue
 
 class ShapeTest {
     @Test
@@ -45,14 +45,14 @@ class ShapeTest {
 
     @Test
     fun `a polygon needs at least 3 points`() {
-        assertThrows(IllegalArgumentException::class.java) {
+        assertFailsWith<IllegalArgumentException> {
             Shape.Polygon(Shape.Polygon.Point(0f, 0f), Shape.Polygon.Point(1f, 1f))
         }
     }
 
     @Test
     fun `a polygon point outside the square is not allowed`() {
-        assertThrows(IllegalArgumentException::class.java) {
+        assertFailsWith<IllegalArgumentException> {
             Shape.Polygon(Shape.Polygon.Point(0f, 0f), Shape.Polygon.Point(1.5f, 0f), Shape.Polygon.Point(0f, 1f))
         }
     }
@@ -66,7 +66,7 @@ class ShapeTest {
     }
 
     @Test
-    fun `a star has two corners per point, all inside the square`() {
+    fun `a star has two corners per point and all are inside the square`() {
         val star = Shape.Polygon.star(points = 6)
         assertEquals(12, star.points.size)
         assertTrue(star.isInsideSquare())
@@ -81,8 +81,8 @@ class ShapeTest {
 
     @Test
     fun `a star needs at least 3 points and a dent within the square`() {
-        assertThrows(IllegalArgumentException::class.java) { Shape.Polygon.star(points = 2) }
-        assertThrows(IllegalArgumentException::class.java) { Shape.Polygon.star(innerRadius = 1.5f) }
+        assertFailsWith<IllegalArgumentException> { Shape.Polygon.star(points = 2) }
+        assertFailsWith<IllegalArgumentException> { Shape.Polygon.star(innerRadius = 1.5f) }
     }
 
     @Test

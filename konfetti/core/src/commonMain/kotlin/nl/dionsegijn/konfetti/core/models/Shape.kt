@@ -1,5 +1,8 @@
 package nl.dionsegijn.konfetti.core.models
 
+import kotlin.jvm.JvmField
+import kotlin.jvm.JvmOverloads
+import kotlin.jvm.JvmStatic
 import kotlin.math.PI
 import kotlin.math.cos
 import kotlin.math.sin

@@ -9,9 +9,11 @@ import nl.dionsegijn.konfetti.core.models.CoreRectImpl
 import nl.dionsegijn.konfetti.core.models.Shape
 import nl.dionsegijn.konfetti.core.models.Size
 import nl.dionsegijn.konfetti.core.models.Vector
-import org.junit.Assert
-import org.junit.Test
 import kotlin.random.Random
+import kotlin.test.Test
+import kotlin.test.assertEquals
+import kotlin.test.assertFalse
+import kotlin.test.assertTrue
 
 class PartyEmitterTest {
     private val drawArea: CoreRect = CoreRectImpl(width = 1000f, height = 1000f)
@@ -49,24 +51,24 @@ class PartyEmitterTest {
         val emitter = PartyEmitter(party.emitter, 1f)
 
         val r1 = emitter.createConfetti(deltaTime, party, drawArea) // 0.017f
-        Assert.assertEquals(0, r1.size)
+        assertEquals(0, r1.size)
 
         val r2 = emitter.createConfetti(deltaTime, party, drawArea) // 0.034f
-        Assert.assertEquals(1, r2.size)
+        assertEquals(1, r2.size)
 
         val r3 = emitter.createConfetti(deltaTime, party, drawArea) // 0.051f
-        Assert.assertEquals(1, r3.size)
+        assertEquals(1, r3.size)
 
         val r4 = emitter.createConfetti(deltaTime, party, drawArea) // 0.068f
-        Assert.assertEquals(0, r4.size)
+        assertEquals(0, r4.size)
 
         val r5 = emitter.createConfetti(deltaTime, party, drawArea) // 0.085f
-        Assert.assertEquals(1, r5.size)
-        Assert.assertFalse(emitter.isFinished())
+        assertEquals(1, r5.size)
+        assertFalse(emitter.isFinished())
 
         val r6 = emitter.createConfetti(deltaTime, party, drawArea) // 0.102f
-        Assert.assertEquals(1, r6.size)
-        Assert.assertTrue(emitter.isFinished())
+        assertEquals(1, r6.size)
+        assertTrue(emitter.isFinished())
     }
 
     @Test
@@ -75,13 +77,13 @@ class PartyEmitterTest {
 
         val r1 = emitter.createConfetti(deltaTime, party, drawArea) // 0.017f
         with(r1.first()) {
-            Assert.assertEquals(Vector(100f, 100f), location)
-            Assert.assertEquals(6f, width)
-            Assert.assertEquals(Shape.Square, shape)
-            Assert.assertEquals(1000L, lifespan)
-            Assert.assertEquals(0.9f, damping)
-            Assert.assertEquals(10.99149f, rotationSpeed2D)
-            Assert.assertEquals(1.1494478f, rotationSpeed3D)
+            assertEquals(Vector(100f, 100f), location)
+            assertEquals(6f, width)
+            assertEquals(Shape.Square, shape)
+            assertEquals(1000L, lifespan)
+            assertEquals(0.9f, damping)
+            assertEquals(10.99149f, rotationSpeed2D, 0.0001f)
+            assertEquals(1.1494478f, rotationSpeed3D, 0.0001f)
         }
     }
 
@@ -97,8 +99,8 @@ class PartyEmitterTest {
             ) // 0.017f
 
         with(r1.first()) {
-            Assert.assertEquals(0.0f, rotationSpeed2D)
-            Assert.assertEquals(0.0f, rotationSpeed3D)
+            assertEquals(0.0f, rotationSpeed2D)
+            assertEquals(0.0f, rotationSpeed3D)
         }
     }
 
@@ -114,7 +116,7 @@ class PartyEmitterTest {
             ) // 0.017f
 
         with(r1.first()) {
-            Assert.assertEquals(Vector(500f, 500f), location)
+            assertEquals(Vector(500f, 500f), location)
         }
     }
 
@@ -122,8 +124,8 @@ class PartyEmitterTest {
     fun `max keeps the same interval when the duration divides evenly`() {
         val config = Emitter(100L).max(4)
 
-        Assert.assertEquals(0.025f, config.amountPerMs)
-        Assert.assertEquals(4, config.maxParticles)
+        assertEquals(0.025f, config.amountPerMs)
+        assertEquals(4, config.maxParticles)
     }
 
     @Test
@@ -131,21 +133,21 @@ class PartyEmitterTest {
         val party = Party(emitter = Emitter(1000L).max(10))
         val emitter = PartyEmitter(party.emitter, 1f)
 
-        Assert.assertEquals(0, emitter.createConfetti(deltaTime, party, drawArea).size)
+        assertEquals(0, emitter.createConfetti(deltaTime, party, drawArea).size)
 
         val burst = emitter.createConfetti(5f, party, drawArea)
-        Assert.assertEquals(10, burst.size)
+        assertEquals(10, burst.size)
     }
 
     @Test
     fun `max with more particles than milliseconds does not divide to zero`() {
         val config = Emitter(50L).max(5_000)
-        Assert.assertTrue(config.amountPerMs > 0f)
+        assertTrue(config.amountPerMs > 0f)
 
         val party = Party(emitter = config)
         val emitter = PartyEmitter(party.emitter, 1f)
         val created = emitter.createConfetti(1f, party, drawArea)
 
-        Assert.assertTrue(created.size in 1..5_000)
+        assertTrue(created.size in 1..5_000)
     }
 }
