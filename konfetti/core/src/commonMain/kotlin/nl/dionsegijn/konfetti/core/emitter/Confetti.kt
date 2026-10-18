@@ -4,6 +4,7 @@ import nl.dionsegijn.konfetti.core.models.CoreRect
 import nl.dionsegijn.konfetti.core.models.Shape
 import nl.dionsegijn.konfetti.core.models.Vector
 import kotlin.math.abs
+import kotlin.math.pow
 
 /**
  * Confetti holds all data to the current state of the particle
@@ -39,7 +40,8 @@ class Confetti(
     val pixelDensity: Float,
 ) {
     companion object {
-        private const val DEFAULT_FRAME_RATE = 60f
+        // Motion was tuned per frame at 60 fps, so one step is 1/60 of a second
+        internal const val STEPS_PER_SECOND = 60f
         private const val GRAVITY = 0.02f
         private const val ALPHA_DECREMENT = 5
         private const val MILLIS_IN_SECOND = 1000
@@ -52,11 +54,12 @@ class Confetti(
     var rotation = 0f
     private var rotationWidth = width
 
-    // Expected frame rate
-    private var frameRate = DEFAULT_FRAME_RATE
     private var gravity = Vector(0f, GRAVITY)
 
     var alpha: Int = 255
+
+    // Keeps the part of a fade step that doesn't fit in the Int alpha, so it fades the same at 120 fps
+    private var exactAlpha = 255f
     var scaleX = 0f
 
     /**
@@ -95,8 +98,22 @@ class Confetti(
         deltaTime: Float,
         drawArea: CoreRect,
     ) {
-        applyForce(gravity)
-        update(deltaTime, drawArea)
+        val steps = deltaTime * STEPS_PER_SECOND
+        render(deltaTime, drawArea, steps, damping.pow(steps))
+    }
+
+    /**
+     * Same as [render], with the damping for this frame worked out by the caller.
+     * PartySystem does that once per frame, since pow is costly to run for every piece.
+     */
+    internal fun render(
+        deltaTime: Float,
+        drawArea: CoreRect,
+        steps: Float,
+        stepDamping: Float,
+    ) {
+        acceleration.addScaled(gravity, steps / mass)
+        update(deltaTime, steps, stepDamping, drawArea)
     }
 
     /**
@@ -105,32 +122,33 @@ class Confetti(
      */
     private fun update(
         deltaTime: Float,
+        steps: Float,
+        stepDamping: Float,
         drawArea: CoreRect,
     ) {
-        // Calculate frameRate dynamically, fallback to 60fps in case deltaTime is 0
-        frameRate = if (deltaTime > 0) 1f / deltaTime else DEFAULT_FRAME_RATE
-
         // Below the view nothing comes back up, so the particle is dead once it has fully left
         if (centerY() - reach() > drawArea.y + drawArea.height) {
             alpha = 0
             return
         }
 
-        velocity.add(acceleration)
-        velocity.mult(damping)
-
-        location.addScaled(velocity, deltaTime * frameRate * pixelDensity)
+        velocity.addScaled(acceleration, steps)
+        // Move as far as the 60 fps frames inside this step would add up to,
+        // so damping slows confetti down the same at any frame rate
+        val travel = if (damping == 1f) steps else damping * (1f - stepDamping) / (1f - damping)
+        location.addScaled(velocity, travel * pixelDensity)
+        velocity.mult(stepDamping)
 
         lifespan -= (deltaTime * MILLIS_IN_SECOND).toLong()
-        if (lifespan <= 0) updateAlpha(deltaTime)
+        if (lifespan <= 0) updateAlpha(steps)
 
         // 2D rotation around the center of the confetti
-        rotation += rotationSpeed2D * deltaTime * frameRate
+        rotation += rotationSpeed2D * steps
         if (rotation >= FULL_CIRCLE) rotation = 0f
 
         // 3D rotation effect by decreasing the width and make sure that rotationSpeed is always
         // positive by using abs
-        rotationWidth -= abs(rotationSpeed3D) * deltaTime * frameRate
+        rotationWidth -= abs(rotationSpeed3D) * steps
         if (rotationWidth < 0) rotationWidth = width
 
         scaleX = abs(rotationWidth / width - 0.5f) * 2
@@ -160,13 +178,13 @@ class Confetti(
             centerY - reach <= drawArea.y + drawArea.height
     }
 
-    private fun updateAlpha(deltaTime: Float) {
-        alpha =
+    private fun updateAlpha(steps: Float) {
+        exactAlpha =
             if (fadeOut) {
-                val interval = ALPHA_DECREMENT * deltaTime * frameRate
-                (alpha - interval.toInt()).coerceAtLeast(0)
+                (exactAlpha - ALPHA_DECREMENT * steps).coerceAtLeast(0f)
             } else {
-                0
+                0f
             }
+        alpha = exactAlpha.toInt()
     }
 }

@@ -4,6 +4,7 @@ import nl.dionsegijn.konfetti.core.emitter.BaseEmitter
 import nl.dionsegijn.konfetti.core.emitter.Confetti
 import nl.dionsegijn.konfetti.core.emitter.PartyEmitter
 import nl.dionsegijn.konfetti.core.models.CoreRect
+import kotlin.math.pow
 import kotlin.random.Random
 import kotlin.time.Clock
 
@@ -43,7 +44,17 @@ class PartySystem(
             activeParticles.addAll(emitter.createConfetti(deltaTime, party, drawArea))
         }
 
-        activeParticles.forEach { it.render(deltaTime, drawArea) }
+        // Every piece of a party shares its damping, so work out this frame's step once
+        val steps = deltaTime * Confetti.STEPS_PER_SECOND
+        val stepDamping = party.damping.pow(steps)
+        activeParticles.forEach {
+            // A custom emitter may give pieces their own damping
+            if (it.damping == party.damping) {
+                it.render(deltaTime, drawArea, steps, stepDamping)
+            } else {
+                it.render(deltaTime, drawArea)
+            }
+        }
 
         activeParticles.removeAll { it.isDead() }
 
