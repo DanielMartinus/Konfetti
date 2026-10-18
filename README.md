@@ -174,7 +174,7 @@ konfetti.stopGracefully()                  // stop spawning and let the confetti
 konfetti.reset()                           // remove all confetti right away
 ```
 
-Want to know when it's done? `KonfettiView(state = konfetti, onPartyEnded = { activeParties -> })` is called once for every party that finishes.
+Want to know when it's done? See [When a party ends](#when-a-party-ends).
 
 If you only need confetti when a screen shows up, you can still pass the parties directly. `KonfettiView` starts over whenever the list changes, so `remember` your parties (and drawables) to avoid restarting on every recomposition:
 
@@ -202,6 +202,30 @@ Party(
     position = Position.Relative(0.5, 0.3)
 )
 viewKonfetti.start(party)
+```
+
+#### When a party ends
+
+Want to hide the view or move on once the confetti is done? You get a call for every party that finishes, with the number of parties still running. When that's 0, everything is done.
+
+```kotlin
+// Compose
+KonfettiView(
+    state = konfetti,
+    modifier = Modifier.fillMaxSize(),
+    onPartyEnded = { activeParties ->
+        if (activeParties == 0) showNextScreen()
+    },
+)
+
+// View-based (xml)
+konfettiView.onParticleSystemUpdateListener = object : OnParticleSystemUpdateListener {
+    override fun onParticleSystemStarted(view: KonfettiView, party: Party, activeSystems: Int) {}
+
+    override fun onParticleSystemEnded(view: KonfettiView, party: Party, activeSystems: Int) {
+        if (activeSystems == 0) showNextScreen()
+    }
+}
 ```
 
 #### In front of or behind other views
