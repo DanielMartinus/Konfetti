@@ -98,7 +98,7 @@ _To learn more, see more samples linked at the top of [this section](#usage)_
 - `size` - **`List<Size>` (default: SMALL, MEDIUM, LARGE)**: The size of the confetti. Use: Size.SMALL, MEDIUM or LARGE for default sizes or
  create your custom size using a new instance of `Size`.
 - `colors` - **`List<Int>` (default: 0xfce18a, 0xff726d, 0xf4306d, 0xb48def)**: List of colors that will be randomly picked from
-- `shapes` - **`List<Shape>` (default: Shape.Square, Shape.Circle)**: Or use a custom shape with `Shape.DrawableShape`
+- `shapes` - **`List<Shape>` (default: Shape.Square, Shape.Circle)**: Also `Shape.Rectangle`, polygons like `Shape.Polygon.STAR` (see [Shapes](#shapes)) or your own image with `Shape.DrawableShape`
 - `timeToLive` - **Long (default: 2000)**: The time in milliseconds a particle will stay alive after that the confetti will disappear.
 - `fadeOutEnabled` - **Boolean (default: true)**: If true and a confetti disappears because it ran out of time (set with timeToLive) it will slowly fade out. If set to falls it will instantly disappear from the screen.
 - `position` - **Position (default: Position.Relative(0.5, 0.5))**: the location where the confetti will spawn from relative to the canvas. Use absolute
@@ -109,6 +109,29 @@ _To learn more, see more samples linked at the top of [this section](#usage)_
  - `emitter` - **EmitterConfig**: Instructions how many and how often a confetti particle should spawn. Use Emitter(duration, timeUnit).max(amount) or Emitter(duration, timeUnit).perSecond(amount) to configure the Emitter. 
 
 See Party implementation [here](/konfetti/core/src/main/java/nl/dionsegijn/konfetti/core/Party.kt)
+
+### Shapes
+
+Next to squares, circles and rectangles you can use polygons. They spin, flip and fade just like the other shapes. Three come built in:
+
+```kotlin
+shapes = listOf(Shape.Polygon.STAR, Shape.Polygon.TRIANGLE, Shape.Polygon.DIAMOND)
+```
+
+Want a different star? `Shape.Polygon.star(points = 6, innerRadius = 0.5f)` makes one with 6 points and wider arms.
+
+You can also draw your own polygon. Each point is a fraction of the confetti's square, where (0, 0) is the top-left corner and (1, 1) the bottom-right one:
+
+```kotlin
+val arrow = Shape.Polygon(
+    Shape.Polygon.Point(0.5f, 0f),
+    Shape.Polygon.Point(1f, 0.6f),
+    Shape.Polygon.Point(0.5f, 0.4f),
+    Shape.Polygon.Point(0f, 0.6f),
+)
+```
+
+Stars take a bit more work to draw than the other shapes, so for very big parties keep them in the mix rather than using only stars. The confetti's `Size` sets how big the square is, so a star might look better a size larger than your squares.
 
 ### KonfettiView
 
