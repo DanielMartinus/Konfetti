@@ -1,11 +1,27 @@
+import com.vanniktech.maven.publish.AndroidSingleVariantLibrary
+import com.vanniktech.maven.publish.JavadocJar
+import com.vanniktech.maven.publish.SourcesJar
+
 plugins {
     alias(libs.plugins.android.library)
     alias(libs.plugins.kotlin.compose)
     alias(libs.plugins.spotless)
+    alias(libs.plugins.dokka)
+    alias(libs.plugins.dokka.javadoc)
+    alias(libs.plugins.maven.publish)
 }
 
-NexusConfig.PUBLISH_ARTIFACT_ID = "konfetti-compose"
-apply(from = "../../scripts/publish-module.gradle.kts")
+mavenPublishing {
+    coordinates(artifactId = "konfetti-compose")
+    pom { name.set("konfetti-compose") }
+    configure(
+        AndroidSingleVariantLibrary(
+            javadocJar = JavadocJar.Dokka("dokkaGeneratePublicationJavadoc"),
+            sourcesJar = SourcesJar.Sources(),
+            variant = "release",
+        ),
+    )
+}
 
 spotless {
     kotlin {
@@ -46,9 +62,6 @@ android {
 
     namespace = "nl.dionsegijn.konfetti.compose"
 
-    publishing {
-        singleVariant("release")
-    }
 }
 
 dependencies {

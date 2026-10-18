@@ -1,10 +1,26 @@
+import com.vanniktech.maven.publish.AndroidSingleVariantLibrary
+import com.vanniktech.maven.publish.JavadocJar
+import com.vanniktech.maven.publish.SourcesJar
+
 plugins {
     alias(libs.plugins.android.library)
     alias(libs.plugins.spotless)
+    alias(libs.plugins.dokka)
+    alias(libs.plugins.dokka.javadoc)
+    alias(libs.plugins.maven.publish)
 }
 
-NexusConfig.PUBLISH_ARTIFACT_ID = "konfetti-xml"
-apply(from = "../../scripts/publish-module.gradle.kts")
+mavenPublishing {
+    coordinates(artifactId = "konfetti-xml")
+    pom { name.set("konfetti-xml") }
+    configure(
+        AndroidSingleVariantLibrary(
+            javadocJar = JavadocJar.Dokka("dokkaGeneratePublicationJavadoc"),
+            sourcesJar = SourcesJar.Sources(),
+            variant = "release",
+        ),
+    )
+}
 
 spotless {
     kotlin {
@@ -38,9 +54,6 @@ android {
     namespace = "nl.dionsegijn.konfetti.xml"
     lint {
         abortOnError = true
-    }
-    publishing {
-        singleVariant("release")
     }
 }
 

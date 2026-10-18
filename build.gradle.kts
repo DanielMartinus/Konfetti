@@ -12,28 +12,8 @@ plugins {
     alias(libs.plugins.spotless) apply false
     alias(libs.plugins.dokka) apply false
     alias(libs.plugins.dokka.javadoc) apply false
-    alias(libs.plugins.nexus.publish)
     alias(libs.plugins.maven.publish) apply false
     alias(libs.plugins.binary.compatibility.validator)
-}
-
-// Connect with the repository using properties from local.properties in the root of the project
-val properties = File(rootDir, "local.properties")
-if(properties.exists()) {
-    val localProperties = properties.inputStream().use { java.util.Properties().apply { load(it) } }
-    // Set up Sonatype repository
-    nexusPublishing {
-        repositories {
-            sonatype {
-                nexusUrl.set(uri("https://ossrh-staging-api.central.sonatype.com/service/local/"))
-                snapshotRepositoryUrl.set(uri("https://central.sonatype.com/repository/maven-snapshots/"))
-                packageGroup.set("nl.dionsegijn")
-                stagingProfileId.set(localProperties["sonatypeStagingProfileId"] as String?)
-                username.set(localProperties["ossrhUsername"] as String?)
-                password.set(localProperties["ossrhPassword"] as String?)
-            }
-        }
-    }
 }
 
 // Shared Maven Central setup for the library modules that apply the publish plugin.
