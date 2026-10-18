@@ -346,6 +346,41 @@ public final class nl/dionsegijn/konfetti/core/models/Shape$DrawableShape : nl/d
 	public fun toString ()Ljava/lang/String;
 }
 
+public final class nl/dionsegijn/konfetti/core/models/Shape$Polygon : nl/dionsegijn/konfetti/core/models/Shape {
+	public static final field Companion Lnl/dionsegijn/konfetti/core/models/Shape$Polygon$Companion;
+	public static final field DIAMOND Lnl/dionsegijn/konfetti/core/models/Shape$Polygon;
+	public static final field STAR Lnl/dionsegijn/konfetti/core/models/Shape$Polygon;
+	public static final field TRIANGLE Lnl/dionsegijn/konfetti/core/models/Shape$Polygon;
+	public fun <init> (Ljava/util/List;)V
+	public fun <init> ([Lnl/dionsegijn/konfetti/core/models/Shape$Polygon$Point;)V
+	public fun equals (Ljava/lang/Object;)Z
+	public final fun getPoints ()Ljava/util/List;
+	public fun hashCode ()I
+	public static final fun star ()Lnl/dionsegijn/konfetti/core/models/Shape$Polygon;
+	public static final fun star (I)Lnl/dionsegijn/konfetti/core/models/Shape$Polygon;
+	public static final fun star (IF)Lnl/dionsegijn/konfetti/core/models/Shape$Polygon;
+}
+
+public final class nl/dionsegijn/konfetti/core/models/Shape$Polygon$Companion {
+	public final fun star ()Lnl/dionsegijn/konfetti/core/models/Shape$Polygon;
+	public final fun star (I)Lnl/dionsegijn/konfetti/core/models/Shape$Polygon;
+	public final fun star (IF)Lnl/dionsegijn/konfetti/core/models/Shape$Polygon;
+	public static synthetic fun star$default (Lnl/dionsegijn/konfetti/core/models/Shape$Polygon$Companion;IFILjava/lang/Object;)Lnl/dionsegijn/konfetti/core/models/Shape$Polygon;
+}
+
+public final class nl/dionsegijn/konfetti/core/models/Shape$Polygon$Point {
+	public fun <init> (FF)V
+	public final fun component1 ()F
+	public final fun component2 ()F
+	public final fun copy (FF)Lnl/dionsegijn/konfetti/core/models/Shape$Polygon$Point;
+	public static synthetic fun copy$default (Lnl/dionsegijn/konfetti/core/models/Shape$Polygon$Point;FFILjava/lang/Object;)Lnl/dionsegijn/konfetti/core/models/Shape$Polygon$Point;
+	public fun equals (Ljava/lang/Object;)Z
+	public final fun getX ()F
+	public final fun getY ()F
+	public fun hashCode ()I
+	public fun toString ()Ljava/lang/String;
+}
+
 public final class nl/dionsegijn/konfetti/core/models/Shape$Rectangle : nl/dionsegijn/konfetti/core/models/Shape {
 	public fun <init> (F)V
 	public fun equals (Ljava/lang/Object;)Z

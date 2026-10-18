@@ -4,6 +4,7 @@ import android.graphics.BlendMode
 import android.graphics.BlendModeColorFilter
 import android.graphics.Canvas
 import android.graphics.Paint
+import android.graphics.Path
 import android.graphics.PorterDuff
 import android.graphics.RectF
 import android.os.Build
@@ -12,9 +13,13 @@ import nl.dionsegijn.konfetti.core.models.Shape
 import nl.dionsegijn.konfetti.core.models.Shape.Circle
 import nl.dionsegijn.konfetti.core.models.Shape.Circle.rect
 import nl.dionsegijn.konfetti.core.models.Shape.DrawableShape
+import nl.dionsegijn.konfetti.core.models.Shape.Polygon
 import nl.dionsegijn.konfetti.core.models.Shape.Rectangle
 import nl.dionsegijn.konfetti.core.models.Shape.Square
 import nl.dionsegijn.konfetti.xml.image.ImageStore
+
+// Reused for every polygon so drawing doesn't create a path per confetti per frame
+private val polygonPath = Path()
 
 /**
  * Draw a shape to `canvas`. Implementations are expected to draw within a square of size
@@ -37,6 +42,14 @@ fun Shape.draw(
             val height = size * heightRatio
             val top = (size - height) / 2f
             canvas.drawRect(0f, top, size, top + height, paint)
+        }
+        is Polygon -> {
+            polygonPath.rewind()
+            points.forEachIndexed { i, point ->
+                if (i == 0) polygonPath.moveTo(point.x * size, point.y * size) else polygonPath.lineTo(point.x * size, point.y * size)
+            }
+            polygonPath.close()
+            canvas.drawPath(polygonPath, paint)
         }
         is DrawableShape -> {
             val referenceImage = image

@@ -8,6 +8,7 @@ import androidx.compose.ui.geometry.Offset
 import androidx.compose.ui.geometry.Size
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.graphics.ImageBitmap
+import androidx.compose.ui.graphics.Path
 import androidx.compose.ui.graphics.drawscope.DrawScope
 import androidx.compose.ui.graphics.drawscope.drawIntoCanvas
 import androidx.compose.ui.graphics.nativeCanvas
@@ -16,9 +17,13 @@ import nl.dionsegijn.konfetti.core.models.ReferenceImage
 import nl.dionsegijn.konfetti.core.models.Shape
 import nl.dionsegijn.konfetti.core.models.Shape.Circle
 import nl.dionsegijn.konfetti.core.models.Shape.DrawableShape
+import nl.dionsegijn.konfetti.core.models.Shape.Polygon
 import nl.dionsegijn.konfetti.core.models.Shape.Rectangle
 import nl.dionsegijn.konfetti.core.models.Shape.Square
 import nl.dionsegijn.konfetti.xml.image.ImageStore
+
+// Reused for every polygon so drawing doesn't create a path per confetti per frame
+private val polygonPath = Path()
 
 /**
  * Draw a shape to `compose canvas`. Implementations are expected to draw within a square of size
@@ -55,6 +60,17 @@ fun Shape.draw(
                 topLeft = Offset(particle.x, particle.y),
                 size = Size(size, height),
             )
+        }
+        is Polygon -> {
+            val size = particle.width
+            polygonPath.reset()
+            points.forEachIndexed { i, point ->
+                val x = particle.x + point.x * size
+                val y = particle.y + point.y * size
+                if (i == 0) polygonPath.moveTo(x, y) else polygonPath.lineTo(x, y)
+            }
+            polygonPath.close()
+            drawScope.drawPath(path = polygonPath, color = Color(particle.color))
         }
         is DrawableShape -> {
             val referenceImage = image
