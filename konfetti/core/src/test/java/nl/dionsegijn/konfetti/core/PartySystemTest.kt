@@ -6,7 +6,7 @@ import nl.dionsegijn.konfetti.core.models.CoreRectImpl
 import org.junit.Assert
 import org.junit.Test
 import org.mockito.Mockito
-import java.util.Random
+import kotlin.random.Random
 
 class PartySystemTest {
     private val rect: CoreRect =

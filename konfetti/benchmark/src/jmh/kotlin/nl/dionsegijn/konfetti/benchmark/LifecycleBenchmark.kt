@@ -13,8 +13,8 @@ import org.openjdk.jmh.annotations.Scope
 import org.openjdk.jmh.annotations.Setup
 import org.openjdk.jmh.annotations.State
 import org.openjdk.jmh.infra.Blackhole
-import java.util.Random
 import java.util.concurrent.TimeUnit
+import kotlin.random.Random
 
 /**
  * Cost of running a preset from the first frame until every [PartySystem] is done emitting and

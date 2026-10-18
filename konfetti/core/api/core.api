@@ -103,8 +103,8 @@ public final class nl/dionsegijn/konfetti/core/PartyFactory {
 public final class nl/dionsegijn/konfetti/core/PartySystem {
 	public fun <init> (Lnl/dionsegijn/konfetti/core/Party;JF)V
 	public synthetic fun <init> (Lnl/dionsegijn/konfetti/core/Party;JFILkotlin/jvm/internal/DefaultConstructorMarker;)V
-	public fun <init> (Lnl/dionsegijn/konfetti/core/Party;JFLjava/util/Random;)V
-	public synthetic fun <init> (Lnl/dionsegijn/konfetti/core/Party;JFLjava/util/Random;ILkotlin/jvm/internal/DefaultConstructorMarker;)V
+	public fun <init> (Lnl/dionsegijn/konfetti/core/Party;JFLkotlin/random/Random;)V
+	public synthetic fun <init> (Lnl/dionsegijn/konfetti/core/Party;JFLkotlin/random/Random;ILkotlin/jvm/internal/DefaultConstructorMarker;)V
 	public final fun getActiveParticleAmount ()I
 	public final fun getCreatedAt ()J
 	public final fun getEnabled ()Z
@@ -256,8 +256,8 @@ public final class nl/dionsegijn/konfetti/core/emitter/EmitterConfig {
 }
 
 public final class nl/dionsegijn/konfetti/core/emitter/PartyEmitter : nl/dionsegijn/konfetti/core/emitter/BaseEmitter {
-	public fun <init> (Lnl/dionsegijn/konfetti/core/emitter/EmitterConfig;FLjava/util/Random;)V
-	public synthetic fun <init> (Lnl/dionsegijn/konfetti/core/emitter/EmitterConfig;FLjava/util/Random;ILkotlin/jvm/internal/DefaultConstructorMarker;)V
+	public fun <init> (Lnl/dionsegijn/konfetti/core/emitter/EmitterConfig;FLkotlin/random/Random;)V
+	public synthetic fun <init> (Lnl/dionsegijn/konfetti/core/emitter/EmitterConfig;FLkotlin/random/Random;ILkotlin/jvm/internal/DefaultConstructorMarker;)V
 	public fun createConfetti (FLnl/dionsegijn/konfetti/core/Party;Lnl/dionsegijn/konfetti/core/models/CoreRect;)Ljava/util/List;
 	public fun isFinished ()Z
 }

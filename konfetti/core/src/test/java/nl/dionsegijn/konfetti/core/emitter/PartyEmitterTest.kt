@@ -13,7 +13,7 @@ import org.junit.Assert
 import org.junit.Test
 import org.mockito.ArgumentMatchers
 import org.mockito.Mockito
-import java.util.Random
+import kotlin.random.Random
 
 class PartyEmitterTest {
     private val drawArea: CoreRect =
@@ -88,8 +88,8 @@ class PartyEmitterTest {
             Assert.assertEquals(Shape.Square, shape)
             Assert.assertEquals(1000L, lifespan)
             Assert.assertEquals(0.9f, damping)
-            Assert.assertEquals(5.6617184f, rotationSpeed2D)
-            Assert.assertEquals(0.804353f, rotationSpeed3D)
+            Assert.assertEquals(10.99149f, rotationSpeed2D)
+            Assert.assertEquals(1.1494478f, rotationSpeed3D)
         }
     }
 

@@ -4,7 +4,8 @@ import nl.dionsegijn.konfetti.core.emitter.BaseEmitter
 import nl.dionsegijn.konfetti.core.emitter.Confetti
 import nl.dionsegijn.konfetti.core.emitter.PartyEmitter
 import nl.dionsegijn.konfetti.core.models.CoreRect
-import java.util.Random
+import kotlin.random.Random
+import kotlin.time.Clock
 
 /**
  * PartySystem is responsible for requesting particles from the emitter and updating the particles
@@ -16,15 +17,15 @@ import java.util.Random
  */
 class PartySystem(
     val party: Party,
-    val createdAt: Long = System.currentTimeMillis(),
+    val createdAt: Long = Clock.System.now().toEpochMilliseconds(),
     pixelDensity: Float,
     random: Random,
 ) {
     constructor(
         party: Party,
-        createdAt: Long = System.currentTimeMillis(),
+        createdAt: Long = Clock.System.now().toEpochMilliseconds(),
         pixelDensity: Float,
-    ) : this(party, createdAt, pixelDensity, Random())
+    ) : this(party, createdAt, pixelDensity, Random.Default)
 
     var enabled = true
 

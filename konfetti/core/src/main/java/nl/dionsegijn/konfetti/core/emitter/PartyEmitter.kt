@@ -7,10 +7,10 @@ import nl.dionsegijn.konfetti.core.models.CoreRect
 import nl.dionsegijn.konfetti.core.models.Shape
 import nl.dionsegijn.konfetti.core.models.Size
 import nl.dionsegijn.konfetti.core.models.Vector
-import java.lang.Math.toRadians
-import java.util.Random
+import kotlin.math.PI
 import kotlin.math.cos
 import kotlin.math.sin
+import kotlin.random.Random
 
 /**
  * Emitter is responsible for creating a certain amount of particles per tick.
@@ -20,7 +20,7 @@ import kotlin.math.sin
 class PartyEmitter(
     private val emitterConfig: EmitterConfig,
     private val pixelDensity: Float,
-    private val random: Random = Random(),
+    private val random: Random = Random.Default,
 ) : BaseEmitter() {
     // Keeping count of how many particles are created whilst running the emitter
     private var particlesCreated = 0
@@ -138,7 +138,7 @@ class PartyEmitter(
      */
     private fun Party.getVelocity(): Vector {
         val speed = getSpeed()
-        val radian = toRadians(getAngle())
+        val radian = getAngle() * PI / 180
         val vx = speed * cos(radian).toFloat()
         val vy = speed * sin(radian).toFloat()
         return Vector(vx, vy)

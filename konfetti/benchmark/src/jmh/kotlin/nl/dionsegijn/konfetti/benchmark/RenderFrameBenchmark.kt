@@ -14,8 +14,8 @@ import org.openjdk.jmh.annotations.Param
 import org.openjdk.jmh.annotations.Scope
 import org.openjdk.jmh.annotations.Setup
 import org.openjdk.jmh.annotations.State
-import java.util.Random
 import java.util.concurrent.TimeUnit
+import kotlin.random.Random
 
 /**
  * Cost of a single [PartySystem.render] call with a fixed number of active particles.
