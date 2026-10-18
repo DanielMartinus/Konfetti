@@ -5,15 +5,10 @@ import nl.dionsegijn.konfetti.core.models.CoreRect
 import nl.dionsegijn.konfetti.core.models.CoreRectImpl
 import org.junit.Assert
 import org.junit.Test
-import org.mockito.Mockito
 import kotlin.random.Random
 
 class PartySystemTest {
-    private val rect: CoreRect =
-        Mockito.mock(CoreRectImpl::class.java).apply {
-            Mockito.`when`(width).thenReturn(1000f)
-            Mockito.`when`(height).thenReturn(1000f)
-        }
+    private val rect: CoreRect = CoreRectImpl(width = 1000f, height = 1000f)
 
     // Average between for each frame
     private val deltaTime = 0.017f
@@ -76,7 +71,7 @@ class PartySystemTest {
         val system = PartySystem(party, pixelDensity = 1f)
 
         // Set drawArea to 1 pixel to let every particle directly disappear for this test
-        Mockito.`when`(rect.height).thenReturn(1f)
+        rect.height = 1f
         Assert.assertTrue(system.enabled)
 
         system.render(deltaTime, rect) // dt: 0.017f

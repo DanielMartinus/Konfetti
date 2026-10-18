@@ -11,18 +11,10 @@ import nl.dionsegijn.konfetti.core.models.Size
 import nl.dionsegijn.konfetti.core.models.Vector
 import org.junit.Assert
 import org.junit.Test
-import org.mockito.ArgumentMatchers
-import org.mockito.Mockito
 import kotlin.random.Random
 
 class PartyEmitterTest {
-    private val drawArea: CoreRect =
-        Mockito.mock(CoreRectImpl::class.java).apply {
-            Mockito.`when`(height).thenReturn(1000f)
-            Mockito.`when`(width).thenReturn(1000f)
-            Mockito.`when`(contains(ArgumentMatchers.anyInt(), ArgumentMatchers.anyInt()))
-                .thenReturn(true)
-        }
+    private val drawArea: CoreRect = CoreRectImpl(width = 1000f, height = 1000f)
 
     // Average time between for each frame
     private val deltaTime = 0.017f
