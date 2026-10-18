@@ -27,4 +27,4 @@ jobs:
             ${{ runner.os }}-gradle-
 
       - name: Run build and checks
-        run: ./gradlew :konfetti:core:test :konfetti:compose:testDebugUnitTest :konfetti:xml:testDebugUnitTest spotlessCheck apiCheck assembleDebug --console=plain
+        run: ./gradlew :konfetti:core:jvmTest :konfetti:compose:testAndroidHostTest :konfetti:xml:testDebugUnitTest spotlessCheck apiCheck assembleDebug --console=plain
