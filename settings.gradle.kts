@@ -23,6 +23,7 @@ include(
     ":samples:shared",
     ":samples:multiplatform:composeApp",
     ":samples:multiplatform:androidApp",
+    ":samples:playground",
 )
 
 dependencyResolutionManagement {

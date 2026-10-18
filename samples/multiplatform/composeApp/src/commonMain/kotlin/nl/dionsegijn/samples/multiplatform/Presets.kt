@@ -29,7 +29,8 @@ object Presets {
                 rotation = Rotation(),
                 colors = colors,
                 emitter = Emitter(100.milliseconds).max(30),
-                position = Position.Relative(0.5, 1.0),
+                // Starts above the playground's timeline card, not at the bottom edge behind it
+                position = Position.Relative(0.5, 0.6),
             )
 
         return listOf(
@@ -63,13 +64,14 @@ object Presets {
                 spread = Spread.SMALL,
                 colors = colors,
                 emitter = Emitter(5.seconds).perSecond(30),
-                position = Position.Relative(0.0, 0.5),
+                // Higher than the middle, so the arcs land above the playground's timeline card
+                position = Position.Relative(0.0, 0.35),
             )
 
         return listOf(
             party,
             // Flip the angle from right to left
-            party.copy(angle = party.angle - 90, position = Position.Relative(1.0, 0.5)),
+            party.copy(angle = party.angle - 90, position = Position.Relative(1.0, 0.35)),
         )
     }
 

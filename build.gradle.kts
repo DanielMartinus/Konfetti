@@ -80,6 +80,7 @@ apiValidation {
             "shared",
             "composeApp",
             "androidApp",
+            "playground",
             // Compose checks its API with Kotlin's own abiValidation
             "compose",
         ),
