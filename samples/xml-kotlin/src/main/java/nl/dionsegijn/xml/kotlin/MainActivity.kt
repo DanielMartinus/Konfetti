@@ -20,6 +20,7 @@ class MainActivity : AppCompatActivity() {
         findViewById<Button>(R.id.btnExplode).setOnClickListener { explode() }
         findViewById<Button>(R.id.btnParade).setOnClickListener { parade() }
         findViewById<Button>(R.id.btnRain).setOnClickListener { rain() }
+        findViewById<Button>(R.id.btnShapes).setOnClickListener { shapes() }
     }
 
     private fun festive() {
@@ -51,5 +52,12 @@ class MainActivity : AppCompatActivity() {
          * See [Presets] for this configuration
          */
         viewKonfetti.start(Presets.rain())
+    }
+
+    private fun shapes() {
+        /**
+         * See [Presets] for this configuration
+         */
+        viewKonfetti.start(Presets.shapes())
     }
 }

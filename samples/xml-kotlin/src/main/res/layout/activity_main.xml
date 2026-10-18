@@ -53,10 +53,21 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:text="Rain"
-            app:layout_constraintBottom_toTopOf="@+id/konfettiView"
+            app:layout_constraintBottom_toTopOf="@+id/btnShapes"
             app:layout_constraintHorizontal_bias="0.5"
             app:layout_constraintLeft_toLeftOf="parent"
             app:layout_constraintRight_toRightOf="parent"
             app:layout_constraintTop_toBottomOf="@+id/btnParade" />
+
+    <Button
+            android:id="@+id/btnShapes"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Shapes"
+            app:layout_constraintBottom_toTopOf="@+id/konfettiView"
+            app:layout_constraintHorizontal_bias="0.5"
+            app:layout_constraintLeft_toLeftOf="parent"
+            app:layout_constraintRight_toRightOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/btnRain" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>

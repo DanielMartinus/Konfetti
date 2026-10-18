@@ -31,6 +31,7 @@ class MainActivityTest {
             TestButton(R.id.btnExplode, "Explode"),
             TestButton(R.id.btnParade, "Parade"),
             TestButton(R.id.btnRain, "Rain"),
+            TestButton(R.id.btnShapes, "Shapes"),
         )
 
     @Test

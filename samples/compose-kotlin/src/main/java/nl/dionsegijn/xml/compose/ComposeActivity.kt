@@ -76,6 +76,9 @@ fun KonfettiUI() {
             Button(onClick = { konfetti.start(Presets.rain()) }) {
                 Text(text = "Rain")
             }
+            Button(onClick = { konfetti.start(Presets.shapes()) }) {
+                Text(text = "Shapes")
+            }
             Button(onClick = { konfetti.stopGracefully() }) {
                 Text(text = "Stop")
             }

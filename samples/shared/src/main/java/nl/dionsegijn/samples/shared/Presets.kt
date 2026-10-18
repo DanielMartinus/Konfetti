@@ -101,5 +101,22 @@ class Presets {
                 )
             )
         }
+
+        fun shapes(): List<Party> {
+            return listOf(
+                Party(
+                    speed = 0f,
+                    maxSpeed = 30f,
+                    damping = 0.9f,
+                    spread = 360,
+                    // A bit bigger than the default sizes, so the shapes are easy to tell apart
+                    size = listOf(Size(12), Size(16, mass = 6f)),
+                    shapes = listOf(Shape.Polygon.STAR, Shape.Polygon.TRIANGLE, Shape.Polygon.DIAMOND, Shape.Square),
+                    colors = listOf(0xfce18a, 0xff726d, 0xf4306d, 0xb48def),
+                    emitter = Emitter(duration = 100, TimeUnit.MILLISECONDS).max(100),
+                    position = Position.Relative(0.5, 0.3)
+                )
+            )
+        }
     }
 }
