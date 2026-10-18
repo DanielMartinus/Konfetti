@@ -47,22 +47,38 @@ kotlin {
             minCompileSdk = 35
         }
 
-        // Compose 1.12 is built for Java 11, so its inline functions need the same target
+        // Compose 1.11 is built for Java 11, so its inline functions need the same target
         compilerOptions {
             jvmTarget.set(JvmTarget.JVM_11)
         }
 
         withHostTest {}
     }
+    jvm {
+        compilerOptions {
+            jvmTarget.set(JvmTarget.JVM_11)
+        }
+    }
+    iosArm64()
+    iosSimulatorArm64()
+    wasmJs {
+        browser()
+    }
+    js {
+        browser()
+    }
 
     sourceSets {
-        androidMain.dependencies {
+        commonMain.dependencies {
             api(project(path = ":konfetti:core"))
-            api(project(path = ":konfetti:image"))
 
             implementation(libs.cmp.foundation)
             implementation(libs.cmp.ui)
             implementation(libs.jetbrains.lifecycle.runtime.compose)
+        }
+        androidMain.dependencies {
+            // Drawable images, shared with konfetti-xml
+            api(project(path = ":konfetti:image"))
         }
         getByName("androidHostTest").dependencies {
             implementation(libs.test.junit)

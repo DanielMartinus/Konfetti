@@ -1,0 +1,24 @@
+public final class nl/dionsegijn/konfetti/compose/KonfettiState {
+	public static final field $stable I
+	public final fun burst-3MmeM6k (JLnl/dionsegijn/konfetti/core/Party;)V
+	public final fun reset ()V
+	public final fun start (Ljava/util/List;)V
+	public final fun start ([Lnl/dionsegijn/konfetti/core/Party;)V
+	public final fun stop (Lnl/dionsegijn/konfetti/core/Party;)V
+	public final fun stopGracefully ()V
+}
+
+public final class nl/dionsegijn/konfetti/compose/KonfettiStateKt {
+	public static final fun rememberKonfettiState (Landroidx/compose/runtime/Composer;I)Lnl/dionsegijn/konfetti/compose/KonfettiState;
+}
+
+public final class nl/dionsegijn/konfetti/compose/KonfettiViewKt {
+	public static final fun KonfettiView (Landroidx/compose/ui/Modifier;Ljava/util/List;Lnl/dionsegijn/konfetti/compose/OnParticleSystemUpdateListener;Landroidx/compose/runtime/Composer;II)V
+	public static final fun KonfettiView (Lnl/dionsegijn/konfetti/compose/KonfettiState;Landroidx/compose/ui/Modifier;Lkotlin/jvm/functions/Function1;Landroidx/compose/runtime/Composer;II)V
+	public static final fun getTotalTimeRunning (J)J
+}
+
+public abstract interface class nl/dionsegijn/konfetti/compose/OnParticleSystemUpdateListener {
+	public abstract fun onParticleSystemEnded (Lnl/dionsegijn/konfetti/core/PartySystem;I)V
+}
+

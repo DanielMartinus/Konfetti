@@ -1,0 +1,28 @@
+// Klib ABI Dump
+// Targets: [iosArm64, iosSimulatorArm64, js, wasmJs]
+// Rendering settings:
+// - Signature version: 2
+// - Show manifest properties: true
+// - Show declarations: true
+
+// Library unique name: <Konfetti.konfetti:compose>
+abstract interface nl.dionsegijn.konfetti.compose/OnParticleSystemUpdateListener { // nl.dionsegijn.konfetti.compose/OnParticleSystemUpdateListener|null[0]
+    abstract fun onParticleSystemEnded(nl.dionsegijn.konfetti.core/PartySystem, kotlin/Int) // nl.dionsegijn.konfetti.compose/OnParticleSystemUpdateListener.onParticleSystemEnded|onParticleSystemEnded(nl.dionsegijn.konfetti.core.PartySystem;kotlin.Int){}[0]
+}
+
+final class nl.dionsegijn.konfetti.compose/KonfettiState { // nl.dionsegijn.konfetti.compose/KonfettiState|null[0]
+    final fun burst(androidx.compose.ui.geometry/Offset, nl.dionsegijn.konfetti.core/Party) // nl.dionsegijn.konfetti.compose/KonfettiState.burst|burst(androidx.compose.ui.geometry.Offset;nl.dionsegijn.konfetti.core.Party){}[0]
+    final fun reset() // nl.dionsegijn.konfetti.compose/KonfettiState.reset|reset(){}[0]
+    final fun start(kotlin.collections/List<nl.dionsegijn.konfetti.core/Party>) // nl.dionsegijn.konfetti.compose/KonfettiState.start|start(kotlin.collections.List<nl.dionsegijn.konfetti.core.Party>){}[0]
+    final fun start(kotlin/Array<out nl.dionsegijn.konfetti.core/Party>...) // nl.dionsegijn.konfetti.compose/KonfettiState.start|start(kotlin.Array<out|nl.dionsegijn.konfetti.core.Party>...){}[0]
+    final fun stop(nl.dionsegijn.konfetti.core/Party) // nl.dionsegijn.konfetti.compose/KonfettiState.stop|stop(nl.dionsegijn.konfetti.core.Party){}[0]
+    final fun stopGracefully() // nl.dionsegijn.konfetti.compose/KonfettiState.stopGracefully|stopGracefully(){}[0]
+}
+
+final val nl.dionsegijn.konfetti.compose/nl_dionsegijn_konfetti_compose_KonfettiState$stableprop // nl.dionsegijn.konfetti.compose/nl_dionsegijn_konfetti_compose_KonfettiState$stableprop|#static{}nl_dionsegijn_konfetti_compose_KonfettiState$stableprop[0]
+
+final fun nl.dionsegijn.konfetti.compose/KonfettiView(androidx.compose.ui/Modifier?, kotlin.collections/List<nl.dionsegijn.konfetti.core/Party>, nl.dionsegijn.konfetti.compose/OnParticleSystemUpdateListener?, androidx.compose.runtime/Composer?, kotlin/Int, kotlin/Int) // nl.dionsegijn.konfetti.compose/KonfettiView|KonfettiView(androidx.compose.ui.Modifier?;kotlin.collections.List<nl.dionsegijn.konfetti.core.Party>;nl.dionsegijn.konfetti.compose.OnParticleSystemUpdateListener?;androidx.compose.runtime.Composer?;kotlin.Int;kotlin.Int){}[0]
+final fun nl.dionsegijn.konfetti.compose/KonfettiView(nl.dionsegijn.konfetti.compose/KonfettiState, androidx.compose.ui/Modifier?, kotlin/Function1<kotlin/Int, kotlin/Unit>?, androidx.compose.runtime/Composer?, kotlin/Int, kotlin/Int) // nl.dionsegijn.konfetti.compose/KonfettiView|KonfettiView(nl.dionsegijn.konfetti.compose.KonfettiState;androidx.compose.ui.Modifier?;kotlin.Function1<kotlin.Int,kotlin.Unit>?;androidx.compose.runtime.Composer?;kotlin.Int;kotlin.Int){}[0]
+final fun nl.dionsegijn.konfetti.compose/getTotalTimeRunning(kotlin/Long): kotlin/Long // nl.dionsegijn.konfetti.compose/getTotalTimeRunning|getTotalTimeRunning(kotlin.Long){}[0]
+final fun nl.dionsegijn.konfetti.compose/nl_dionsegijn_konfetti_compose_KonfettiState$stableprop_getter(): kotlin/Int // nl.dionsegijn.konfetti.compose/nl_dionsegijn_konfetti_compose_KonfettiState$stableprop_getter|nl_dionsegijn_konfetti_compose_KonfettiState$stableprop_getter(){}[0]
+final fun nl.dionsegijn.konfetti.compose/rememberKonfettiState(androidx.compose.runtime/Composer?, kotlin/Int): nl.dionsegijn.konfetti.compose/KonfettiState // nl.dionsegijn.konfetti.compose/rememberKonfettiState|rememberKonfettiState(androidx.compose.runtime.Composer?;kotlin.Int){}[0]

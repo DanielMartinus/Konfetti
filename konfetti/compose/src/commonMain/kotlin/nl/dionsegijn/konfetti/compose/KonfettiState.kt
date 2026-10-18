@@ -8,7 +8,6 @@ import androidx.compose.ui.geometry.Offset
 import nl.dionsegijn.konfetti.core.Party
 import nl.dionsegijn.konfetti.core.PartySystem
 import nl.dionsegijn.konfetti.core.Position
-import nl.dionsegijn.konfetti.xml.image.ImageStore
 
 /**
  * Starts and stops the confetti of a [KonfettiView]. Create it with [rememberKonfettiState]
@@ -23,8 +22,8 @@ class KonfettiState internal constructor() {
     // Parties that are running
     internal val systems = mutableListOf<PartySystem>()
 
-    // Store for drawable images
-    internal val imageStore = ImageStore()
+    // Store for platform images like Android drawables, null when the platform has none
+    internal val imageStore = createImageStore()
 
     /**
      * Start one or more parties. Parties that are already running keep going.
@@ -52,7 +51,7 @@ class KonfettiState internal constructor() {
     fun stop(party: Party) {
         pending.remove(party)
         // Running parties have their drawables swapped for references, compare against the same
-        val stored = storeImages(party, imageStore)
+        val stored = storePlatformImages(party, imageStore)
         systems.removeAll { it.party == stored }
     }
 
@@ -75,7 +74,7 @@ class KonfettiState internal constructor() {
     // Called by the view on each frame to start the parties that came in since the last one
     internal fun startPending(pixelDensity: Float) {
         if (pending.isEmpty()) return
-        pending.forEach { systems.add(PartySystem(party = storeImages(it, imageStore), pixelDensity = pixelDensity)) }
+        pending.forEach { systems.add(PartySystem(party = storePlatformImages(it, imageStore), pixelDensity = pixelDensity)) }
         pending.clear()
     }
 

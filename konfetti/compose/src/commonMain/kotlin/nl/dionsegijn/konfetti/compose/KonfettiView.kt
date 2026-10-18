@@ -1,6 +1,9 @@
+// Shares its JVM class with the Android image helpers, so existing callers keep working
+@file:JvmName("KonfettiViewKt")
+@file:JvmMultifileClass
+
 package nl.dionsegijn.konfetti.compose
 
-import android.graphics.drawable.Drawable
 import androidx.compose.animation.core.withInfiniteAnimationFrameMillis
 import androidx.compose.foundation.Canvas
 import androidx.compose.runtime.Composable
@@ -24,10 +27,9 @@ import nl.dionsegijn.konfetti.core.Particle
 import nl.dionsegijn.konfetti.core.Party
 import nl.dionsegijn.konfetti.core.PartySystem
 import nl.dionsegijn.konfetti.core.models.CoreRectImpl
-import nl.dionsegijn.konfetti.core.models.ReferenceImage
-import nl.dionsegijn.konfetti.core.models.Shape
-import nl.dionsegijn.konfetti.xml.image.DrawableImage
-import nl.dionsegijn.konfetti.xml.image.ImageStore
+import kotlin.jvm.JvmMultifileClass
+import kotlin.jvm.JvmName
+import kotlin.time.Clock
 
 /**
  * Draws the confetti of [state]. Start parties with [KonfettiState.start] or [KonfettiState.burst].
@@ -156,52 +158,14 @@ private fun KonfettiCanvas(
                         pivot = Offset(particle.x + (particle.width / 2), particle.y),
                     )
                 }) {
-                    particle.shape.draw(drawScope = this, particle = particle, imageStore = state.imageStore)
+                    particle.shape.drawShape(drawScope = this, particle = particle, imageStore = state.imageStore)
                 }
             }
         },
     )
 }
 
-/**
- * Transforms the shapes in the given [Party] object. If a shape is a [Shape.DrawableShape],
- * it replaces the [DrawableImage] with a [ReferenceImage] and stores the [Drawable] in the [ImageStore].
- *
- * @param party The Party object containing the shapes to be transformed.
- * @return A new Party object with the transformed shapes.
- */
-fun storeImages(
-    party: Party,
-    imageStore: ImageStore,
-): Party {
-    val transformedShapes =
-        party.shapes.map { shape ->
-            when (shape) {
-                is Shape.DrawableShape -> {
-                    val referenceImage = drawableToReferenceImage(shape.image as DrawableImage, imageStore)
-                    shape.copy(image = referenceImage)
-                }
-                else -> shape
-            }
-        }
-    return party.copy(shapes = transformedShapes)
-}
-
-/**
- * Converts a [DrawableImage] to a [ReferenceImage] and stores the [Drawable] in the [ImageStore].
- *
- * @param drawableImage The DrawableImage to be converted.
- * @return A ReferenceImage with the same dimensions as the DrawableImage and a reference to the stored Drawable.
- */
-fun drawableToReferenceImage(
-    drawableImage: DrawableImage,
-    imageStore: ImageStore,
-): ReferenceImage {
-    val id = imageStore.storeImage(drawableImage.drawable)
-    return ReferenceImage(id, drawableImage.width, drawableImage.height)
-}
-
 fun getTotalTimeRunning(startTime: Long): Long {
-    val currentTime = System.currentTimeMillis()
+    val currentTime = Clock.System.now().toEpochMilliseconds()
     return (currentTime - startTime)
 }
