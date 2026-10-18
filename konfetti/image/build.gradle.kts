@@ -39,6 +39,11 @@ android {
 
     defaultConfig {
         minSdk = 15
+
+        // Apps only need the compileSdk they needed on 2.x, not the one we build with
+        aarMetadata {
+            minCompileSdk = 34
+        }
     }
     buildTypes {
         release {
