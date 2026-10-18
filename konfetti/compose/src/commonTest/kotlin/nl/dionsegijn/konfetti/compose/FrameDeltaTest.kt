@@ -4,11 +4,11 @@ import nl.dionsegijn.konfetti.core.Party
 import nl.dionsegijn.konfetti.core.PartySystem
 import nl.dionsegijn.konfetti.core.emitter.Emitter
 import nl.dionsegijn.konfetti.core.models.CoreRectImpl
-import org.junit.Assert.assertEquals
-import org.junit.Assert.assertFalse
-import org.junit.Assert.assertTrue
-import org.junit.Test
-import java.util.concurrent.TimeUnit
+import kotlin.test.Test
+import kotlin.test.assertEquals
+import kotlin.test.assertFalse
+import kotlin.test.assertTrue
+import kotlin.time.Duration.Companion.milliseconds
 
 class FrameDeltaTest {
     @Test
@@ -30,7 +30,7 @@ class FrameDeltaTest {
     fun `a capped background gap does not dump the party`() {
         val party =
             Party(
-                emitter = Emitter(duration = 2000, TimeUnit.MILLISECONDS).perSecond(50),
+                emitter = Emitter(2000.milliseconds).perSecond(50),
             )
         val drawArea = CoreRectImpl(0f, 0f, 1000f, 1000f)
         val system = PartySystem(party, pixelDensity = 1f)

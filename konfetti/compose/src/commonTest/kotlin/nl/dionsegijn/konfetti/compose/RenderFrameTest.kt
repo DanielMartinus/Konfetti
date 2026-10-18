@@ -4,10 +4,11 @@ import nl.dionsegijn.konfetti.core.Party
 import nl.dionsegijn.konfetti.core.PartySystem
 import nl.dionsegijn.konfetti.core.emitter.Emitter
 import nl.dionsegijn.konfetti.core.models.CoreRectImpl
-import org.junit.Assert.assertEquals
-import org.junit.Assert.assertTrue
-import org.junit.Test
-import java.util.concurrent.TimeUnit
+import kotlin.test.Test
+import kotlin.test.assertEquals
+import kotlin.test.assertTrue
+import kotlin.time.Duration.Companion.milliseconds
+import kotlin.time.Duration.Companion.seconds
 
 class RenderFrameTest {
     private val drawArea = CoreRectImpl(0f, 0f, 1000f, 1000f)
@@ -25,7 +26,7 @@ class RenderFrameTest {
 
     private fun shortParty() =
         Party(
-            emitter = Emitter(duration = 100, TimeUnit.MILLISECONDS).max(5),
+            emitter = Emitter(100.milliseconds).max(5),
             timeToLive = 100L,
         )
 
@@ -47,7 +48,7 @@ class RenderFrameTest {
         val short = PartySystem(shortParty(), pixelDensity = 1f)
         val long =
             PartySystem(
-                Party(emitter = Emitter(duration = 60, TimeUnit.SECONDS).perSecond(10)),
+                Party(emitter = Emitter(60.seconds).perSecond(10)),
                 pixelDensity = 1f,
             )
         val systems = mutableListOf(short, long)
