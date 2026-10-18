@@ -11,8 +11,8 @@
 
 <p align="center">
     <a href="https://opensource.org/licenses/ISC"><img alt="License" src="https://img.shields.io/badge/License-ISC-yellow.svg"/></a>
-    <a href="https://android-arsenal.com/api?level=16s"><img alt="API level 16" src="https://img.shields.io/badge/API-16%2B-brightgreen.svg?style=flat"/></a>
-    <a href="http://twitter.com/dionsegijn"><img alt="API level 16" src="https://img.shields.io/badge/Twitter-@dionsegijn-blue.svg?style=flat"/></a>
+    <a href="https://android-arsenal.com/api?level=15"><img alt="API level 15" src="https://img.shields.io/badge/API-15%2B-brightgreen.svg?style=flat"/></a>
+    <a href="http://twitter.com/dionsegijn"><img alt="Twitter" src="https://img.shields.io/badge/Twitter-@dionsegijn-blue.svg?style=flat"/></a>
     <a href="https://github.com/DanielMartinus/Konfetti/actions"><img alt="Build Status" src="https://github.com/DanielMartinus/Konfetti/workflows/CI/badge.svg"/></a>
 </p>
 
@@ -31,19 +31,21 @@
 
 ## Getting started
 
-Compose project:
+Compose project (min API 21):
 ```groovy
 dependencies {
     implementation 'nl.dionsegijn:konfetti-compose:2.1.0'
 }
 ```
 
-View based (XML) project:
+View based (XML) project (min API 15):
 ```groovy
 dependencies {
     implementation 'nl.dionsegijn:konfetti-xml:2.1.0'
 }
 ```
+
+Both pull in `konfetti-core` and `konfetti-image` automatically. Core is plain Kotlin without Android, so you can also use it on its own to build your own renderer.
 
 Find latest version and release notes [here](https://github.com/DanielMartinus/Konfetti/releases)
 
