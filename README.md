@@ -133,6 +133,21 @@ val arrow = Shape.Polygon(
 
 Stars take a bit more work to draw than the other shapes, so for very big parties keep them in the mix rather than using only stars. The confetti's `Size` sets how big the square is, so a star might look better a size larger than your squares.
 
+#### Your own image
+
+Any drawable works as confetti too. By default it gets the confetti colors on top and fades out at the end. Turn that off to keep the image as it is:
+
+```kotlin
+// Colored like the rest of the confetti
+val heart = ImageUtil.loadDrawable(drawable)
+// Original colors, still fades out
+val logo = ImageUtil.loadDrawable(drawable, tint = false)
+// Exactly as it is
+val photo = ImageUtil.loadDrawable(drawable, tint = false, applyAlpha = false)
+```
+
+Then add it to the shapes of your party, for example `shapes = listOf(Shape.Square, logo)`.
+
 ### KonfettiView
 
 Create a `KonfettiView` in your compose UI or add one to your xml layout depending on your setup.
@@ -188,6 +203,13 @@ Party(
 )
 viewKonfetti.start(party)
 ```
+
+#### In front of or behind other views
+
+Konfetti draws in the order of your layout, like any other view or composable.
+
+- In Compose, the composable that comes later in a `Box` draws on top. Put `KonfettiView` last to show confetti in front of everything, or first to keep it behind. `Modifier.zIndex()` changes the order without moving code around.
+- In XML, a view later in the layout draws on top. Views with elevation, like buttons and cards, always draw above views without it, no matter where they are in the layout. To get confetti in front of those too, give the `KonfettiView` a higher `android:elevation` or `android:translationZ`.
 
 And that's it! There are endless possibilities to configure the confetti. If you want to learn more on how to implement Konfetti in a java, xml or compose project then see the samples linked at the top of [this section](#usage)
 
