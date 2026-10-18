@@ -3,6 +3,7 @@ public final class nl/dionsegijn/konfetti/xml/DrawShapesKt {
 }
 
 public class nl/dionsegijn/konfetti/xml/KonfettiView : android/view/View {
+	public static final field Companion Lnl/dionsegijn/konfetti/xml/KonfettiView$Companion;
 	public fun <init> (Landroid/content/Context;)V
 	public fun <init> (Landroid/content/Context;Landroid/util/AttributeSet;)V
 	public fun <init> (Landroid/content/Context;Landroid/util/AttributeSet;I)V
@@ -10,6 +11,7 @@ public class nl/dionsegijn/konfetti/xml/KonfettiView : android/view/View {
 	public final fun getActiveSystems ()Ljava/util/List;
 	public final fun getOnParticleSystemUpdateListener ()Lnl/dionsegijn/konfetti/xml/listeners/OnParticleSystemUpdateListener;
 	public final fun isActive ()Z
+	public static final fun isReduceMotionEnabled (Landroid/content/Context;)Z
 	protected fun onDraw (Landroid/graphics/Canvas;)V
 	protected fun onSizeChanged (IIII)V
 	protected fun onVisibilityChanged (Landroid/view/View;I)V
@@ -20,6 +22,10 @@ public class nl/dionsegijn/konfetti/xml/KonfettiView : android/view/View {
 	public final fun start ([Lnl/dionsegijn/konfetti/core/Party;)V
 	public final fun stop (Lnl/dionsegijn/konfetti/core/Party;)V
 	public final fun stopGracefully ()V
+}
+
+public final class nl/dionsegijn/konfetti/xml/KonfettiView$Companion {
+	public final fun isReduceMotionEnabled (Landroid/content/Context;)Z
 }
 
 public final class nl/dionsegijn/konfetti/xml/KonfettiView$TimerIntegration {

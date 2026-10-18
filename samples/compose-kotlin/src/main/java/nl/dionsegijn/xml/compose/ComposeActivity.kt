@@ -21,6 +21,8 @@ import androidx.compose.ui.input.pointer.pointerInput
 import androidx.compose.ui.platform.LocalContext
 import nl.dionsegijn.konfetti.compose.KonfettiView
 import nl.dionsegijn.konfetti.compose.rememberKonfettiState
+import nl.dionsegijn.konfetti.compose.rememberReduceMotion
+import nl.dionsegijn.konfetti.core.Party
 import nl.dionsegijn.konfetti.xml.image.ImageUtil
 import nl.dionsegijn.samples.shared.Presets
 import nl.dionsegijn.xml.compose.ui.theme.KonfettiTheme
@@ -43,6 +45,9 @@ class ComposeActivity : ComponentActivity() {
 @Composable
 fun KonfettiUI() {
     val konfetti = rememberKonfettiState()
+    // Respect "Remove animations" in the accessibility settings by skipping the confetti
+    val reduceMotion = rememberReduceMotion()
+    val celebrate: (List<Party>) -> Unit = { if (!reduceMotion) konfetti.start(it) }
     val context = LocalContext.current
     // Load the heart once, not on every recomposition
     val heart =
@@ -56,7 +61,7 @@ fun KonfettiUI() {
                 .fillMaxSize()
                 // Tap anywhere next to the buttons for a burst at that spot
                 .pointerInput(Unit) {
-                    detectTapGestures { konfetti.burst(at = it, party = Presets.explode().first()) }
+                    detectTapGestures { if (!reduceMotion) konfetti.burst(at = it, party = Presets.explode().first()) }
                 },
     ) {
         Column(
@@ -64,25 +69,25 @@ fun KonfettiUI() {
             verticalArrangement = Arrangement.Center,
             horizontalAlignment = Alignment.CenterHorizontally,
         ) {
-            Button(onClick = { konfetti.start(Presets.festive(heart)) }) {
+            Button(onClick = { celebrate(Presets.festive(heart)) }) {
                 Text(text = "Festive")
             }
-            Button(onClick = { konfetti.start(Presets.explode()) }) {
+            Button(onClick = { celebrate(Presets.explode()) }) {
                 Text(text = "Explode")
             }
-            Button(onClick = { konfetti.start(Presets.parade()) }) {
+            Button(onClick = { celebrate(Presets.parade()) }) {
                 Text(text = "Parade")
             }
-            Button(onClick = { konfetti.start(Presets.rain()) }) {
+            Button(onClick = { celebrate(Presets.rain()) }) {
                 Text(text = "Rain")
             }
-            Button(onClick = { konfetti.start(Presets.shapes()) }) {
+            Button(onClick = { celebrate(Presets.shapes()) }) {
                 Text(text = "Shapes")
             }
             Button(onClick = { konfetti.stopGracefully() }) {
                 Text(text = "Stop")
             }
-            Text(text = "Or tap anywhere")
+            Text(text = if (reduceMotion) "Remove animations is on, so no confetti" else "Or tap anywhere")
         }
         KonfettiView(
             state = konfetti,

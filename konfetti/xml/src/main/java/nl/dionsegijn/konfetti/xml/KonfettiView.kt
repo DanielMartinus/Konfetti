@@ -5,6 +5,8 @@ import android.content.res.Resources
 import android.graphics.Canvas
 import android.graphics.Paint
 import android.graphics.drawable.Drawable
+import android.os.Build
+import android.provider.Settings
 import android.util.AttributeSet
 import android.view.View
 import nl.dionsegijn.konfetti.core.Particle
@@ -237,5 +239,18 @@ open class KonfettiView : View {
     ) {
         super.onVisibilityChanged(changedView, visibility)
         timer?.reset()
+    }
+
+    companion object {
+        /**
+         * True when the user turned on "Remove animations" in the accessibility settings.
+         * Check it before starting a party, for example to skip the confetti. Always false below API 17.
+         */
+        @JvmStatic
+        fun isReduceMotionEnabled(context: Context): Boolean {
+            if (Build.VERSION.SDK_INT < Build.VERSION_CODES.JELLY_BEAN_MR1) return false
+            // "Remove animations" sets the animation scale to 0
+            return Settings.Global.getFloat(context.contentResolver, Settings.Global.ANIMATOR_DURATION_SCALE, 1f) == 0f
+        }
     }
 }

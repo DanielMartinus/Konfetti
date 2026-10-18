@@ -211,6 +211,19 @@ Konfetti draws in the order of your layout, like any other view or composable.
 - In Compose, the composable that comes later in a `Box` draws on top. Put `KonfettiView` last to show confetti in front of everything, or first to keep it behind. `Modifier.zIndex()` changes the order without moving code around.
 - In XML, a view later in the layout draws on top. Views with elevation, like buttons and cards, always draw above views without it, no matter where they are in the layout. To get confetti in front of those too, give the `KonfettiView` a higher `android:elevation` or `android:translationZ`.
 
+#### Remove animations
+
+Some people turn on "Remove animations" in the accessibility settings, for example because motion makes them feel sick. Konfetti doesn't change anything by itself, but you can check the setting and skip the confetti or show something calmer instead:
+
+```kotlin
+// Compose
+val reduceMotion = rememberReduceMotion()
+Button(onClick = { if (!reduceMotion) konfetti.start(party) }) { Text("Celebrate") }
+
+// View-based (xml)
+if (!KonfettiView.isReduceMotionEnabled(context)) konfettiView.start(party)
+```
+
 And that's it! There are endless possibilities to configure the confetti. If you want to learn more on how to implement Konfetti in a java, xml or compose project then see the samples linked at the top of [this section](#usage)
 
 ## Community
