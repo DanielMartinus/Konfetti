@@ -29,11 +29,13 @@ import androidx.compose.foundation.verticalScroll
 import androidx.compose.material.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
+import androidx.compose.runtime.derivedStateOf
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateListOf
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
 import androidx.compose.runtime.setValue
+import androidx.compose.runtime.snapshotFlow
 import androidx.compose.runtime.withFrameMillis
 import androidx.compose.runtime.withFrameNanos
 import androidx.compose.ui.Alignment
@@ -49,6 +51,9 @@ import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.IntSize
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
+import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.flow.conflate
+import kotlinx.coroutines.withContext
 import nl.dionsegijn.konfetti.core.Party
 import nl.dionsegijn.konfetti.core.models.CoreRectImpl
 
@@ -80,12 +85,30 @@ fun Playground(
     var canvasSize by remember { mutableStateOf(IntSize.Zero) }
     val density = LocalDensity.current.density
 
-    // Reading the list here makes edits rebuild the replay below
     val current = parties.toList()
     val lengthMs = remember(current) { current.maxOf { it.endMs() } }
-    val area = remember(canvasSize) { CoreRectImpl(0f, 0f, canvasSize.width.toFloat(), canvasSize.height.toFloat()) }
-    val replay = remember(current, area, density) { Replay(current, area, density) }
-    val counts = remember(current, area, density, lengthMs) { Replay(current, area, density).particleCounts(lengthMs) }
+    val area by remember { derivedStateOf { CoreRectImpl(0f, 0f, canvasSize.width.toFloat(), canvasSize.height.toFloat()) } }
+    var replay by remember { mutableStateOf(Replay(emptyList())) }
+    var counts by remember { mutableStateOf(emptyList<Int>()) }
+
+    // Replaying takes too long for one frame, so edits build off the main thread while the old
+    // replay keeps playing. Edits that come in during a build are skipped, the next build has the latest
+    LaunchedEffect(density) {
+        snapshotFlow { parties.toList() to area }
+            .conflate()
+            .collect { (edited, editedArea) ->
+                val editedLengthMs = edited.maxOf { it.endMs() }
+                val startMs = timeMs.coerceAtMost(editedLengthMs)
+                val previous = replay
+                val (next, nextCounts) =
+                    withContext(Dispatchers.Default) {
+                        val next = previous.edit(edited, editedArea, density, startMs)
+                        next to next.particleCounts(editedLengthMs)
+                    }
+                replay = next
+                counts = nextCounts
+            }
+    }
 
     fun load(preset: Preset) {
         presetName = preset.name
