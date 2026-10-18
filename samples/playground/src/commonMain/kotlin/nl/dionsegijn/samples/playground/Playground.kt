@@ -35,6 +35,7 @@ import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
 import androidx.compose.runtime.setValue
 import androidx.compose.runtime.withFrameMillis
+import androidx.compose.runtime.withFrameNanos
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.shadow
@@ -185,8 +186,36 @@ private fun TopBar(onClose: (() -> Unit)?) {
         Spacer(Modifier.width(8.dp))
         Text("Playground", fontSize = 20.sp, fontWeight = FontWeight.ExtraBold, color = Palette.ink, letterSpacing = (-0.4).sp)
         Spacer(Modifier.weight(1f))
-        Text("LIVE", fontFamily = Mono, fontSize = 11.sp, color = Palette.accent, letterSpacing = 1.sp)
+        FpsCounter()
     }
+}
+
+// Frames per second over the last half second, to spot slow frames while tweaking
+@Composable
+private fun FpsCounter() {
+    var fps by remember { mutableStateOf(0) }
+    LaunchedEffect(Unit) {
+        var frames = 0
+        var start = 0L
+        while (true) {
+            withFrameNanos { now ->
+                if (start == 0L) start = now
+                frames++
+                if (now - start >= FPS_WINDOW_NANOS) {
+                    fps = (frames * 1_000_000_000L / (now - start)).toInt()
+                    frames = 0
+                    start = now
+                }
+            }
+        }
+    }
+    Text(
+        "$fps FPS",
+        fontFamily = Mono,
+        fontSize = 11.sp,
+        color = if (fps in 1 until SLOW_FPS) Palette.accent else Palette.muted,
+        letterSpacing = 1.sp,
+    )
 }
 
 // A pill with one segment per preset, the chosen one raised in white
@@ -380,6 +409,11 @@ private fun DotGrid() {
         }
     }
 }
+
+private const val FPS_WINDOW_NANOS = 500_000_000L
+
+// Below this the counter turns pink
+private const val SLOW_FPS = 50
 
 // How far the handle has to move before the sheet opens or closes
 private const val SWIPE_DP = 24
