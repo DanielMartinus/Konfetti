@@ -34,14 +34,14 @@
 Compose project (min API 21):
 ```groovy
 dependencies {
-    implementation 'nl.dionsegijn:konfetti-compose:2.1.0'
+    implementation 'nl.dionsegijn:konfetti-compose:2.2.0'
 }
 ```
 
 View based (XML) project (min API 15):
 ```groovy
 dependencies {
-    implementation 'nl.dionsegijn:konfetti-xml:2.1.0'
+    implementation 'nl.dionsegijn:konfetti-xml:2.2.0'
 }
 ```
 
