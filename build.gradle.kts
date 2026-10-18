@@ -78,6 +78,7 @@ apiValidation {
             "xml-kotlin",
             "xml-java",
             "shared",
+            "composeApp",
             // Compose checks its API with Kotlin's own abiValidation
             "compose",
         ),

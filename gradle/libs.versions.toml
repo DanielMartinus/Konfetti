@@ -11,6 +11,7 @@ targetSdk = "34"
 compose = "1.4.3"
 compose-multiplatform = "1.11.1"
 jetbrains-lifecycle = "2.9.6"
+coroutines = "1.11.0"
 core-ktx = "1.7.0"
 appcompat = "1.4.0"
 constraintlayout = "2.1.3"
@@ -28,6 +29,9 @@ kotlin-stdlib = { group = "org.jetbrains.kotlin", name = "kotlin-stdlib", versio
 kotlin-test = { group = "org.jetbrains.kotlin", name = "kotlin-test", version.ref = "kotlin" }
 cmp-foundation = { group = "org.jetbrains.compose.foundation", name = "foundation", version.ref = "compose-multiplatform" }
 cmp-ui = { group = "org.jetbrains.compose.ui", name = "ui", version.ref = "compose-multiplatform" }
+cmp-material = { group = "org.jetbrains.compose.material", name = "material", version.ref = "compose-multiplatform" }
+cmp-resources = { group = "org.jetbrains.compose.components", name = "components-resources", version.ref = "compose-multiplatform" }
+kotlinx-coroutines-swing = { group = "org.jetbrains.kotlinx", name = "kotlinx-coroutines-swing", version.ref = "coroutines" }
 jetbrains-lifecycle-runtime-compose = { group = "org.jetbrains.androidx.lifecycle", name = "lifecycle-runtime-compose", version.ref = "jetbrains-lifecycle" }
 compose-foundation = { group = "androidx.compose.foundation", name = "foundation", version.ref = "compose" }
 compose-ui = { group = "androidx.compose.ui", name = "ui", version.ref = "compose" }

@@ -20,7 +20,8 @@ include(
     ":samples:compose-kotlin",
     ":samples:xml-kotlin",
     ":samples:xml-java",
-    ":samples:shared"
+    ":samples:shared",
+    ":samples:multiplatform:composeApp",
 )
 
 dependencyResolutionManagement {
