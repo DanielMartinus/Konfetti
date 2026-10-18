@@ -9,62 +9,94 @@ import kotlin.random.Random
 /**
  * Plays parties from the start with a fixed step and seeded randomness, so the same time always
  * shows the same confetti. That's what lets the timeline scrub back and forth.
+ * Each party plays in its own [Lane], so an edit only has to replay the lane that changed.
  */
 class Replay(
-    private val parties: List<Party>,
-    private val drawArea: CoreRect,
-    private val pixelDensity: Float,
-    private val seed: Long = 42L,
+    val lanes: List<Lane>,
 ) {
-    private var systems = newSystems()
+    constructor(parties: List<Party>, drawArea: CoreRect, pixelDensity: Float) :
+        this(parties.mapIndexed { i, party -> Lane(party, drawArea, pixelDensity, SEED + i) })
+
+    /** Particles to draw at [timeMs] after the start */
+    fun particlesAt(timeMs: Long): List<Particle> = lanes.flatMap { it.particlesAt(timeMs) }
+
+    /** How many confetti are on screen at each step until [timeMs], for the curve under the lanes */
+    fun particleCounts(timeMs: Long): List<Int> {
+        val perLane = lanes.map { it.particleCounts(timeMs) }
+        return List((timeMs / STEP_MS).toInt()) { step -> perLane.sumOf { it[step] } }
+    }
+
+    /**
+     * A replay for [parties] that keeps the lanes that didn't change. New lanes are played up to
+     * [timeMs] right away, so this can run off the main thread while the kept lanes keep playing.
+     */
+    fun edit(
+        parties: List<Party>,
+        drawArea: CoreRect,
+        pixelDensity: Float,
+        timeMs: Long,
+    ): Replay =
+        Replay(
+            parties.mapIndexed { i, party ->
+                lanes.getOrNull(i)?.takeIf { it.party == party && it.drawArea == drawArea && it.pixelDensity == pixelDensity }
+                    ?: Lane(party, drawArea, pixelDensity, SEED + i).also { it.particlesAt(timeMs) }
+            },
+        )
+
+    companion object {
+        // One frame at 60 fps
+        const val STEP_MS = 16L
+
+        // Each party gets its own seed, so changing one lane doesn't reshuffle the others
+        private const val SEED = 42L
+    }
+}
+
+/** One party on the timeline, played on its own */
+class Lane(
+    val party: Party,
+    val drawArea: CoreRect,
+    val pixelDensity: Float,
+    private val seed: Long,
+) {
+    private var system = newSystem()
     private var elapsedMs = 0L
     private var particles = emptyList<Particle>()
+
+    // Kept for when another lane changes
+    private var counts = emptyList<Int>()
 
     /** Particles to draw at [timeMs] after the start */
     fun particlesAt(timeMs: Long): List<Particle> {
         // The simulation only runs forward, so going back means starting over
         if (timeMs < elapsedMs) reset()
-        while (elapsedMs + STEP_MS <= timeMs) step()
+        while (elapsedMs + Replay.STEP_MS <= timeMs) step()
         return particles
     }
 
-    /** How many confetti are on screen at each step until [timeMs], for the curve under the lanes */
+    /** How many confetti are on screen at each step until [timeMs] */
     fun particleCounts(timeMs: Long): List<Int> {
-        reset()
-        val counts = mutableListOf<Int>()
-        while (elapsedMs + STEP_MS <= timeMs) {
-            step()
-            counts += particles.size
-        }
-        reset()
+        val steps = (timeMs / Replay.STEP_MS).toInt()
+        if (counts.size == steps) return counts
+        // Counts on a copy, so the confetti on screen don't move
+        val copy = Lane(party, drawArea, pixelDensity, seed)
+        counts = List(steps) { copy.particlesAt((it + 1) * Replay.STEP_MS).size }
         return counts
     }
 
     private fun step() {
-        elapsedMs += STEP_MS
-        particles =
-            systems.flatMapIndexed { i, system ->
-                // A party waits for its delay, like it does in KonfettiView
-                if (elapsedMs < parties[i].delay) emptyList() else system.render(STEP_MS / 1000f, drawArea)
-            }
+        elapsedMs += Replay.STEP_MS
+        // A party waits for its delay, like it does in KonfettiView
+        if (elapsedMs >= party.delay) particles = system.render(Replay.STEP_MS / 1000f, drawArea)
     }
 
     private fun reset() {
-        systems = newSystems()
+        system = newSystem()
         elapsedMs = 0L
         particles = emptyList()
     }
 
-    // Each party gets its own seed, so changing one lane doesn't reshuffle the others
-    private fun newSystems() =
-        parties.mapIndexed { i, party ->
-            PartySystem(party, createdAt = 0L, pixelDensity = pixelDensity, random = Random(seed + i))
-        }
-
-    companion object {
-        // One frame at 60 fps
-        const val STEP_MS = 16L
-    }
+    private fun newSystem() = PartySystem(party, createdAt = 0L, pixelDensity = pixelDensity, random = Random(seed))
 }
 
 // Time it takes the last confetti to fade out, 5 alpha per frame at 60 fps
