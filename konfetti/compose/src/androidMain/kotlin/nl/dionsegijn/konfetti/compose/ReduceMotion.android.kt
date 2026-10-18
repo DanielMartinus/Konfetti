@@ -1,3 +1,6 @@
+// Keeps the JVM class name from before 3.0, so existing callers keep working
+@file:JvmName("ReduceMotionKt")
+
 package nl.dionsegijn.konfetti.compose
 
 import android.content.Context
@@ -6,12 +9,8 @@ import androidx.compose.runtime.Composable
 import androidx.compose.runtime.remember
 import androidx.compose.ui.platform.LocalContext
 
-/**
- * True when the user turned on "Remove animations" in the accessibility settings.
- * Check it before starting a party, for example to skip the confetti.
- */
 @Composable
-fun rememberReduceMotion(): Boolean {
+actual fun rememberReduceMotion(): Boolean {
     val context = LocalContext.current
     return remember(context) { isReduceMotionEnabled(context) }
 }
