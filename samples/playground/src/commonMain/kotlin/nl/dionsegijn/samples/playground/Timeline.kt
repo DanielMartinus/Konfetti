@@ -31,15 +31,18 @@ import androidx.compose.ui.geometry.Offset
 import androidx.compose.ui.geometry.Size
 import androidx.compose.ui.graphics.Brush
 import androidx.compose.ui.graphics.Path
+import androidx.compose.ui.graphics.StrokeCap
+import androidx.compose.ui.graphics.StrokeJoin
 import androidx.compose.ui.graphics.drawscope.Stroke
 import androidx.compose.ui.input.pointer.pointerInput
+import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.style.TextOverflow
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import nl.dionsegijn.konfetti.core.Party
 
 private val RULER_HEIGHT = 18.dp
-private val LANE_HEIGHT = 18.dp
+private val LANE_HEIGHT = 22.dp
 private val LANE_GAP = 4.dp
 private val ROW_GAP = 8.dp
 private val CHART_HEIGHT = 36.dp
@@ -102,15 +105,12 @@ private fun Tracks(
                 }
             }.drawWithContent {
                 drawContent()
-                // Playhead: a pink line with a little tab on top
+                // Playhead: a thin pink line with a knob in the gap below the ruler, clear of the labels
                 val x = size.width * (timeMs.toFloat() / lengthMs).coerceIn(0f, 1f)
-                drawLine(Palette.accent, Offset(x, 12.dp.toPx()), Offset(x, size.height), strokeWidth = 2.dp.toPx())
-                drawRoundRect(
-                    color = Palette.accent,
-                    topLeft = Offset(x - 6.dp.toPx(), 2.dp.toPx()),
-                    size = Size(12.dp.toPx(), 12.dp.toPx()),
-                    cornerRadius = CornerRadius(4.dp.toPx()),
-                )
+                val knob = Offset(x, (RULER_HEIGHT + ROW_GAP / 2).toPx())
+                drawLine(Palette.accent, knob, Offset(x, size.height), strokeWidth = 1.5.dp.toPx(), cap = StrokeCap.Round)
+                drawCircle(Palette.paper, radius = 6.dp.toPx(), center = knob)
+                drawCircle(Palette.accent, radius = 4.5.dp.toPx(), center = knob)
             },
     ) {
         val width = maxWidth
@@ -120,21 +120,24 @@ private fun Tracks(
                 parties.forEachIndexed { i, party ->
                     val start = (party.startMs().toFloat() / lengthMs).coerceIn(0f, 1f)
                     val end = (party.endMs().toFloat() / lengthMs).coerceIn(start, 1f)
-                    Box(Modifier.fillMaxWidth().height(LANE_HEIGHT).background(Palette.soft, RoundedCornerShape(5.dp))) {
+                    val chosen = i == selected
+                    Box(Modifier.fillMaxWidth().height(LANE_HEIGHT).background(Palette.soft, RoundedCornerShape(50))) {
                         Box(
                             Modifier
                                 .offset(x = width * start)
                                 .width(width * (end - start))
                                 .fillMaxHeight()
-                                .background(if (i == selected) Palette.accent else Palette.ink, RoundedCornerShape(4.dp))
-                                .padding(start = 8.dp),
+                                .background(if (chosen) Palette.accent.copy(alpha = 0.14f) else Palette.line, RoundedCornerShape(50))
+                                .border(1.dp, if (chosen) Palette.accent.copy(alpha = 0.5f) else Palette.line, RoundedCornerShape(50))
+                                .padding(start = 10.dp),
                             contentAlignment = Alignment.CenterStart,
                         ) {
                             Text(
                                 party.laneLabel(),
                                 fontFamily = Mono,
                                 fontSize = 10.sp,
-                                color = Palette.paper,
+                                fontWeight = if (chosen) FontWeight.SemiBold else FontWeight.Normal,
+                                color = if (chosen) Palette.accent else Palette.muted,
                                 maxLines = 1,
                                 overflow = TextOverflow.Clip,
                             )
@@ -209,8 +212,9 @@ private fun CountChart(counts: List<Int>) {
                 lineTo(0f, size.height)
                 close()
             }
-        drawPath(area, Brush.horizontalGradient(Palette.confetti), alpha = 0.55f)
-        drawPath(line, Palette.ink, style = Stroke(width = 1.25.dp.toPx()))
+        val confetti = Brush.horizontalGradient(Palette.confetti)
+        drawPath(area, confetti, alpha = 0.35f)
+        drawPath(line, confetti, style = Stroke(width = 1.5.dp.toPx(), cap = StrokeCap.Round, join = StrokeJoin.Round))
     }
 }
 
