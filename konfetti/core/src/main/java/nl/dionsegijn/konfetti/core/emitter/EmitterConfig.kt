@@ -1,14 +1,18 @@
 package nl.dionsegijn.konfetti.core.emitter
 
-import java.util.concurrent.TimeUnit
+import kotlin.time.Duration
+import kotlin.time.DurationUnit
+import kotlin.time.toDuration
 
 /**
  * Emitter class that holds the duration that the emitter will create confetti particles
  */
 data class Emitter(
     val duration: Long,
-    val timeUnit: TimeUnit = TimeUnit.MILLISECONDS,
+    val timeUnit: DurationUnit = DurationUnit.MILLISECONDS,
 ) {
+    constructor(duration: Duration) : this(duration.inWholeMilliseconds, DurationUnit.MILLISECONDS)
+
     /**
      * Max amount of particles that will be created over the duration that is set
      */
@@ -41,7 +45,7 @@ class EmitterConfig(
 
     init {
         val (duration, timeUnit) = emitter
-        this.emittingTime = TimeUnit.MILLISECONDS.convert(duration, timeUnit)
+        this.emittingTime = duration.toDuration(timeUnit).inWholeMilliseconds
     }
 
     /**

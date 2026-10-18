@@ -7,7 +7,7 @@ import android.os.Bundle;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.core.content.ContextCompat;
 import java.util.Arrays;
-import java.util.concurrent.TimeUnit;
+import kotlin.time.DurationUnit;
 import nl.dionsegijn.konfetti.core.Angle;
 import nl.dionsegijn.konfetti.core.Party;
 import nl.dionsegijn.konfetti.core.PartyFactory;
@@ -34,7 +34,7 @@ public class MainActivity extends AppCompatActivity {
     drawableShape = ImageUtil.loadDrawable(drawable, true, true);
 
     konfettiView = findViewById(R.id.konfettiView);
-    EmitterConfig emitterConfig = new Emitter(5L, TimeUnit.SECONDS).perSecond(50);
+    EmitterConfig emitterConfig = new Emitter(5L, DurationUnit.SECONDS).perSecond(50);
     Party party =
         new PartyFactory(emitterConfig)
             .angle(270)
@@ -65,7 +65,7 @@ public class MainActivity extends AppCompatActivity {
   }
 
   public void explode() {
-    EmitterConfig emitterConfig = new Emitter(100L, TimeUnit.MILLISECONDS).max(100);
+    EmitterConfig emitterConfig = new Emitter(100L, DurationUnit.MILLISECONDS).max(100);
     konfettiView.start(
         new PartyFactory(emitterConfig)
             .spread(360)
@@ -77,7 +77,7 @@ public class MainActivity extends AppCompatActivity {
   }
 
   public void parade() {
-    EmitterConfig emitterConfig = new Emitter(5, TimeUnit.SECONDS).perSecond(30);
+    EmitterConfig emitterConfig = new Emitter(5, DurationUnit.SECONDS).perSecond(30);
     konfettiView.start(
         new PartyFactory(emitterConfig)
             .angle(Angle.RIGHT - 45)
@@ -98,7 +98,7 @@ public class MainActivity extends AppCompatActivity {
   }
 
   public void rain() {
-    EmitterConfig emitterConfig = new Emitter(5, TimeUnit.SECONDS).perSecond(100);
+    EmitterConfig emitterConfig = new Emitter(5, DurationUnit.SECONDS).perSecond(100);
     konfettiView.start(
         new PartyFactory(emitterConfig)
             .angle(Angle.BOTTOM)

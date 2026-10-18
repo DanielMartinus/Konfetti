@@ -230,15 +230,16 @@ public final class nl/dionsegijn/konfetti/core/emitter/Confetti$Companion {
 }
 
 public final class nl/dionsegijn/konfetti/core/emitter/Emitter {
-	public fun <init> (JLjava/util/concurrent/TimeUnit;)V
-	public synthetic fun <init> (JLjava/util/concurrent/TimeUnit;ILkotlin/jvm/internal/DefaultConstructorMarker;)V
+	public synthetic fun <init> (JLkotlin/jvm/internal/DefaultConstructorMarker;)V
+	public fun <init> (JLkotlin/time/DurationUnit;)V
+	public synthetic fun <init> (JLkotlin/time/DurationUnit;ILkotlin/jvm/internal/DefaultConstructorMarker;)V
 	public final fun component1 ()J
-	public final fun component2 ()Ljava/util/concurrent/TimeUnit;
-	public final fun copy (JLjava/util/concurrent/TimeUnit;)Lnl/dionsegijn/konfetti/core/emitter/Emitter;
-	public static synthetic fun copy$default (Lnl/dionsegijn/konfetti/core/emitter/Emitter;JLjava/util/concurrent/TimeUnit;ILjava/lang/Object;)Lnl/dionsegijn/konfetti/core/emitter/Emitter;
+	public final fun component2 ()Lkotlin/time/DurationUnit;
+	public final fun copy (JLkotlin/time/DurationUnit;)Lnl/dionsegijn/konfetti/core/emitter/Emitter;
+	public static synthetic fun copy$default (Lnl/dionsegijn/konfetti/core/emitter/Emitter;JLkotlin/time/DurationUnit;ILjava/lang/Object;)Lnl/dionsegijn/konfetti/core/emitter/Emitter;
 	public fun equals (Ljava/lang/Object;)Z
 	public final fun getDuration ()J
-	public final fun getTimeUnit ()Ljava/util/concurrent/TimeUnit;
+	public final fun getTimeUnit ()Lkotlin/time/DurationUnit;
 	public fun hashCode ()I
 	public final fun max (I)Lnl/dionsegijn/konfetti/core/emitter/EmitterConfig;
 	public final fun perSecond (I)Lnl/dionsegijn/konfetti/core/emitter/EmitterConfig;
@@ -253,6 +254,10 @@ public final class nl/dionsegijn/konfetti/core/emitter/EmitterConfig {
 	public final fun perSecond (I)Lnl/dionsegijn/konfetti/core/emitter/EmitterConfig;
 	public final fun setAmountPerMs (F)V
 	public final fun setEmittingTime (J)V
+}
+
+public final class nl/dionsegijn/konfetti/core/emitter/EmitterTimeUnitKt {
+	public static final fun Emitter (JLjava/util/concurrent/TimeUnit;)Lnl/dionsegijn/konfetti/core/emitter/Emitter;
 }
 
 public final class nl/dionsegijn/konfetti/core/emitter/PartyEmitter : nl/dionsegijn/konfetti/core/emitter/BaseEmitter {
