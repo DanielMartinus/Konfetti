@@ -22,6 +22,11 @@ kotlin {
         compileSdk = libs.versions.compileSdk.get().toInt()
         minSdk = 23
 
+        // The mono font ships as an Android asset
+        androidResources {
+            enable = true
+        }
+
         compilerOptions {
             jvmTarget.set(JvmTarget.JVM_11)
         }
@@ -40,9 +45,15 @@ kotlin {
             implementation(libs.cmp.foundation)
             implementation(libs.cmp.ui)
             implementation(libs.cmp.material)
+            implementation(libs.cmp.resources)
         }
         commonTest.dependencies {
             implementation(libs.kotlin.test)
         }
     }
+}
+
+// JetBrains Mono, so code and numbers look the same on every platform, see files/JetBrainsMono-OFL.txt
+compose.resources {
+    packageOfResClass = "nl.dionsegijn.samples.playground.resources"
 }

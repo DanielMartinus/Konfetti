@@ -10,7 +10,12 @@ import androidx.compose.ui.geometry.Size
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.graphics.drawscope.rotate
 import androidx.compose.ui.text.font.FontFamily
+import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
+import nl.dionsegijn.samples.playground.resources.Res
+import nl.dionsegijn.samples.playground.resources.jetbrains_mono_regular
+import nl.dionsegijn.samples.playground.resources.jetbrains_mono_semibold
+import org.jetbrains.compose.resources.Font
 
 // Same palette as the konfetti.dev mockup: white paper, ink, and the confetti colors as accents
 internal object Palette {
@@ -24,7 +29,13 @@ internal object Palette {
     val confetti = listOf(Color(0xFFFCE18A), Color(0xFFFF726D), Color(0xFFF4306D), Color(0xFFB48DEF))
 }
 
-internal val Mono = FontFamily.Monospace
+// Bundled, because the web build has no monospace font to fall back to
+internal val Mono: FontFamily
+    @Composable get() =
+        FontFamily(
+            Font(Res.font.jetbrains_mono_regular, FontWeight.Normal),
+            Font(Res.font.jetbrains_mono_semibold, FontWeight.SemiBold),
+        )
 
 /** Four little pieces of confetti, the Konfetti logo */
 @Composable
