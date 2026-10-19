@@ -49,6 +49,9 @@ captures/
 # Intellij
 *.iml
 
+# Local copies of plans
+.plans/
+
 
 # Keystore files
 *.jks
