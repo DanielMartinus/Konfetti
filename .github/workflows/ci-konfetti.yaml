@@ -29,6 +29,13 @@ jobs:
       - name: Test core on jvm, wasm and js
         run: ./gradlew :konfetti:core:jvmTest :konfetti:core:wasmJsNodeTest :konfetti:core:jsNodeTest --console=plain
 
+      - name: Test json on jvm, wasm and js
+        run: ./gradlew :konfetti:json:jvmTest :konfetti:json:wasmJsNodeTest :konfetti:json:jsNodeTest --console=plain
+
+      # The web module has no tests yet, so only check that it still compiles
+      - name: Compile web
+        run: ./gradlew :konfetti:web:compileKotlinJs --console=plain
+
       - name: Test compose, xml and the playground
         run: ./gradlew :konfetti:compose:jvmTest :konfetti:compose:testAndroidHostTest :konfetti:xml:testDebugUnitTest :samples:playground:jvmTest --console=plain
 
@@ -63,7 +70,7 @@ jobs:
             ${{ runner.os }}-gradle-
 
       - name: Test on the iOS simulator
-        run: ./gradlew :konfetti:core:iosSimulatorArm64Test :konfetti:compose:iosSimulatorArm64Test :samples:playground:iosSimulatorArm64Test --console=plain
+        run: ./gradlew :konfetti:core:iosSimulatorArm64Test :konfetti:json:iosSimulatorArm64Test :konfetti:compose:iosSimulatorArm64Test :samples:playground:iosSimulatorArm64Test --console=plain
 
       - name: Link the demo framework
         run: ./gradlew :samples:multiplatform:composeApp:linkDebugFrameworkIosSimulatorArm64 --console=plain
