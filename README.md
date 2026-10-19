@@ -11,7 +11,7 @@
 
 <p align="center">
     <a href="https://opensource.org/licenses/ISC"><img alt="License" src="https://img.shields.io/badge/License-ISC-yellow.svg"/></a>
-    <a href="https://android-arsenal.com/api?level=15"><img alt="API level 15" src="https://img.shields.io/badge/API-15%2B-brightgreen.svg?style=flat"/></a>
+    <img alt="Platforms" src="https://img.shields.io/badge/platforms-Android%20%7C%20iOS%20%7C%20desktop%20%7C%20web-brightgreen.svg?style=flat"/>
     <a href="http://twitter.com/dionsegijn"><img alt="Twitter" src="https://img.shields.io/badge/Twitter-@dionsegijn-blue.svg?style=flat"/></a>
     <a href="https://github.com/DanielMartinus/Konfetti/actions"><img alt="Build Status" src="https://github.com/DanielMartinus/Konfetti/workflows/CI/badge.svg"/></a>
 </p>
@@ -19,6 +19,7 @@
 <p align="center">
   <a href="#getting-started">Getting started</a> •
   <a href="#usage">How To Use</a> •
+  <a href="#migrating-from-2x">Migrating from 2.x</a> •
   <a href="#community">Community</a> •
   <a href="#contribute">Contribute</a> •
   <a href="#report-an-issue">Report issue</a> •
@@ -26,26 +27,46 @@
 </p>
 
 <p align="center">
-  <strong>New version: 2.0.0 is now released! Jetpack compose support - improved animations and API - <a href="https://dionsegijn.dev/konfetti-migration-guide-v2.x.x">see migration guide here</a></strong>
+  <strong>3.0.0 is out! Konfetti is now Kotlin Multiplatform: Android, iOS, desktop and the web. <a href="https://danielmartinus.github.io/Konfetti">Try the playground</a> or <a href="#migrating-from-2x">see what changed</a></strong>
 </p>
 
 ## Getting started
 
-Compose project (min API 21):
-```groovy
-dependencies {
-    implementation 'nl.dionsegijn:konfetti-compose:2.2.0'
+Compose Multiplatform (Android, iOS, desktop and web):
+```kotlin
+kotlin {
+    sourceSets {
+        commonMain.dependencies {
+            implementation("nl.dionsegijn:konfetti-compose:3.0.0")
+        }
+    }
 }
 ```
 
-View based (XML) project (min API 15):
-```groovy
+Android with Jetpack Compose (min API 23, compileSdk 35):
+```kotlin
 dependencies {
-    implementation 'nl.dionsegijn:konfetti-xml:2.2.0'
+    implementation("nl.dionsegijn:konfetti-compose:3.0.0")
 }
 ```
 
-Both pull in `konfetti-core` and `konfetti-image` automatically. Core is plain Kotlin without Android, so you can also use it on its own to build your own renderer.
+Android with views (XML, min API 15):
+```kotlin
+dependencies {
+    implementation("nl.dionsegijn:konfetti-xml:3.0.0")
+}
+```
+
+Both pull in `konfetti-core` automatically. Core is plain Kotlin Multiplatform without any UI, so you can also use it on its own to build your own renderer.
+
+| Platform | Targets |
+|---|---|
+| Android | Compose and XML views |
+| iOS | `iosArm64`, `iosSimulatorArm64` with Compose Multiplatform |
+| Desktop | JVM with Compose for Desktop |
+| Web | `wasmJs` and `js` with Compose Multiplatform |
+
+Want to see it first? The [playground](https://danielmartinus.github.io/Konfetti) runs in your browser. Scrub through a party on the timeline, tweak it and copy the code.
 
 Find latest version and release notes [here](https://github.com/DanielMartinus/Konfetti/releases)
 
@@ -53,6 +74,8 @@ Find latest version and release notes [here](https://github.com/DanielMartinus/K
 
 <p align="center">
   <strong>Samples:</strong></br>
+  <a href="/samples/multiplatform">multiplatform</a> •
+  <a href="/samples/playground/src/commonMain">playground</a> •
   <a href="/samples/compose-kotlin/src/main">compose</a> •
   <a href="/samples/xml-kotlin/src/main">xml-kotlin</a> •
   <a href="/samples/xml-java/src/main">xml-java</a> •
@@ -70,7 +93,7 @@ Almost all properties of a Party object have a default configuration! This makes
 The bare minimum you need is an **Emitter** to tell how often and how many confetti should spawn, like this:
 ```kotlin
 Party(
-    emitter = Emitter(duration = 5, TimeUnit.SECONDS).perSecond(30)
+    emitter = Emitter(5.seconds).perSecond(30)
 )
 ```
 
@@ -85,7 +108,7 @@ Party(
     spread = 360,
     colors = listOf(0xfce18a, 0xff726d, 0xf4306d, 0xb48def),
     position = Position.Relative(0.5, 0.3),
-    emitter = Emitter(duration = 100, TimeUnit.MILLISECONDS).max(100)
+    emitter = Emitter(100.milliseconds).max(100)
 )
 ```
 _To learn more, see more samples linked at the top of [this section](#usage)_
@@ -108,9 +131,9 @@ _To learn more, see more samples linked at the top of [this section](#usage)_
  - `delay` - **Int (default: 0)**: the amount of milliseconds to wait before the rendering of the confetti starts
  - `rotation` - **Rotation (default: Rotation)**: enable the 3D rotation of a Confetti. See [Rotation] class for the configuration
  options. Easily enable or disable it using [Rotation].enabled() or [Rotation].disabled() and control the speed of rotations.
- - `emitter` - **EmitterConfig**: Instructions how many and how often a confetti particle should spawn. Use Emitter(duration, timeUnit).max(amount) or Emitter(duration, timeUnit).perSecond(amount) to configure the Emitter. 
+ - `emitter` - **EmitterConfig**: Instructions how many and how often a confetti particle should spawn. Use `Emitter(duration).max(amount)` or `Emitter(duration).perSecond(amount)` to configure the Emitter, for example `Emitter(5.seconds).perSecond(30)`. 
 
-See Party implementation [here](/konfetti/core/src/main/java/nl/dionsegijn/konfetti/core/Party.kt)
+See Party implementation [here](/konfetti/core/src/commonMain/kotlin/nl/dionsegijn/konfetti/core/Party.kt)
 
 ### Shapes
 
@@ -137,7 +160,16 @@ Stars take a bit more work to draw than the other shapes, so for very big partie
 
 #### Your own image
 
-Any drawable works as confetti too. By default it gets the confetti colors on top and fades out at the end. Turn that off to keep the image as it is:
+Images work as confetti too. By default they get the confetti colors on top and fade out at the end. Turn that off to keep the image as it is.
+
+With Compose, on every platform, use an `ImageBitmap` or a `Painter`, for example from Compose resources:
+
+```kotlin
+val heart = imageShape(painterResource(Res.drawable.heart))
+val logo = imageShape(imageBitmap, tint = false)
+```
+
+On Android you can also use any drawable:
 
 ```kotlin
 // Colored like the rest of the confetti
@@ -200,7 +232,7 @@ Party(
     damping = 0.9f,
     spread = 360,
     colors = listOf(0xfce18a, 0xff726d, 0xf4306d, 0xb48def),
-    emitter = Emitter(duration = 100, TimeUnit.MILLISECONDS).max(100),
+    emitter = Emitter(100.milliseconds).max(100),
     position = Position.Relative(0.5, 0.3)
 )
 viewKonfetti.start(party)
@@ -239,10 +271,10 @@ Konfetti draws in the order of your layout, like any other view or composable.
 
 #### Remove animations
 
-Some people turn on "Remove animations" in the accessibility settings, for example because motion makes them feel sick. Konfetti doesn't change anything by itself, but you can check the setting and skip the confetti or show something calmer instead:
+Some people turn on "Remove animations" (Android) or "Reduce Motion" (iOS and the browser) in their settings, for example because motion makes them feel sick. Konfetti doesn't change anything by itself, but you can check the setting and skip the confetti or show something calmer instead:
 
 ```kotlin
-// Compose
+// Compose, on desktop this is always false
 val reduceMotion = rememberReduceMotion()
 Button(onClick = { if (!reduceMotion) konfetti.start(party) }) { Text("Celebrate") }
 
@@ -251,6 +283,19 @@ if (!KonfettiView.isReduceMotionEnabled(context)) konfettiView.start(party)
 ```
 
 And that's it! There are endless possibilities to configure the confetti. If you want to learn more on how to implement Konfetti in a java, xml or compose project then see the samples linked at the top of [this section](#usage)
+
+## Migrating from 2.x
+
+Most apps only need to bump the version. Party, Position, Shape and the rest of the API work as before. These are the things that did change:
+
+- **Compose Multiplatform.** `konfetti-compose` is built with Compose Multiplatform 1.11. On Android that means min API 23 (was 21) and compileSdk 35 or higher.
+- **Emitter takes a Duration.** Write `Emitter(5.seconds)` or `Emitter(5, DurationUnit.SECONDS)`. In Kotlin on Android and the JVM, `Emitter(5, TimeUnit.SECONDS)` still works. From Java, use `new Emitter(5L, DurationUnit.SECONDS)`. `Emitter.timeUnit` is now a `DurationUnit`.
+- **Smoother on fast screens.** Confetti now moves by time instead of by frame. On 60 Hz screens it looks the same as before. On 90 and 120 Hz screens it now looks the same as on 60 Hz, where before it fell and slowed down at a different pace.
+- **kotlin.random.** If you built your own renderer on `konfetti-core`, `PartySystem` and `PartyEmitter` now take a `kotlin.random.Random` instead of a `java.util.Random`.
+
+`konfetti-xml` and `konfetti-image` stay Android only and still support API 15.
+
+Coming from 1.x? See the [2.0 migration guide](https://dionsegijn.dev/konfetti-migration-guide-v2.x.x) first.
 
 ## Community
 
