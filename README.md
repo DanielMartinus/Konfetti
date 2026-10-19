@@ -1,19 +1,33 @@
-<!-- LOGO -->
-<br />
-<h1>
 <p align="center">
-  <img src="https://user-images.githubusercontent.com/1636897/147644327-112cc446-75ea-4477-80ac-1d0cd60fc45e.png" alt="Logo">
-</h1>
-<p align="center">
-    Easily celebrate little and big moments in your app with this lightweight confetti library!
-    <br />
+  <picture>
+    <source media="(prefers-color-scheme: dark)" srcset=".github/images/logo-dark.svg">
+    <img src=".github/images/logo-light.svg" alt="Konfetti" width="420">
+  </picture>
 </p>
 
 <p align="center">
-    <a href="https://opensource.org/licenses/ISC"><img alt="License" src="https://img.shields.io/badge/License-ISC-yellow.svg"/></a>
-    <img alt="Platforms" src="https://img.shields.io/badge/platforms-Android%20%7C%20iOS%20%7C%20desktop%20%7C%20web-brightgreen.svg?style=flat"/>
-    <a href="http://twitter.com/dionsegijn"><img alt="Twitter" src="https://img.shields.io/badge/Twitter-@dionsegijn-blue.svg?style=flat"/></a>
-    <a href="https://github.com/DanielMartinus/Konfetti/actions"><img alt="Build Status" src="https://github.com/DanielMartinus/Konfetti/workflows/CI/badge.svg"/></a>
+  Celebrate little and big moments in your app with this lightweight confetti library.<br />
+  Now on Android, iOS, desktop and the web.
+</p>
+
+<p align="center">
+  <a href="https://opensource.org/licenses/ISC"><img alt="License" src="https://img.shields.io/badge/License-ISC-yellow.svg"/></a>
+  <img alt="Platforms" src="https://img.shields.io/badge/platforms-Android%20%7C%20iOS%20%7C%20desktop%20%7C%20web-brightgreen.svg?style=flat"/>
+  <a href="http://twitter.com/dionsegijn"><img alt="Twitter" src="https://img.shields.io/badge/Twitter-@dionsegijn-blue.svg?style=flat"/></a>
+  <a href="https://github.com/DanielMartinus/Konfetti/actions"><img alt="Build Status" src="https://github.com/DanielMartinus/Konfetti/workflows/CI/badge.svg"/></a>
+</p>
+
+<p align="center">
+  <a href="https://danielmartinus.github.io/konfetti.studio/"><img alt="Open Konfetti Studio" src="https://img.shields.io/badge/Open_Konfetti_Studio-F4306D?style=for-the-badge"/></a>
+  <a href="https://danielmartinus.github.io/Konfetti"><img alt="Try the playground" src="https://img.shields.io/badge/Try_the_playground-B48DEF?style=for-the-badge"/></a>
+</p>
+
+<p align="center">
+  <a href="https://danielmartinus.github.io/konfetti.studio/"><img src=".github/images/konfetti-studio.jpg" alt="Konfetti Studio" width="800"></a>
+</p>
+
+<p align="center">
+  <strong>Konfetti Studio</strong> lets you design a party visually, see it on real screen sizes and export it to each platform.
 </p>
 
 <p align="center">
@@ -22,13 +36,10 @@
   <a href="#migrating-from-2x">Migrating from 2.x</a> •
   <a href="#community">Community</a> •
   <a href="#contribute">Contribute</a> •
-  <a href="#report-an-issue">Report issue</a> •
   <a href="#license">License</a>
 </p>
 
-<p align="center">
-  <strong>3.0.0 is out! Konfetti is now Kotlin Multiplatform: Android, iOS, desktop and the web. <a href="https://danielmartinus.github.io/Konfetti">Try the playground</a> or <a href="#migrating-from-2x">see what changed</a></strong>
-</p>
+> **3.0.0 is out!** Konfetti is now Kotlin Multiplatform. Most apps only need to bump the version, [see what changed](#migrating-from-2x).
 
 ## Getting started
 
@@ -67,6 +78,8 @@ Both pull in `konfetti-core` automatically. Core is plain Kotlin Multiplatform w
 | Web | `wasmJs` and `js` with Compose Multiplatform |
 
 Want to see it first? The [playground](https://danielmartinus.github.io/Konfetti) runs in your browser. Scrub through a party on the timeline, tweak it and copy the code.
+
+Want to design your own? [Konfetti Studio](https://danielmartinus.github.io/konfetti.studio/) lets you build a party visually and export it to each platform.
 
 Find latest version and release notes [here](https://github.com/DanielMartinus/Konfetti/releases)
 
