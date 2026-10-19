@@ -11,7 +11,9 @@ include(
     ":konfetti:xml",
     ":konfetti:compose",
     ":konfetti:core",
-    ":konfetti:image"
+    ":konfetti:image",
+    ":konfetti:json",
+    ":konfetti:web",
 )
 // Benchmark modules
 include(":konfetti:benchmark")

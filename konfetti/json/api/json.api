@@ -1,0 +1,14 @@
+public final class nl/dionsegijn/konfetti/json/KonfettiJson {
+	public static final field INSTANCE Lnl/dionsegijn/konfetti/json/KonfettiJson;
+	public static final field VERSION I
+	public final fun decode (Ljava/lang/String;FLkotlin/jvm/functions/Function1;)Ljava/util/List;
+	public static synthetic fun decode$default (Lnl/dionsegijn/konfetti/json/KonfettiJson;Ljava/lang/String;FLkotlin/jvm/functions/Function1;ILjava/lang/Object;)Ljava/util/List;
+	public final fun encode (Ljava/util/List;Ljava/util/List;ZLkotlin/jvm/functions/Function1;)Ljava/lang/String;
+	public static synthetic fun encode$default (Lnl/dionsegijn/konfetti/json/KonfettiJson;Ljava/util/List;Ljava/util/List;ZLkotlin/jvm/functions/Function1;ILjava/lang/Object;)Ljava/lang/String;
+}
+
+public final class nl/dionsegijn/konfetti/json/KonfettiJsonException : java/lang/IllegalArgumentException {
+	public fun <init> (Ljava/lang/String;Ljava/lang/Throwable;)V
+	public synthetic fun <init> (Ljava/lang/String;Ljava/lang/Throwable;ILkotlin/jvm/internal/DefaultConstructorMarker;)V
+}
+
