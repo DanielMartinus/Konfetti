@@ -42,6 +42,7 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.shadow
 import androidx.compose.ui.geometry.Offset
+import androidx.compose.ui.graphics.StrokeCap
 import androidx.compose.ui.input.pointer.pointerInput
 import androidx.compose.ui.layout.onSizeChanged
 import androidx.compose.ui.platform.LocalClipboardManager
@@ -139,7 +140,7 @@ fun Playground(
         )
         Column(Modifier.fillMaxSize().windowInsetsPadding(WindowInsets.safeDrawing)) {
             TopBar(onClose)
-            PresetPicker(presets, presetName, onPick = ::load)
+            PresetPicker(presets, presetName, onPick = ::load, Modifier.align(Alignment.CenterHorizontally))
             Spacer(Modifier.weight(1f))
             Card {
                 SheetHandle(
@@ -189,7 +190,7 @@ fun Playground(
 @Composable
 private fun TopBar(onClose: (() -> Unit)?) {
     Row(
-        Modifier.fillMaxWidth().padding(horizontal = 16.dp, vertical = 8.dp),
+        Modifier.fillMaxWidth().padding(start = 16.dp, top = 16.dp, end = 16.dp, bottom = 12.dp),
         verticalAlignment = Alignment.CenterVertically,
     ) {
         if (onClose != null) {
@@ -247,9 +248,10 @@ private fun PresetPicker(
     presets: List<Preset>,
     current: String,
     onPick: (Preset) -> Unit,
+    modifier: Modifier = Modifier,
 ) {
     Row(
-        Modifier
+        modifier
             .padding(horizontal = 16.dp)
             .background(Palette.soft, RoundedCornerShape(50))
             .horizontalScroll(rememberScrollState())
@@ -353,9 +355,19 @@ private fun SheetTabs(
                     .clickable(onClick = onClose),
                 contentAlignment = Alignment.Center,
             ) {
-                Text("⌄", fontSize = 18.sp, color = Palette.ink)
+                Chevron()
             }
         }
+    }
+}
+
+// Drawn instead of a "⌄", which the web build has no font for
+@Composable
+private fun Chevron() {
+    Canvas(Modifier.size(width = 12.dp, height = 7.dp)) {
+        val stroke = 1.75.dp.toPx()
+        drawLine(Palette.ink, Offset(stroke, stroke), Offset(size.width / 2, size.height - stroke), stroke, StrokeCap.Round)
+        drawLine(Palette.ink, Offset(size.width / 2, size.height - stroke), Offset(size.width - stroke, stroke), stroke, StrokeCap.Round)
     }
 }
 
