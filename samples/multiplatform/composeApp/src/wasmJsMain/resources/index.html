@@ -20,7 +20,7 @@
             <a href="#start">Get started</a>
             <a href="#studio">Studio</a>
         </nav>
-        <a class="nav-gh" href="https://github.com/DanielMartinus/Konfetti">GitHub</a>
+        <a class="nav-gh" href="https://github.com/DanielMartinus/Konfetti" data-goatcounter-click="kmp/github" data-goatcounter-title="Nav">GitHub</a>
     </div>
 </header>
 
@@ -33,7 +33,7 @@
                 <p>Celebrate on Android, iOS, desktop and the web from a single Kotlin codebase. Same Party API, same physics, now in <code>commonMain</code>.</p>
                 <div class="cta-row">
                     <a class="btn btn-dark" href="#start">Get started <span class="arrow">→</span></a>
-                    <a class="btn btn-light" href="https://github.com/DanielMartinus/Konfetti">View on GitHub</a>
+                    <a class="btn btn-light" href="https://github.com/DanielMartinus/Konfetti" data-goatcounter-click="kmp/github" data-goatcounter-title="Hero">View on GitHub</a>
                 </div>
                 <p class="hint">The playground is Konfetti itself, running on Kotlin/Wasm. Pick a preset, scrub the timeline, tweak a lane and copy the code.</p>
             </div>
@@ -174,7 +174,7 @@ binding.konfettiView.start(
             </div>
             <div class="studio-copy">
                 <p>Stack parties, set their timing and see the result as you go. When it looks right, copy the Party code straight into your project.</p>
-                <a class="btn btn-dark" href="https://danielmartinus.github.io/konfetti.studio">Open Studio <span class="arrow">→</span></a>
+                <a class="btn btn-dark" href="https://danielmartinus.github.io/konfetti.studio" data-goatcounter-click="kmp/studio-cta" data-goatcounter-title="Open Studio">Open Studio <span class="arrow">→</span></a>
             </div>
         </div>
     </section>
@@ -184,7 +184,7 @@ binding.konfettiView.start(
     <div class="wrap foot">
         <div>Konfetti by Dion Segijn · ISC license</div>
         <nav aria-label="Footer">
-            <a href="https://github.com/DanielMartinus/Konfetti">GitHub</a>
+            <a href="https://github.com/DanielMartinus/Konfetti" data-goatcounter-click="kmp/github" data-goatcounter-title="Footer">GitHub</a>
             <a href="https://github.com/DanielMartinus/Konfetti/releases">Releases</a>
             <a href="https://github.com/DanielMartinus/Konfetti/issues">Report an issue</a>
         </nav>
@@ -192,6 +192,9 @@ binding.konfettiView.start(
 </footer>
 
 <script>
+    // Counts an action in GoatCounter, skipped when the script is blocked or still loading
+    const count = name => window.goatcounter?.count?.({ path: `kmp/${name}`, event: true });
+
     // Frosted nav once the page scrolls
     const nav = document.getElementById('nav');
     const onScroll = () => nav.classList.toggle('scrolled', scrollY > 8);
@@ -208,6 +211,7 @@ binding.konfettiView.start(
             document.getElementById(t.getAttribute('aria-controls')).hidden = !on;
         });
         document.getElementById('tabNote').textContent = document.getElementById(tab.getAttribute('aria-controls')).dataset.note;
+        count(`tab-${tab.getAttribute('aria-controls').replace('pane-', '')}`);
     };
     tabs.forEach((tab, i) => {
         tab.addEventListener('click', () => pick(tab));
@@ -229,6 +233,7 @@ binding.konfettiView.start(
             try {
                 await navigator.clipboard.writeText(box.querySelector('pre').innerText);
                 button.textContent = 'Copied';
+                count(`copy-${box.closest('[role=tabpanel]').id.replace('pane-', '')}`);
             } catch {
                 button.textContent = 'Select and copy';
             }
