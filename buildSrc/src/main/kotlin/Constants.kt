@@ -1,3 +1,3 @@
 object Constants {
-    const val konfettiVersion = "2.2.0"
+    const val konfettiVersion = "3.0.0"
 }
