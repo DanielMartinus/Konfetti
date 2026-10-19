@@ -1,6 +1,5 @@
-package nl.dionsegijn.samples.playground
+package nl.dionsegijn.konfetti.core
 
-import nl.dionsegijn.konfetti.core.Party
 import nl.dionsegijn.konfetti.core.emitter.Emitter
 import nl.dionsegijn.konfetti.core.models.CoreRectImpl
 import kotlin.test.Test

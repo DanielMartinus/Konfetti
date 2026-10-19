@@ -40,6 +40,8 @@ import androidx.compose.ui.text.style.TextOverflow
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import nl.dionsegijn.konfetti.core.Party
+import nl.dionsegijn.konfetti.core.endMs
+import nl.dionsegijn.konfetti.core.startMs
 
 private val RULER_HEIGHT = 18.dp
 private val LANE_HEIGHT = 22.dp

@@ -10,6 +10,15 @@ public final class nl/dionsegijn/konfetti/core/Angle {
 public final class nl/dionsegijn/konfetti/core/Angle$Companion {
 }
 
+public final class nl/dionsegijn/konfetti/core/Lane {
+	public fun <init> (Lnl/dionsegijn/konfetti/core/Party;Lnl/dionsegijn/konfetti/core/models/CoreRect;FJ)V
+	public final fun getDrawArea ()Lnl/dionsegijn/konfetti/core/models/CoreRect;
+	public final fun getParty ()Lnl/dionsegijn/konfetti/core/Party;
+	public final fun getPixelDensity ()F
+	public final fun particleCounts (J)Ljava/util/List;
+	public final fun particlesAt (J)Ljava/util/List;
+}
+
 public final class nl/dionsegijn/konfetti/core/Particle {
 	public fun <init> (FFFFIFFLnl/dionsegijn/konfetti/core/models/Shape;I)V
 	public final fun component1 ()F
@@ -135,6 +144,14 @@ public final class nl/dionsegijn/konfetti/core/Position$Absolute : nl/dionsegijn
 	public fun toString ()Ljava/lang/String;
 }
 
+public final class nl/dionsegijn/konfetti/core/Position$Between : nl/dionsegijn/konfetti/core/Position {
+	public fun equals (Ljava/lang/Object;)Z
+	public final fun getMax ()Lnl/dionsegijn/konfetti/core/Position;
+	public final fun getMin ()Lnl/dionsegijn/konfetti/core/Position;
+	public fun hashCode ()I
+	public fun toString ()Ljava/lang/String;
+}
+
 public final class nl/dionsegijn/konfetti/core/Position$Relative : nl/dionsegijn/konfetti/core/Position {
 	public fun <init> (DD)V
 	public final fun between (Lnl/dionsegijn/konfetti/core/Position$Relative;)Lnl/dionsegijn/konfetti/core/Position;
@@ -147,6 +164,25 @@ public final class nl/dionsegijn/konfetti/core/Position$Relative : nl/dionsegijn
 	public final fun getY ()D
 	public fun hashCode ()I
 	public fun toString ()Ljava/lang/String;
+}
+
+public final class nl/dionsegijn/konfetti/core/Replay {
+	public static final field Companion Lnl/dionsegijn/konfetti/core/Replay$Companion;
+	public static final field STEP_MS J
+	public fun <init> (Ljava/util/List;)V
+	public fun <init> (Ljava/util/List;Lnl/dionsegijn/konfetti/core/models/CoreRect;F)V
+	public final fun edit (Ljava/util/List;Lnl/dionsegijn/konfetti/core/models/CoreRect;FJ)Lnl/dionsegijn/konfetti/core/Replay;
+	public final fun getLanes ()Ljava/util/List;
+	public final fun particleCounts (J)Ljava/util/List;
+	public final fun particlesAt (J)Ljava/util/List;
+}
+
+public final class nl/dionsegijn/konfetti/core/Replay$Companion {
+}
+
+public final class nl/dionsegijn/konfetti/core/ReplayKt {
+	public static final fun endMs (Lnl/dionsegijn/konfetti/core/Party;)J
+	public static final fun startMs (Lnl/dionsegijn/konfetti/core/Party;)J
 }
 
 public final class nl/dionsegijn/konfetti/core/Rotation {
@@ -248,8 +284,13 @@ public final class nl/dionsegijn/konfetti/core/emitter/Emitter {
 
 public final class nl/dionsegijn/konfetti/core/emitter/EmitterConfig {
 	public fun <init> (Lnl/dionsegijn/konfetti/core/emitter/Emitter;)V
+	public fun equals (Ljava/lang/Object;)Z
+	public final fun getAmount ()I
 	public final fun getAmountPerMs ()F
 	public final fun getEmittingTime ()J
+	public final fun getMaxParticles ()I
+	public fun hashCode ()I
+	public final fun isPerSecond ()Z
 	public final fun max (I)Lnl/dionsegijn/konfetti/core/emitter/EmitterConfig;
 	public final fun perSecond (I)Lnl/dionsegijn/konfetti/core/emitter/EmitterConfig;
 	public final fun setAmountPerMs (F)V

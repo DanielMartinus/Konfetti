@@ -1,8 +1,5 @@
-package nl.dionsegijn.samples.playground
+package nl.dionsegijn.konfetti.core
 
-import nl.dionsegijn.konfetti.core.Particle
-import nl.dionsegijn.konfetti.core.Party
-import nl.dionsegijn.konfetti.core.PartySystem
 import nl.dionsegijn.konfetti.core.models.CoreRect
 import kotlin.random.Random
 

@@ -99,14 +99,5 @@ private fun positionCode(position: Position): String =
     when (position) {
         is Position.Relative -> "Position.Relative(${position.x}, ${position.y})"
         is Position.Absolute -> "Position.Absolute(${floatCode(position.x)}, ${floatCode(position.y)})"
-        // Between is internal to core, so read its two ends back from its description
-        else -> {
-            val ends = Regex("""Relative\(x=([-\d.]+), y=([-\d.]+)\)""").findAll(position.toString()).toList()
-            if (ends.size == 2) {
-                val (from, to) = ends.map { "Position.Relative(${it.groupValues[1]}, ${it.groupValues[2]})" }
-                "$from.between($to)"
-            } else {
-                "Position.Relative(0.5, 0.5)"
-            }
-        }
+        is Position.Between -> "${positionCode(position.min)}.between(${positionCode(position.max)})"
     }

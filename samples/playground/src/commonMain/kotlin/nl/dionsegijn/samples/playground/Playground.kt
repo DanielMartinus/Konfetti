@@ -56,6 +56,8 @@ import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.flow.conflate
 import kotlinx.coroutines.withContext
 import nl.dionsegijn.konfetti.core.Party
+import nl.dionsegijn.konfetti.core.Replay
+import nl.dionsegijn.konfetti.core.endMs
 import nl.dionsegijn.konfetti.core.models.CoreRectImpl
 
 /** A named set of parties, like the presets in the samples */

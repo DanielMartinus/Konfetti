@@ -113,8 +113,17 @@ sealed class Position {
      * and [Relative] to connect two points
      * Example: Relative(0.0, 0.0).between(Relative(1.0, 0.0))
      * This will spawn confetti from the full width and top of the view
+     *
+     * Create one with between() on [Absolute] or [Relative]. [min] and [max] can be read back,
+     * for example to save a party as json.
      */
-    internal data class Between(val min: Position, val max: Position) : Position()
+    class Between internal constructor(val min: Position, val max: Position) : Position() {
+        override fun equals(other: Any?): Boolean = other is Between && other.min == min && other.max == max
+
+        override fun hashCode(): Int = 31 * min.hashCode() + max.hashCode()
+
+        override fun toString(): String = "Between(min=$min, max=$max)"
+    }
 }
 
 /**
