@@ -54,6 +54,7 @@ kotlin {
     sourceSets {
         commonMain.dependencies {
             implementation(project(path = ":konfetti:compose"))
+            implementation(project(path = ":konfetti:json"))
             implementation(project(path = ":samples:playground"))
 
             implementation(libs.cmp.foundation)

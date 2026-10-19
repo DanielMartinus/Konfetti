@@ -47,6 +47,7 @@ android {
 
 dependencies {
     implementation(project(path = ":konfetti:compose"))
+    implementation(project(path = ":konfetti:json"))
     implementation(project(path = ":samples:shared"))
 
     implementation(libs.androidx.core.ktx)

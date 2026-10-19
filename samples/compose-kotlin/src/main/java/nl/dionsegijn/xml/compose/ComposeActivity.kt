@@ -19,10 +19,12 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.input.pointer.pointerInput
 import androidx.compose.ui.platform.LocalContext
+import androidx.compose.ui.platform.LocalDensity
 import nl.dionsegijn.konfetti.compose.KonfettiView
 import nl.dionsegijn.konfetti.compose.rememberKonfettiState
 import nl.dionsegijn.konfetti.compose.rememberReduceMotion
 import nl.dionsegijn.konfetti.core.Party
+import nl.dionsegijn.konfetti.json.KonfettiJson
 import nl.dionsegijn.konfetti.xml.image.ImageUtil
 import nl.dionsegijn.samples.shared.Presets
 import nl.dionsegijn.xml.compose.ui.theme.KonfettiTheme
@@ -54,6 +56,13 @@ fun KonfettiUI() {
         remember(context) {
             ImageUtil.loadDrawable(AppCompatResources.getDrawable(context, R.drawable.ic_heart)!!)
         }
+    // A file exported from Konfetti Studio, to check the phone shows the same confetti as Studio
+    val density = LocalDensity.current.density
+    val studio =
+        remember(context, density) {
+            val json = context.resources.openRawResource(R.raw.studio_handoff).bufferedReader().use { it.readText() }
+            KonfettiJson.decode(json, density)
+        }
 
     Box(
         modifier =
@@ -83,6 +92,9 @@ fun KonfettiUI() {
             }
             Button(onClick = { celebrate(Presets.shapes()) }) {
                 Text(text = "Shapes")
+            }
+            Button(onClick = { celebrate(studio) }) {
+                Text(text = "Studio json")
             }
             Button(onClick = { konfetti.stopGracefully() }) {
                 Text(text = "Stop")
