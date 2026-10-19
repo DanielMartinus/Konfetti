@@ -3,6 +3,7 @@ import com.vanniktech.maven.publish.KotlinMultiplatform
 import com.vanniktech.maven.publish.SourcesJar
 import org.jetbrains.kotlin.gradle.ExperimentalWasmDsl
 import org.jetbrains.kotlin.gradle.dsl.JvmTarget
+import org.jetbrains.kotlin.gradle.dsl.KotlinVersion
 import org.jetbrains.kotlin.gradle.dsl.abi.ExperimentalAbiValidation
 
 plugins {
@@ -37,6 +38,13 @@ kotlin {
     // The binary-compatibility validator can't see the Android KMP target, Kotlin's own check can
     @OptIn(ExperimentalAbiValidation::class)
     abiValidation()
+
+    // Built for Kotlin 2.3 so apps on Kotlin 2.2, like AGP 9's built-in Kotlin, can still use it
+    coreLibrariesVersion = "2.3.0"
+    compilerOptions {
+        languageVersion.set(KotlinVersion.KOTLIN_2_3)
+        apiVersion.set(KotlinVersion.KOTLIN_2_3)
+    }
 
     android {
         namespace = "nl.dionsegijn.konfetti.compose"
@@ -79,6 +87,9 @@ kotlin {
             implementation(libs.cmp.ui)
             implementation(libs.jetbrains.lifecycle.runtime.compose)
         }
+        // The web compilers need the stdlib they ship with
+        jsMain.dependencies { implementation(libs.kotlin.stdlib) }
+        wasmJsMain.dependencies { implementation(libs.kotlin.stdlib) }
         commonTest.dependencies {
             implementation(libs.kotlin.test)
         }

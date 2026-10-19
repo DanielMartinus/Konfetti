@@ -43,6 +43,8 @@
 
 ## Getting started
 
+Konfetti 3.0 works with Kotlin 2.2 and up, so also with the Kotlin that comes with AGP 9.
+
 Compose Multiplatform (Android, iOS, desktop and web):
 ```kotlin
 kotlin {

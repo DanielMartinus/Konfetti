@@ -1,6 +1,7 @@
 import com.vanniktech.maven.publish.AndroidSingleVariantLibrary
 import com.vanniktech.maven.publish.JavadocJar
 import com.vanniktech.maven.publish.SourcesJar
+import org.jetbrains.kotlin.gradle.dsl.KotlinVersion
 
 plugins {
     alias(libs.plugins.android.library)
@@ -12,7 +13,16 @@ plugins {
 
 mavenPublishing {
     coordinates(artifactId = "konfetti-image")
-    pom { name.set("konfetti-image") }
+    pom {
+        name.set("konfetti-image")
+        // Maven and Bazel only read the POM, and the konfetti-core root has no classes in it
+        withXml {
+            val ids = asElement().getElementsByTagName("artifactId")
+            for (i in 0 until ids.length) {
+                if (ids.item(i).textContent == "konfetti-core") ids.item(i).textContent = "konfetti-core-jvm"
+            }
+        }
+    }
     configure(
         AndroidSingleVariantLibrary(
             javadocJar = JavadocJar.Dokka("dokkaGeneratePublicationJavadoc"),
@@ -26,6 +36,15 @@ spotless {
     kotlin {
         ktlint("1.1.0")
         target("src/**/*.kt")
+    }
+}
+
+kotlin {
+    // Built for Kotlin 2.3 so apps on Kotlin 2.2, like AGP 9's built-in Kotlin, can still use it
+    coreLibrariesVersion = "2.3.0"
+    compilerOptions {
+        languageVersion.set(KotlinVersion.KOTLIN_2_3)
+        apiVersion.set(KotlinVersion.KOTLIN_2_3)
     }
 }
 
