@@ -71,6 +71,8 @@ kotlin {
 compose.desktop {
     application {
         mainClass = "nl.dionsegijn.samples.multiplatform.MainKt"
+        // Skiko loads native code, this keeps the JDK from warning about it on start
+        jvmArgs += "--enable-native-access=ALL-UNNAMED"
     }
 }
 
