@@ -26,5 +26,56 @@ jobs:
           restore-keys: |
             ${{ runner.os }}-gradle-
 
-      - name: Run build and checks
-        run: ./gradlew :konfetti:core:jvmTest :konfetti:compose:testAndroidHostTest :konfetti:xml:testDebugUnitTest spotlessCheck apiCheck assembleDebug --console=plain
+      - name: Test core on jvm, wasm and js
+        run: ./gradlew :konfetti:core:jvmTest :konfetti:core:wasmJsNodeTest :konfetti:core:jsNodeTest --console=plain
+
+      - name: Test compose, xml and the playground
+        run: ./gradlew :konfetti:compose:jvmTest :konfetti:compose:testAndroidHostTest :konfetti:xml:testDebugUnitTest :samples:playground:jvmTest --console=plain
+
+      # Compose runs its tests on jvm, Android and iOS, the web targets only need to compile
+      - name: Compile compose for every target
+        run: ./gradlew :konfetti:compose:compileAndroidMain :konfetti:compose:compileKotlinJvm :konfetti:compose:compileKotlinWasmJs :konfetti:compose:compileKotlinJs --console=plain
+
+      - name: Build the samples and the site
+        run: ./gradlew assembleDebug :samples:multiplatform:composeApp:wasmJsBrowserDistribution --console=plain
+
+      - name: Check formatting and the public API
+        run: ./gradlew spotlessCheck apiCheck --console=plain
+
+  run-test-ios:
+    runs-on: macos-latest
+    steps:
+      - uses: actions/checkout@v4
+
+      - uses: actions/setup-java@v4
+        with:
+          java-version: 21
+          distribution: zulu
+
+      - uses: actions/cache@v4
+        with:
+          path: |
+            ~/.gradle/caches
+            ~/.gradle/wrapper
+            ~/.konan
+          key: ${{ runner.os }}-gradle-${{ hashFiles('**/*.gradle*', '**/gradle-wrapper.properties', '**/libs.versions.toml') }}
+          restore-keys: |
+            ${{ runner.os }}-gradle-
+
+      - name: Test on the iOS simulator
+        run: ./gradlew :konfetti:core:iosSimulatorArm64Test :konfetti:compose:iosSimulatorArm64Test :samples:playground:iosSimulatorArm64Test --console=plain
+
+      - name: Link the demo framework
+        run: ./gradlew :samples:multiplatform:composeApp:linkDebugFrameworkIosSimulatorArm64 --console=plain
+
+      # The app's build phase runs Gradle itself. By target, since no scheme is checked in,
+      # arm64 only like the framework, and no signing since nothing gets installed
+      - name: Build the iOS app
+        run: |
+          xcodebuild build \
+            -project samples/multiplatform/iosApp/iosApp.xcodeproj \
+            -target iosApp \
+            -sdk iphonesimulator \
+            -configuration Debug \
+            ARCHS=arm64 \
+            CODE_SIGNING_ALLOWED=NO
