@@ -88,15 +88,16 @@ class RibbonTest {
     }
 
     @Test
-    fun `a falling streamer's loops travel down toward its head`() {
+    fun `a falling streamer's loops travel up toward its tail like a screw`() {
         val piece = streamer(spinSpeed = 1f).run(seconds = 1f)
-        assertTrue(piece.spinStep() > 0f)
+        // Its spin goes down, which moves each loop toward the tail
+        assertTrue(piece.spinStep() < 0f)
     }
 
     @Test
     fun `a streamer spins faster the faster it falls`() {
-        val slow = streamer(spinSpeed = 1f).run(seconds = 0.5f).spinStep()
-        val fast = streamer(spinSpeed = 1f).run(seconds = 2f).spinStep()
+        val slow = abs(streamer(spinSpeed = 1f).run(seconds = 0.5f).spinStep())
+        val fast = abs(streamer(spinSpeed = 1f).run(seconds = 2f).spinStep())
         assertTrue(fast > slow, "slow $slow fast $fast")
     }
 
@@ -224,8 +225,8 @@ class RibbonTest {
 
     @Test
     fun `a streamer spins faster shooting up than falling`() {
-        val shooting = streamer(spinSpeed = 1f, location = Vector(500f, 900f), velocity = Vector(0f, -40f)).spinStep()
-        val falling = streamer(spinSpeed = 1f).run(seconds = 2f).spinStep()
+        val shooting = abs(streamer(spinSpeed = 1f, location = Vector(500f, 900f), velocity = Vector(0f, -40f)).spinStep())
+        val falling = abs(streamer(spinSpeed = 1f).run(seconds = 2f).spinStep())
         assertTrue(shooting > falling * 2, "shooting $shooting falling $falling")
     }
 

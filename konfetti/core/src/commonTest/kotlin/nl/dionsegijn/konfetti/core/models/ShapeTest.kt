@@ -2,6 +2,7 @@ package nl.dionsegijn.konfetti.core.models
 
 import nl.dionsegijn.konfetti.core.Party
 import nl.dionsegijn.konfetti.core.emitter.Emitter
+import kotlin.math.floor
 import kotlin.test.Test
 import kotlin.test.assertEquals
 import kotlin.test.assertFailsWith
@@ -115,6 +116,7 @@ class ShapeTest {
         assertFailsWith<IllegalArgumentException> { Shape.Ribbon(thickness = 1.5f) }
         assertFailsWith<IllegalArgumentException> { Shape.Ribbon(spin = -1f) }
         assertFailsWith<IllegalArgumentException> { Shape.Ribbon(bend = 2f) }
+        assertFailsWith<IllegalArgumentException> { Shape.Ribbon(irregularity = -0.1f) }
     }
 
     @Test
@@ -124,5 +126,46 @@ class ShapeTest {
         assertTrue((shade(gray, 0.5f) and 0xff) > 0x80)
         assertTrue((shade(gray, -0.5f) and 0xff) < 0x80)
         assertEquals(0x80, shade(gray, 0.5f) ushr 24)
+    }
+
+    // The gaps between the loops along a body 1 long with 20 loops, measured where the spiral passes the front
+    private fun loopGaps(
+        irregularity: Float,
+        unevenness: Float = 1.1f,
+    ): List<Float> {
+        val steps = 4000
+        var turned = 0f
+        val total = (1..steps).sumOf { loopDensity((it - 0.5f) / steps, irregularity, unevenness).toDouble() }.toFloat() / steps
+        val crossings = mutableListOf<Float>()
+        for (i in 1..steps) {
+            val before = turned
+            turned += loopDensity((i - 0.5f) / steps, irregularity, unevenness) / steps / total * 20
+            if (floor(turned) > floor(before)) crossings.add(i.toFloat() / steps)
+        }
+        return crossings.zipWithNext { a, b -> b - a }
+    }
+
+    @Test
+    fun `an even ribbon has even gaps between its loops`() {
+        val gaps = loopGaps(irregularity = 0f)
+        assertTrue(gaps.max() - gaps.min() < 0.001f, "gaps $gaps")
+    }
+
+    @Test
+    fun `an irregular ribbon bunches and stretches its loops`() {
+        val gaps = loopGaps(irregularity = 1f)
+        assertTrue(gaps.max() > gaps.min() * 2.5f, "gaps $gaps")
+    }
+
+    @Test
+    fun `an irregular ribbon curls tighter at its ends`() {
+        val gaps = loopGaps(irregularity = 1f)
+        val middle = gaps.subList(3, gaps.size - 3).average()
+        assertTrue(gaps.first() < middle && gaps.last() < middle, "gaps $gaps")
+    }
+
+    @Test
+    fun `irregular ribbons differ from each other`() {
+        assertNotEquals(loopGaps(irregularity = 1f, unevenness = 0.3f), loopGaps(irregularity = 1f, unevenness = 4f))
     }
 }

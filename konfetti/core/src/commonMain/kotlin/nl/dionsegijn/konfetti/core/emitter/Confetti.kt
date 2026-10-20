@@ -43,7 +43,7 @@ import kotlin.math.sqrt
  * @property ribbonLength How long a [Shape.Ribbon] streamer is, in pixels.
  * @property spinPhase How far a [Shape.Ribbon] has turned around its own length at the start, in radians.
  * @property spinSpeed How many turns a second a [Shape.Ribbon] spins when it falls at a usual speed. It spins faster
- * when it moves faster along its length, and its loops always travel toward its head, the way it's going.
+ * when it moves faster along its length, and like a screw its loops travel back toward its tail as it moves.
  * @property loopScale How much wider or tighter this streamer's loops are than its [Shape.Ribbon.loopSpacing].
  * @property shapePhases Two phases in radians that make this streamer's spiral a little uneven along its length.
  */
@@ -329,14 +329,15 @@ class Confetti(
     }
 
     /**
-     * How many turns a second a streamer spins now. It screws through the air the way it moves along its body,
-     * so its loops travel toward its head: down while it falls, up while it shoots up head first.
+     * How many turns a second a streamer spins now. It turns like a screw driven through the air the way it moves
+     * along its body: its loops travel back toward its tail, so they hold roughly still in the air while the body slides
+     * past. Falling, the loops seem to climb up the body; spinning the other way would look like it's screwing itself up.
      * It spins faster the faster it moves, and barely turns while it hangs still.
      */
     private fun spinRate(): Float {
         val alongBody = -(velocity.x * hangX + velocity.y * hangY)
         val boost = sqrt(abs(alongBody) / SPIN_SPEED_REFERENCE).coerceAtMost(MAX_SPIN_BOOST)
-        return if (alongBody < 0f) -spinSpeed * boost else spinSpeed * boost
+        return if (alongBody < 0f) spinSpeed * boost else -spinSpeed * boost
     }
 
     /**

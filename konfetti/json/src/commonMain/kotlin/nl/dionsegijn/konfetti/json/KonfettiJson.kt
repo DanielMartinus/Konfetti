@@ -124,7 +124,7 @@ private fun ShapeJson.toShape(images: (String) -> CoreImage?): Shape =
         ShapeJson.Square -> Shape.Square
         is ShapeJson.Rectangle -> Shape.Rectangle(heightRatio)
         is ShapeJson.Polygon -> Shape.Polygon(points.map { Shape.Polygon.Point(it.x, it.y) })
-        is ShapeJson.Ribbon -> Shape.Ribbon(minLength, maxLength, loopSpacing, thickness, spin, bend)
+        is ShapeJson.Ribbon -> Shape.Ribbon(minLength, maxLength, loopSpacing, thickness, spin, bend, irregularity)
         is ShapeJson.Image -> {
             val image = requireNotNull(images(id)) { "no image registered for \"$id\"" }
             Shape.DrawableShape(image, tint, applyAlpha)
@@ -184,7 +184,7 @@ private fun Shape.toJson(imageId: (CoreImage) -> String?): ShapeJson? =
         Shape.Square -> ShapeJson.Square
         is Shape.Rectangle -> ShapeJson.Rectangle(heightRatio)
         is Shape.Polygon -> ShapeJson.Polygon(points.map { PointJson(it.x, it.y) })
-        is Shape.Ribbon -> ShapeJson.Ribbon(minLength, maxLength, loopSpacing, thickness, spin, bend)
+        is Shape.Ribbon -> ShapeJson.Ribbon(minLength, maxLength, loopSpacing, thickness, spin, bend, irregularity)
         is Shape.DrawableShape -> imageId(image)?.let { ShapeJson.Image(it, tint, applyAlpha) }
     }
 

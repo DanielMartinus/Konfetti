@@ -433,8 +433,6 @@ public final class nl/dionsegijn/konfetti/core/models/RibbonSegments {
 	public static final field BACK_DARK F
 	public static final field EDGE_WIDTH F
 	public static final field FRONT_LIGHT F
-	public static final field LOOP_WOBBLE F
-	public static final field LOOP_WOBBLE_WAVES F
 	public static final field MAX_SEGMENTS I
 	public static final field MIN_SEGMENTS I
 	public static final field RADIUS_WOBBLE F
@@ -526,9 +524,11 @@ public final class nl/dionsegijn/konfetti/core/models/Shape$Ribbon : nl/dionsegi
 	public fun <init> (FFFF)V
 	public fun <init> (FFFFF)V
 	public fun <init> (FFFFFF)V
-	public synthetic fun <init> (FFFFFFILkotlin/jvm/internal/DefaultConstructorMarker;)V
+	public fun <init> (FFFFFFF)V
+	public synthetic fun <init> (FFFFFFFILkotlin/jvm/internal/DefaultConstructorMarker;)V
 	public fun equals (Ljava/lang/Object;)Z
 	public final fun getBend ()F
+	public final fun getIrregularity ()F
 	public final fun getLoopSpacing ()F
 	public final fun getMaxLength ()F
 	public final fun getMinLength ()F

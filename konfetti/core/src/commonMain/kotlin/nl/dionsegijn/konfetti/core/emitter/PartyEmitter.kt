@@ -118,7 +118,8 @@ class PartyEmitter(
             val harmonicPhase = if (drifts) randomAngle() else 0f
             val wanderPhase = if (drifts) randomAngle() else 0f
             // And no two streamers are curled quite the same
-            val loopScale = if (ribbon != null) 1f + LOOP_SPREAD * (random.nextFloat() * 2f - 1f) else 1f
+            val loopScale =
+                if (ribbon != null) 1f + ribbon.irregularity * LOOP_SPREAD * (random.nextFloat() * 2f - 1f) else 1f
             val unevenness = if (ribbon != null) randomAngle() else 0f
             return Confetti(
                 location = location,
@@ -266,8 +267,10 @@ class PartyEmitter(
         // Drag stays below 1, so every piece still falls
         const val MAX_DRAG = 0.95f
 
-        // How much a streamer's spin and loop spacing differ from its shape's, either way
+        // How much a streamer's spin differs from its shape's, either way
         const val SPIN_SPREAD = 0.4f
-        const val LOOP_SPREAD = 0.15f
+
+        // With irregularity 1 the loop spacing differs up to this much either way between streamers
+        const val LOOP_SPREAD = 0.6f
     }
 }

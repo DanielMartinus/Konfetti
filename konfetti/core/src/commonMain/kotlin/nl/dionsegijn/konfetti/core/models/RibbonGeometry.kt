@@ -5,6 +5,7 @@ import kotlin.math.PI
 import kotlin.math.abs
 import kotlin.math.ceil
 import kotlin.math.cos
+import kotlin.math.exp
 import kotlin.math.sin
 
 /**
@@ -31,6 +32,7 @@ class RibbonSegments {
     private val pointX = FloatArray(MAX_SEGMENTS + 1)
     private val pointY = FloatArray(MAX_SEGMENTS + 1)
     private val depth = FloatArray(MAX_SEGMENTS + 1)
+    private val turned = FloatArray(MAX_SEGMENTS + 1)
     private val order = IntArray(MAX_SEGMENTS)
 
     internal fun clear() {
@@ -47,7 +49,9 @@ class RibbonSegments {
             return
         }
         val loops = body.length / body.loopSpacing
-        val segments = ceil(loops * SEGMENTS_PER_LOOP).toInt().coerceIn(MIN_SEGMENTS, MAX_SEGMENTS)
+        // Tighter stretches need more pieces to stay round
+        val segments =
+            ceil(loops * SEGMENTS_PER_LOOP * (1 + ribbon.irregularity)).toInt().coerceIn(MIN_SEGMENTS, MAX_SEGMENTS)
         val radius = particle.width / 2
         val strip = ribbon.thickness * body.loopSpacing
 
@@ -58,11 +62,19 @@ class RibbonSegments {
         val headX = particle.x + radius
         val headY = particle.y + radius
 
+        // How far round the spiral has turned at each point. Where it's wound tighter it turns faster, and it's
+        // scaled so the loops still average out at the ribbon's loop spacing.
+        turned[0] = 0f
+        for (i in 1..segments) {
+            val middle = (i - 0.5f) / segments
+            turned[i] = turned[i - 1] + loopDensity(middle, ribbon.irregularity, body.unevenness) / segments
+        }
+        val toAngle = 2 * PI.toFloat() * loops / turned[segments]
+
         for (i in 0..segments) {
             val along = i.toFloat() / segments
-            // Loops bunch and spread a little along the body, and the coil narrows toward the tail and isn't quite round
-            val unevenLoops = LOOP_WOBBLE * sin(2 * PI.toFloat() * LOOP_WOBBLE_WAVES * along + body.unevenness)
-            val angle = 2 * PI.toFloat() * loops * along + unevenLoops + body.spin
+            val angle = turned[i] * toAngle + body.spin
+            // The coil narrows toward the tail and isn't quite round
             val coil =
                 radius * (1 - TAIL_TAPER * along) *
                     (1 + RADIUS_WOBBLE * sin(2 * PI.toFloat() * RADIUS_WOBBLE_WAVES * along + body.unevenness * 1.7f))
@@ -115,7 +127,7 @@ class RibbonSegments {
     private companion object {
         const val SEGMENTS_PER_LOOP = 12
         const val MIN_SEGMENTS = 8
-        const val MAX_SEGMENTS = 96
+        const val MAX_SEGMENTS = 160
 
         // How thin the strip gets when you see its edge, as a part of its full width
         const val EDGE_WIDTH = 0.25f
@@ -124,14 +136,40 @@ class RibbonSegments {
         const val FRONT_LIGHT = 0.3f
         const val BACK_DARK = 0.45f
 
-        // How uneven a streamer's spiral is: loop spacing, a narrower tail and a not quite round coil
-        const val LOOP_WOBBLE = 0.35f
-        const val LOOP_WOBBLE_WAVES = 1.3f
+        // A narrower tail and a not quite round coil
         const val TAIL_TAPER = 0.2f
         const val RADIUS_WOBBLE = 0.08f
         const val RADIUS_WOBBLE_WAVES = 0.9f
     }
 }
+
+/**
+ * How tightly a streamer's spiral is wound at [along], from its head (0) to its tail (1), compared to an even spiral.
+ * 2 means twice as many loops there, so the gaps between them are half as wide. With [irregularity] 0 it's evenly wound.
+ * Otherwise two waves make the loops bunch up and stretch out along the body, different for each [unevenness],
+ * and the curl gets tighter toward both ends.
+ */
+internal fun loopDensity(
+    along: Float,
+    irregularity: Float,
+    unevenness: Float,
+): Float {
+    val waves =
+        LONG_WAVE_SIZE * sin(2 * PI.toFloat() * LONG_WAVES * along + unevenness) +
+            SHORT_WAVE_SIZE * sin(2 * PI.toFloat() * SHORT_WAVES * along + unevenness * 2.3f)
+    val ends = exp(-along / END_LENGTH) + exp(-(1 - along) / END_LENGTH)
+    return exp(irregularity * waves) * (1 + irregularity * END_TIGHTEN * ends)
+}
+
+// With irregularity 1, the waves make the gaps from about half to almost twice as wide
+private const val LONG_WAVE_SIZE = 0.35f
+private const val LONG_WAVES = 1.3f
+private const val SHORT_WAVE_SIZE = 0.25f
+private const val SHORT_WAVES = 2.9f
+
+// The ends curl up to this much tighter, over about this part of the length
+private const val END_TIGHTEN = 0.8f
+private const val END_LENGTH = 0.08f
 
 /**
  * Fills [out] with the pieces to draw this particle with, when it's a [Shape.Ribbon] streamer.
