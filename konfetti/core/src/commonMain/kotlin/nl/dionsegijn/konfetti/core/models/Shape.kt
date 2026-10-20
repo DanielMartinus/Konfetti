@@ -115,6 +115,54 @@ sealed interface Shape {
     }
 
     /**
+     * A curly paper streamer, also known as a serpentine. It's a long spiral that spins around its
+     * own length while it falls, with a darker back and a lighter front, and it stays upright
+     * instead of tumbling like flat confetti. Turn on [nl.dionsegijn.konfetti.core.Drift] to let it
+     * sway, then its body trails behind its head like a rope.
+     *
+     * The confetti's [Size] sets how wide the spiral is. Each streamer picks a length between
+     * [minLength] and [maxLength].
+     *
+     * @param minLength the shortest a streamer can be, in dp
+     * @param maxLength the longest a streamer can be, in dp
+     * @param loopSpacing the distance between two loops of the spiral in dp, so a longer streamer has more loops
+     * @param thickness how wide the paper strip is, as a fraction of [loopSpacing]. Within (0, 1]
+     * @param spin how many turns a second it spins around its own length. Set to 0 to hold the spiral still
+     * @param bend how far its body trails behind its head when it sways, between 0 (stiff) and 1
+     */
+    class Ribbon
+        @JvmOverloads
+        constructor(
+            val minLength: Float = 60f,
+            val maxLength: Float = 120f,
+            val loopSpacing: Float = 10f,
+            val thickness: Float = 0.6f,
+            val spin: Float = 1f,
+            val bend: Float = 0.5f,
+        ) : Shape {
+            init {
+                require(minLength > 0f) { "minLength must be above 0" }
+                require(maxLength >= minLength) { "maxLength can't be shorter than minLength" }
+                require(loopSpacing > 0f) { "loopSpacing must be above 0" }
+                require(thickness > 0f && thickness <= 1f) { "thickness must be above 0 and at most 1" }
+                require(spin >= 0f) { "spin can't be negative" }
+                require(bend in 0f..1f) { "bend must be within 0 and 1" }
+            }
+
+            // Equal by value, so a party built inline in a composable doesn't count as new every recomposition
+            override fun equals(other: Any?): Boolean =
+                other is Ribbon &&
+                    other.minLength == minLength &&
+                    other.maxLength == maxLength &&
+                    other.loopSpacing == loopSpacing &&
+                    other.thickness == thickness &&
+                    other.spin == spin &&
+                    other.bend == bend
+
+            override fun hashCode(): Int = listOf(minLength, maxLength, loopSpacing, thickness, spin, bend).hashCode()
+        }
+
+    /**
      * A drawable shape
      * @param image CoreImage
      * @param tint Set to `false` to opt out of tinting the drawable, keeping its original colors.

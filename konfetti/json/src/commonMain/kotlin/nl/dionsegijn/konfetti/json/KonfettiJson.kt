@@ -2,6 +2,7 @@ package nl.dionsegijn.konfetti.json
 
 import kotlinx.serialization.SerializationException
 import kotlinx.serialization.json.Json
+import nl.dionsegijn.konfetti.core.Drift
 import nl.dionsegijn.konfetti.core.Party
 import nl.dionsegijn.konfetti.core.Position
 import nl.dionsegijn.konfetti.core.Rotation
@@ -106,6 +107,7 @@ private fun PartyJson.toParty(
         rotation =
             with(rotation) { Rotation(enabled, speed, variance, multiplier2D, multiplier3D, faceDirection) },
         emitter = emitter.toConfig(),
+        drift = with(drift) { Drift(enabled, sway, frequency, variance, tilt, drag) },
     )
 }
 
@@ -122,6 +124,7 @@ private fun ShapeJson.toShape(images: (String) -> CoreImage?): Shape =
         ShapeJson.Square -> Shape.Square
         is ShapeJson.Rectangle -> Shape.Rectangle(heightRatio)
         is ShapeJson.Polygon -> Shape.Polygon(points.map { Shape.Polygon.Point(it.x, it.y) })
+        is ShapeJson.Ribbon -> Shape.Ribbon(minLength, maxLength, loopSpacing, thickness, spin, bend)
         is ShapeJson.Image -> {
             val image = requireNotNull(images(id)) { "no image registered for \"$id\"" }
             Shape.DrawableShape(image, tint, applyAlpha)
@@ -172,6 +175,7 @@ private fun Party.toJson(
         } else {
             EmitterJson(emitter.emittingTime, max = emitter.amount)
         },
+    drift = with(drift) { DriftJson(enabled, sway, frequency, variance, tilt, drag) },
 )
 
 private fun Shape.toJson(imageId: (CoreImage) -> String?): ShapeJson? =
@@ -180,6 +184,7 @@ private fun Shape.toJson(imageId: (CoreImage) -> String?): ShapeJson? =
         Shape.Square -> ShapeJson.Square
         is Shape.Rectangle -> ShapeJson.Rectangle(heightRatio)
         is Shape.Polygon -> ShapeJson.Polygon(points.map { PointJson(it.x, it.y) })
+        is Shape.Ribbon -> ShapeJson.Ribbon(minLength, maxLength, loopSpacing, thickness, spin, bend)
         is Shape.DrawableShape -> imageId(image)?.let { ShapeJson.Image(it, tint, applyAlpha) }
     }
 

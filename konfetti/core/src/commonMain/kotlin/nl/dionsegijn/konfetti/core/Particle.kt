@@ -13,6 +13,8 @@ import nl.dionsegijn.konfetti.core.models.Shape
  * @param scaleX the current scale of the confetti used to create a 3D rotation
  * @param shape the Shape of the confetti such as a circle, square of custom shape
  * @param alpha the transparency of the confetti between 0 - 255
+ * @param ribbon how a [Shape.Ribbon] is spinning and bending right now, null for other shapes.
+ * For a ribbon, [height] is its length. Draw it with [nl.dionsegijn.konfetti.core.models.ribbonSegments].
  */
 data class Particle(
     val x: Float,
@@ -24,4 +26,51 @@ data class Particle(
     val scaleX: Float,
     val shape: Shape,
     val alpha: Int,
-)
+    val ribbon: RibbonBody? = null,
+) {
+    // Keeps the constructor from before ribbons were added, for code built against an older version
+    constructor(
+        x: Float,
+        y: Float,
+        width: Float,
+        height: Float,
+        color: Int,
+        rotation: Float,
+        scaleX: Float,
+        shape: Shape,
+        alpha: Int,
+    ) : this(x, y, width, height, color, rotation, scaleX, shape, alpha, null)
+}
+
+/**
+ * The moving parts of a [Shape.Ribbon] streamer at one moment.
+ * @param spin how far it has turned around its own length, in radians
+ * @param length how long it is in pixels
+ * @param loopSpacing the distance between two loops of its spiral in pixels
+ * @param axisX the direction its body runs from its head, x part. Up is (0, -1)
+ * @param axisY the direction its body runs from its head, y part
+ * @param offsets how far its body is pushed sideways in pixels, at even steps from its head (first) to its tail (last)
+ * @param unevenness a phase in radians that makes this streamer's spiral a little uneven along its length
+ */
+class RibbonBody(
+    val spin: Float,
+    val length: Float,
+    val loopSpacing: Float,
+    val axisX: Float,
+    val axisY: Float,
+    val offsets: FloatArray,
+    val unevenness: Float = 0f,
+) {
+    // Equal by content, so the same moment replayed gives equal particles
+    override fun equals(other: Any?): Boolean =
+        other is RibbonBody &&
+            other.spin == spin &&
+            other.length == length &&
+            other.loopSpacing == loopSpacing &&
+            other.axisX == axisX &&
+            other.axisY == axisY &&
+            other.offsets.contentEquals(offsets) &&
+            other.unevenness == unevenness
+
+    override fun hashCode(): Int = listOf(spin, length, loopSpacing, axisX, axisY, offsets.contentHashCode(), unevenness).hashCode()
+}

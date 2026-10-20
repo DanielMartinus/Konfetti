@@ -34,6 +34,7 @@ internal data class PartyJson(
     val delay: Int = 0,
     val rotation: RotationJson = RotationJson(),
     val emitter: EmitterJson,
+    val drift: DriftJson = DriftJson(),
 )
 
 @Serializable
@@ -51,6 +52,16 @@ internal data class RotationJson(
     val multiplier2D: Float = 8f,
     val multiplier3D: Float = 1.5f,
     val faceDirection: Boolean = false,
+)
+
+@Serializable
+internal data class DriftJson(
+    val enabled: Boolean = false,
+    val sway: Float = 20f,
+    val frequency: Float = 1f,
+    val variance: Float = 0.5f,
+    val tilt: Float = 30f,
+    val drag: Float = 0f,
 )
 
 /** Set either [max] or [perSecond]. A [duration] of 0 emits forever. */
@@ -78,6 +89,17 @@ internal sealed interface ShapeJson {
     @Serializable
     @SerialName("polygon")
     data class Polygon(val points: List<PointJson>) : ShapeJson
+
+    @Serializable
+    @SerialName("ribbon")
+    data class Ribbon(
+        val minLength: Float = 60f,
+        val maxLength: Float = 120f,
+        val loopSpacing: Float = 10f,
+        val thickness: Float = 0.6f,
+        val spin: Float = 1f,
+        val bend: Float = 0.5f,
+    ) : ShapeJson
 
     /** An image the app registers under [id], see [KonfettiJson.decode] */
     @Serializable

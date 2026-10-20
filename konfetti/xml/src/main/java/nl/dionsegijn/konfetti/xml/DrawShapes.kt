@@ -8,18 +8,44 @@ import android.graphics.Path
 import android.graphics.PorterDuff
 import android.graphics.RectF
 import android.os.Build
+import nl.dionsegijn.konfetti.core.Particle
 import nl.dionsegijn.konfetti.core.models.ReferenceImage
+import nl.dionsegijn.konfetti.core.models.RibbonSegments
 import nl.dionsegijn.konfetti.core.models.Shape
 import nl.dionsegijn.konfetti.core.models.Shape.Circle
 import nl.dionsegijn.konfetti.core.models.Shape.Circle.rect
 import nl.dionsegijn.konfetti.core.models.Shape.DrawableShape
 import nl.dionsegijn.konfetti.core.models.Shape.Polygon
 import nl.dionsegijn.konfetti.core.models.Shape.Rectangle
+import nl.dionsegijn.konfetti.core.models.Shape.Ribbon
 import nl.dionsegijn.konfetti.core.models.Shape.Square
+import nl.dionsegijn.konfetti.core.models.ribbonSegments
 import nl.dionsegijn.konfetti.xml.image.ImageStore
 
 // Reused for every polygon so drawing doesn't create a path per confetti per frame
 private val polygonPath = Path()
+
+// Reused for every streamer for the same reason
+private val ribbonSegments = RibbonSegments()
+
+/**
+ * Draws a [Ribbon] streamer. Its pieces are already in canvas pixels, leaning and bending,
+ * so the canvas mustn't be rotated or flipped for it. The shared [paint] goes back to filling afterwards.
+ */
+internal fun Particle.drawRibbon(
+    canvas: Canvas,
+    paint: Paint,
+) {
+    if (!ribbonSegments(ribbonSegments)) return
+    paint.style = Paint.Style.STROKE
+    paint.strokeCap = Paint.Cap.ROUND
+    for (i in 0 until ribbonSegments.count) {
+        paint.color = ribbonSegments.color[i]
+        paint.strokeWidth = ribbonSegments.width[i]
+        canvas.drawLine(ribbonSegments.startX[i], ribbonSegments.startY[i], ribbonSegments.endX[i], ribbonSegments.endY[i], paint)
+    }
+    paint.style = Paint.Style.FILL
+}
 
 /**
  * Draw a shape to `canvas`. Implementations are expected to draw within a square of size
@@ -51,6 +77,8 @@ fun Shape.draw(
             polygonPath.close()
             canvas.drawPath(polygonPath, paint)
         }
+        // Streamers need the whole particle, KonfettiView draws them with drawRibbon
+        is Ribbon -> Unit
         is DrawableShape -> {
             val referenceImage = image
             if (referenceImage is ReferenceImage) {

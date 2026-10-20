@@ -92,6 +92,7 @@ private fun shapeCode(shape: Shape) =
         Shape.Polygon.TRIANGLE -> "Shape.Polygon.TRIANGLE"
         Shape.Polygon.DIAMOND -> "Shape.Polygon.DIAMOND"
         is Shape.Polygon -> "Shape.Polygon.star()"
+        is Shape.Ribbon -> "Shape.Ribbon()"
         is Shape.DrawableShape -> if (shape.image is PainterImage) "imageShape(heart)" else "drawableShape"
     }
 

@@ -10,6 +10,35 @@ public final class nl/dionsegijn/konfetti/core/Angle {
 public final class nl/dionsegijn/konfetti/core/Angle$Companion {
 }
 
+public final class nl/dionsegijn/konfetti/core/Drift {
+	public static final field Companion Lnl/dionsegijn/konfetti/core/Drift$Companion;
+	public fun <init> ()V
+	public fun <init> (ZFFFFF)V
+	public synthetic fun <init> (ZFFFFFILkotlin/jvm/internal/DefaultConstructorMarker;)V
+	public final fun component1 ()Z
+	public final fun component2 ()F
+	public final fun component3 ()F
+	public final fun component4 ()F
+	public final fun component5 ()F
+	public final fun component6 ()F
+	public final fun copy (ZFFFFF)Lnl/dionsegijn/konfetti/core/Drift;
+	public static synthetic fun copy$default (Lnl/dionsegijn/konfetti/core/Drift;ZFFFFFILjava/lang/Object;)Lnl/dionsegijn/konfetti/core/Drift;
+	public fun equals (Ljava/lang/Object;)Z
+	public final fun getDrag ()F
+	public final fun getEnabled ()Z
+	public final fun getFrequency ()F
+	public final fun getSway ()F
+	public final fun getTilt ()F
+	public final fun getVariance ()F
+	public fun hashCode ()I
+	public fun toString ()Ljava/lang/String;
+}
+
+public final class nl/dionsegijn/konfetti/core/Drift$Companion {
+	public final fun disabled ()Lnl/dionsegijn/konfetti/core/Drift;
+	public final fun enabled ()Lnl/dionsegijn/konfetti/core/Drift;
+}
+
 public final class nl/dionsegijn/konfetti/core/Lane {
 	public fun <init> (Lnl/dionsegijn/konfetti/core/Party;Lnl/dionsegijn/konfetti/core/models/CoreRect;FJ)V
 	public final fun getDrawArea ()Lnl/dionsegijn/konfetti/core/models/CoreRect;
@@ -21,7 +50,10 @@ public final class nl/dionsegijn/konfetti/core/Lane {
 
 public final class nl/dionsegijn/konfetti/core/Particle {
 	public fun <init> (FFFFIFFLnl/dionsegijn/konfetti/core/models/Shape;I)V
+	public fun <init> (FFFFIFFLnl/dionsegijn/konfetti/core/models/Shape;ILnl/dionsegijn/konfetti/core/RibbonBody;)V
+	public synthetic fun <init> (FFFFIFFLnl/dionsegijn/konfetti/core/models/Shape;ILnl/dionsegijn/konfetti/core/RibbonBody;ILkotlin/jvm/internal/DefaultConstructorMarker;)V
 	public final fun component1 ()F
+	public final fun component10 ()Lnl/dionsegijn/konfetti/core/RibbonBody;
 	public final fun component2 ()F
 	public final fun component3 ()F
 	public final fun component4 ()F
@@ -30,12 +62,13 @@ public final class nl/dionsegijn/konfetti/core/Particle {
 	public final fun component7 ()F
 	public final fun component8 ()Lnl/dionsegijn/konfetti/core/models/Shape;
 	public final fun component9 ()I
-	public final fun copy (FFFFIFFLnl/dionsegijn/konfetti/core/models/Shape;I)Lnl/dionsegijn/konfetti/core/Particle;
-	public static synthetic fun copy$default (Lnl/dionsegijn/konfetti/core/Particle;FFFFIFFLnl/dionsegijn/konfetti/core/models/Shape;IILjava/lang/Object;)Lnl/dionsegijn/konfetti/core/Particle;
+	public final fun copy (FFFFIFFLnl/dionsegijn/konfetti/core/models/Shape;ILnl/dionsegijn/konfetti/core/RibbonBody;)Lnl/dionsegijn/konfetti/core/Particle;
+	public static synthetic fun copy$default (Lnl/dionsegijn/konfetti/core/Particle;FFFFIFFLnl/dionsegijn/konfetti/core/models/Shape;ILnl/dionsegijn/konfetti/core/RibbonBody;ILjava/lang/Object;)Lnl/dionsegijn/konfetti/core/Particle;
 	public fun equals (Ljava/lang/Object;)Z
 	public final fun getAlpha ()I
 	public final fun getColor ()I
 	public final fun getHeight ()F
+	public final fun getRibbon ()Lnl/dionsegijn/konfetti/core/RibbonBody;
 	public final fun getRotation ()F
 	public final fun getScaleX ()F
 	public final fun getShape ()Lnl/dionsegijn/konfetti/core/models/Shape;
@@ -47,14 +80,15 @@ public final class nl/dionsegijn/konfetti/core/Particle {
 }
 
 public final class nl/dionsegijn/konfetti/core/Party {
-	public fun <init> (IIFFFLjava/util/List;Ljava/util/List;Ljava/util/List;JZLnl/dionsegijn/konfetti/core/Position;ILnl/dionsegijn/konfetti/core/Rotation;Lnl/dionsegijn/konfetti/core/emitter/EmitterConfig;)V
-	public synthetic fun <init> (IIFFFLjava/util/List;Ljava/util/List;Ljava/util/List;JZLnl/dionsegijn/konfetti/core/Position;ILnl/dionsegijn/konfetti/core/Rotation;Lnl/dionsegijn/konfetti/core/emitter/EmitterConfig;ILkotlin/jvm/internal/DefaultConstructorMarker;)V
+	public fun <init> (IIFFFLjava/util/List;Ljava/util/List;Ljava/util/List;JZLnl/dionsegijn/konfetti/core/Position;ILnl/dionsegijn/konfetti/core/Rotation;Lnl/dionsegijn/konfetti/core/emitter/EmitterConfig;Lnl/dionsegijn/konfetti/core/Drift;)V
+	public synthetic fun <init> (IIFFFLjava/util/List;Ljava/util/List;Ljava/util/List;JZLnl/dionsegijn/konfetti/core/Position;ILnl/dionsegijn/konfetti/core/Rotation;Lnl/dionsegijn/konfetti/core/emitter/EmitterConfig;Lnl/dionsegijn/konfetti/core/Drift;ILkotlin/jvm/internal/DefaultConstructorMarker;)V
 	public final fun component1 ()I
 	public final fun component10 ()Z
 	public final fun component11 ()Lnl/dionsegijn/konfetti/core/Position;
 	public final fun component12 ()I
 	public final fun component13 ()Lnl/dionsegijn/konfetti/core/Rotation;
 	public final fun component14 ()Lnl/dionsegijn/konfetti/core/emitter/EmitterConfig;
+	public final fun component15 ()Lnl/dionsegijn/konfetti/core/Drift;
 	public final fun component2 ()I
 	public final fun component3 ()F
 	public final fun component4 ()F
@@ -63,13 +97,14 @@ public final class nl/dionsegijn/konfetti/core/Party {
 	public final fun component7 ()Ljava/util/List;
 	public final fun component8 ()Ljava/util/List;
 	public final fun component9 ()J
-	public final fun copy (IIFFFLjava/util/List;Ljava/util/List;Ljava/util/List;JZLnl/dionsegijn/konfetti/core/Position;ILnl/dionsegijn/konfetti/core/Rotation;Lnl/dionsegijn/konfetti/core/emitter/EmitterConfig;)Lnl/dionsegijn/konfetti/core/Party;
-	public static synthetic fun copy$default (Lnl/dionsegijn/konfetti/core/Party;IIFFFLjava/util/List;Ljava/util/List;Ljava/util/List;JZLnl/dionsegijn/konfetti/core/Position;ILnl/dionsegijn/konfetti/core/Rotation;Lnl/dionsegijn/konfetti/core/emitter/EmitterConfig;ILjava/lang/Object;)Lnl/dionsegijn/konfetti/core/Party;
+	public final fun copy (IIFFFLjava/util/List;Ljava/util/List;Ljava/util/List;JZLnl/dionsegijn/konfetti/core/Position;ILnl/dionsegijn/konfetti/core/Rotation;Lnl/dionsegijn/konfetti/core/emitter/EmitterConfig;Lnl/dionsegijn/konfetti/core/Drift;)Lnl/dionsegijn/konfetti/core/Party;
+	public static synthetic fun copy$default (Lnl/dionsegijn/konfetti/core/Party;IIFFFLjava/util/List;Ljava/util/List;Ljava/util/List;JZLnl/dionsegijn/konfetti/core/Position;ILnl/dionsegijn/konfetti/core/Rotation;Lnl/dionsegijn/konfetti/core/emitter/EmitterConfig;Lnl/dionsegijn/konfetti/core/Drift;ILjava/lang/Object;)Lnl/dionsegijn/konfetti/core/Party;
 	public fun equals (Ljava/lang/Object;)Z
 	public final fun getAngle ()I
 	public final fun getColors ()Ljava/util/List;
 	public final fun getDamping ()F
 	public final fun getDelay ()I
+	public final fun getDrift ()Lnl/dionsegijn/konfetti/core/Drift;
 	public final fun getEmitter ()Lnl/dionsegijn/konfetti/core/emitter/EmitterConfig;
 	public final fun getFadeOutEnabled ()Z
 	public final fun getMaxSpeed ()F
@@ -185,6 +220,20 @@ public final class nl/dionsegijn/konfetti/core/ReplayKt {
 	public static final fun startMs (Lnl/dionsegijn/konfetti/core/Party;)J
 }
 
+public final class nl/dionsegijn/konfetti/core/RibbonBody {
+	public fun <init> (FFFFF[FF)V
+	public synthetic fun <init> (FFFFF[FFILkotlin/jvm/internal/DefaultConstructorMarker;)V
+	public fun equals (Ljava/lang/Object;)Z
+	public final fun getAxisX ()F
+	public final fun getAxisY ()F
+	public final fun getLength ()F
+	public final fun getLoopSpacing ()F
+	public final fun getOffsets ()[F
+	public final fun getSpin ()F
+	public final fun getUnevenness ()F
+	public fun hashCode ()I
+}
+
 public final class nl/dionsegijn/konfetti/core/Rotation {
 	public static final field Companion Lnl/dionsegijn/konfetti/core/Rotation$Companion;
 	public fun <init> ()V
@@ -233,8 +282,8 @@ public abstract class nl/dionsegijn/konfetti/core/emitter/BaseEmitter {
 
 public final class nl/dionsegijn/konfetti/core/emitter/Confetti {
 	public static final field Companion Lnl/dionsegijn/konfetti/core/emitter/Confetti$Companion;
-	public fun <init> (Lnl/dionsegijn/konfetti/core/models/Vector;IFFLnl/dionsegijn/konfetti/core/models/Shape;JZLnl/dionsegijn/konfetti/core/models/Vector;Lnl/dionsegijn/konfetti/core/models/Vector;FFFFZ)V
-	public synthetic fun <init> (Lnl/dionsegijn/konfetti/core/models/Vector;IFFLnl/dionsegijn/konfetti/core/models/Shape;JZLnl/dionsegijn/konfetti/core/models/Vector;Lnl/dionsegijn/konfetti/core/models/Vector;FFFFZILkotlin/jvm/internal/DefaultConstructorMarker;)V
+	public fun <init> (Lnl/dionsegijn/konfetti/core/models/Vector;IFFLnl/dionsegijn/konfetti/core/models/Shape;JZLnl/dionsegijn/konfetti/core/models/Vector;Lnl/dionsegijn/konfetti/core/models/Vector;FFFFZFFFFFFFFFFFFF)V
+	public synthetic fun <init> (Lnl/dionsegijn/konfetti/core/models/Vector;IFFLnl/dionsegijn/konfetti/core/models/Shape;JZLnl/dionsegijn/konfetti/core/models/Vector;Lnl/dionsegijn/konfetti/core/models/Vector;FFFFZFFFFFFFFFFFFFILkotlin/jvm/internal/DefaultConstructorMarker;)V
 	public final fun applyForce (Lnl/dionsegijn/konfetti/core/models/Vector;)V
 	public final fun getAlpha ()I
 	public final fun getAlphaColor ()I
@@ -250,6 +299,7 @@ public final class nl/dionsegijn/konfetti/core/emitter/Confetti {
 	public final fun getScaleX ()F
 	public final fun getShape ()Lnl/dionsegijn/konfetti/core/models/Shape;
 	public final fun getSize ()F
+	public final fun getTiltAngle ()F
 	public final fun getVelocity ()Lnl/dionsegijn/konfetti/core/models/Vector;
 	public final fun getWidth ()F
 	public final fun isDead ()Z
@@ -304,6 +354,11 @@ public final class nl/dionsegijn/konfetti/core/emitter/EmitterTimeUnitKt {
 }
 
 public final class nl/dionsegijn/konfetti/core/emitter/PartyEmitter : nl/dionsegijn/konfetti/core/emitter/BaseEmitter {
+	public static final field FALL_SPEED F
+	public static final field LOOP_SPREAD F
+	public static final field MAX_DRAG F
+	public static final field PENDULUM_LENGTH F
+	public static final field SPIN_SPREAD F
 	public fun <init> (Lnl/dionsegijn/konfetti/core/emitter/EmitterConfig;FLkotlin/random/Random;)V
 	public synthetic fun <init> (Lnl/dionsegijn/konfetti/core/emitter/EmitterConfig;FLkotlin/random/Random;ILkotlin/jvm/internal/DefaultConstructorMarker;)V
 	public fun createConfetti (FLnl/dionsegijn/konfetti/core/Party;Lnl/dionsegijn/konfetti/core/models/CoreRect;)Ljava/util/List;
@@ -367,6 +422,33 @@ public final class nl/dionsegijn/konfetti/core/models/ReferenceImage : nl/dionse
 	public fun getWidth ()I
 	public fun hashCode ()I
 	public fun toString ()Ljava/lang/String;
+}
+
+public final class nl/dionsegijn/konfetti/core/models/RibbonGeometryKt {
+	public static final fun ribbonSegments (Lnl/dionsegijn/konfetti/core/Particle;Lnl/dionsegijn/konfetti/core/models/RibbonSegments;)Z
+	public static final fun shade (IF)I
+}
+
+public final class nl/dionsegijn/konfetti/core/models/RibbonSegments {
+	public static final field BACK_DARK F
+	public static final field EDGE_WIDTH F
+	public static final field FRONT_LIGHT F
+	public static final field LOOP_WOBBLE F
+	public static final field LOOP_WOBBLE_WAVES F
+	public static final field MAX_SEGMENTS I
+	public static final field MIN_SEGMENTS I
+	public static final field RADIUS_WOBBLE F
+	public static final field RADIUS_WOBBLE_WAVES F
+	public static final field SEGMENTS_PER_LOOP I
+	public static final field TAIL_TAPER F
+	public fun <init> ()V
+	public final fun getColor ()[I
+	public final fun getCount ()I
+	public final fun getEndX ()[F
+	public final fun getEndY ()[F
+	public final fun getStartX ()[F
+	public final fun getStartY ()[F
+	public final fun getWidth ()[F
 }
 
 public abstract interface class nl/dionsegijn/konfetti/core/models/Shape {
@@ -433,6 +515,25 @@ public final class nl/dionsegijn/konfetti/core/models/Shape$Rectangle : nl/dions
 	public fun <init> (F)V
 	public fun equals (Ljava/lang/Object;)Z
 	public final fun getHeightRatio ()F
+	public fun hashCode ()I
+}
+
+public final class nl/dionsegijn/konfetti/core/models/Shape$Ribbon : nl/dionsegijn/konfetti/core/models/Shape {
+	public fun <init> ()V
+	public fun <init> (F)V
+	public fun <init> (FF)V
+	public fun <init> (FFF)V
+	public fun <init> (FFFF)V
+	public fun <init> (FFFFF)V
+	public fun <init> (FFFFFF)V
+	public synthetic fun <init> (FFFFFFILkotlin/jvm/internal/DefaultConstructorMarker;)V
+	public fun equals (Ljava/lang/Object;)Z
+	public final fun getBend ()F
+	public final fun getLoopSpacing ()F
+	public final fun getMaxLength ()F
+	public final fun getMinLength ()F
+	public final fun getSpin ()F
+	public final fun getThickness ()F
 	public fun hashCode ()I
 }
 

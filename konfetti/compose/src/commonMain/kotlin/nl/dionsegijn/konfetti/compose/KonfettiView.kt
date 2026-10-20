@@ -27,6 +27,7 @@ import nl.dionsegijn.konfetti.core.Particle
 import nl.dionsegijn.konfetti.core.Party
 import nl.dionsegijn.konfetti.core.PartySystem
 import nl.dionsegijn.konfetti.core.models.CoreRectImpl
+import nl.dionsegijn.konfetti.core.models.Shape
 import kotlin.jvm.JvmMultifileClass
 import kotlin.jvm.JvmName
 import kotlin.time.Clock
@@ -143,6 +144,10 @@ private fun KonfettiCanvas(
                 },
         onDraw = {
             particles.value.forEach { particle ->
+                if (particle.shape is Shape.Ribbon) {
+                    drawRibbon(particle)
+                    return@forEach
+                }
                 withTransform({
                     rotate(
                         degrees = particle.rotation,

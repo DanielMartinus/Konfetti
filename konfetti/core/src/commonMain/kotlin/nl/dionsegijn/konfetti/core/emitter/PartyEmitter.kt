@@ -1,5 +1,6 @@
 package nl.dionsegijn.konfetti.core.emitter
 
+import nl.dionsegijn.konfetti.core.Drift
 import nl.dionsegijn.konfetti.core.Party
 import nl.dionsegijn.konfetti.core.Position
 import nl.dionsegijn.konfetti.core.Rotation
@@ -10,6 +11,7 @@ import nl.dionsegijn.konfetti.core.models.Vector
 import kotlin.math.PI
 import kotlin.math.cos
 import kotlin.math.sin
+import kotlin.math.sqrt
 import kotlin.random.Random
 
 /**
@@ -91,24 +93,79 @@ class PartyEmitter(
     ): Confetti {
         particlesCreated++
         with(party) {
+            // Random values are drawn in the same order as before drift and ribbons existed,
+            // so a seeded party without them plays exactly the same
             val randomSize = size[random.nextInt(size.size)]
+            val location = position.get(drawArea).run { Vector(x, y) }
+            val mass = randomSize.massWithVariance()
+            val shape = getRandomShape(shapes)
+            val color = colors[random.nextInt(colors.size)]
+            val velocity = getVelocity()
+            val rotationSpeed2D = rotation.rotationSpeed() * party.rotation.multiplier2D
+            val rotationSpeed3D = rotation.rotationSpeed() * party.rotation.multiplier3D
+            val drifts = drift.enabled
+            val sway = if (drifts) drift.withVariance(drift.sway) else 0f
+            val swayFrequency = if (drifts) drift.withVariance(drift.frequency) else 0f
+            val swayPhase = if (drifts) randomAngle() else 0f
+            // Each streamer gets its own length, and starts and spins its own way
+            val ribbon = shape as? Shape.Ribbon
+            val ribbonLength = if (ribbon != null) randomLength(ribbon) else 0f
+            val spinPhase = if (ribbon != null) randomAngle() else 0f
+            val spinSpeed = if (ribbon != null) randomSpin(ribbon) else 0f
+            // Each drifting piece catches the air its own way, so they don't all fall at one speed
+            val drag = if (drifts) drift.withVariance(drift.drag).coerceIn(0f, MAX_DRAG) else 0f
+            val fallSpeed = if (drifts) drift.withVariance(FALL_SPEED * (1f - drag)) else 0f
+            val harmonicPhase = if (drifts) randomAngle() else 0f
+            val wanderPhase = if (drifts) randomAngle() else 0f
+            // And no two streamers are curled quite the same
+            val loopScale = if (ribbon != null) 1f + LOOP_SPREAD * (random.nextFloat() * 2f - 1f) else 1f
+            val unevenness = if (ribbon != null) randomAngle() else 0f
             return Confetti(
-                location = position.get(drawArea).run { Vector(x, y) },
+                location = location,
                 width = randomSize.sizeInDp * pixelDensity,
-                mass = randomSize.massWithVariance(),
-                shape = getRandomShape(shapes),
-                color = colors[random.nextInt(colors.size)],
+                mass = mass,
+                shape = shape,
+                color = color,
                 lifespan = timeToLive,
                 fadeOut = fadeOutEnabled,
-                velocity = getVelocity(),
+                velocity = velocity,
                 damping = party.damping,
-                rotationSpeed2D = rotation.rotationSpeed() * party.rotation.multiplier2D,
-                rotationSpeed3D = rotation.rotationSpeed() * party.rotation.multiplier3D,
+                rotationSpeed2D = rotationSpeed2D,
+                rotationSpeed3D = rotationSpeed3D,
                 faceDirection = rotation.faceDirection,
                 pixelDensity = pixelDensity,
+                sway = sway,
+                // A long streamer swings slower, like a longer pendulum
+                swayFrequency = if (ribbon != null) swayFrequency * pendulum(ribbonLength) else swayFrequency,
+                swayPhase = swayPhase,
+                // A streamer doesn't tip into its swing, its body trailing behind its head is its lean
+                tilt = if (drifts && ribbon == null) drift.tilt else 0f,
+                drag = drag,
+                ribbonLength = ribbonLength,
+                spinPhase = spinPhase,
+                spinSpeed = spinSpeed,
+                fallSpeed = fallSpeed,
+                harmonicPhase = harmonicPhase,
+                wanderPhase = wanderPhase,
+                loopScale = loopScale,
+                shapePhases = unevenness,
             )
         }
     }
+
+    /** [value] give or take [Drift.variance] of it */
+    private fun Drift.withVariance(value: Float): Float = value + value * variance * (random.nextFloat() * 2f - 1f)
+
+    private fun randomLength(ribbon: Shape.Ribbon): Float =
+        (ribbon.minLength + (ribbon.maxLength - ribbon.minLength) * random.nextFloat()) * pixelDensity
+
+    // How much slower a streamer of [length] pixels swings than flat confetti
+    private fun pendulum(length: Float): Float = sqrt(PENDULUM_LENGTH * pixelDensity / length).coerceAtMost(1f)
+
+    // Always the same way round, the direction comes from how it moves. Some spin faster than others.
+    private fun randomSpin(ribbon: Shape.Ribbon): Float = ribbon.spin * (1f + SPIN_SPREAD * (random.nextFloat() * 2f - 1f))
+
+    private fun randomAngle(): Float = random.nextFloat() * 2 * PI.toFloat()
 
     /**
      * Calculate a rotation speed multiplier based on the base and variance
@@ -197,5 +254,20 @@ class PartyEmitter(
         } else {
             false
         }
+    }
+
+    private companion object {
+        // A streamer this long in dp swings as fast as Drift says, longer ones swing slower
+        const val PENDULUM_LENGTH = 12f
+
+        // How fast a drifting piece without drag settles falling, in dp a second
+        const val FALL_SPEED = 220f
+
+        // Drag stays below 1, so every piece still falls
+        const val MAX_DRAG = 0.95f
+
+        // How much a streamer's spin and loop spacing differ from its shape's, either way
+        const val SPIN_SPREAD = 0.4f
+        const val LOOP_SPREAD = 0.15f
     }
 }

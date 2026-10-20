@@ -2,7 +2,9 @@ package nl.dionsegijn.konfetti.web
 
 import kotlinx.browser.document
 import nl.dionsegijn.konfetti.core.Particle
+import nl.dionsegijn.konfetti.core.models.RibbonSegments
 import nl.dionsegijn.konfetti.core.models.Shape
+import nl.dionsegijn.konfetti.core.models.ribbonSegments
 import kotlin.math.PI
 
 /**
@@ -13,11 +15,18 @@ internal class Painter {
     // Tinted copies of images, one per image and color, so tinting isn't redone every frame
     private val tinted = mutableMapOf<String, dynamic>()
 
+    // Reused for every streamer so drawing doesn't allocate per frame
+    private val segments = RibbonSegments()
+
     fun draw(
         context: dynamic,
         particles: List<Particle>,
     ) {
         particles.forEach { particle ->
+            if (particle.shape is Shape.Ribbon) {
+                drawRibbon(context, particle)
+                return@forEach
+            }
             context.save()
             context.translate(particle.x + particle.width / 2, particle.y + particle.height / 2)
             context.rotate(particle.rotation * PI / 180)
@@ -25,6 +34,26 @@ internal class Painter {
             drawParticle(context, particle)
             context.restore()
         }
+    }
+
+    // A streamer's pieces are already in canvas pixels, leaning and bending, so they skip the transform
+    private fun drawRibbon(
+        context: dynamic,
+        particle: Particle,
+    ) {
+        if (!particle.ribbonSegments(segments)) return
+        context.save()
+        context.globalAlpha = particle.alpha / 255.0
+        context.lineCap = "round"
+        for (i in 0 until segments.count) {
+            context.strokeStyle = cssColor(segments.color[i])
+            context.lineWidth = segments.width[i]
+            context.beginPath()
+            context.moveTo(segments.startX[i], segments.startY[i])
+            context.lineTo(segments.endX[i], segments.endY[i])
+            context.stroke()
+        }
+        context.restore()
     }
 
     /** Drops the tinted copies of an image, when it's registered again */
@@ -62,6 +91,8 @@ internal class Painter {
                 context.closePath()
                 context.fill()
             }
+            // Streamers are drawn by drawRibbon, without the transform
+            is Shape.Ribbon -> Unit
             is Shape.DrawableShape -> {
                 val image = shape.image as? WebImage ?: return
                 val height = size * shape.heightRatio

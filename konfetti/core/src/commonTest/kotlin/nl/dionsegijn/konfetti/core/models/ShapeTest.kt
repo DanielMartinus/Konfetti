@@ -99,4 +99,30 @@ class ShapeTest {
         val second = Party(shapes = listOf(Shape.Polygon.star(points = 6)), emitter = emitter)
         assertEquals(first, second)
     }
+
+    @Test
+    fun `ribbons with the same settings are equal`() {
+        assertEquals(Shape.Ribbon(40f, 80f), Shape.Ribbon(40f, 80f))
+        assertEquals(Shape.Ribbon(40f, 80f).hashCode(), Shape.Ribbon(40f, 80f).hashCode())
+        assertNotEquals(Shape.Ribbon(40f, 80f), Shape.Ribbon(40f, 90f))
+    }
+
+    @Test
+    fun `ribbon settings stay in range`() {
+        assertFailsWith<IllegalArgumentException> { Shape.Ribbon(minLength = 0f) }
+        assertFailsWith<IllegalArgumentException> { Shape.Ribbon(minLength = 100f, maxLength = 50f) }
+        assertFailsWith<IllegalArgumentException> { Shape.Ribbon(loopSpacing = 0f) }
+        assertFailsWith<IllegalArgumentException> { Shape.Ribbon(thickness = 1.5f) }
+        assertFailsWith<IllegalArgumentException> { Shape.Ribbon(spin = -1f) }
+        assertFailsWith<IllegalArgumentException> { Shape.Ribbon(bend = 2f) }
+    }
+
+    @Test
+    fun `shade lightens and darkens but keeps alpha`() {
+        val gray = 0x80808080.toInt()
+        assertEquals(0x80, shade(gray, 0f) and 0xff)
+        assertTrue((shade(gray, 0.5f) and 0xff) > 0x80)
+        assertTrue((shade(gray, -0.5f) and 0xff) < 0x80)
+        assertEquals(0x80, shade(gray, 0.5f) ushr 24)
+    }
 }

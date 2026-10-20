@@ -9,15 +9,21 @@ import androidx.compose.ui.graphics.BlendMode
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.graphics.ColorFilter
 import androidx.compose.ui.graphics.Path
+import androidx.compose.ui.graphics.StrokeCap
 import androidx.compose.ui.graphics.drawscope.DrawScope
 import androidx.compose.ui.graphics.drawscope.translate
 import androidx.compose.ui.graphics.drawscope.withTransform
 import nl.dionsegijn.konfetti.compose.PainterImage
 import nl.dionsegijn.konfetti.core.Particle
+import nl.dionsegijn.konfetti.core.models.RibbonSegments
 import nl.dionsegijn.konfetti.core.models.Shape
+import nl.dionsegijn.konfetti.core.models.ribbonSegments
 
 // Reused for every polygon so drawing doesn't create a path per confetti per frame
 private val polygonPath = Path()
+
+// Reused for every streamer for the same reason
+private val ribbonSegments = RibbonSegments()
 
 /**
  * Draws particles that [Replay] worked out for one moment on the timeline.
@@ -32,6 +38,10 @@ fun ParticleCanvas(
     // Reading the particles while drawing redraws each frame without recomposing the screen
     Canvas(modifier) {
         particles().forEach { particle ->
+            if (particle.shape is Shape.Ribbon) {
+                drawRibbon(particle)
+                return@forEach
+            }
             withTransform({
                 rotate(
                     degrees = particle.rotation,
@@ -42,6 +52,21 @@ fun ParticleCanvas(
                 drawParticle(particle)
             }
         }
+    }
+}
+
+// Streamer pieces are already in canvas pixels, leaning and bending, same as KonfettiView draws them
+private fun DrawScope.drawRibbon(particle: Particle) {
+    // The colors already carry the particle's alpha
+    if (!particle.ribbonSegments(ribbonSegments)) return
+    for (i in 0 until ribbonSegments.count) {
+        drawLine(
+            color = Color(ribbonSegments.color[i]),
+            start = Offset(ribbonSegments.startX[i], ribbonSegments.startY[i]),
+            end = Offset(ribbonSegments.endX[i], ribbonSegments.endY[i]),
+            strokeWidth = ribbonSegments.width[i],
+            cap = StrokeCap.Round,
+        )
     }
 }
 
@@ -69,6 +94,8 @@ private fun DrawScope.drawParticle(particle: Particle) {
             polygonPath.close()
             drawPath(path = polygonPath, color = color)
         }
+        // Drawn by drawRibbon, without the transform
+        is Shape.Ribbon -> Unit
         is Shape.DrawableShape -> {
             // The playground only uses painters, like the heart from Compose resources
             val image = shape.image as? PainterImage ?: return

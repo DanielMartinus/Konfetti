@@ -37,6 +37,8 @@ import nl.dionsegijn.konfetti.core.models.Size
  * @property emitter instructions how many and often a confetti particle should spawn.
  * Use Emitter(duration, timeUnit).max(amount) or Emitter(duration, timeUnit).perSecond(amount) to
  * configure the Emitter.
+ * @property drift makes the confetti sway from side to side as it falls, like paper drifting down.
+ * Off by default, see [Drift].
  */
 data class Party(
     val angle: Int = 0,
@@ -53,6 +55,7 @@ data class Party(
     val delay: Int = 0,
     val rotation: Rotation = Rotation(),
     val emitter: EmitterConfig,
+    val drift: Drift = Drift(),
 )
 
 /**
@@ -152,5 +155,39 @@ data class Rotation(
         fun enabled() = Rotation(enabled = true)
 
         fun disabled() = Rotation(enabled = false)
+    }
+}
+
+/**
+ * Lets confetti sway from side to side while it falls, the way paper drifts down.
+ * Each piece starts its swing at a random moment, so they don't move in step.
+ * The sway only kicks in once a piece falls, so a burst still shoots out straight.
+ *
+ * @property enabled by default false. Set to true to let the confetti drift
+ * @property sway how far a piece swings to each side, in dp
+ * @property frequency how many times a second a piece swings back and forth
+ * @property variance the margin in which [sway] and [frequency] differ per piece, between 0 and 1
+ * @property tilt how many degrees a piece leans into its swing. Set to 0 to keep it level
+ * @property drag slows the fall down so the confetti floats longer, between 0 (no drag) and 1
+ */
+data class Drift(
+    val enabled: Boolean = false,
+    val sway: Float = 20f,
+    val frequency: Float = 1f,
+    val variance: Float = 0.5f,
+    val tilt: Float = 30f,
+    val drag: Float = 0f,
+) {
+    init {
+        require(sway >= 0f) { "sway can't be negative" }
+        require(frequency >= 0f) { "frequency can't be negative" }
+        require(variance in 0f..1f) { "variance must be within 0 and 1" }
+        require(drag in 0f..1f) { "drag must be within 0 and 1" }
+    }
+
+    companion object {
+        fun enabled() = Drift(enabled = true)
+
+        fun disabled() = Drift(enabled = false)
     }
 }

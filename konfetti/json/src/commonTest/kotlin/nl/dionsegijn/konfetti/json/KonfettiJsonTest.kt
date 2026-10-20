@@ -1,5 +1,6 @@
 package nl.dionsegijn.konfetti.json
 
+import nl.dionsegijn.konfetti.core.Drift
 import nl.dionsegijn.konfetti.core.Party
 import nl.dionsegijn.konfetti.core.Position
 import nl.dionsegijn.konfetti.core.Rotation
@@ -34,7 +35,7 @@ class KonfettiJsonTest {
                 damping = 0.95f,
                 size = listOf(Size(12, mass = 3f, massVariance = 0.5f)),
                 colors = listOf(0x123456, 0xff0000),
-                shapes = listOf(Shape.Rectangle(0.4f), Shape.Polygon.STAR, Shape.Circle),
+                shapes = listOf(Shape.Rectangle(0.4f), Shape.Polygon.STAR, Shape.Circle, Shape.Ribbon(40f, 90f, 8f, 0.5f, 2f, 0.7f)),
                 timeToLive = 3000,
                 fadeOutEnabled = false,
                 position = Position.Relative(0.1, 0.2).between(Position.Relative(0.9, 0.2)),
@@ -49,6 +50,7 @@ class KonfettiJsonTest {
                         faceDirection = true,
                     ),
                 emitter = Emitter(0L).perSecond(30),
+                drift = Drift(enabled = true, sway = 30f, frequency = 1.5f, variance = 0.2f, tilt = 10f, drag = 0.4f),
             )
         assertEquals(party, roundTrip(party))
     }
@@ -151,5 +153,15 @@ class KonfettiJsonTest {
     fun `unknown fields are ignored`() {
         val json = """{"parties":[{"emitter":{"duration":100,"max":80},"studio":{"locked":true}}],"meta":{"screens":[]}}"""
         assertFalse(KonfettiJson.decode(json).isEmpty())
+    }
+
+    @Test
+    fun `a ribbon and drift read from a short file`() {
+        val json =
+            """{"version":1,"parties":[{"shapes":[{"type":"ribbon","maxLength":200}],""" +
+                """"drift":{"enabled":true,"drag":0.5},"emitter":{"duration":100,"max":10}}]}"""
+        val party = KonfettiJson.decode(json).single()
+        assertEquals(listOf<Shape>(Shape.Ribbon(maxLength = 200f)), party.shapes)
+        assertEquals(Drift(enabled = true, drag = 0.5f), party.drift)
     }
 }
