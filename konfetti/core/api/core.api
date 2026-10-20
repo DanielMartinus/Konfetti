@@ -221,15 +221,15 @@ public final class nl/dionsegijn/konfetti/core/ReplayKt {
 }
 
 public final class nl/dionsegijn/konfetti/core/RibbonBody {
-	public fun <init> (FFFFF[FFFF)V
-	public synthetic fun <init> (FFFFF[FFFFILkotlin/jvm/internal/DefaultConstructorMarker;)V
+	public fun <init> (FFF[F[FFFFF)V
+	public synthetic fun <init> (FFF[F[FFFFFILkotlin/jvm/internal/DefaultConstructorMarker;)V
 	public fun equals (Ljava/lang/Object;)Z
-	public final fun getAxisX ()F
-	public final fun getAxisY ()F
+	public final fun getCoilScale ()F
 	public final fun getContrast ()F
 	public final fun getLength ()F
 	public final fun getLoopSpacing ()F
-	public final fun getOffsets ()[F
+	public final fun getPathX ()[F
+	public final fun getPathY ()[F
 	public final fun getSpin ()F
 	public final fun getThicknessScale ()F
 	public final fun getUnevenness ()F
@@ -356,6 +356,7 @@ public final class nl/dionsegijn/konfetti/core/emitter/EmitterTimeUnitKt {
 }
 
 public final class nl/dionsegijn/konfetti/core/emitter/PartyEmitter : nl/dionsegijn/konfetti/core/emitter/BaseEmitter {
+	public static final field AIR_SPREAD F
 	public static final field BEND_SPREAD F
 	public static final field CONTRAST_SPREAD F
 	public static final field FALL_SPEED F

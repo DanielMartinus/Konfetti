@@ -99,7 +99,37 @@ class Confetti(
         private const val MAX_LAG = 0.5f
         private const val TRAIL_STEP = 1f / 60
         private const val TRAIL_SIZE = 32
-        private const val BODY_POINTS = 9
+        private const val BODY_POINTS = 13
+
+        // Where a streamer's head has been, one every TRAIL_STEP, so its body can follow that path while it flies
+        private const val PATH_SIZE = 48
+
+        // Below this speed, in dp per 60 fps step, a streamer just hangs. From the second its body follows its path.
+        private const val PATH_FROM_SPEED = 1.5f
+        private const val PATH_FULL_SPEED = 6f
+
+        // A streamer launched faster than this starts packed at this part of its length,
+        // and pays out to full length over this many of its lengths travelled
+        private const val PAY_OUT_SPEED = 3f
+        private const val PACKED_LENGTH = 0.3f
+        private const val PAY_OUT_DISTANCE = 3f
+
+        // Flying fast, a wave whips along the body like a flag: up to this part of its length sideways at the tail,
+        // this many waves along it, this many times a second, between these speeds in dp per 60 fps step
+        private const val FLUTTER_SIZE = 0.12f
+        private const val FLUTTER_WAVES = 1.2f
+        private const val FLUTTER_FREQUENCY = 5f
+        private const val FLUTTER_FROM_SPEED = 3f
+        private const val FLUTTER_FULL_SPEED = 15f
+
+        // Pulled through the air fast, its loops spread up to this much wider and its coil narrows.
+        // It goes taut quickly and relaxes slower, over these many seconds
+        private const val MAX_STRETCH = 1.6f
+        private const val STRETCH_FROM_SPEED = 2f
+        private const val STRETCH_FULL_SPEED = 12f
+        private const val STRETCH_IN = 0.08f
+        private const val STRETCH_OUT = 0.3f
+        private const val STRETCH_NARROWING = 0.35f
 
         // How much a streamer's own fall keeps its body pointing up, against the way it's moving
         private const val HANG = 2f
@@ -163,6 +193,18 @@ class Confetti(
     private val trail = if (ribbon != null && bend > 0f) FloatArray(TRAIL_SIZE) else null
     private var trailNewest = 0
     private var trailClock = 0f
+
+    // Where a streamer's head has been, newest at pathNewest
+    private val pathX = if (ribbon != null) FloatArray(PATH_SIZE) else null
+    private val pathY = if (ribbon != null) FloatArray(PATH_SIZE) else null
+    private var pathNewest = 0
+    private var pathCount = 0
+
+    // How far a streamer has travelled, in pixels, and how stretched it is right now
+    private var travelled = 0f
+    private var stretch = 1f
+    private var flutter = shapePhases
+    private val packed = ribbon != null && sqrt(velocity.x * velocity.x + velocity.y * velocity.y) > PAY_OUT_SPEED
 
     // The way a streamer's body runs from its head. It starts trailing behind the way it's launched,
     // so a streamer shot up doesn't fly tail first and then flip over
@@ -280,6 +322,9 @@ class Confetti(
         if (ribbon != null) {
             hang(deltaTime, steps)
             spin = (spin + TWO_PI * spinRate() * deltaTime) % TWO_PI
+            stretch(deltaTime)
+            flutter = (flutter + TWO_PI * FLUTTER_FREQUENCY * deltaTime) % TWO_PI
+            travelled += speed() * steps * pixelDensity
             recordTrail(deltaTime)
         }
 
@@ -377,13 +422,38 @@ class Confetti(
 
     // Keeps the sway offset every TRAIL_STEP, so it's the same at any frame rate
     private fun recordTrail(deltaTime: Float) {
-        val trail = trail ?: return
+        val pathX = pathX ?: return
+        val pathY = pathY ?: return
         trailClock += deltaTime
         while (trailClock >= TRAIL_STEP) {
             trailClock -= TRAIL_STEP
             trailNewest = (trailNewest + 1) % TRAIL_SIZE
-            trail[trailNewest] = swayOffset
+            trail?.set(trailNewest, swayOffset)
+            pathNewest = (pathNewest + 1) % PATH_SIZE
+            pathX[pathNewest] = centerX()
+            pathY[pathNewest] = centerY()
+            pathCount = (pathCount + 1).coerceAtMost(PATH_SIZE)
         }
+    }
+
+    private fun speed() = sqrt(velocity.x * velocity.x + velocity.y * velocity.y)
+
+    // How far along from [from] to [to] a value is, eased at both ends
+    private fun smoothStep(
+        from: Float,
+        to: Float,
+        value: Float,
+    ): Float {
+        val t = ((value - from) / (to - from)).coerceIn(0f, 1f)
+        return t * t * (3 - 2 * t)
+    }
+
+    // Pulled through the air fast, a streamer's coil stretches out, and springs back as it slows
+    private fun stretch(deltaTime: Float) {
+        val alongBody = abs(velocity.x * hangX + velocity.y * hangY)
+        val target = 1f + (MAX_STRETCH - 1f) * smoothStep(STRETCH_FROM_SPEED, STRETCH_FULL_SPEED, alongBody)
+        val ease = if (target > stretch) STRETCH_IN else STRETCH_OUT
+        stretch += (target - stretch) * (1f - exp(-deltaTime / ease))
     }
 
     // The sway offset [seconds] ago, between the two samples around it
@@ -406,24 +476,102 @@ class Confetti(
      */
     internal fun ribbonBody(): RibbonBody? {
         val ribbon = ribbon ?: return null
-        val offsets = FloatArray(BODY_POINTS)
-        if (trail != null) {
+        // Shot out of a popper it starts packed and pays out as it flies
+        val paidOut = if (packed) (travelled / (PAY_OUT_DISTANCE * ribbonLength)).coerceIn(0f, 1f) else 1f
+        val length = ribbonLength * (PACKED_LENGTH + (1f - PACKED_LENGTH) * paidOut)
+
+        // Hanging: straight up from the head along hang, with the sway lag of bend
+        val bodyX = FloatArray(BODY_POINTS)
+        val bodyY = FloatArray(BODY_POINTS)
+        for (i in 1 until BODY_POINTS) {
+            val along = i / (BODY_POINTS - 1f) * length
+            val lag = if (trail != null) swayOffsetAgo(trail, i / (BODY_POINTS - 1f) * bend * MAX_LAG) - swayOffset else 0f
+            bodyX[i] = hangX * along + lag
+            bodyY[i] = hangY * along
+        }
+
+        // Flying: the body follows the path the head took, like a rope
+        val follow = smoothStep(PATH_FROM_SPEED, PATH_FULL_SPEED, speed())
+        if (follow > 0f) followPath(length, follow, bodyX, bodyY)
+
+        // And it flutters like a flag, more toward the tail, while it flies fast
+        val flap = FLUTTER_SIZE * length * smoothStep(FLUTTER_FROM_SPEED, FLUTTER_FULL_SPEED, speed())
+        if (flap > 0f) {
             for (i in 1 until BODY_POINTS) {
-                val delay = i / (BODY_POINTS - 1f) * bend * MAX_LAG
-                offsets[i] = swayOffsetAgo(trail, delay) - swayOffset
+                val along = i / (BODY_POINTS - 1f)
+                val wave = flap * along * sin(TWO_PI * FLUTTER_WAVES * along - flutter)
+                bodyX[i] += -hangY * wave
+                bodyY[i] += hangX * wave
             }
         }
+
         return RibbonBody(
             spin = spin,
-            length = ribbonLength,
-            loopSpacing = ribbon.loopSpacing * loopScale * pixelDensity,
-            axisX = hangX,
-            axisY = hangY,
-            offsets = offsets,
+            length = length,
+            loopSpacing = ribbon.loopSpacing * loopScale * pixelDensity * stretch,
+            pathX = bodyX,
+            pathY = bodyY,
             unevenness = shapePhases,
             thicknessScale = thicknessScale,
             contrast = contrast,
+            coilScale = 1f - STRETCH_NARROWING * (stretch - 1f),
         )
+    }
+
+    /**
+     * Moves the body points toward the path the head took, by [follow] between 0 and 1. It walks back from the
+     * head through where it has been. Where that path is shorter than the body, the rest carries on along hang.
+     */
+    private fun followPath(
+        length: Float,
+        follow: Float,
+        bodyX: FloatArray,
+        bodyY: FloatArray,
+    ) {
+        val pathX = pathX ?: return
+        val pathY = pathY ?: return
+        val headX = centerX()
+        val headY = centerY()
+        var fromX = 0f
+        var fromY = 0f
+        var walked = 0f
+        var sample = 0
+        for (i in 1 until BODY_POINTS) {
+            val wanted = i / (BODY_POINTS - 1f) * length
+            // Step back through the path until it reaches this far along the body
+            while (sample < pathCount) {
+                val index = (pathNewest - sample + PATH_SIZE) % PATH_SIZE
+                val toX = pathX[index] - headX
+                val toY = pathY[index] - headY
+                val step = sqrt((toX - fromX) * (toX - fromX) + (toY - fromY) * (toY - fromY))
+                if (walked + step >= wanted && step > 0f) {
+                    val part = (wanted - walked) / step
+                    blend(bodyX, bodyY, i, fromX + (toX - fromX) * part, fromY + (toY - fromY) * part, follow)
+                    break
+                }
+                walked += step
+                fromX = toX
+                fromY = toY
+                sample++
+            }
+            if (sample >= pathCount) {
+                // Past where it has been, the body carries on along hang
+                val rest = wanted - walked
+                blend(bodyX, bodyY, i, fromX + hangX * rest, fromY + hangY * rest, follow)
+            }
+        }
+    }
+
+    private fun blend(
+        bodyX: FloatArray,
+        bodyY: FloatArray,
+        i: Int,
+        x: Float,
+        y: Float,
+        follow: Float,
+    ) {
+        bodyX[i] += (x - bodyX[i]) * follow
+        bodyY[i] += (y - bodyY[i]) * follow
     }
 
     private fun centerX() = location.x + width / 2

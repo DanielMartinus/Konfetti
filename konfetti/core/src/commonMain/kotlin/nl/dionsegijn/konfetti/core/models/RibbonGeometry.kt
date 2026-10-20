@@ -1,12 +1,14 @@
 package nl.dionsegijn.konfetti.core.models
 
 import nl.dionsegijn.konfetti.core.Particle
+import nl.dionsegijn.konfetti.core.RibbonBody
 import kotlin.math.PI
 import kotlin.math.abs
 import kotlin.math.ceil
 import kotlin.math.cos
 import kotlin.math.exp
 import kotlin.math.sin
+import kotlin.math.sqrt
 
 /**
  * The short straight pieces a [Shape.Ribbon] streamer is drawn with, filled by [ribbonSegments].
@@ -52,19 +54,19 @@ class RibbonSegments {
         // Tighter stretches need more pieces to stay round
         val segments =
             ceil(loops * SEGMENTS_PER_LOOP * (1 + ribbon.irregularity)).toInt().coerceIn(MIN_SEGMENTS, MAX_SEGMENTS)
-        val radius = particle.width / 2
+        val radius = particle.width / 2 * body.coilScale
         val strip = ribbon.thickness * body.thicknessScale * body.loopSpacing
         // Shading 0.5 is the usual look, 0 is flat color and 1 twice as strong
         val shading = ribbon.shading / DEFAULT_SHADING * body.contrast
         val frontLight = FRONT_LIGHT * shading
         val backDark = BACK_DARK * shading
 
-        // The body runs from the head along its axis, turned by the drift lean
+        // The body runs from the head along its line, turned by the drift lean
         val lean = particle.rotation * PI.toFloat() / 180
-        val axisX = body.axisX * cos(lean) - body.axisY * sin(lean)
-        val axisY = body.axisX * sin(lean) + body.axisY * cos(lean)
-        val headX = particle.x + radius
-        val headY = particle.y + radius
+        val leanCos = cos(lean)
+        val leanSin = sin(lean)
+        val headX = particle.x + particle.width / 2
+        val headY = particle.y + particle.width / 2
 
         // How far round the spiral has turned at each point. Where it's wound tighter it turns faster, and it's
         // scaled so the loops still average out at the ribbon's loop spacing.
@@ -83,10 +85,14 @@ class RibbonSegments {
                 radius * (1 - TAIL_TAPER * along) *
                     (1 + RADIUS_WOBBLE * sin(2 * PI.toFloat() * RADIUS_WOBBLE_WAVES * along + body.unevenness * 1.7f))
             val side = coil * cos(angle)
-            val offset = offsetAt(body.offsets, along)
-            // The spiral's sideways swing is across the axis, the bend pushes it sideways on the screen
-            pointX[i] = headX + axisX * along * body.length - axisY * side + offset
-            pointY[i] = headY + axisY * along * body.length + axisX * side
+            // Where the body's line is here and which way it runs, so the coil wraps around a curved body too
+            lineAt(body, along)
+            val x = lineX * leanCos - lineY * leanSin
+            val y = lineX * leanSin + lineY * leanCos
+            val runX = runningX * leanCos - runningY * leanSin
+            val runY = runningX * leanSin + runningY * leanCos
+            pointX[i] = headX + x - runY * side
+            pointY[i] = headY + y + runX * side
             depth[i] = sin(angle)
         }
 
@@ -117,15 +123,34 @@ class RibbonSegments {
         count = segments
     }
 
-    private fun offsetAt(
-        offsets: FloatArray,
+    // The point on the body's line at [along], and the direction it runs there, set by lineAt
+    private var lineX = 0f
+    private var lineY = 0f
+    private var runningX = 0f
+    private var runningY = -1f
+
+    private fun lineAt(
+        body: RibbonBody,
         along: Float,
-    ): Float {
-        if (offsets.size < 2) return 0f
-        val position = along * (offsets.size - 1)
-        val i = position.toInt().coerceAtMost(offsets.size - 2)
+    ) {
+        val points = body.pathX.size
+        val position = along * (points - 1)
+        val i = position.toInt().coerceAtMost(points - 2)
         val fraction = position - i
-        return offsets[i] + (offsets[i + 1] - offsets[i]) * fraction
+        lineX = body.pathX[i] + (body.pathX[i + 1] - body.pathX[i]) * fraction
+        lineY = body.pathY[i] + (body.pathY[i + 1] - body.pathY[i]) * fraction
+        // The direction blends between the pieces of the line around it, so the coil turns smoothly at the joints
+        val near = (i + if (fraction < 0.5f) -1 else 1).coerceIn(0, points - 2)
+        val weight = abs(fraction - 0.5f)
+        var dx = (body.pathX[i + 1] - body.pathX[i]) * (1 - weight) + (body.pathX[near + 1] - body.pathX[near]) * weight
+        var dy = (body.pathY[i + 1] - body.pathY[i]) * (1 - weight) + (body.pathY[near + 1] - body.pathY[near]) * weight
+        val length = sqrt(dx * dx + dy * dy)
+        if (length > 0f) {
+            dx /= length
+            dy /= length
+            runningX = dx
+            runningY = dy
+        }
     }
 
     private companion object {

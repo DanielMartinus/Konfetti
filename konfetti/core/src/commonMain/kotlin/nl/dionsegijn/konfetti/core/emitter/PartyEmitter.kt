@@ -124,6 +124,8 @@ class PartyEmitter(
             val thicknessScale = if (ribbon != null) ribbon.spread(THICKNESS_SPREAD) else 1f
             val bend = if (ribbon != null) (ribbon.bend * ribbon.spread(BEND_SPREAD)).coerceIn(0f, 1f) else 0f
             val contrast = if (ribbon != null) ribbon.spread(CONTRAST_SPREAD) else 1f
+            // Streamers catch the air differently, so some fly much further than others
+            val damping = if (ribbon != null) 1f - (1f - party.damping) * ribbon.spread(AIR_SPREAD) else party.damping
             return Confetti(
                 location = location,
                 width = randomSize.sizeInDp * pixelDensity * widthScale,
@@ -133,7 +135,7 @@ class PartyEmitter(
                 lifespan = timeToLive,
                 fadeOut = fadeOutEnabled,
                 velocity = velocity,
-                damping = party.damping,
+                damping = damping.coerceIn(0f, 1f),
                 rotationSpeed2D = rotationSpeed2D,
                 rotationSpeed3D = rotationSpeed3D,
                 faceDirection = rotation.faceDirection,
@@ -284,5 +286,6 @@ class PartyEmitter(
         const val THICKNESS_SPREAD = 0.5f
         const val BEND_SPREAD = 1f
         const val CONTRAST_SPREAD = 0.5f
+        const val AIR_SPREAD = 0.5f
     }
 }

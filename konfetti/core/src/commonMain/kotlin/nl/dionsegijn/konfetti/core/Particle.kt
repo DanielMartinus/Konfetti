@@ -45,25 +45,26 @@ data class Particle(
 /**
  * The moving parts of a [Shape.Ribbon] streamer at one moment.
  * @param spin how far it has turned around its own length, in radians
- * @param length how long it is in pixels
- * @param loopSpacing the distance between two loops of its spiral in pixels
- * @param axisX the direction its body runs from its head, x part. Up is (0, -1)
- * @param axisY the direction its body runs from its head, y part
- * @param offsets how far its body is pushed sideways in pixels, at even steps from its head (first) to its tail (last)
+ * @param length how long it is in pixels right now. A streamer shot out pays out to its full length as it flies
+ * @param loopSpacing the distance between two loops of its spiral in pixels, wider while it's pulled through the air
+ * @param pathX the line its body runs along, x part: points in pixels from its head (first, always 0) to its tail
+ * (last), evenly spread along the body. It hangs up from the head, or follows the path the head took while it flies
+ * @param pathY the same line, y part
  * @param unevenness a phase in radians that makes this streamer's spiral a little uneven along its length
  * @param thicknessScale how much thicker or thinner this streamer's strip is than its shape's thickness
  * @param contrast how much stronger or weaker this streamer's shading is than its shape's shading
+ * @param coilScale how much narrower its coil is than the confetti's size, while it's pulled through the air
  */
 class RibbonBody(
     val spin: Float,
     val length: Float,
     val loopSpacing: Float,
-    val axisX: Float,
-    val axisY: Float,
-    val offsets: FloatArray,
+    val pathX: FloatArray,
+    val pathY: FloatArray,
     val unevenness: Float = 0f,
     val thicknessScale: Float = 1f,
     val contrast: Float = 1f,
+    val coilScale: Float = 1f,
 ) {
     // Equal by content, so the same moment replayed gives equal particles
     override fun equals(other: Any?): Boolean =
@@ -71,13 +72,23 @@ class RibbonBody(
             other.spin == spin &&
             other.length == length &&
             other.loopSpacing == loopSpacing &&
-            other.axisX == axisX &&
-            other.axisY == axisY &&
-            other.offsets.contentEquals(offsets) &&
+            other.pathX.contentEquals(pathX) &&
+            other.pathY.contentEquals(pathY) &&
             other.unevenness == unevenness &&
             other.thicknessScale == thicknessScale &&
-            other.contrast == contrast
+            other.contrast == contrast &&
+            other.coilScale == coilScale
 
     override fun hashCode(): Int =
-        listOf(spin, length, loopSpacing, axisX, axisY, offsets.contentHashCode(), unevenness, thicknessScale, contrast).hashCode()
+        listOf(
+            spin,
+            length,
+            loopSpacing,
+            pathX.contentHashCode(),
+            pathY.contentHashCode(),
+            unevenness,
+            thicknessScale,
+            contrast,
+            coilScale,
+        ).hashCode()
 }

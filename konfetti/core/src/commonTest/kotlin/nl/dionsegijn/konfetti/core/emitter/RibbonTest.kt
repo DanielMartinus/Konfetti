@@ -5,6 +5,7 @@ import nl.dionsegijn.konfetti.core.Drift
 import nl.dionsegijn.konfetti.core.Party
 import nl.dionsegijn.konfetti.core.PartySystem
 import nl.dionsegijn.konfetti.core.Position
+import nl.dionsegijn.konfetti.core.RibbonBody
 import nl.dionsegijn.konfetti.core.models.CoreRectImpl
 import nl.dionsegijn.konfetti.core.models.RibbonSegments
 import nl.dionsegijn.konfetti.core.models.Shape
@@ -126,22 +127,30 @@ class RibbonTest {
         assertFalse(square.toParticle().ribbonSegments(RibbonSegments()))
     }
 
+    // Which way the tail points from the head, as a unit vector
+    private fun RibbonBody.tail(): Pair<Float, Float> {
+        val x = pathX.last()
+        val y = pathY.last()
+        val length = kotlin.math.sqrt(x * x + y * y)
+        return Pair(x / length, y / length)
+    }
+
     @Test
     fun `its body trails behind its head when it sways`() {
-        val bending = streamer(ribbon = Shape.Ribbon(bend = 1f), sway = 30f).run(seconds = 1.3f)
-        val offsets = bending.ribbonBody()!!.offsets
-        assertEquals(0f, offsets.first())
-        assertTrue(abs(offsets.last()) > 5f, "tail ${offsets.last()}")
+        val bending = streamer(ribbon = Shape.Ribbon(bend = 1f), sway = 30f).run(seconds = 1.3f).ribbonBody()!!
+        assertEquals(0f, bending.pathX.first())
+        assertTrue(abs(bending.pathX.last()) > 5f, "tail ${bending.pathX.last()}")
 
-        val stiff = streamer(ribbon = Shape.Ribbon(bend = 0f), sway = 30f).run(seconds = 1.3f)
-        assertTrue(stiff.ribbonBody()!!.offsets.all { it == 0f })
+        val stiff = streamer(ribbon = Shape.Ribbon(bend = 0f), sway = 30f).run(seconds = 1.3f).ribbonBody()!!
+        assertTrue(abs(bending.pathX.last()) > abs(stiff.pathX.last()) * 2, "bend ${bending.pathX.last()} stiff ${stiff.pathX.last()}")
     }
 
     @Test
     fun `the body bends the same at 120 fps as at 60 fps`() {
         val at60 = streamer(ribbon = Shape.Ribbon(bend = 1f), sway = 30f).run(seconds = 1.3f).ribbonBody()!!
         val at120 = streamer(ribbon = Shape.Ribbon(bend = 1f), sway = 30f).run(seconds = 1.3f, framesPerSecond = 120).ribbonBody()!!
-        at60.offsets.zip(at120.offsets).forEach { (a, b) -> assertEquals(a, b, 2f) }
+        at60.pathX.zip(at120.pathX).forEach { (a, b) -> assertEquals(a, b, 3f) }
+        at60.pathY.zip(at120.pathY).forEach { (a, b) -> assertEquals(a, b, 3f) }
     }
 
     @Test
@@ -220,7 +229,7 @@ class RibbonTest {
     fun `a streamer shot up trails its tail below its head right away`() {
         val piece = shotUp()
         piece.render(1f / 60, tallArea)
-        assertTrue(piece.ribbonBody()!!.axisY > 0.9f, "axis ${piece.ribbonBody()!!.axisY}")
+        assertTrue(piece.ribbonBody()!!.tail().second > 0.9f, "tail ${piece.ribbonBody()!!.tail()}")
     }
 
     @Test
@@ -233,16 +242,16 @@ class RibbonTest {
     @Test
     fun `a streamer flops over at the top of its arc instead of flipping`() {
         val piece = shotUp()
-        var last = piece.ribbonBody()!!
+        var last = piece.ribbonBody()!!.tail()
         repeat(180) { frame ->
             piece.render(1f / 60, tallArea)
-            val body = piece.ribbonBody()!!
+            val tail = piece.ribbonBody()!!.tail()
             // The body never turns more than a few degrees in one frame
-            val dot = last.axisX * body.axisX + last.axisY * body.axisY
+            val dot = last.first * tail.first + last.second * tail.second
             assertTrue(dot > 0.99f, "frame $frame turned ${acos(dot.coerceIn(-1f, 1f)) * 57.3f} degrees")
-            last = body
+            last = tail
         }
-        assertTrue(last.axisY < -0.9f, "hangs up again ${last.axisY}")
+        assertTrue(last.second < -0.9f, "hangs up again $last")
     }
 
     private fun party(ribbon: Shape.Ribbon) =
@@ -286,5 +295,92 @@ class RibbonTest {
     fun `shading sets how 3D a streamer looks`() {
         assertEquals(0, contrastOf(shading = 0f))
         assertTrue(contrastOf(shading = 1f) > contrastOf(shading = 0.5f))
+    }
+
+    // How much the body bends between its head and its tail, in degrees
+    private fun RibbonBody.curve(): Float {
+        val n = pathX.size
+        val head = kotlin.math.atan2(pathX[1] - pathX[0], pathY[1] - pathY[0])
+        val tail = kotlin.math.atan2(pathX[n - 1] - pathX[n - 2], pathY[n - 1] - pathY[n - 2])
+        var turn = (tail - head) * 57.3f
+        while (turn > 180f) turn -= 360f
+        while (turn < -180f) turn += 360f
+        return turn
+    }
+
+    @Test
+    fun `a streamer flutters while it flies fast and hangs straight when still`() {
+        val flying = shotUp()
+        val curves =
+            (0 until 20).map {
+                flying.render(1f / 60, tallArea)
+                abs(flying.ribbonBody()!!.curve())
+            }
+        assertTrue(curves.max() > 15f, "flying curves $curves")
+        assertEquals(0f, streamer().ribbonBody()!!.curve(), 0.5f)
+    }
+
+    @Test
+    fun `a streamer shot out pays out to its full length`() {
+        val piece = shotUp()
+        piece.render(1f / 240, tallArea)
+        val start = piece.ribbonBody()!!.length
+        piece.render(0.3f, tallArea)
+        val later = piece.ribbonBody()!!.length
+        assertTrue(start < later * 0.6f, "start $start later $later")
+        // One that starts still is full length right away
+        val still = streamer(length = 100f)
+        assertEquals(100f, still.ribbonBody()!!.length)
+    }
+
+    @Test
+    fun `its loops spread out while it flies fast`() {
+        // Widest while it shoots out, narrowest around the top of its arc where it hardly moves
+        val piece = shotUp()
+        val spacings =
+            (0 until 90).map {
+                piece.render(1f / 60, tallArea)
+                piece.ribbonBody()!!.loopSpacing
+            }
+        val flying = spacings.take(30).max()
+        val atTop = spacings.min()
+        assertTrue(flying > atTop * 1.3f, "flying $flying at the top $atTop")
+    }
+
+    // How high each streamer of a burst flies, from launch to the top of its arc
+    private fun heights(variance: Float): List<Float> {
+        val pieces =
+            PartyEmitter(Emitter(100L).max(12), 1f, Random(6)).createConfetti(
+                0.2f,
+                Party(
+                    angle = 270,
+                    spread = 0,
+                    speed = 40f,
+                    maxSpeed = 40f,
+                    damping = 0.94f,
+                    shapes = listOf(Shape.Ribbon(variance = variance)),
+                    position = Position.Relative(0.5, 0.9),
+                    emitter = Emitter(100L).max(12),
+                ),
+                tallArea,
+            )
+        val start = pieces.map { it.location.y }
+        val top = start.toMutableList()
+        repeat(120) {
+            pieces.forEachIndexed { i, piece ->
+                piece.render(1f / 60, tallArea)
+                top[i] = minOf(top[i], piece.location.y)
+            }
+        }
+        return start.zip(top) { a, b -> a - b }
+    }
+
+    @Test
+    fun `streamers fly different distances with variance`() {
+        val spread = heights(variance = 1f)
+        assertTrue(spread.max() > spread.min() * 1.5f, "heights $spread")
+        val same = heights(variance = 0f)
+        // Only their mass varies a little
+        assertTrue(same.max() < same.min() * 1.1f, "same heights $same")
     }
 }
