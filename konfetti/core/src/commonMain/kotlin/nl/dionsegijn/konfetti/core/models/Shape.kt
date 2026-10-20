@@ -129,8 +129,11 @@ sealed interface Shape {
      * @param thickness how wide the paper strip is, as a fraction of [loopSpacing]. Within (0, 1]
      * @param spin how many turns a second it spins around its own length. Set to 0 to hold the spiral still
      * @param bend how far its body trails behind its head when it sways, between 0 (stiff) and 1
-     * @param irregularity how uneven the gaps between its loops are, between 0 (evenly wound) and 1. Uneven loops
-     * bunch up and stretch out along the body and curl tighter toward the ends, and streamers differ more from each other.
+     * @param irregularity how uneven the gaps between its loops are along each streamer, between 0 (evenly wound)
+     * and 1. Uneven loops bunch up and stretch out along the body and curl tighter toward the ends.
+     * @param variance how different streamers are from each other, between 0 (all alike apart from their length)
+     * and 1. It spreads their spin, loop spacing, thickness, bend, coil width and shading.
+     * @param shading how 3D they look, between 0 (flat color) and 1 (a strongly darker back and lighter front)
      */
     class Ribbon
         @JvmOverloads
@@ -142,6 +145,8 @@ sealed interface Shape {
             val spin: Float = 1f,
             val bend: Float = 0.5f,
             val irregularity: Float = 0.5f,
+            val variance: Float = 0.5f,
+            val shading: Float = 0.5f,
         ) : Shape {
             init {
                 require(minLength > 0f) { "minLength must be above 0" }
@@ -151,6 +156,8 @@ sealed interface Shape {
                 require(spin >= 0f) { "spin can't be negative" }
                 require(bend in 0f..1f) { "bend must be within 0 and 1" }
                 require(irregularity in 0f..1f) { "irregularity must be within 0 and 1" }
+                require(variance in 0f..1f) { "variance must be within 0 and 1" }
+                require(shading in 0f..1f) { "shading must be within 0 and 1" }
             }
 
             // Equal by value, so a party built inline in a composable doesn't count as new every recomposition
@@ -162,9 +169,12 @@ sealed interface Shape {
                     other.thickness == thickness &&
                     other.spin == spin &&
                     other.bend == bend &&
-                    other.irregularity == irregularity
+                    other.irregularity == irregularity &&
+                    other.variance == variance &&
+                    other.shading == shading
 
-            override fun hashCode(): Int = listOf(minLength, maxLength, loopSpacing, thickness, spin, bend, irregularity).hashCode()
+            override fun hashCode(): Int =
+                listOf(minLength, maxLength, loopSpacing, thickness, spin, bend, irregularity, variance, shading).hashCode()
         }
 
     /**

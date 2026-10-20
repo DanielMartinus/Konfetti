@@ -35,7 +35,13 @@ class KonfettiJsonTest {
                 damping = 0.95f,
                 size = listOf(Size(12, mass = 3f, massVariance = 0.5f)),
                 colors = listOf(0x123456, 0xff0000),
-                shapes = listOf(Shape.Rectangle(0.4f), Shape.Polygon.STAR, Shape.Circle, Shape.Ribbon(40f, 90f, 8f, 0.5f, 2f, 0.7f, 0.9f)),
+                shapes =
+                    listOf(
+                        Shape.Rectangle(0.4f),
+                        Shape.Polygon.STAR,
+                        Shape.Circle,
+                        Shape.Ribbon(40f, 90f, 8f, 0.5f, 2f, 0.7f, 0.9f, 0.2f, 0.8f),
+                    ),
                 timeToLive = 3000,
                 fadeOutEnabled = false,
                 position = Position.Relative(0.1, 0.2).between(Position.Relative(0.9, 0.2)),

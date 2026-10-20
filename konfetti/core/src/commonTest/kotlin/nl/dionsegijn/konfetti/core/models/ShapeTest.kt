@@ -117,6 +117,8 @@ class ShapeTest {
         assertFailsWith<IllegalArgumentException> { Shape.Ribbon(spin = -1f) }
         assertFailsWith<IllegalArgumentException> { Shape.Ribbon(bend = 2f) }
         assertFailsWith<IllegalArgumentException> { Shape.Ribbon(irregularity = -0.1f) }
+        assertFailsWith<IllegalArgumentException> { Shape.Ribbon(variance = 1.5f) }
+        assertFailsWith<IllegalArgumentException> { Shape.Ribbon(shading = -1f) }
     }
 
     @Test

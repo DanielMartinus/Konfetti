@@ -118,12 +118,15 @@ class PartyEmitter(
             val harmonicPhase = if (drifts) randomAngle() else 0f
             val wanderPhase = if (drifts) randomAngle() else 0f
             // And no two streamers are curled quite the same
-            val loopScale =
-                if (ribbon != null) 1f + ribbon.irregularity * LOOP_SPREAD * (random.nextFloat() * 2f - 1f) else 1f
+            val loopScale = if (ribbon != null) ribbon.spread(LOOP_SPREAD) else 1f
             val unevenness = if (ribbon != null) randomAngle() else 0f
+            val widthScale = if (ribbon != null) ribbon.spread(WIDTH_SPREAD) else 1f
+            val thicknessScale = if (ribbon != null) ribbon.spread(THICKNESS_SPREAD) else 1f
+            val bend = if (ribbon != null) (ribbon.bend * ribbon.spread(BEND_SPREAD)).coerceIn(0f, 1f) else 0f
+            val contrast = if (ribbon != null) ribbon.spread(CONTRAST_SPREAD) else 1f
             return Confetti(
                 location = location,
-                width = randomSize.sizeInDp * pixelDensity,
+                width = randomSize.sizeInDp * pixelDensity * widthScale,
                 mass = mass,
                 shape = shape,
                 color = color,
@@ -150,6 +153,9 @@ class PartyEmitter(
                 wanderPhase = wanderPhase,
                 loopScale = loopScale,
                 shapePhases = unevenness,
+                ribbonBend = if (ribbon != null) bend else null,
+                thicknessScale = thicknessScale,
+                contrast = contrast,
             )
         }
     }
@@ -164,7 +170,10 @@ class PartyEmitter(
     private fun pendulum(length: Float): Float = sqrt(PENDULUM_LENGTH * pixelDensity / length).coerceAtMost(1f)
 
     // Always the same way round, the direction comes from how it moves. Some spin faster than others.
-    private fun randomSpin(ribbon: Shape.Ribbon): Float = ribbon.spin * (1f + SPIN_SPREAD * (random.nextFloat() * 2f - 1f))
+    private fun randomSpin(ribbon: Shape.Ribbon): Float = ribbon.spin * ribbon.spread(SPIN_SPREAD)
+
+    /** A factor around 1 for one streamer, up to [most] either way when the ribbon's variance is 1 */
+    private fun Shape.Ribbon.spread(most: Float): Float = 1f + variance * most * (random.nextFloat() * 2f - 1f)
 
     private fun randomAngle(): Float = random.nextFloat() * 2 * PI.toFloat()
 
@@ -267,10 +276,13 @@ class PartyEmitter(
         // Drag stays below 1, so every piece still falls
         const val MAX_DRAG = 0.95f
 
-        // How much a streamer's spin differs from its shape's, either way
-        const val SPIN_SPREAD = 0.4f
-
-        // With irregularity 1 the loop spacing differs up to this much either way between streamers
+        // How much a streamer can differ from its shape, either way, when the ribbon's variance is 1.
+        // At the default variance of 0.5 they differ half as much.
+        const val SPIN_SPREAD = 0.8f
         const val LOOP_SPREAD = 0.6f
+        const val WIDTH_SPREAD = 0.4f
+        const val THICKNESS_SPREAD = 0.5f
+        const val BEND_SPREAD = 1f
+        const val CONTRAST_SPREAD = 0.5f
     }
 }

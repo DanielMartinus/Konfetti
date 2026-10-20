@@ -221,15 +221,17 @@ public final class nl/dionsegijn/konfetti/core/ReplayKt {
 }
 
 public final class nl/dionsegijn/konfetti/core/RibbonBody {
-	public fun <init> (FFFFF[FF)V
-	public synthetic fun <init> (FFFFF[FFILkotlin/jvm/internal/DefaultConstructorMarker;)V
+	public fun <init> (FFFFF[FFFF)V
+	public synthetic fun <init> (FFFFF[FFFFILkotlin/jvm/internal/DefaultConstructorMarker;)V
 	public fun equals (Ljava/lang/Object;)Z
 	public final fun getAxisX ()F
 	public final fun getAxisY ()F
+	public final fun getContrast ()F
 	public final fun getLength ()F
 	public final fun getLoopSpacing ()F
 	public final fun getOffsets ()[F
 	public final fun getSpin ()F
+	public final fun getThicknessScale ()F
 	public final fun getUnevenness ()F
 	public fun hashCode ()I
 }
@@ -282,8 +284,8 @@ public abstract class nl/dionsegijn/konfetti/core/emitter/BaseEmitter {
 
 public final class nl/dionsegijn/konfetti/core/emitter/Confetti {
 	public static final field Companion Lnl/dionsegijn/konfetti/core/emitter/Confetti$Companion;
-	public fun <init> (Lnl/dionsegijn/konfetti/core/models/Vector;IFFLnl/dionsegijn/konfetti/core/models/Shape;JZLnl/dionsegijn/konfetti/core/models/Vector;Lnl/dionsegijn/konfetti/core/models/Vector;FFFFZFFFFFFFFFFFFF)V
-	public synthetic fun <init> (Lnl/dionsegijn/konfetti/core/models/Vector;IFFLnl/dionsegijn/konfetti/core/models/Shape;JZLnl/dionsegijn/konfetti/core/models/Vector;Lnl/dionsegijn/konfetti/core/models/Vector;FFFFZFFFFFFFFFFFFFILkotlin/jvm/internal/DefaultConstructorMarker;)V
+	public fun <init> (Lnl/dionsegijn/konfetti/core/models/Vector;IFFLnl/dionsegijn/konfetti/core/models/Shape;JZLnl/dionsegijn/konfetti/core/models/Vector;Lnl/dionsegijn/konfetti/core/models/Vector;FFFFZFFFFFFFFFFFFFLjava/lang/Float;FF)V
+	public synthetic fun <init> (Lnl/dionsegijn/konfetti/core/models/Vector;IFFLnl/dionsegijn/konfetti/core/models/Shape;JZLnl/dionsegijn/konfetti/core/models/Vector;Lnl/dionsegijn/konfetti/core/models/Vector;FFFFZFFFFFFFFFFFFFLjava/lang/Float;FFILkotlin/jvm/internal/DefaultConstructorMarker;)V
 	public final fun applyForce (Lnl/dionsegijn/konfetti/core/models/Vector;)V
 	public final fun getAlpha ()I
 	public final fun getAlphaColor ()I
@@ -354,11 +356,15 @@ public final class nl/dionsegijn/konfetti/core/emitter/EmitterTimeUnitKt {
 }
 
 public final class nl/dionsegijn/konfetti/core/emitter/PartyEmitter : nl/dionsegijn/konfetti/core/emitter/BaseEmitter {
+	public static final field BEND_SPREAD F
+	public static final field CONTRAST_SPREAD F
 	public static final field FALL_SPEED F
 	public static final field LOOP_SPREAD F
 	public static final field MAX_DRAG F
 	public static final field PENDULUM_LENGTH F
 	public static final field SPIN_SPREAD F
+	public static final field THICKNESS_SPREAD F
+	public static final field WIDTH_SPREAD F
 	public fun <init> (Lnl/dionsegijn/konfetti/core/emitter/EmitterConfig;FLkotlin/random/Random;)V
 	public synthetic fun <init> (Lnl/dionsegijn/konfetti/core/emitter/EmitterConfig;FLkotlin/random/Random;ILkotlin/jvm/internal/DefaultConstructorMarker;)V
 	public fun createConfetti (FLnl/dionsegijn/konfetti/core/Party;Lnl/dionsegijn/konfetti/core/models/CoreRect;)Ljava/util/List;
@@ -431,6 +437,7 @@ public final class nl/dionsegijn/konfetti/core/models/RibbonGeometryKt {
 
 public final class nl/dionsegijn/konfetti/core/models/RibbonSegments {
 	public static final field BACK_DARK F
+	public static final field DEFAULT_SHADING F
 	public static final field EDGE_WIDTH F
 	public static final field FRONT_LIGHT F
 	public static final field MAX_SEGMENTS I
@@ -525,15 +532,19 @@ public final class nl/dionsegijn/konfetti/core/models/Shape$Ribbon : nl/dionsegi
 	public fun <init> (FFFFF)V
 	public fun <init> (FFFFFF)V
 	public fun <init> (FFFFFFF)V
-	public synthetic fun <init> (FFFFFFFILkotlin/jvm/internal/DefaultConstructorMarker;)V
+	public fun <init> (FFFFFFFF)V
+	public fun <init> (FFFFFFFFF)V
+	public synthetic fun <init> (FFFFFFFFFILkotlin/jvm/internal/DefaultConstructorMarker;)V
 	public fun equals (Ljava/lang/Object;)Z
 	public final fun getBend ()F
 	public final fun getIrregularity ()F
 	public final fun getLoopSpacing ()F
 	public final fun getMaxLength ()F
 	public final fun getMinLength ()F
+	public final fun getShading ()F
 	public final fun getSpin ()F
 	public final fun getThickness ()F
+	public final fun getVariance ()F
 	public fun hashCode ()I
 }
 

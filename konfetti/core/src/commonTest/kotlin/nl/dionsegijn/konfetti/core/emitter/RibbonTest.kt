@@ -244,4 +244,47 @@ class RibbonTest {
         }
         assertTrue(last.axisY < -0.9f, "hangs up again ${last.axisY}")
     }
+
+    private fun party(ribbon: Shape.Ribbon) =
+        PartySystem(
+            Party(speed = 0f, size = listOf(Size(12)), shapes = listOf(ribbon), emitter = Emitter(100L).max(30)),
+            0L,
+            1f,
+            Random(9),
+        ).render(0.2f, CoreRectImpl(0f, 0f, 1000f, 1000f))
+
+    @Test
+    fun `without variance every streamer is alike apart from its length`() {
+        val streamers = party(Shape.Ribbon(variance = 0f))
+        assertEquals(1, streamers.map { it.width }.distinct().size)
+        assertEquals(1, streamers.map { it.ribbon!!.loopSpacing }.distinct().size)
+        assertEquals(1, streamers.map { it.ribbon!!.thicknessScale }.distinct().size)
+        assertEquals(1, streamers.map { it.ribbon!!.contrast }.distinct().size)
+        assertTrue(streamers.map { it.height }.distinct().size > 10)
+    }
+
+    @Test
+    fun `with variance streamers differ from each other`() {
+        val streamers = party(Shape.Ribbon(variance = 1f))
+        val widths = streamers.map { it.width }
+        val spacings = streamers.map { it.ribbon!!.loopSpacing }
+        assertTrue(widths.max() > widths.min() * 1.5f, "widths $widths")
+        assertTrue(spacings.max() > spacings.min() * 2f, "spacings $spacings")
+        assertTrue(streamers.map { it.ribbon!!.thicknessScale }.distinct().size > 10)
+        assertTrue(streamers.map { it.ribbon!!.contrast }.distinct().size > 10)
+    }
+
+    // The difference between the lightest and darkest piece of one streamer, in its red channel
+    private fun contrastOf(shading: Float): Int {
+        val segments = RibbonSegments()
+        streamer(ribbon = Shape.Ribbon(shading = shading)).run(seconds = 0.2f).toParticle().ribbonSegments(segments)
+        val reds = (0 until segments.count).map { (segments.color[it] shr 16) and 0xff }
+        return reds.max() - reds.min()
+    }
+
+    @Test
+    fun `shading sets how 3D a streamer looks`() {
+        assertEquals(0, contrastOf(shading = 0f))
+        assertTrue(contrastOf(shading = 1f) > contrastOf(shading = 0.5f))
+    }
 }

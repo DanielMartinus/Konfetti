@@ -53,7 +53,11 @@ class RibbonSegments {
         val segments =
             ceil(loops * SEGMENTS_PER_LOOP * (1 + ribbon.irregularity)).toInt().coerceIn(MIN_SEGMENTS, MAX_SEGMENTS)
         val radius = particle.width / 2
-        val strip = ribbon.thickness * body.loopSpacing
+        val strip = ribbon.thickness * body.thicknessScale * body.loopSpacing
+        // Shading 0.5 is the usual look, 0 is flat color and 1 twice as strong
+        val shading = ribbon.shading / DEFAULT_SHADING * body.contrast
+        val frontLight = FRONT_LIGHT * shading
+        val backDark = BACK_DARK * shading
 
         // The body runs from the head along its axis, turned by the drift lean
         val lean = particle.rotation * PI.toFloat() / 180
@@ -108,7 +112,7 @@ class RibbonSegments {
             endY[k] = pointY[i + 1]
             // The strip looks widest where it faces you and thin where you see its edge
             width[k] = strip * (EDGE_WIDTH + (1 - EDGE_WIDTH) * abs(facing))
-            color[k] = shade(particle.color, if (facing >= 0) facing * FRONT_LIGHT else facing * BACK_DARK)
+            color[k] = shade(particle.color, if (facing >= 0) facing * frontLight else facing * backDark)
         }
         count = segments
     }
@@ -132,9 +136,10 @@ class RibbonSegments {
         // How thin the strip gets when you see its edge, as a part of its full width
         const val EDGE_WIDTH = 0.25f
 
-        // How much lighter the front gets and how much darker the back
+        // How much lighter the front gets and how much darker the back, at the default shading
         const val FRONT_LIGHT = 0.3f
         const val BACK_DARK = 0.45f
+        const val DEFAULT_SHADING = 0.5f
 
         // A narrower tail and a not quite round coil
         const val TAIL_TAPER = 0.2f

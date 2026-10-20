@@ -46,6 +46,9 @@ import kotlin.math.sqrt
  * when it moves faster along its length, and like a screw its loops travel back toward its tail as it moves.
  * @property loopScale How much wider or tighter this streamer's loops are than its [Shape.Ribbon.loopSpacing].
  * @property shapePhases Two phases in radians that make this streamer's spiral a little uneven along its length.
+ * @property ribbonBend How far this streamer's body trails behind its head, between 0 and 1. Null takes the [Shape.Ribbon.bend].
+ * @property thicknessScale How much thicker or thinner this streamer's strip is than its [Shape.Ribbon.thickness].
+ * @property contrast How much stronger or weaker this streamer's shading is than its [Shape.Ribbon.shading].
  */
 class Confetti(
     var location: Vector,
@@ -75,6 +78,9 @@ class Confetti(
     wanderPhase: Float = 0f,
     private val loopScale: Float = 1f,
     private val shapePhases: Float = 0f,
+    ribbonBend: Float? = null,
+    private val thicknessScale: Float = 1f,
+    private val contrast: Float = 1f,
 ) {
     companion object {
         // Motion was tuned per frame at 60 fps, so one step is 1/60 of a second
@@ -153,7 +159,8 @@ class Confetti(
     private var spin = spinPhase
 
     // Past sway offsets of a streamer, newest at trailNewest, one every TRAIL_STEP seconds
-    private val trail = if (ribbon != null && ribbon.bend > 0f) FloatArray(TRAIL_SIZE) else null
+    private val bend = ribbonBend ?: ribbon?.bend ?: 0f
+    private val trail = if (ribbon != null && bend > 0f) FloatArray(TRAIL_SIZE) else null
     private var trailNewest = 0
     private var trailClock = 0f
 
@@ -402,7 +409,7 @@ class Confetti(
         val offsets = FloatArray(BODY_POINTS)
         if (trail != null) {
             for (i in 1 until BODY_POINTS) {
-                val delay = i / (BODY_POINTS - 1f) * ribbon.bend * MAX_LAG
+                val delay = i / (BODY_POINTS - 1f) * bend * MAX_LAG
                 offsets[i] = swayOffsetAgo(trail, delay) - swayOffset
             }
         }
@@ -414,6 +421,8 @@ class Confetti(
             axisY = hangY,
             offsets = offsets,
             unevenness = shapePhases,
+            thicknessScale = thicknessScale,
+            contrast = contrast,
         )
     }
 

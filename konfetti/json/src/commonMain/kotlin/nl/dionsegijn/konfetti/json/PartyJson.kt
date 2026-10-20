@@ -100,6 +100,8 @@ internal sealed interface ShapeJson {
         val spin: Float = 1f,
         val bend: Float = 0.5f,
         val irregularity: Float = 0.5f,
+        val variance: Float = 0.5f,
+        val shading: Float = 0.5f,
     ) : ShapeJson
 
     /** An image the app registers under [id], see [KonfettiJson.decode] */
