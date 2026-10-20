@@ -39,7 +39,15 @@ class KonfettiJsonTest {
                 fadeOutEnabled = false,
                 position = Position.Relative(0.1, 0.2).between(Position.Relative(0.9, 0.2)),
                 delay = 400,
-                rotation = Rotation(enabled = false, speed = 2f, variance = 0.1f, multiplier2D = 4f, multiplier3D = 3f),
+                rotation =
+                    Rotation(
+                        enabled = false,
+                        speed = 2f,
+                        variance = 0.1f,
+                        multiplier2D = 4f,
+                        multiplier3D = 3f,
+                        faceDirection = true,
+                    ),
                 emitter = Emitter(0L).perSecond(30),
             )
         assertEquals(party, roundTrip(party))

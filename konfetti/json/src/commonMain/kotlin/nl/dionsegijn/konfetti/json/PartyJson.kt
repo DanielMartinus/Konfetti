@@ -50,6 +50,7 @@ internal data class RotationJson(
     val variance: Float = 0.5f,
     val multiplier2D: Float = 8f,
     val multiplier3D: Float = 1.5f,
+    val faceDirection: Boolean = false,
 )
 
 /** Set either [max] or [perSecond]. A [duration] of 0 emits forever. */

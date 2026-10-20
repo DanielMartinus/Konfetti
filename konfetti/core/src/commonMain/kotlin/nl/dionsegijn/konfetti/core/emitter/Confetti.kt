@@ -3,7 +3,9 @@ package nl.dionsegijn.konfetti.core.emitter
 import nl.dionsegijn.konfetti.core.models.CoreRect
 import nl.dionsegijn.konfetti.core.models.Shape
 import nl.dionsegijn.konfetti.core.models.Vector
+import kotlin.math.PI
 import kotlin.math.abs
+import kotlin.math.atan2
 import kotlin.math.pow
 
 /**
@@ -22,6 +24,7 @@ import kotlin.math.pow
  * @property damping A factor that reduces the particle's velocity over time, simulating air resistance. A higher damping value will slow down the particle faster.
  * @property rotationSpeed3D The speed at which the particle rotates.
  * @property rotationSpeed2D The speed at which the particle rotates in 2D space.
+ * @property faceDirection If true, the 2D rotation follows the way the particle is moving in place of [rotationSpeed2D].
  * @property pixelDensity The pixel density of the device's screen. This is used to ensure that the particle's movement looks consistent across devices with different screen densities.
  */
 class Confetti(
@@ -38,6 +41,7 @@ class Confetti(
     val rotationSpeed3D: Float = 1f,
     val rotationSpeed2D: Float = 1f,
     val pixelDensity: Float,
+    private val faceDirection: Boolean = false,
 ) {
     companion object {
         // Motion was tuned per frame at 60 fps, so one step is 1/60 of a second
@@ -46,12 +50,13 @@ class Confetti(
         private const val ALPHA_DECREMENT = 5
         private const val MILLIS_IN_SECOND = 1000
         private const val FULL_CIRCLE = 360f
+        private const val DEGREES_PER_RADIAN = 180 / PI
 
         // Half the diagonal of a square, so the reach covers the piece at any rotation
         private const val HALF_DIAGONAL = 0.7072f
     }
 
-    var rotation = 0f
+    var rotation = if (faceDirection) heading() else 0f
     private var rotationWidth = width
 
     private var gravity = Vector(0f, GRAVITY)
@@ -142,9 +147,13 @@ class Confetti(
         lifespan -= (deltaTime * MILLIS_IN_SECOND).toLong()
         if (lifespan <= 0) updateAlpha(steps)
 
-        // 2D rotation around the center of the confetti
-        rotation += rotationSpeed2D * steps
-        if (rotation >= FULL_CIRCLE) rotation = 0f
+        // 2D rotation around the center of the confetti, or the way it's moving
+        if (faceDirection) {
+            rotation = heading()
+        } else {
+            rotation += rotationSpeed2D * steps
+            if (rotation >= FULL_CIRCLE) rotation = 0f
+        }
 
         // 3D rotation effect by decreasing the width and make sure that rotationSpeed is always
         // positive by using abs
@@ -156,6 +165,9 @@ class Confetti(
 
         drawParticle = isInside(drawArea)
     }
+
+    // The angle the confetti is moving at in degrees, 0 is right and 90 is down like Party's angle
+    private fun heading(): Float = (atan2(velocity.y, velocity.x) * DEGREES_PER_RADIAN).toFloat()
 
     private fun centerX() = location.x + width / 2
 

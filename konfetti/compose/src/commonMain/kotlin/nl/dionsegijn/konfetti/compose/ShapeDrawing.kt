@@ -53,7 +53,7 @@ internal fun Shape.drawShape(
             val height = size * heightRatio
             drawScope.drawRect(
                 color = Color(particle.color),
-                topLeft = Offset(particle.x, particle.y),
+                topLeft = Offset(particle.x, particle.y + (size - height) / 2),
                 size = Size(size, height),
             )
         }

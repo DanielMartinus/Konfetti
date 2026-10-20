@@ -103,7 +103,8 @@ private fun PartyJson.toParty(
         fadeOutEnabled = fadeOutEnabled,
         position = position.toPosition(density),
         delay = delay,
-        rotation = Rotation(rotation.enabled, rotation.speed, rotation.variance, rotation.multiplier2D, rotation.multiplier3D),
+        rotation =
+            with(rotation) { Rotation(enabled, speed, variance, multiplier2D, multiplier3D, faceDirection) },
         emitter = emitter.toConfig(),
     )
 }
@@ -163,7 +164,8 @@ private fun Party.toJson(
     fadeOutEnabled = fadeOutEnabled,
     position = position.toJson(),
     delay = delay,
-    rotation = RotationJson(rotation.enabled, rotation.speed, rotation.variance, rotation.multiplier2D, rotation.multiplier3D),
+    rotation =
+        with(rotation) { RotationJson(enabled, speed, variance, multiplier2D, multiplier3D, faceDirection) },
     emitter =
         if (emitter.isPerSecond) {
             EmitterJson(emitter.emittingTime, perSecond = emitter.amount)

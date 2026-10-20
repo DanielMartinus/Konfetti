@@ -135,6 +135,10 @@ sealed class Position {
  * @property multiplier2D Multiplier controlling the speed of the rotation around the center of the
  * confetti. Set this value to 0 to disable the 2D rotation effect.
  * @property multiplier3D Multiplier controlling the 3D rotation of the confetti.
+ * @property faceDirection Turns each confetti to the way it's moving, every frame, in place of the
+ * 2D rotation. A rectangle shoots out lengthwise and bends round to point down once gravity takes
+ * over, like the sparks of a firework. Works with [enabled] off too, then the confetti only points
+ * where it's going. The 3D rotation still follows [enabled] and [multiplier3D].
  */
 data class Rotation(
     val enabled: Boolean = true,
@@ -142,6 +146,7 @@ data class Rotation(
     val variance: Float = 0.5f,
     val multiplier2D: Float = 8f,
     val multiplier3D: Float = 1.5f,
+    val faceDirection: Boolean = false,
 ) {
     companion object {
         fun enabled() = Rotation(enabled = true)

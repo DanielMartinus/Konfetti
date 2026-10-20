@@ -188,17 +188,19 @@ public final class nl/dionsegijn/konfetti/core/ReplayKt {
 public final class nl/dionsegijn/konfetti/core/Rotation {
 	public static final field Companion Lnl/dionsegijn/konfetti/core/Rotation$Companion;
 	public fun <init> ()V
-	public fun <init> (ZFFFF)V
-	public synthetic fun <init> (ZFFFFILkotlin/jvm/internal/DefaultConstructorMarker;)V
+	public fun <init> (ZFFFFZ)V
+	public synthetic fun <init> (ZFFFFZILkotlin/jvm/internal/DefaultConstructorMarker;)V
 	public final fun component1 ()Z
 	public final fun component2 ()F
 	public final fun component3 ()F
 	public final fun component4 ()F
 	public final fun component5 ()F
-	public final fun copy (ZFFFF)Lnl/dionsegijn/konfetti/core/Rotation;
-	public static synthetic fun copy$default (Lnl/dionsegijn/konfetti/core/Rotation;ZFFFFILjava/lang/Object;)Lnl/dionsegijn/konfetti/core/Rotation;
+	public final fun component6 ()Z
+	public final fun copy (ZFFFFZ)Lnl/dionsegijn/konfetti/core/Rotation;
+	public static synthetic fun copy$default (Lnl/dionsegijn/konfetti/core/Rotation;ZFFFFZILjava/lang/Object;)Lnl/dionsegijn/konfetti/core/Rotation;
 	public fun equals (Ljava/lang/Object;)Z
 	public final fun getEnabled ()Z
+	public final fun getFaceDirection ()Z
 	public final fun getMultiplier2D ()F
 	public final fun getMultiplier3D ()F
 	public final fun getSpeed ()F
@@ -231,8 +233,8 @@ public abstract class nl/dionsegijn/konfetti/core/emitter/BaseEmitter {
 
 public final class nl/dionsegijn/konfetti/core/emitter/Confetti {
 	public static final field Companion Lnl/dionsegijn/konfetti/core/emitter/Confetti$Companion;
-	public fun <init> (Lnl/dionsegijn/konfetti/core/models/Vector;IFFLnl/dionsegijn/konfetti/core/models/Shape;JZLnl/dionsegijn/konfetti/core/models/Vector;Lnl/dionsegijn/konfetti/core/models/Vector;FFFF)V
-	public synthetic fun <init> (Lnl/dionsegijn/konfetti/core/models/Vector;IFFLnl/dionsegijn/konfetti/core/models/Shape;JZLnl/dionsegijn/konfetti/core/models/Vector;Lnl/dionsegijn/konfetti/core/models/Vector;FFFFILkotlin/jvm/internal/DefaultConstructorMarker;)V
+	public fun <init> (Lnl/dionsegijn/konfetti/core/models/Vector;IFFLnl/dionsegijn/konfetti/core/models/Shape;JZLnl/dionsegijn/konfetti/core/models/Vector;Lnl/dionsegijn/konfetti/core/models/Vector;FFFFZ)V
+	public synthetic fun <init> (Lnl/dionsegijn/konfetti/core/models/Vector;IFFLnl/dionsegijn/konfetti/core/models/Shape;JZLnl/dionsegijn/konfetti/core/models/Vector;Lnl/dionsegijn/konfetti/core/models/Vector;FFFFZILkotlin/jvm/internal/DefaultConstructorMarker;)V
 	public final fun applyForce (Lnl/dionsegijn/konfetti/core/models/Vector;)V
 	public final fun getAlpha ()I
 	public final fun getAlphaColor ()I

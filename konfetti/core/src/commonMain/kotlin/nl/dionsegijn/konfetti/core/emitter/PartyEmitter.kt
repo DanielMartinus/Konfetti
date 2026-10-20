@@ -104,6 +104,7 @@ class PartyEmitter(
                 damping = party.damping,
                 rotationSpeed2D = rotation.rotationSpeed() * party.rotation.multiplier2D,
                 rotationSpeed3D = rotation.rotationSpeed() * party.rotation.multiplier3D,
+                faceDirection = rotation.faceDirection,
                 pixelDensity = pixelDensity,
             )
         }

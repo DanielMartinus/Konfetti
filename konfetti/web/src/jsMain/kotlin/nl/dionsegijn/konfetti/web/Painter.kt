@@ -48,7 +48,10 @@ internal class Painter {
                 context.fill()
             }
             Shape.Square -> context.fillRect(-half, -half, size, size)
-            is Shape.Rectangle -> context.fillRect(-half, -half, size, size * shape.heightRatio)
+            is Shape.Rectangle -> {
+                val height = size * shape.heightRatio
+                context.fillRect(-half, -height / 2, size, height)
+            }
             is Shape.Polygon -> {
                 context.beginPath()
                 shape.points.forEachIndexed { i, point ->
