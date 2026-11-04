@@ -2,6 +2,7 @@ package nl.dionsegijn.samples.playground
 
 import nl.dionsegijn.konfetti.compose.PainterImage
 import nl.dionsegijn.konfetti.core.Angle
+import nl.dionsegijn.konfetti.core.Drift
 import nl.dionsegijn.konfetti.core.Party
 import nl.dionsegijn.konfetti.core.Position
 import nl.dionsegijn.konfetti.core.Rotation
@@ -39,6 +40,7 @@ private fun partyCode(party: Party): String {
         if (delay != defaults.delay) fields += "delay = $delay"
         if (rotation != Rotation()) fields += "rotation = ${rotationCode(rotation)}"
         fields += "emitter = ${emitterCode(party)}"
+        if (drift != Drift()) fields += "drift = ${driftCode(drift)}"
     }
     return "Party(\n" + fields.joinToString("") { "    $it,\n" } + ")"
 }
@@ -54,13 +56,45 @@ fun Party.withParticleCount(count: Int): Party {
 
 private fun emitterCode(party: Party): String {
     val ms = party.emitter.emittingTime
-    if (ms <= 0L) return "Emitter(0L).perSecond(${(1f / party.emitter.amountPerMs).roundToInt()})"
-    val duration = if (ms % 1000 == 0L) "${ms / 1000}.seconds" else "$ms.milliseconds"
-    return "Emitter($duration).max(${party.particleCount()})"
+    val duration =
+        when {
+            ms <= 0L -> "Duration.ZERO"
+            ms % 1000 == 0L -> "${ms / 1000}.seconds"
+            else -> "$ms.milliseconds"
+        }
+    val amount = if (party.emitter.isPerSecond) "perSecond(${party.emitter.amount})" else "max(${party.emitter.amount})"
+    return "Emitter($duration).$amount"
 }
 
-private fun rotationCode(rotation: Rotation) =
-    if (rotation.enabled) "Rotation(speed = ${floatCode(rotation.speed)})" else "Rotation.disabled()"
+private fun rotationCode(rotation: Rotation): String {
+    if (rotation == Rotation.disabled()) return "Rotation.disabled()"
+    val defaults = Rotation()
+    val fields = mutableListOf<String>()
+    with(rotation) {
+        if (enabled != defaults.enabled) fields += "enabled = $enabled"
+        if (speed != defaults.speed) fields += "speed = ${floatCode(speed)}"
+        if (variance != defaults.variance) fields += "variance = ${floatCode(variance)}"
+        if (multiplier2D != defaults.multiplier2D) fields += "multiplier2D = ${floatCode(multiplier2D)}"
+        if (multiplier3D != defaults.multiplier3D) fields += "multiplier3D = ${floatCode(multiplier3D)}"
+        if (faceDirection) fields += "faceDirection = true"
+    }
+    return "Rotation(${fields.joinToString()})"
+}
+
+private fun driftCode(drift: Drift): String {
+    if (drift == Drift.enabled()) return "Drift.enabled()"
+    val defaults = Drift()
+    val fields = mutableListOf<String>()
+    with(drift) {
+        if (enabled != defaults.enabled) fields += "enabled = $enabled"
+        if (sway != defaults.sway) fields += "sway = ${floatCode(sway)}"
+        if (frequency != defaults.frequency) fields += "frequency = ${floatCode(frequency)}"
+        if (variance != defaults.variance) fields += "variance = ${floatCode(variance)}"
+        if (tilt != defaults.tilt) fields += "tilt = ${floatCode(tilt)}"
+        if (drag != defaults.drag) fields += "drag = ${floatCode(drag)}"
+    }
+    return "Drift(${fields.joinToString()})"
+}
 
 private fun angleName(angle: Int) =
     when (angle) {
@@ -80,7 +114,8 @@ private fun sizeCode(size: Size) =
         Size.SMALL -> "Size.SMALL"
         Size.MEDIUM -> "Size.MEDIUM"
         Size.LARGE -> "Size.LARGE"
-        else -> "Size(${size.sizeInDp})"
+        Size(size.sizeInDp) -> "Size(${size.sizeInDp})"
+        else -> "Size(${size.sizeInDp}, ${floatCode(size.mass)}, ${floatCode(size.massVariance)})"
     }
 
 private fun shapeCode(shape: Shape) =
