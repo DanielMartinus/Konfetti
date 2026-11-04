@@ -149,9 +149,10 @@ open class KonfettiView : View {
         val transformedShapes =
             party.shapes.map { shape ->
                 when (shape) {
+                    // Other images, like ones made for Compose, can't be drawn here and stay as they are
                     is Shape.DrawableShape -> {
-                        val referenceImage = drawableToReferenceImage(shape.image as DrawableImage)
-                        shape.copy(image = referenceImage)
+                        val image = shape.image
+                        if (image is DrawableImage) shape.copy(image = drawableToReferenceImage(image)) else shape
                     }
                     else -> shape
                 }
@@ -174,7 +175,9 @@ open class KonfettiView : View {
      * Stop a particular particle system. All particles belonging to this system will directly disappear from the view.
      */
     fun stop(party: Party) {
-        systems.removeAll { it.party == party }
+        // Running parties have their drawables swapped for references, compare against the same
+        val stored = storeImages(party)
+        systems.removeAll { it.party == stored }
         onParticleSystemUpdateListener?.onParticleSystemEnded(this, party, systems.size)
     }
 
