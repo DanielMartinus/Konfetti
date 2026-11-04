@@ -133,5 +133,10 @@ class PartyFactory(val emitter: EmitterConfig) {
         return this
     }
 
+    fun drift(drift: Drift): PartyFactory {
+        party = party.copy(drift = drift)
+        return this
+    }
+
     fun build(): Party = party
 }

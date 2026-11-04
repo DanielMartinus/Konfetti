@@ -122,6 +122,7 @@ public final class nl/dionsegijn/konfetti/core/PartyFactory {
 	public final fun build ()Lnl/dionsegijn/konfetti/core/Party;
 	public final fun colors (Ljava/util/List;)Lnl/dionsegijn/konfetti/core/PartyFactory;
 	public final fun delay (I)Lnl/dionsegijn/konfetti/core/PartyFactory;
+	public final fun drift (Lnl/dionsegijn/konfetti/core/Drift;)Lnl/dionsegijn/konfetti/core/PartyFactory;
 	public final fun fadeOutEnabled (Z)Lnl/dionsegijn/konfetti/core/PartyFactory;
 	public final fun getEmitter ()Lnl/dionsegijn/konfetti/core/emitter/EmitterConfig;
 	public final fun position (DD)Lnl/dionsegijn/konfetti/core/PartyFactory;
