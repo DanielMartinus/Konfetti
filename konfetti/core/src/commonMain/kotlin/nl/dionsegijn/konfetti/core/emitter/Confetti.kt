@@ -1,5 +1,6 @@
 package nl.dionsegijn.konfetti.core.emitter
 
+import nl.dionsegijn.konfetti.core.RibbonBody
 import nl.dionsegijn.konfetti.core.models.CoreRect
 import nl.dionsegijn.konfetti.core.models.Shape
 import nl.dionsegijn.konfetti.core.models.Vector
@@ -38,6 +39,7 @@ import kotlin.math.sqrt
  * @property fallSpeed The speed in dp a second the particle settles at, 0 to keep speeding up.
  * @property harmonicPhase Where the smaller second swing starts, in radians.
  * @property wanderPhase Where the slow sideways wander starts, in radians.
+ * @property streamer The body of a [Shape.Ribbon] streamer, null for other shapes.
  */
 class Confetti(
     var location: Vector,
@@ -62,6 +64,7 @@ class Confetti(
     private val fallSpeed: Float = 0f,
     harmonicPhase: Float = 0f,
     wanderPhase: Float = 0f,
+    private val streamer: Streamer? = null,
 ) {
     // Keeps the constructor from 2.x working for Java and for code built against it
     constructor(
@@ -120,7 +123,8 @@ class Confetti(
         private const val WANDER_SIZE = 0.6f
     }
 
-    var rotation = if (faceDirection) heading() else 0f
+    // A streamer stays upright, so it doesn't point the way it's moving
+    var rotation = if (faceDirection && streamer == null) heading() else 0f
     private var rotationWidth = width
 
     /**
@@ -234,26 +238,32 @@ class Confetti(
         if (fallSpeed > 0f && damping >= 1f) velocity.y = velocity.y.coerceAtMost(fallSpeed / STEPS_PER_SECOND)
 
         if (sway != 0f || tilt != 0f) drift(deltaTime)
+        streamer?.update(velocity, deltaTime, steps, swayOffset)
 
         val elapsedMs = deltaTime * MILLIS_IN_SECOND + lifespanRemainder
         lifespan -= elapsedMs.toLong()
         lifespanRemainder = elapsedMs - elapsedMs.toLong()
         if (lifespan <= 0) updateAlpha(steps)
 
-        // 2D rotation around the center of the confetti, or the way it's moving
-        if (faceDirection) {
-            rotation = heading()
+        if (streamer != null) {
+            // A streamer stays upright and spins around its own length instead
+            scaleX = 1f
         } else {
-            rotation += rotationSpeed2D * steps
-            if (rotation >= FULL_CIRCLE) rotation = 0f
+            // 2D rotation around the center of the confetti, or the way it's moving
+            if (faceDirection) {
+                rotation = heading()
+            } else {
+                rotation += rotationSpeed2D * steps
+                if (rotation >= FULL_CIRCLE) rotation = 0f
+            }
+
+            // 3D rotation effect by decreasing the width and make sure that rotationSpeed is always
+            // positive by using abs
+            rotationWidth -= abs(rotationSpeed3D) * steps
+            if (rotationWidth < 0) rotationWidth = width
+
+            scaleX = abs(rotationWidth / width - 0.5f) * 2
         }
-
-        // 3D rotation effect by decreasing the width and make sure that rotationSpeed is always
-        // positive by using abs
-        rotationWidth -= abs(rotationSpeed3D) * steps
-        if (rotationWidth < 0) rotationWidth = width
-
-        scaleX = abs(rotationWidth / width - 0.5f) * 2
         alphaColor = (alpha shl 24) or (color and 0xffffff)
 
         drawParticle = isInside(drawArea)
@@ -264,8 +274,9 @@ class Confetti(
 
     // Swings the particle from side to side once it falls, by time so it's the same at any frame rate
     private fun drift(deltaTime: Float) {
-        swayAngle = (swayAngle + TWO_PI * swayFrequency * deltaTime) % TWO_PI
-        harmonicAngle = (harmonicAngle + TWO_PI * swayFrequency * HARMONIC_SPEED * deltaTime) % TWO_PI
+        val frequency = swayFrequency * (streamer?.swaySlowdown ?: 1f)
+        swayAngle = (swayAngle + TWO_PI * frequency * deltaTime) % TWO_PI
+        harmonicAngle = (harmonicAngle + TWO_PI * frequency * HARMONIC_SPEED * deltaTime) % TWO_PI
         wanderAngle = (wanderAngle + TWO_PI * WANDER_FREQUENCY * deltaTime) % TWO_PI
         val speed = speed()
         // Swings more the more it falls, so confetti shooting up or sideways stays on its path
@@ -275,6 +286,8 @@ class Confetti(
         val offset = sway * pixelDensity * swayStrength * (swing + WANDER_SIZE * sin(wanderAngle))
         location.x += offset - swayOffset
         swayOffset = offset
+        // A streamer doesn't lean, its body trailing behind its head is its lean
+        if (streamer != null) return
         // Lean into the way it's swinging, most where it swings fastest
         val swingSpeed = (cos(swayAngle) + HARMONIC_SIZE * HARMONIC_SPEED * cos(harmonicAngle)) / (1 + HARMONIC_SIZE * HARMONIC_SPEED)
         tiltAngle = tilt * swayStrength * swingSpeed
@@ -286,8 +299,12 @@ class Confetti(
 
     private fun centerY() = location.y + width / 2
 
-    // How far any part of the particle can reach from its center, whatever its rotation
-    private fun reach() = width * HALF_DIAGONAL
+    // How far any part of the particle can reach from its center, whatever its rotation.
+    // A streamer's body reaches its whole length from its head, whichever way it hangs.
+    private fun reach() = if (streamer != null) streamer.length + width else width * HALF_DIAGONAL
+
+    // How a streamer hangs and spins right now, null for other shapes
+    internal fun ribbonBody(): RibbonBody? = streamer?.body(swayOffset)
 
     /**
      * True while any part of the particle overlaps the draw area.

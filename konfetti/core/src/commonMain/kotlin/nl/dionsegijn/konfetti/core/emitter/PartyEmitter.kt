@@ -108,6 +108,10 @@ class PartyEmitter(
             // Each drifting piece catches the air its own way, so they don't all fall at one speed
             val drag = if (drifts) drift.withVariance(drift.drag).coerceIn(0f, MAX_DRAG) else 0f
             val fallSpeed = if (drifts) drift.withVariance(FALL_SPEED * (1f - drag)) else 0f
+            val harmonicPhase = if (drifts) randomAngle() else 0f
+            val wanderPhase = if (drifts) randomAngle() else 0f
+            // A streamer draws its own values last, so a seeded party without streamers plays the same
+            val streamer = (shape as? Shape.Ribbon)?.let { Streamer(it, velocity, random, pixelDensity) }
             return Confetti(
                 location = location,
                 width = randomSize.sizeInDp * pixelDensity,
@@ -128,8 +132,9 @@ class PartyEmitter(
                 tilt = if (drifts) drift.tilt else 0f,
                 drag = drag,
                 fallSpeed = fallSpeed,
-                harmonicPhase = if (drifts) randomAngle() else 0f,
-                wanderPhase = if (drifts) randomAngle() else 0f,
+                harmonicPhase = harmonicPhase,
+                wanderPhase = wanderPhase,
+                streamer = streamer,
             )
         }
     }

@@ -115,6 +115,46 @@ sealed interface Shape {
     }
 
     /**
+     * A curly paper streamer. It hangs from its head and spins around its own length while it falls,
+     * instead of tumbling like flat confetti. Turn on [nl.dionsegijn.konfetti.core.Drift] to let it sway,
+     * its body then trails behind its head.
+     *
+     * The confetti's [Size] sets how wide the curl is. Each streamer picks a length between
+     * [minLength] and [maxLength].
+     *
+     * @param minLength the shortest a streamer can be, in dp
+     * @param maxLength the longest a streamer can be, in dp
+     * @param spin how many turns a second it spins around its own length. Set to 0 to hold it still
+     * @param variance how different streamers are from each other, between 0 (all alike apart from their length)
+     * and 1. It spreads their spin, curl, thickness, bend and shading.
+     */
+    class Ribbon
+        @JvmOverloads
+        constructor(
+            val minLength: Float = 60f,
+            val maxLength: Float = 120f,
+            val spin: Float = 1f,
+            val variance: Float = 0.5f,
+        ) : Shape {
+            init {
+                require(minLength > 0f) { "minLength must be above 0" }
+                require(maxLength >= minLength) { "maxLength can't be shorter than minLength" }
+                require(spin >= 0f) { "spin can't be negative" }
+                require(variance in 0f..1f) { "variance must be within 0 and 1" }
+            }
+
+            // Equal by value, so a party built inline in a composable doesn't count as new every recomposition
+            override fun equals(other: Any?): Boolean =
+                other is Ribbon &&
+                    other.minLength == minLength &&
+                    other.maxLength == maxLength &&
+                    other.spin == spin &&
+                    other.variance == variance
+
+            override fun hashCode(): Int = listOf(minLength, maxLength, spin, variance).hashCode()
+        }
+
+    /**
      * A drawable shape
      * @param image CoreImage
      * @param tint Set to `false` to opt out of tinting the drawable, keeping its original colors.
