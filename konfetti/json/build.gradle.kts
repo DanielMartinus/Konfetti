@@ -3,6 +3,7 @@ import com.vanniktech.maven.publish.KotlinMultiplatform
 import com.vanniktech.maven.publish.SourcesJar
 import org.jetbrains.kotlin.gradle.ExperimentalWasmDsl
 import org.jetbrains.kotlin.gradle.dsl.JvmTarget
+import org.jetbrains.kotlin.gradle.dsl.KotlinVersion
 
 plugins {
     alias(libs.plugins.kotlin.multiplatform)
@@ -15,6 +16,13 @@ plugins {
 // Reads and writes parties as json, like the files Konfetti Studio exports.
 // Lives next to core so core itself stays without dependencies.
 kotlin {
+    // Built for Kotlin 2.3 like core, so apps on Kotlin 2.2 can still use it
+    coreLibrariesVersion = "2.3.0"
+    compilerOptions {
+        languageVersion.set(KotlinVersion.KOTLIN_2_3)
+        apiVersion.set(KotlinVersion.KOTLIN_2_3)
+    }
+
     jvm {
         compilerOptions {
             jvmTarget.set(JvmTarget.JVM_1_8)
@@ -33,6 +41,9 @@ kotlin {
     }
 
     sourceSets {
+        // The web compilers need the stdlib they ship with
+        jsMain.dependencies { implementation(libs.kotlin.stdlib) }
+        wasmJsMain.dependencies { implementation(libs.kotlin.stdlib) }
         commonMain.dependencies {
             api(project(":konfetti:core"))
             implementation(libs.kotlinx.serialization.json)
