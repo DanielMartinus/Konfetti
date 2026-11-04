@@ -22,9 +22,11 @@ internal fun renderFrame(
     while (iterator.hasNext()) {
         val system = iterator.next()
         // Do not start the system yet if it is still waiting for its delay
-        if (getTotalTimeRunning(system.createdAt) < system.party.delay) continue
+        if (getTotalTimeRunning(system.createdAt) >= system.party.delay) {
+            particles.addAll(system.render(deltaSeconds, drawArea))
+        }
 
-        particles.addAll(system.render(deltaSeconds, drawArea))
+        // A system stopped while it waits for its delay has nothing to show, so it ends right away
 
         if (system.isDoneEmitting()) {
             iterator.remove()

@@ -72,4 +72,17 @@ class RenderFrameTest {
         assertEquals(listOf(system), systems)
         assertTrue(listener.ended.isEmpty())
     }
+
+    @Test
+    fun `a system stopped while waiting for its delay ends right away`() {
+        val system = PartySystem(shortParty().copy(delay = 60_000), pixelDensity = 1f)
+        val systems = mutableListOf(system)
+        val listener = RecordingListener()
+
+        system.enabled = false
+        renderFrame(systems, 0.016f, drawArea, listener)
+
+        assertTrue(systems.isEmpty())
+        assertEquals(listOf(system to 0), listener.ended)
+    }
 }
