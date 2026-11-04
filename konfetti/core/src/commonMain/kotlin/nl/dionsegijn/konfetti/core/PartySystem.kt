@@ -76,17 +76,15 @@ class PartySystem(
  * the confetti to a canvas
  */
 fun Confetti.toParticle(): Particle {
-    val ribbon = ribbonBody()
     return Particle(
         location.x,
         location.y,
         width,
-        ribbon?.length ?: width,
+        width,
         alphaColor,
         rotation + tiltAngle,
         scaleX,
         shape,
         alpha,
-        ribbon,
     )
 }

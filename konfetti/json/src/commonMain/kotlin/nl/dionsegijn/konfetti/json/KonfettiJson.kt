@@ -105,9 +105,24 @@ private fun PartyJson.toParty(
         position = position.toPosition(density),
         delay = delay,
         rotation =
-            with(rotation) { Rotation(enabled, speed, variance, multiplier2D, multiplier3D, faceDirection) },
+            Rotation(
+                enabled = rotation.enabled,
+                speed = rotation.speed,
+                variance = rotation.variance,
+                multiplier2D = rotation.multiplier2D,
+                multiplier3D = rotation.multiplier3D,
+                faceDirection = rotation.faceDirection,
+            ),
         emitter = emitter.toConfig(),
-        drift = with(drift) { Drift(enabled, sway, frequency, variance, tilt, drag) },
+        drift =
+            Drift(
+                enabled = drift.enabled,
+                sway = drift.sway,
+                frequency = drift.frequency,
+                variance = drift.variance,
+                tilt = drift.tilt,
+                drag = drift.drag,
+            ),
     )
 }
 
@@ -124,7 +139,6 @@ private fun ShapeJson.toShape(images: (String) -> CoreImage?): Shape =
         ShapeJson.Square -> Shape.Square
         is ShapeJson.Rectangle -> Shape.Rectangle(heightRatio)
         is ShapeJson.Polygon -> Shape.Polygon(points.map { Shape.Polygon.Point(it.x, it.y) })
-        is ShapeJson.Ribbon -> Shape.Ribbon(minLength, maxLength, loopSpacing, thickness, spin, bend, irregularity, variance, shading)
         is ShapeJson.Image -> {
             val image = requireNotNull(images(id)) { "no image registered for \"$id\"" }
             Shape.DrawableShape(image, tint, applyAlpha)
@@ -168,14 +182,29 @@ private fun Party.toJson(
     position = position.toJson(),
     delay = delay,
     rotation =
-        with(rotation) { RotationJson(enabled, speed, variance, multiplier2D, multiplier3D, faceDirection) },
+        RotationJson(
+            enabled = rotation.enabled,
+            speed = rotation.speed,
+            variance = rotation.variance,
+            multiplier2D = rotation.multiplier2D,
+            multiplier3D = rotation.multiplier3D,
+            faceDirection = rotation.faceDirection,
+        ),
     emitter =
         if (emitter.isPerSecond) {
             EmitterJson(emitter.emittingTime, perSecond = emitter.amount)
         } else {
             EmitterJson(emitter.emittingTime, max = emitter.amount)
         },
-    drift = with(drift) { DriftJson(enabled, sway, frequency, variance, tilt, drag) },
+    drift =
+        DriftJson(
+            enabled = drift.enabled,
+            sway = drift.sway,
+            frequency = drift.frequency,
+            variance = drift.variance,
+            tilt = drift.tilt,
+            drag = drift.drag,
+        ),
 )
 
 private fun Shape.toJson(imageId: (CoreImage) -> String?): ShapeJson? =
@@ -184,7 +213,6 @@ private fun Shape.toJson(imageId: (CoreImage) -> String?): ShapeJson? =
         Shape.Square -> ShapeJson.Square
         is Shape.Rectangle -> ShapeJson.Rectangle(heightRatio)
         is Shape.Polygon -> ShapeJson.Polygon(points.map { PointJson(it.x, it.y) })
-        is Shape.Ribbon -> ShapeJson.Ribbon(minLength, maxLength, loopSpacing, thickness, spin, bend, irregularity, variance, shading)
         is Shape.DrawableShape -> imageId(image)?.let { ShapeJson.Image(it, tint, applyAlpha) }
     }
 

@@ -100,10 +100,6 @@ open class KonfettiView : View {
         // setting alpha via paint.setAlpha allocates a temporary "ColorSpace$Named" object
         // it is more efficient via setColor
         paint.color = color
-        if (shape is Shape.Ribbon) {
-            drawRibbon(canvas, paint)
-            return
-        }
 
         val centerX = scaleX * width / 2
 
