@@ -9,11 +9,13 @@ import nl.dionsegijn.konfetti.core.models.CoreRectImpl
 import nl.dionsegijn.konfetti.core.models.Shape
 import nl.dionsegijn.konfetti.core.models.Size
 import nl.dionsegijn.konfetti.core.models.Vector
+import kotlin.math.sqrt
 import kotlin.random.Random
 import kotlin.test.Test
 import kotlin.test.assertEquals
 import kotlin.test.assertFalse
 import kotlin.test.assertTrue
+import kotlin.time.Duration
 
 class PartyEmitterTest {
     private val drawArea: CoreRect = CoreRectImpl(width = 1000f, height = 1000f)
@@ -149,5 +151,37 @@ class PartyEmitterTest {
         val created = emitter.createConfetti(1f, party, drawArea)
 
         assertTrue(created.size in 1..5_000)
+    }
+
+    @Test
+    fun `a default party shoots out between 0 and its speed`() {
+        val party = Party(speed = 30f, emitter = Emitter(100L).max(200))
+        val emitter = PartyEmitter(party.emitter, 1f, Random(1L))
+
+        val speeds =
+            emitter.createConfetti(1f, party, drawArea).map {
+                sqrt(it.velocity.x * it.velocity.x + it.velocity.y * it.velocity.y)
+            }
+
+        assertTrue(speeds.max() <= 30f, "max ${speeds.max()}")
+        assertTrue(speeds.min() < 5f, "min ${speeds.min()}")
+    }
+
+    @Test
+    fun `perSecond of 0 creates nothing`() {
+        val party = Party(emitter = Emitter(100L).perSecond(0))
+        val emitter = PartyEmitter(party.emitter, 1f)
+
+        assertEquals(0, emitter.createConfetti(1f, party, drawArea).size)
+    }
+
+    @Test
+    fun `an emitter without a duration never finishes`() {
+        val party = Party(emitter = Emitter(Duration.ZERO).perSecond(10))
+        val emitter = PartyEmitter(party.emitter, 1f)
+
+        repeat(100) { emitter.createConfetti(1f, party, drawArea) }
+
+        assertFalse(emitter.isFinished())
     }
 }

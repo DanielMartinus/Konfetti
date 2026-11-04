@@ -13,10 +13,11 @@ import nl.dionsegijn.konfetti.core.models.Size
  * @property angle the direction the confetti will shoot
  * @property spread how wide the confetti will shoot in degrees. Use 1 to shoot in a straight line
  * and 360 to form a circle
- * @property speed The start speed of the confetti at the time of creation. Also set [maxSpeed] to
- * apply a random speed between speed and maxSpeed.
- * @property maxSpeed when [maxSpeed] is set a random speed between [speed] and [maxSpeed] will be
- * chosen. Using randomness creates a more natural and realistic look to the confetti when animating.
+ * @property speed The start speed of the confetti at the time of creation. Each confetti gets a random
+ * speed between [speed] and [maxSpeed].
+ * @property maxSpeed the other end of the random speed range. By default 0, so the confetti shoots
+ * out at a speed between 0 and [speed]. Using randomness creates a more natural and realistic look
+ * to the confetti when animating.
  * @property damping The rate at which the speed will decrease right after shooting the confetti
  * @property size The size of the confetti. Use: Size.SMALL, MEDIUM or LARGE for default sizes or
  * create your custom size using a new instance of [Size].
@@ -35,7 +36,7 @@ import nl.dionsegijn.konfetti.core.models.Size
  * options. Easily enable or disable it using [Rotation].enabled() or [Rotation].disabled() and
  * control the speed of rotations.
  * @property emitter instructions how many and often a confetti particle should spawn.
- * Use Emitter(duration, timeUnit).max(amount) or Emitter(duration, timeUnit).perSecond(amount) to
+ * Use Emitter(100.milliseconds).max(amount) or Emitter(5.seconds).perSecond(amount) to
  * configure the Emitter.
  * @property drift makes the confetti sway from side to side as it falls, like paper drifting down.
  * Off by default, see [Drift].
