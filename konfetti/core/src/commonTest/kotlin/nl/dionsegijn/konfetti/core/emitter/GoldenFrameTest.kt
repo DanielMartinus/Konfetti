@@ -9,6 +9,7 @@ import kotlin.test.assertEquals
 /**
  * State recorded from the frame based physics at 60 fps.
  * Motion changes must keep producing these so confetti looks the same at 60 Hz.
+ * Alpha at 120 frames is lower than 2.x, which lost part of a millisecond of lifespan every frame.
  */
 class GoldenFrameTest {
     private data class Golden(
@@ -30,11 +31,11 @@ class GoldenFrameTest {
 
     private val frame120 =
         listOf(
-            Golden(500.0f, 345.39642f, 203.99977f, 0.47999954f, 120),
-            Golden(607.99963f, 509.74506f, 347.9996f, 0.6499997f, 120),
-            Golden(365.00043f, 514.82983f, 154.80005f, 0.88125f, 120),
-            Golden(724.99927f, 279.90607f, 342.1998f, 0.5350001f, 120),
-            Golden(446.00018f, 442.44037f, 146.00003f, 0.9124998f, 120),
+            Golden(500.0f, 345.39642f, 203.99977f, 0.47999954f, 100),
+            Golden(607.99963f, 509.74506f, 347.9996f, 0.6499997f, 100),
+            Golden(365.00043f, 514.82983f, 154.80005f, 0.88125f, 100),
+            Golden(724.99927f, 279.90607f, 342.1998f, 0.5350001f, 100),
+            Golden(446.00018f, 442.44037f, 146.00003f, 0.9124998f, 100),
         )
 
     // Speeds don't divide into 360 or the width, so no piece sits right on a wrap

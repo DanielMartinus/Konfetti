@@ -5,6 +5,7 @@ import nl.dionsegijn.konfetti.core.models.Shape
 import nl.dionsegijn.konfetti.core.models.Vector
 import kotlin.test.Test
 import kotlin.test.assertEquals
+import kotlin.test.assertTrue
 
 class FrameRateTest {
     private val drawArea = CoreRectImpl(width = 1000f, height = 1000f)
@@ -45,7 +46,8 @@ class FrameRateTest {
             assertEquals(a.location.x, b.location.x, tolerance)
             assertEquals(a.location.y, b.location.y, tolerance)
             assertEquals(a.rotation, b.rotation, 0.01f)
-            assertEquals(a.alpha, b.alpha)
+            // The frame it runs out in fades in full, so 60 fps can fade up to half a step more
+            assertEquals(a.alpha.toFloat(), b.alpha.toFloat(), ALPHA_TOLERANCE)
         }
     }
 
@@ -58,5 +60,30 @@ class FrameRateTest {
     fun `confetti without damping at 120 fps moves like confetti at 60 fps`() {
         // Without damping it travels about 1000px, so the gravity difference grows to a few pixels
         assertSameMotion(oneSecondAt(60, damping = 1f), oneSecondAt(120, damping = 1f), tolerance = 5f)
+    }
+
+    @Test
+    fun `confetti starts fading once its time to live is over at 144 fps`() {
+        val confetti =
+            Confetti(
+                location = Vector(500f, 300f),
+                color = 0xfce18a,
+                width = 16f,
+                mass = 5f,
+                shape = Shape.Square,
+                lifespan = 1000L,
+                damping = 0.9f,
+                pixelDensity = 1f,
+            )
+
+        // 1.1 seconds, each frame is 6.94 milliseconds
+        repeat(158) { confetti.render(1f / 144, drawArea) }
+
+        assertTrue(confetti.alpha < 255, "alpha ${confetti.alpha}")
+    }
+
+    companion object {
+        // Half a 60 fps fade step
+        private const val ALPHA_TOLERANCE = 2.5f
     }
 }

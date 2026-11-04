@@ -115,6 +115,9 @@ class Confetti(
 
     // Keeps the part of a fade step that doesn't fit in the Int alpha, so it fades the same at 120 fps
     private var exactAlpha = 255f
+
+    // Keeps the part of a millisecond that doesn't fit in the Long lifespan, so it runs out on time
+    private var lifespanRemainder = 0f
     var scaleX = 0f
 
     /**
@@ -200,7 +203,9 @@ class Confetti(
 
         if (sway != 0f || tilt != 0f) drift(deltaTime)
 
-        lifespan -= (deltaTime * MILLIS_IN_SECOND).toLong()
+        val elapsedMs = deltaTime * MILLIS_IN_SECOND + lifespanRemainder
+        lifespan -= elapsedMs.toLong()
+        lifespanRemainder = elapsedMs - elapsedMs.toLong()
         if (lifespan <= 0) updateAlpha(steps)
 
         // 2D rotation around the center of the confetti, or the way it's moving
