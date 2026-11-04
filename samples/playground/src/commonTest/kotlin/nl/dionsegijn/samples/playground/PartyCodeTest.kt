@@ -4,6 +4,7 @@ import nl.dionsegijn.konfetti.core.Drift
 import nl.dionsegijn.konfetti.core.Party
 import nl.dionsegijn.konfetti.core.Rotation
 import nl.dionsegijn.konfetti.core.emitter.Emitter
+import nl.dionsegijn.konfetti.core.models.Shape
 import kotlin.test.Test
 import kotlin.test.assertEquals
 import kotlin.test.assertTrue
@@ -40,5 +41,11 @@ class PartyCodeTest {
         val rotation = Rotation(speed = 2f, multiplier3D = 0f, faceDirection = true)
         val code = partyCode(listOf(Party(emitter = Emitter(100L).max(100), rotation = rotation)))
         assertTrue("rotation = Rotation(speed = 2f, multiplier3D = 0f, faceDirection = true)" in code, code)
+    }
+
+    @Test
+    fun `ribbon settings are printed`() {
+        val code = partyCode(listOf(Party(emitter = Emitter(100L).max(100), shapes = listOf(Shape.Ribbon(maxLength = 200f, spin = 2f)))))
+        assertTrue("shapes = listOf(Shape.Ribbon(maxLength = 200f, spin = 2f))" in code, code)
     }
 }

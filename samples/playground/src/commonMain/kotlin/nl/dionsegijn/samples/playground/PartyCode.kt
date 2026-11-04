@@ -96,6 +96,18 @@ private fun driftCode(drift: Drift): String {
     return "Drift(${fields.joinToString()})"
 }
 
+private fun ribbonCode(ribbon: Shape.Ribbon): String {
+    val defaults = Shape.Ribbon()
+    val fields = mutableListOf<String>()
+    with(ribbon) {
+        if (minLength != defaults.minLength) fields += "minLength = ${floatCode(minLength)}"
+        if (maxLength != defaults.maxLength) fields += "maxLength = ${floatCode(maxLength)}"
+        if (spin != defaults.spin) fields += "spin = ${floatCode(spin)}"
+        if (variance != defaults.variance) fields += "variance = ${floatCode(variance)}"
+    }
+    return "Shape.Ribbon(${fields.joinToString()})"
+}
+
 private fun angleName(angle: Int) =
     when (angle) {
         Angle.TOP -> "Angle.TOP"
@@ -127,6 +139,7 @@ private fun shapeCode(shape: Shape) =
         Shape.Polygon.TRIANGLE -> "Shape.Polygon.TRIANGLE"
         Shape.Polygon.DIAMOND -> "Shape.Polygon.DIAMOND"
         is Shape.Polygon -> "Shape.Polygon.star()"
+        is Shape.Ribbon -> ribbonCode(shape)
         is Shape.DrawableShape -> if (shape.image is PainterImage) "imageShape(heart)" else "drawableShape"
     }
 
