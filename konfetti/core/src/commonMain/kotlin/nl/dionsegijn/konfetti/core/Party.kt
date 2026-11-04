@@ -56,7 +56,41 @@ data class Party(
     val rotation: Rotation = Rotation(),
     val emitter: EmitterConfig,
     val drift: Drift = Drift(),
-)
+) {
+    // Keeps the constructor from 2.x working for Java and for code built against it
+    constructor(
+        angle: Int,
+        spread: Int,
+        speed: Float,
+        maxSpeed: Float,
+        damping: Float,
+        size: List<Size>,
+        colors: List<Int>,
+        shapes: List<Shape>,
+        timeToLive: Long,
+        fadeOutEnabled: Boolean,
+        position: Position,
+        delay: Int,
+        rotation: Rotation,
+        emitter: EmitterConfig,
+    ) : this(
+        angle = angle,
+        spread = spread,
+        speed = speed,
+        maxSpeed = maxSpeed,
+        damping = damping,
+        size = size,
+        colors = colors,
+        shapes = shapes,
+        timeToLive = timeToLive,
+        fadeOutEnabled = fadeOutEnabled,
+        position = position,
+        delay = delay,
+        rotation = rotation,
+        emitter = emitter,
+        drift = Drift(),
+    )
+}
 
 /**
  * Helper class for easily setting an angle based on easy understandable constants
@@ -151,6 +185,15 @@ data class Rotation(
     val multiplier3D: Float = 1.5f,
     val faceDirection: Boolean = false,
 ) {
+    // Keeps the constructor from 2.x working for Java and for code built against it
+    constructor(
+        enabled: Boolean,
+        speed: Float,
+        variance: Float,
+        multiplier2D: Float,
+        multiplier3D: Float,
+    ) : this(enabled, speed, variance, multiplier2D, multiplier3D, false)
+
     companion object {
         fun enabled() = Rotation(enabled = true)
 

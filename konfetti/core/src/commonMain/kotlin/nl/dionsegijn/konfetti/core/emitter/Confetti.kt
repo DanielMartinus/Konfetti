@@ -63,6 +63,38 @@ class Confetti(
     harmonicPhase: Float = 0f,
     wanderPhase: Float = 0f,
 ) {
+    // Keeps the constructor from 2.x working for Java and for code built against it
+    constructor(
+        location: Vector,
+        color: Int,
+        width: Float,
+        mass: Float,
+        shape: Shape,
+        lifespan: Long,
+        fadeOut: Boolean,
+        acceleration: Vector,
+        velocity: Vector,
+        damping: Float,
+        rotationSpeed3D: Float,
+        rotationSpeed2D: Float,
+        pixelDensity: Float,
+    ) : this(
+        location = location,
+        color = color,
+        width = width,
+        mass = mass,
+        shape = shape,
+        lifespan = lifespan,
+        fadeOut = fadeOut,
+        acceleration = acceleration,
+        velocity = velocity,
+        damping = damping,
+        rotationSpeed3D = rotationSpeed3D,
+        rotationSpeed2D = rotationSpeed2D,
+        pixelDensity = pixelDensity,
+        faceDirection = false,
+    )
+
     companion object {
         // Motion was tuned per frame at 60 fps, so one step is 1/60 of a second
         internal const val STEPS_PER_SECOND = 60f

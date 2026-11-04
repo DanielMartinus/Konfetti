@@ -135,4 +135,31 @@ class PartySystemTest {
         }
         assertTrue(first.getActiveParticleAmount() > 0)
     }
+
+    @Test
+    fun `a party made with the 2x constructor has no drift`() {
+        val party = Party(emitter = Emitter(100L).max(4))
+        // Every argument in order, the way Java calls it
+        val fromOldConstructor =
+            with(party) {
+                Party(
+                    angle,
+                    spread,
+                    speed,
+                    maxSpeed,
+                    damping,
+                    size,
+                    colors,
+                    shapes,
+                    timeToLive,
+                    fadeOutEnabled,
+                    position,
+                    delay,
+                    Rotation(true, 1f, 0.5f, 8f, 1.5f),
+                    emitter,
+                )
+            }
+
+        assertEquals(party, fromOldConstructor)
+    }
 }

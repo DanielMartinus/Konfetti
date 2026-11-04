@@ -76,6 +76,7 @@ public final class nl/dionsegijn/konfetti/core/Particle {
 }
 
 public final class nl/dionsegijn/konfetti/core/Party {
+	public fun <init> (IIFFFLjava/util/List;Ljava/util/List;Ljava/util/List;JZLnl/dionsegijn/konfetti/core/Position;ILnl/dionsegijn/konfetti/core/Rotation;Lnl/dionsegijn/konfetti/core/emitter/EmitterConfig;)V
 	public fun <init> (IIFFFLjava/util/List;Ljava/util/List;Ljava/util/List;JZLnl/dionsegijn/konfetti/core/Position;ILnl/dionsegijn/konfetti/core/Rotation;Lnl/dionsegijn/konfetti/core/emitter/EmitterConfig;Lnl/dionsegijn/konfetti/core/Drift;)V
 	public synthetic fun <init> (IIFFFLjava/util/List;Ljava/util/List;Ljava/util/List;JZLnl/dionsegijn/konfetti/core/Position;ILnl/dionsegijn/konfetti/core/Rotation;Lnl/dionsegijn/konfetti/core/emitter/EmitterConfig;Lnl/dionsegijn/konfetti/core/Drift;ILkotlin/jvm/internal/DefaultConstructorMarker;)V
 	public final fun component1 ()I
@@ -219,6 +220,7 @@ public final class nl/dionsegijn/konfetti/core/ReplayKt {
 public final class nl/dionsegijn/konfetti/core/Rotation {
 	public static final field Companion Lnl/dionsegijn/konfetti/core/Rotation$Companion;
 	public fun <init> ()V
+	public fun <init> (ZFFFF)V
 	public fun <init> (ZFFFFZ)V
 	public synthetic fun <init> (ZFFFFZILkotlin/jvm/internal/DefaultConstructorMarker;)V
 	public final fun component1 ()Z
@@ -264,6 +266,7 @@ public abstract class nl/dionsegijn/konfetti/core/emitter/BaseEmitter {
 
 public final class nl/dionsegijn/konfetti/core/emitter/Confetti {
 	public static final field Companion Lnl/dionsegijn/konfetti/core/emitter/Confetti$Companion;
+	public fun <init> (Lnl/dionsegijn/konfetti/core/models/Vector;IFFLnl/dionsegijn/konfetti/core/models/Shape;JZLnl/dionsegijn/konfetti/core/models/Vector;Lnl/dionsegijn/konfetti/core/models/Vector;FFFF)V
 	public fun <init> (Lnl/dionsegijn/konfetti/core/models/Vector;IFFLnl/dionsegijn/konfetti/core/models/Shape;JZLnl/dionsegijn/konfetti/core/models/Vector;Lnl/dionsegijn/konfetti/core/models/Vector;FFFFZFFFFFFFF)V
 	public synthetic fun <init> (Lnl/dionsegijn/konfetti/core/models/Vector;IFFLnl/dionsegijn/konfetti/core/models/Shape;JZLnl/dionsegijn/konfetti/core/models/Vector;Lnl/dionsegijn/konfetti/core/models/Vector;FFFFZFFFFFFFFILkotlin/jvm/internal/DefaultConstructorMarker;)V
 	public final fun applyForce (Lnl/dionsegijn/konfetti/core/models/Vector;)V
