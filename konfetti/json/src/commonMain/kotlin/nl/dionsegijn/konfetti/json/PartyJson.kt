@@ -90,6 +90,15 @@ internal sealed interface ShapeJson {
     @SerialName("polygon")
     data class Polygon(val points: List<PointJson>) : ShapeJson
 
+    @Serializable
+    @SerialName("ribbon")
+    data class Ribbon(
+        val minLength: Float = 60f,
+        val maxLength: Float = 120f,
+        val spin: Float = 1f,
+        val variance: Float = 0.5f,
+    ) : ShapeJson
+
     /** An image the app registers under [id], see [KonfettiJson.decode] */
     @Serializable
     @SerialName("image")

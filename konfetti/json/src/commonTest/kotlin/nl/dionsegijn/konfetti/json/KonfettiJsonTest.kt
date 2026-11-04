@@ -39,6 +39,7 @@ class KonfettiJsonTest {
                     listOf(
                         Shape.Rectangle(0.4f),
                         Shape.Polygon.STAR,
+                        Shape.Ribbon(40f, 90f, 2f, 0.2f),
                         Shape.Circle,
                     ),
                 timeToLive = 3000,
@@ -161,9 +162,12 @@ class KonfettiJsonTest {
     }
 
     @Test
-    fun `drift reads from a short file`() {
-        val json = """{"version":1,"parties":[{"drift":{"enabled":true,"drag":0.5},"emitter":{"duration":100,"max":10}}]}"""
+    fun `a ribbon and drift read from a short file`() {
+        val json =
+            """{"version":1,"parties":[{"shapes":[{"type":"ribbon","maxLength":200}],""" +
+                """"drift":{"enabled":true,"drag":0.5},"emitter":{"duration":100,"max":10}}]}"""
         val party = KonfettiJson.decode(json).single()
+        assertEquals(listOf<Shape>(Shape.Ribbon(maxLength = 200f)), party.shapes)
         assertEquals(Drift(enabled = true, drag = 0.5f), party.drift)
     }
 }
