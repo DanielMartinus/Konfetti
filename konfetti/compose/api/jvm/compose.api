@@ -21,7 +21,7 @@ public final class nl/dionsegijn/konfetti/compose/ImageBitmapImage : nl/dionsegi
 
 public final class nl/dionsegijn/konfetti/compose/KonfettiState {
 	public static final field $stable I
-	public final fun burst-3MmeM6k (JLnl/dionsegijn/konfetti/core/Party;)V
+	public final fun burst-3MmeM6k (JLnl/dionsegijn/konfetti/core/Party;)Lnl/dionsegijn/konfetti/core/Party;
 	public final fun reset ()V
 	public final fun start (Ljava/util/List;)V
 	public final fun start ([Lnl/dionsegijn/konfetti/core/Party;)V

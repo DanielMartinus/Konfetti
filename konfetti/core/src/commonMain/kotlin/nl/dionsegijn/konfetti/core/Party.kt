@@ -7,6 +7,7 @@ import nl.dionsegijn.konfetti.core.Angle.Companion.TOP
 import nl.dionsegijn.konfetti.core.emitter.EmitterConfig
 import nl.dionsegijn.konfetti.core.models.Shape
 import nl.dionsegijn.konfetti.core.models.Size
+import kotlin.jvm.JvmStatic
 
 /**
  * Configuration how to confetti should be rendered
@@ -196,8 +197,10 @@ data class Rotation(
     ) : this(enabled, speed, variance, multiplier2D, multiplier3D, false)
 
     companion object {
+        @JvmStatic
         fun enabled() = Rotation(enabled = true)
 
+        @JvmStatic
         fun disabled() = Rotation(enabled = false)
     }
 }
@@ -230,8 +233,10 @@ data class Drift(
     }
 
     companion object {
+        @JvmStatic
         fun enabled() = Drift(enabled = true)
 
+        @JvmStatic
         fun disabled() = Drift(enabled = false)
     }
 }

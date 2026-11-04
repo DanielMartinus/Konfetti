@@ -1,5 +1,7 @@
 package nl.dionsegijn.konfetti.core.models
 
+import kotlin.jvm.JvmField
+
 /**
  * @property sizeInDp the size of the confetti in dip
  * @property mass each size can have its own mass for slightly different behavior. For example, the closer
@@ -14,8 +16,13 @@ data class Size(val sizeInDp: Int, val mass: Float = 5f, val massVariance: Float
     }
 
     companion object {
+        @JvmField
         val SMALL: Size = Size(sizeInDp = 6, mass = 4f)
+
+        @JvmField
         val MEDIUM: Size = Size(8)
+
+        @JvmField
         val LARGE: Size = Size(10, mass = 6f)
     }
 }

@@ -47,6 +47,18 @@ class KonfettiStateTest {
     }
 
     @Test
+    fun `the party returned by burst can be stopped`() {
+        val state = KonfettiState()
+        state.start(rain)
+        val started = state.burst(at = Offset(120f, 300f), party = explode)
+        state.startPending(pixelDensity = 1f)
+
+        state.stop(started)
+
+        assertEquals(listOf(rain), state.systems.map { it.party })
+    }
+
+    @Test
     fun `stop removes only that party`() {
         val state = KonfettiState()
         state.start(explode, rain)

@@ -28,7 +28,7 @@ final class nl.dionsegijn.konfetti.compose/ImageBitmapImage : nl.dionsegijn.konf
 }
 
 final class nl.dionsegijn.konfetti.compose/KonfettiState { // nl.dionsegijn.konfetti.compose/KonfettiState|null[0]
-    final fun burst(androidx.compose.ui.geometry/Offset, nl.dionsegijn.konfetti.core/Party) // nl.dionsegijn.konfetti.compose/KonfettiState.burst|burst(androidx.compose.ui.geometry.Offset;nl.dionsegijn.konfetti.core.Party){}[0]
+    final fun burst(androidx.compose.ui.geometry/Offset, nl.dionsegijn.konfetti.core/Party): nl.dionsegijn.konfetti.core/Party // nl.dionsegijn.konfetti.compose/KonfettiState.burst|burst(androidx.compose.ui.geometry.Offset;nl.dionsegijn.konfetti.core.Party){}[0]
     final fun reset() // nl.dionsegijn.konfetti.compose/KonfettiState.reset|reset(){}[0]
     final fun start(kotlin.collections/List<nl.dionsegijn.konfetti.core/Party>) // nl.dionsegijn.konfetti.compose/KonfettiState.start|start(kotlin.collections.List<nl.dionsegijn.konfetti.core.Party>){}[0]
     final fun start(kotlin/Array<out nl.dionsegijn.konfetti.core/Party>...) // nl.dionsegijn.konfetti.compose/KonfettiState.start|start(kotlin.Array<out|nl.dionsegijn.konfetti.core.Party>...){}[0]

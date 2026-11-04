@@ -220,10 +220,11 @@ KonfettiView(
 `start` adds a party on top of whatever is already running, so you can call it as often as you like. Some other things you can do with the state:
 
 ```kotlin
-konfetti.burst(at = offset, party = party) // start a party where the user tapped, in pixels
-konfetti.stop(party)                       // remove one party right away
-konfetti.stopGracefully()                  // stop spawning and let the confetti finish
-konfetti.reset()                           // remove all confetti right away
+val started = konfetti.burst(at = offset, party = party) // start a party where the user tapped, in pixels
+konfetti.stop(started)                                   // take that burst back
+konfetti.stop(party)                                     // remove one party right away
+konfetti.stopGracefully()                                // stop spawning and let the confetti finish
+konfetti.reset()                                         // remove all confetti right away
 ```
 
 To shoot confetti from a button or a row, let `KonfettiView` fill the screen and use the center of the button in the root:
@@ -332,6 +333,7 @@ For most Kotlin apps that use `Party` and `KonfettiView`, bumping the version is
 - **Emitter takes a Duration.** Write `Emitter(5.seconds)` or `Emitter(5, DurationUnit.SECONDS)`. In Kotlin on Android and the JVM, `Emitter(5, TimeUnit.SECONDS)` still works. From Java, use `new Emitter(5L, DurationUnit.SECONDS)`. `Emitter.timeUnit` is now a `DurationUnit`.
 - **Smoother on fast screens.** Confetti now moves by time instead of by frame. On 60 Hz screens it moves the same as before. On 90, 120 and 144 Hz screens it now looks the same as on 60 Hz, where before it fell, slowed down and faded at a different pace. Confetti now also fades exactly after `timeToLive`, a few frames sooner than before.
 - **Parties are equal by value.** Two parties with the same settings are now equal, emitter included. `stop(party)` stops every running party equal to the one you pass.
+- **Java reads presets directly.** Write `Size.SMALL` instead of `Size.Companion.getSMALL()`. `Rotation.enabled()` and `Drift.enabled()` work without `.Companion` too, the old way still works for those.
 - **kotlin.random.** If you built your own renderer on `konfetti-core`, `PartySystem` and `PartyEmitter` now take a `kotlin.random.Random`. Wrap a `java.util.Random` with `asKotlinRandom()`.
 - **Maven and Bazel.** `konfetti-core` is now a multiplatform library. Gradle picks the right artifact by itself. With Maven or Bazel, depend on `konfetti-core-jvm`.
 - **iOS** supports `iosArm64` and `iosSimulatorArm64`, not the Intel simulator.

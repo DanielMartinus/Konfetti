@@ -39,11 +39,16 @@ class KonfettiState internal constructor() {
 
     /**
      * Start [party] at a position in pixels, for example where the user tapped.
+     * Returns the party that was started, pass it to [stop] to take the confetti back.
      */
     fun burst(
         at: Offset,
         party: Party,
-    ) = start(party.copy(position = Position.Absolute(at.x, at.y)))
+    ): Party {
+        val started = party.copy(position = Position.Absolute(at.x, at.y))
+        start(started)
+        return started
+    }
 
     /**
      * Stop [party] right away. Its confetti disappears.
