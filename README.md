@@ -43,7 +43,7 @@
 
 ## Getting started
 
-Konfetti 3.0 works with Kotlin 2.2 and up, so also with the Kotlin that comes with AGP 9.
+Konfetti 3.0 works with Kotlin 2.2 and up, so also with the Kotlin that comes with AGP 9. On the web (`js` and `wasmJs`) it needs Kotlin 2.4.
 
 Compose Multiplatform (Android, iOS, desktop and web):
 ```kotlin
@@ -70,7 +70,7 @@ dependencies {
 }
 ```
 
-Both pull in `konfetti-core` automatically. Core is plain Kotlin Multiplatform without any UI, so you can also use it on its own to build your own renderer.
+Both pull in `konfetti-core` automatically, and on Android also `konfetti-image` for drawables. Core is plain Kotlin Multiplatform without any UI, so you can also use it on its own to build your own renderer.
 
 | Platform | Targets |
 |---|---|
@@ -133,7 +133,7 @@ _To learn more, see more samples linked at the top of [this section](#usage)_
 - `Angle` - **Int (default: 0)**: The direction the confetti will shoot. Use any integer between `0-360` or use presets like: Angle.TOP, Angle.RIGHT, Angle.BOTTOM, Angle.LEFT. Angle.RIGHT equates to `0` degrees, and larger values move clockwise from this position.
 - `spread` - **Int (default: 360)**: How wide the confetti will shoot in the direction of Angle. Use any integer between `0-360`. Use 1 to shoot in a straight line and 360 to form a circle
 - `speed` - **Float (default: 30f)**: The start speed of the confetti at the time of creation.
-- `maxSpeed` - **Float (default: 0f)**: Set to -1 to disable maxSpeed. A random speed between `speed` and `maxSpeed` will be chosen. Using randomness creates a more natural and realistic look to the confetti when animating.)
+- `maxSpeed` - **Float (default: 0f)**: A random speed between `speed` and `maxSpeed` will be chosen. With the default of 0 that's a speed between 0 and `speed`. Set to -1 to always use `speed`. Using randomness creates a more natural and realistic look to the confetti when animating.
 - `damping` - **Float (default: 0.9f)**: The rate at which the speed will decrease right after shooting the confetti
 - `size` - **`List<Size>` (default: SMALL, MEDIUM, LARGE)**: The size of the confetti. Use: Size.SMALL, MEDIUM or LARGE for default sizes or
  create your custom size using a new instance of `Size`.
@@ -146,6 +146,8 @@ _To learn more, see more samples linked at the top of [this section](#usage)_
  - `delay` - **Int (default: 0)**: the amount of milliseconds to wait before the rendering of the confetti starts
  - `rotation` - **Rotation (default: Rotation)**: enable the 3D rotation of a Confetti. See [Rotation] class for the configuration
  options. Easily enable or disable it using [Rotation].enabled() or [Rotation].disabled() and control the speed of rotations.
+ Set `Rotation(faceDirection = true)` to turn each confetti the way it's moving, like the sparks of a firework. Works best with a thin `Shape.Rectangle(0.2f)`.
+ - `drift` - **Drift (default: off)**: lets the confetti sway from side to side while it falls, like paper drifting down. Turn it on with `Drift.enabled()`, or set how far (`sway`, in dp), how often (`frequency`), how much it leans (`tilt`) and how slow it falls (`drag`).
  - `emitter` - **EmitterConfig**: Instructions how many and how often a confetti particle should spawn. Use `Emitter(duration).max(amount)` or `Emitter(duration).perSecond(amount)` to configure the Emitter, for example `Emitter(5.seconds).perSecond(30)`. 
 
 See Party implementation [here](/konfetti/core/src/commonMain/kotlin/nl/dionsegijn/konfetti/core/Party.kt)
@@ -219,8 +221,20 @@ KonfettiView(
 
 ```kotlin
 konfetti.burst(at = offset, party = party) // start a party where the user tapped, in pixels
+konfetti.stop(party)                       // remove one party right away
 konfetti.stopGracefully()                  // stop spawning and let the confetti finish
 konfetti.reset()                           // remove all confetti right away
+```
+
+To shoot confetti from a button or a row, let `KonfettiView` fill the screen and use the center of the button in the root:
+
+```kotlin
+var center by remember { mutableStateOf(Offset.Zero) }
+Checkbox(
+    checked = done,
+    onCheckedChange = { konfetti.burst(at = center, party = party) },
+    modifier = Modifier.onGloballyPositioned { center = it.boundsInRoot().center },
+)
 ```
 
 Want to know when it's done? See [When a party ends](#when-a-party-ends).
@@ -297,16 +311,30 @@ Button(onClick = { if (!reduceMotion) konfetti.start(party) }) { Text("Celebrate
 if (!KonfettiView.isReduceMotionEnabled(context)) konfettiView.start(party)
 ```
 
+#### Konfetti Studio files
+
+[Konfetti Studio](https://danielmartinus.github.io/konfetti.studio/) exports parties as json. Read them with `konfetti-json`:
+
+```kotlin
+implementation("nl.dionsegijn:konfetti-json:3.0.0")
+
+val parties = KonfettiJson.decode(json, density = LocalDensity.current.density)
+konfetti.start(parties)
+```
+
 And that's it! There are endless possibilities to configure the confetti. If you want to learn more on how to implement Konfetti in a java, xml or compose project then see the samples linked at the top of [this section](#usage)
 
 ## Migrating from 2.x
 
-Most apps only need to bump the version. Party, Position, Shape and the rest of the API work as before. These are the things that did change:
+For most Kotlin apps that use `Party` and `KonfettiView`, bumping the version is enough. Rebuild your app against 3.0 and keep every Konfetti artifact on 3.0, since libraries built against 2.x won't run with it. These are the things that changed:
 
-- **Compose Multiplatform.** `konfetti-compose` is built with Compose Multiplatform 1.11. On Android that means min API 23 (was 21) and compileSdk 35 or higher.
+- **Compose Multiplatform.** `konfetti-compose` is built with Compose Multiplatform 1.11. On Android that means min API 23 (was 21), compileSdk 35 or higher and Compose 1.11 or newer in your app.
 - **Emitter takes a Duration.** Write `Emitter(5.seconds)` or `Emitter(5, DurationUnit.SECONDS)`. In Kotlin on Android and the JVM, `Emitter(5, TimeUnit.SECONDS)` still works. From Java, use `new Emitter(5L, DurationUnit.SECONDS)`. `Emitter.timeUnit` is now a `DurationUnit`.
-- **Smoother on fast screens.** Confetti now moves by time instead of by frame. On 60 Hz screens it looks the same as before. On 90 and 120 Hz screens it now looks the same as on 60 Hz, where before it fell and slowed down at a different pace.
-- **kotlin.random.** If you built your own renderer on `konfetti-core`, `PartySystem` and `PartyEmitter` now take a `kotlin.random.Random` instead of a `java.util.Random`.
+- **Smoother on fast screens.** Confetti now moves by time instead of by frame. On 60 Hz screens it moves the same as before. On 90, 120 and 144 Hz screens it now looks the same as on 60 Hz, where before it fell, slowed down and faded at a different pace. Confetti now also fades exactly after `timeToLive`, a few frames sooner than before.
+- **Parties are equal by value.** Two parties with the same settings are now equal, emitter included. `stop(party)` stops every running party equal to the one you pass.
+- **kotlin.random.** If you built your own renderer on `konfetti-core`, `PartySystem` and `PartyEmitter` now take a `kotlin.random.Random`. Wrap a `java.util.Random` with `asKotlinRandom()`.
+- **Maven and Bazel.** `konfetti-core` is now a multiplatform library. Gradle picks the right artifact by itself. With Maven or Bazel, depend on `konfetti-core-jvm`.
+- **iOS** supports `iosArm64` and `iosSimulatorArm64`, not the Intel simulator.
 
 `konfetti-xml` and `konfetti-image` stay Android only and still support API 15.
 
