@@ -53,6 +53,22 @@ class ReplayTest {
     }
 
     @Test
+    fun `an edit keeps the lanes when the draw area is a new one of the same size`() {
+        val before = replay(explode)
+        val after = before.edit(listOf(explode), CoreRectImpl(0f, 0f, 1000f, 1000f), pixelDensity = 1f, timeMs = 0)
+
+        assertSame(before.lanes[0], after.lanes[0])
+    }
+
+    @Test
+    fun `an edit replays the lanes when the draw area changed size`() {
+        val before = replay(explode)
+        val after = before.edit(listOf(explode), CoreRectImpl(0f, 0f, 500f, 1000f), pixelDensity = 1f, timeMs = 0)
+
+        assertNotSame(before.lanes[0], after.lanes[0])
+    }
+
+    @Test
     fun `an edited lane shows what playing it from the start shows`() {
         val edited = explode.copy(angle = 180)
         val after = replay(explode, explode).edit(listOf(explode, edited), drawArea, pixelDensity = 1f, timeMs = 500)

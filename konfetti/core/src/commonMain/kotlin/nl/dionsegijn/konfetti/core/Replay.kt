@@ -35,7 +35,7 @@ class Replay(
     ): Replay =
         Replay(
             parties.mapIndexed { i, party ->
-                lanes.getOrNull(i)?.takeIf { it.party == party && it.drawArea == drawArea && it.pixelDensity == pixelDensity }
+                lanes.getOrNull(i)?.takeIf { it.party == party && it.drawArea.isSameAs(drawArea) && it.pixelDensity == pixelDensity }
                     ?: Lane(party, drawArea, pixelDensity, SEED + i).also { it.particlesAt(timeMs) }
             },
         )
@@ -95,6 +95,9 @@ class Lane(
 
     private fun newSystem() = PartySystem(party, createdAt = 0L, pixelDensity = pixelDensity, random = Random(seed))
 }
+
+// A CoreRect isn't equal by value, so a new draw area with the same size has to be compared by its numbers
+private fun CoreRect.isSameAs(other: CoreRect): Boolean = x == other.x && y == other.y && width == other.width && height == other.height
 
 // Time it takes the last confetti to fade out, 5 alpha per frame at 60 fps
 private const val FADE_MS = 850L
