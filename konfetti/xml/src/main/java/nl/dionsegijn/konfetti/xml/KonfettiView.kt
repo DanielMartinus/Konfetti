@@ -41,6 +41,9 @@ open class KonfettiView : View {
      */
     private val systems: MutableList<PartySystem> = mutableListOf()
 
+    // Systems that ended in this frame, kept so drawing doesn't create a list every frame
+    private val finishedSystems: MutableList<PartySystem> = mutableListOf()
+
     /**
      * Keeping track of the delta time between frame rendering.
      * Nullable because API 21 and 22 call [onVisibilityChanged] from the [View]
@@ -71,6 +74,7 @@ open class KonfettiView : View {
         super.onDraw(canvas)
         val frameTimer = timer ?: return
         val deltaTime = frameTimer.getDeltaTime()
+        finishedSystems.clear()
         for (i in systems.size - 1 downTo 0) {
             val partySystem = systems[i]
 
@@ -83,8 +87,17 @@ open class KonfettiView : View {
 
             if (partySystem.isDoneEmitting()) {
                 systems.removeAt(i)
-                onParticleSystemUpdateListener?.onParticleSystemEnded(this, partySystem.party, systems.size)
+                finishedSystems.add(partySystem)
             }
+        }
+
+        // Report after the loop, so the listener can stop or reset parties without breaking it
+        finishedSystems.forEachIndexed { i, partySystem ->
+            onParticleSystemUpdateListener?.onParticleSystemEnded(
+                this,
+                partySystem.party,
+                systems.size + finishedSystems.size - 1 - i,
+            )
         }
 
         if (systems.size != 0) {
