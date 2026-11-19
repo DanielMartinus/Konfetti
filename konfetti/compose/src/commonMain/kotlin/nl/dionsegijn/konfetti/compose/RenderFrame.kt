@@ -18,6 +18,7 @@ internal fun renderFrame(
     updateListener: OnParticleSystemUpdateListener?,
 ): List<Particle> {
     val particles = mutableListOf<Particle>()
+    val finished = mutableListOf<PartySystem>()
     val iterator = systems.iterator()
     while (iterator.hasNext()) {
         val system = iterator.next()
@@ -30,8 +31,13 @@ internal fun renderFrame(
 
         if (system.isDoneEmitting()) {
             iterator.remove()
-            updateListener?.onParticleSystemEnded(system = system, activeSystems = systems.size)
+            finished.add(system)
         }
+    }
+
+    // Report after the loop, so the listener can stop or reset parties without breaking it
+    finished.forEachIndexed { i, system ->
+        updateListener?.onParticleSystemEnded(system = system, activeSystems = systems.size + finished.size - 1 - i)
     }
     return particles
 }

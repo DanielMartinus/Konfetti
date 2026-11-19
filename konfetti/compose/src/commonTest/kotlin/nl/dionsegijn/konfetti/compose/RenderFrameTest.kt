@@ -61,6 +61,65 @@ class RenderFrameTest {
     }
 
     @Test
+    fun `systems that end in one frame count down to the ones still running`() {
+        val first = PartySystem(shortParty().copy(delay = 60_000), pixelDensity = 1f)
+        val second = PartySystem(shortParty().copy(delay = 60_000), pixelDensity = 1f)
+        val systems = mutableListOf(first, second)
+        val listener = RecordingListener()
+
+        first.enabled = false
+        second.enabled = false
+        renderFrame(systems, 0.016f, drawArea, listener)
+
+        assertEquals(listOf(first to 1, second to 0), listener.ended)
+    }
+
+    @Test
+    fun `the listener can reset the systems while they end`() {
+        val systems =
+            mutableListOf(
+                PartySystem(Party(emitter = Emitter(60.seconds).perSecond(10)), pixelDensity = 1f),
+                PartySystem(shortParty(), pixelDensity = 1f),
+                PartySystem(Party(emitter = Emitter(60.seconds).perSecond(10)), pixelDensity = 1f),
+            )
+        val listener =
+            object : OnParticleSystemUpdateListener {
+                override fun onParticleSystemEnded(
+                    system: PartySystem,
+                    activeSystems: Int,
+                ) = systems.clear()
+            }
+
+        repeat(600) { renderFrame(systems, 0.016f, drawArea, listener) }
+
+        assertTrue(systems.isEmpty())
+    }
+
+    @Test
+    fun `the listener can stop another system while one ends`() {
+        val other = PartySystem(Party(emitter = Emitter(60.seconds).perSecond(10)), pixelDensity = 1f)
+        val systems =
+            mutableListOf(
+                PartySystem(shortParty(), pixelDensity = 1f),
+                PartySystem(Party(emitter = Emitter(60.seconds).perSecond(10)), pixelDensity = 1f),
+                other,
+            )
+        val listener =
+            object : OnParticleSystemUpdateListener {
+                override fun onParticleSystemEnded(
+                    system: PartySystem,
+                    activeSystems: Int,
+                ) {
+                    systems.remove(other)
+                }
+            }
+
+        repeat(600) { renderFrame(systems, 0.016f, drawArea, listener) }
+
+        assertEquals(1, systems.size)
+    }
+
+    @Test
     fun `a system waiting for its delay draws nothing and stays`() {
         val system = PartySystem(shortParty().copy(delay = 60_000), pixelDensity = 1f)
         val systems = mutableListOf(system)
