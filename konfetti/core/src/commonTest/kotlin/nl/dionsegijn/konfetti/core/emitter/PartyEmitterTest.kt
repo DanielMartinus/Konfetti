@@ -184,4 +184,24 @@ class PartyEmitterTest {
 
         assertFalse(emitter.isFinished())
     }
+
+    @Test
+    fun `a max emitter without a duration creates everything at once and finishes`() {
+        val party = Party(emitter = Emitter(Duration.ZERO).max(25))
+        val emitter = PartyEmitter(party.emitter, 1f)
+
+        assertFalse(emitter.isFinished())
+        assertEquals(25, emitter.createConfetti(deltaTime, party, drawArea).size)
+        assertTrue(emitter.isFinished())
+        assertEquals(0, emitter.createConfetti(deltaTime, party, drawArea).size)
+    }
+
+    @Test
+    fun `a max of 0 without a duration is finished right away`() {
+        val party = Party(emitter = Emitter(Duration.ZERO).max(0))
+        val emitter = PartyEmitter(party.emitter, 1f)
+
+        assertEquals(0, emitter.createConfetti(deltaTime, party, drawArea).size)
+        assertTrue(emitter.isFinished())
+    }
 }

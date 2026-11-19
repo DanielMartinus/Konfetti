@@ -14,7 +14,8 @@ data class Emitter(
     constructor(duration: Duration) : this(duration.inWholeMilliseconds, DurationUnit.MILLISECONDS)
 
     /**
-     * Max amount of particles that will be created over the duration that is set
+     * Max amount of particles that will be created over the duration that is set.
+     * With a duration of 0 they all come at once.
      */
     fun max(amount: Int): EmitterConfig = EmitterConfig(this).max(amount)
 

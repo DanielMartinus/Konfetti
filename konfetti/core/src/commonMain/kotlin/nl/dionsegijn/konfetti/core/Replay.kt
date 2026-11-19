@@ -102,7 +102,7 @@ private fun CoreRect.isSameAs(other: CoreRect): Boolean = x == other.x && y == o
 // Time it takes the last confetti to fade out, 5 alpha per frame at 60 fps
 private const val FADE_MS = 850L
 
-// Emitters without a duration run forever, show them as this long on the timeline
+// Emitters that spawn per second without a duration run forever, show them as this long on the timeline
 private const val ENDLESS_MS = 5_000L
 
 /** Where a party starts on the timeline, in milliseconds */
@@ -110,6 +110,7 @@ fun Party.startMs(): Long = delay.toLong()
 
 /** Where a party ends on the timeline: after its delay, emitting and the last confetti fading out */
 fun Party.endMs(): Long {
-    val emitting = emitter.emittingTime.takeIf { it > 0 } ?: ENDLESS_MS
+    // A max emitter without a duration is a burst, so there's no emitting time at all
+    val emitting = emitter.emittingTime.takeIf { it > 0 } ?: if (emitter.isPerSecond) ENDLESS_MS else 0L
     return startMs() + emitting + timeToLive + FADE_MS
 }

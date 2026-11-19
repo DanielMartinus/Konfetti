@@ -8,6 +8,7 @@ import kotlin.test.Test
 import kotlin.test.assertEquals
 import kotlin.test.assertFalse
 import kotlin.test.assertTrue
+import kotlin.time.Duration
 
 class PartySystemTest {
     private val rect: CoreRect = CoreRectImpl(width = 1000f, height = 1000f)
@@ -161,5 +162,19 @@ class PartySystemTest {
             }
 
         assertEquals(party, fromOldConstructor)
+    }
+
+    @Test
+    fun `a burst without a duration is done once its confetti are gone`() {
+        val system = PartySystem(Party(emitter = Emitter(Duration.ZERO).max(20), timeToLive = 500L), pixelDensity = 1f)
+
+        assertFalse(system.isDoneEmitting())
+        assertEquals(20, system.render(deltaTime, rect).size)
+        assertFalse(system.isDoneEmitting())
+
+        // Far longer than the confetti stay and fade
+        repeat(300) { system.render(deltaTime, rect) }
+
+        assertTrue(system.isDoneEmitting())
     }
 }

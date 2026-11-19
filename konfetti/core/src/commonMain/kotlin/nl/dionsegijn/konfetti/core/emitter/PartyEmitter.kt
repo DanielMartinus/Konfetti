@@ -52,6 +52,13 @@ class PartyEmitter(
 
         val particles = mutableListOf<Confetti>()
 
+        // Without a duration there's no time to spread max over, so all of it comes at once
+        if (isBurst()) {
+            repeat(remainingParticleAllowance()) {
+                particles.add(createParticle(party, drawArea))
+            }
+        }
+
         // Check if particle should be created. A non-positive interval is invalid
         // and used to divide into an unbounded burst, so it creates nothing.
         val amountPerMs = emitterConfig.amountPerMs
@@ -236,11 +243,15 @@ class PartyEmitter(
         }
     }
 
+    // A max emitter without a duration
+    private fun isBurst(): Boolean = emitterConfig.emittingTime == 0L && emitterConfig.maxParticles >= 0
+
     override fun isFinished(): Boolean {
         return if (emitterConfig.emittingTime > 0L) {
             elapsedTime >= emitterConfig.emittingTime
         } else {
-            false
+            // Without a duration only a burst finishes, once all of it came out
+            isBurst() && particlesCreated >= emitterConfig.maxParticles
         }
     }
 

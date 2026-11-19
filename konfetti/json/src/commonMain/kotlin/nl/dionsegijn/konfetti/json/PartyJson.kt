@@ -64,7 +64,7 @@ internal data class DriftJson(
     val drag: Float = 0f,
 )
 
-/** Set either [max] or [perSecond]. A [duration] of 0 emits forever. */
+/** Set either [max] or [perSecond]. A [duration] of 0 emits forever with [perSecond] and all at once with [max]. */
 @Serializable
 internal data class EmitterJson(
     val duration: Long,

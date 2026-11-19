@@ -7,6 +7,7 @@ import kotlin.test.assertEquals
 import kotlin.test.assertNotSame
 import kotlin.test.assertSame
 import kotlin.test.assertTrue
+import kotlin.time.Duration
 import kotlin.time.Duration.Companion.milliseconds
 
 class ReplayTest {
@@ -41,6 +42,20 @@ class ReplayTest {
         val party = explode.copy(delay = 200, timeToLive = 1000)
 
         assertEquals(200L + 100L + 1000L + 850L, party.endMs())
+    }
+
+    @Test
+    fun `a burst without a duration ends after the confetti fade out`() {
+        val party = Party(emitter = Emitter(Duration.ZERO).max(50), timeToLive = 1000)
+
+        assertEquals(1000L + 850L, party.endMs())
+    }
+
+    @Test
+    fun `a rain without a duration is shown as 5 seconds of emitting`() {
+        val party = Party(emitter = Emitter(Duration.ZERO).perSecond(50), timeToLive = 1000)
+
+        assertEquals(5000L + 1000L + 850L, party.endMs())
     }
 
     @Test
