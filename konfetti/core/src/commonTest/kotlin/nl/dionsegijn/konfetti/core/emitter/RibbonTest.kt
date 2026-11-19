@@ -46,8 +46,7 @@ class RibbonTest {
             rotationSpeed2D = 8f,
             rotationSpeed3D = 1.5f,
             pixelDensity = 1f,
-            sway = sway,
-            swayFrequency = 1f,
+            swing = Swing(damping = 0.9f, pixelDensity = 1f, sway = sway, frequency = 1f),
             streamer = Streamer(ribbon, velocity, Random(3), pixelDensity = 1f),
         )
     }

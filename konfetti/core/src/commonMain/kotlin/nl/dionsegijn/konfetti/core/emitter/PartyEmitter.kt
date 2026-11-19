@@ -101,15 +101,7 @@ class PartyEmitter(
             val velocity = getVelocity()
             val rotationSpeed2D = rotation.rotationSpeed() * party.rotation.multiplier2D
             val rotationSpeed3D = rotation.rotationSpeed() * party.rotation.multiplier3D
-            val drifts = drift.enabled
-            val sway = if (drifts) drift.withVariance(drift.sway) else 0f
-            val swayFrequency = if (drifts) drift.withVariance(drift.frequency) else 0f
-            val swayPhase = if (drifts) randomAngle() else 0f
-            // Each drifting piece catches the air its own way, so they don't all fall at one speed
-            val drag = if (drifts) drift.withVariance(drift.drag).coerceIn(0f, MAX_DRAG) else 0f
-            val fallSpeed = if (drifts) drift.withVariance(FALL_SPEED * (1f - drag)) else 0f
-            val harmonicPhase = if (drifts) randomAngle() else 0f
-            val wanderPhase = if (drifts) randomAngle() else 0f
+            val swing = if (drift.enabled) createSwing(drift, damping) else null
             // A streamer draws its own values last, so a seeded party without streamers plays the same
             val streamer = (shape as? Shape.Ribbon)?.let { Streamer(it, velocity, random, pixelDensity) }
             return Confetti(
@@ -126,17 +118,36 @@ class PartyEmitter(
                 rotationSpeed3D = rotationSpeed3D,
                 faceDirection = rotation.faceDirection,
                 pixelDensity = pixelDensity,
-                sway = sway,
-                swayFrequency = swayFrequency,
-                swayPhase = swayPhase,
-                tilt = if (drifts) drift.tilt else 0f,
-                drag = drag,
-                fallSpeed = fallSpeed,
-                harmonicPhase = harmonicPhase,
-                wanderPhase = wanderPhase,
+                swing = swing,
                 streamer = streamer,
             )
         }
+    }
+
+    private fun createSwing(
+        drift: Drift,
+        damping: Float,
+    ): Swing {
+        val sway = drift.withVariance(drift.sway)
+        val frequency = drift.withVariance(drift.frequency)
+        val swayPhase = randomAngle()
+        // Each drifting piece catches the air its own way, so they don't all fall at one speed
+        val drag = drift.withVariance(drift.drag).coerceIn(0f, MAX_DRAG)
+        val fallSpeed = drift.withVariance(FALL_SPEED * (1f - drag))
+        val harmonicPhase = randomAngle()
+        val wanderPhase = randomAngle()
+        return Swing(
+            damping = damping,
+            pixelDensity = pixelDensity,
+            sway = sway,
+            frequency = frequency,
+            tilt = drift.tilt,
+            drag = drag,
+            fallSpeed = fallSpeed,
+            swayPhase = swayPhase,
+            harmonicPhase = harmonicPhase,
+            wanderPhase = wanderPhase,
+        )
     }
 
     /** [value] give or take [Drift.variance] of it */

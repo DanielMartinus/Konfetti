@@ -34,10 +34,7 @@ class DriftTest {
         rotationSpeed2D = 0f,
         rotationSpeed3D = 0f,
         pixelDensity = 1f,
-        sway = sway,
-        swayFrequency = swayFrequency,
-        tilt = tilt,
-        drag = drag,
+        swing = Swing(damping = 0.9f, pixelDensity = 1f, sway = sway, frequency = swayFrequency, tilt = tilt, drag = drag),
     )
 
     // Renders a piece for [seconds] at [framesPerSecond], keeping the x of every frame
