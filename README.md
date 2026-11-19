@@ -138,7 +138,7 @@ _To learn more, see more samples linked at the top of [this section](#usage)_
 - `size` - **`List<Size>` (default: SMALL, MEDIUM, LARGE)**: The size of the confetti. Use: Size.SMALL, MEDIUM or LARGE for default sizes or
  create your custom size using a new instance of `Size`.
 - `colors` - **`List<Int>` (default: 0xfce18a, 0xff726d, 0xf4306d, 0xb48def)**: List of colors that will be randomly picked from
-- `shapes` - **`List<Shape>` (default: Shape.Square, Shape.Circle)**: Also `Shape.Rectangle`, polygons like `Shape.Polygon.STAR` (see [Shapes](#shapes)) or your own image with `Shape.DrawableShape`
+- `shapes` - **`List<Shape>` (default: Shape.Square, Shape.Circle)**: Also `Shape.Rectangle`, polygons like `Shape.Polygon.STAR`, streamers with `Shape.Ribbon` (see [Shapes](#shapes)) or your own image with `Shape.DrawableShape`
 - `timeToLive` - **Long (default: 2000)**: The time in milliseconds a particle will stay alive after that the confetti will disappear.
 - `fadeOutEnabled` - **Boolean (default: true)**: If true and a confetti disappears because it ran out of time (set with timeToLive) it will slowly fade out. If set to falls it will instantly disappear from the screen.
 - `position` - **Position (default: Position.Relative(0.5, 0.5))**: the location where the confetti will spawn from relative to the canvas. Use absolute
@@ -174,6 +174,16 @@ val arrow = Shape.Polygon(
 ```
 
 Stars take a bit more work to draw than the other shapes, so for very big parties keep them in the mix rather than using only stars. The confetti's `Size` sets how big the square is, so a star might look better a size larger than your squares.
+
+#### Streamers
+
+`Shape.Ribbon` is a curly paper streamer. It hangs from its head and spins around its own length while it falls, instead of tumbling like flat confetti:
+
+```kotlin
+shapes = listOf(Shape.Ribbon(minLength = 60f, maxLength = 120f))
+```
+
+Each streamer picks a length between `minLength` and `maxLength` (in dp). `spin` sets how many turns a second it spins and `variance` how different the streamers are from each other. The confetti's `Size` sets how wide the curl is. Turn on `drift` to let them sway, the body then trails behind the head.
 
 #### Your own image
 
@@ -322,6 +332,8 @@ implementation("nl.dionsegijn:konfetti-json:3.0.0")
 val parties = KonfettiJson.decode(json, density = LocalDensity.current.density)
 konfetti.start(parties)
 ```
+
+The files carry a version number. A file from a newer Konfetti than yours tells you to update instead of playing something wrong.
 
 And that's it! There are endless possibilities to configure the confetti. If you want to learn more on how to implement Konfetti in a java, xml or compose project then see the samples linked at the top of [this section](#usage)
 
