@@ -194,8 +194,10 @@ open class KonfettiView : View {
     fun stop(party: Party) {
         // Running parties have their drawables swapped for references, compare against the same
         val stored = storeImages(party)
-        systems.removeAll { it.party == stored }
-        onParticleSystemUpdateListener?.onParticleSystemEnded(this, party, systems.size)
+        // Nothing to report when the party already ended or never ran
+        if (systems.removeAll { it.party == stored }) {
+            onParticleSystemUpdateListener?.onParticleSystemEnded(this, party, systems.size)
+        }
     }
 
     /**
