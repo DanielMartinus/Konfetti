@@ -108,7 +108,9 @@ internal class Painter {
         image: WebImage,
         color: Int,
     ): dynamic =
-        tinted.getOrPut("${image.id}|$color") {
+        // Alpha is drawn with globalAlpha, so only the color decides which copy it is.
+        // With alpha in the key every step of a fade would make its own copy.
+        tinted.getOrPut("${image.id}|${color and 0xFFFFFF}") {
             val canvas = document.createElement("canvas").asDynamic()
             canvas.width = image.width
             canvas.height = image.height
