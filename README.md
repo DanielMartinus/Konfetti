@@ -140,7 +140,7 @@ _To learn more, see more samples linked at the top of [this section](#usage)_
 - `colors` - **`List<Int>` (default: 0xfce18a, 0xff726d, 0xf4306d, 0xb48def)**: List of colors that will be randomly picked from
 - `shapes` - **`List<Shape>` (default: Shape.Square, Shape.Circle)**: Also `Shape.Rectangle`, polygons like `Shape.Polygon.STAR`, streamers with `Shape.Ribbon` (see [Shapes](#shapes)) or your own image with `Shape.DrawableShape`
 - `timeToLive` - **Long (default: 2000)**: The time in milliseconds a particle will stay alive after that the confetti will disappear.
-- `fadeOutEnabled` - **Boolean (default: true)**: If true and a confetti disappears because it ran out of time (set with timeToLive) it will slowly fade out. If set to falls it will instantly disappear from the screen.
+- `fadeOutEnabled` - **Boolean (default: true)**: If true and a confetti disappears because it ran out of time (set with timeToLive) it will slowly fade out. If set to false it will instantly disappear from the screen.
 - `position` - **Position (default: Position.Relative(0.5, 0.5))**: the location where the confetti will spawn from relative to the canvas. Use absolute
  coordinates with `[Position.Absolute]` or relative coordinates between 0.0 and 1.0 using `[Position.Relative]`. Spawn confetti between random locations using `[Position.between]`.
  - `delay` - **Int (default: 0)**: the amount of milliseconds to wait before the rendering of the confetti starts
