@@ -97,14 +97,18 @@ class KonfettiEngine {
     }
 }
 
-/** An image registered for image shapes. Equal by id, so reloading the same json keeps the parties. */
+/**
+ * An image registered for image shapes. Equal by id and source, so reloading the same json keeps the parties
+ * and registering another image under the same id replaces the one they draw.
+ */
 internal class WebImage(
     val id: String,
     override val width: Int,
     override val height: Int,
     val source: dynamic,
 ) : CoreImage {
-    override fun equals(other: Any?): Boolean = other is WebImage && other.id == id && other.width == width && other.height == height
+    override fun equals(other: Any?): Boolean =
+        other is WebImage && other.id == id && other.width == width && other.height == height && other.source === source
 
     override fun hashCode(): Int = id.hashCode()
 }
