@@ -97,6 +97,19 @@ class KonfettiJsonTest {
     }
 
     @Test
+    fun `a party left without shapes can't be written`() {
+        val party = explode.copy(shapes = listOf(Shape.DrawableShape(ReferenceImage(1, 24, 24))))
+        val error = assertFailsWith<IllegalArgumentException> { KonfettiJson.encode(listOf(explode, party)) }
+        assertTrue(error.message!!.contains("Party 2"))
+    }
+
+    @Test
+    fun `image shapes without an id are left out when others remain`() {
+        val party = explode.copy(shapes = listOf(Shape.Square, Shape.DrawableShape(ReferenceImage(1, 24, 24))))
+        assertEquals(listOf<Shape>(Shape.Square), KonfettiJson.decode(KonfettiJson.encode(listOf(party))).single().shapes)
+    }
+
+    @Test
     fun `a missing image explains which one`() {
         val json = """{"parties":[{"shapes":[{"type":"image","id":"logo"}],"emitter":{"duration":100,"max":1}}]}"""
         val error = assertFailsWith<KonfettiJsonException> { KonfettiJson.decode(json) }

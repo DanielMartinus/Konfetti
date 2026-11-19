@@ -69,6 +69,7 @@ object KonfettiJson {
      * Writes [parties] as a Konfetti json file.
      * @param names optional names for the parties, in the same order
      * @param imageId the id to save an image shape under, image shapes without an id are left out
+     * @throws IllegalArgumentException when a party is left without shapes, since decode couldn't read that file back
      */
     fun encode(
         parties: List<Party>,
@@ -76,7 +77,15 @@ object KonfettiJson {
         prettyPrint: Boolean = true,
         imageId: (CoreImage) -> String? = { null },
     ): String {
-        val document = KonfettiDocument(parties = parties.mapIndexed { i, party -> party.toJson(names.getOrNull(i), imageId) })
+        val document =
+            KonfettiDocument(
+                parties =
+                    parties.mapIndexed { i, party ->
+                        party.toJson(names.getOrNull(i), imageId).also {
+                            require(it.shapes.isNotEmpty()) { "Party ${i + 1}: all its shapes are images without an id" }
+                        }
+                    },
+            )
         val format = if (prettyPrint) prettyJson else json
         return format.encodeToString(KonfettiDocument.serializer(), document)
     }
