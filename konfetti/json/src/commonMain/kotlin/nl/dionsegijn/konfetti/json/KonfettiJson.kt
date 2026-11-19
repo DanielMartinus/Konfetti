@@ -236,8 +236,11 @@ private fun Position.toJson(): PositionJson =
 
 private fun colorInt(hex: String): Int {
     val digits = hex.removePrefix("#")
-    require(digits.length == 6) { "color \"$hex\" should look like #ff726d" }
-    return requireNotNull(digits.toIntOrNull(16)) { "color \"$hex\" should look like #ff726d" }
+    // Only hex digits, toIntOrNull alone would also take a sign like -12345
+    require(digits.length == 6 && digits.all { it in '0'..'9' || it in 'a'..'f' || it in 'A'..'F' }) {
+        "color \"$hex\" should look like #ff726d"
+    }
+    return digits.toInt(16)
 }
 
 private fun colorHex(color: Int): String = "#" + (color and 0xFFFFFF).toString(16).padStart(6, '0')

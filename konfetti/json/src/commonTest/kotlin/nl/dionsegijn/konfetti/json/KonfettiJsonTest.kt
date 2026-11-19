@@ -109,6 +109,22 @@ class KonfettiJsonTest {
         assertEquals(listOf<Shape>(Shape.Square), KonfettiJson.decode(KonfettiJson.encode(listOf(party))).single().shapes)
     }
 
+    private fun decodeColor(color: String) =
+        KonfettiJson.decode("""{"parties":[{"colors":["$color"],"emitter":{"duration":100,"max":1}}]}""").single().colors
+
+    @Test
+    fun `a color is six hex digits`() {
+        assertEquals(listOf(0xff726d), decodeColor("#ff726d"))
+        assertEquals(listOf(0xff726d), decodeColor("#FF726D"))
+    }
+
+    @Test
+    fun `a color with a sign or another character is refused`() {
+        listOf("#-12345", "#+12345", "#12345g", "#fff", "#80ff0000").forEach {
+            assertFailsWith<KonfettiJsonException>(it) { decodeColor(it) }
+        }
+    }
+
     @Test
     fun `a missing image explains which one`() {
         val json = """{"parties":[{"shapes":[{"type":"image","id":"logo"}],"emitter":{"duration":100,"max":1}}]}"""
