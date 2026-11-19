@@ -121,7 +121,8 @@ open class KonfettiView : View {
         val centerX = scaleX * width / 2
 
         val saveCount = canvas.save()
-        canvas.translate(x - centerX, y)
+        // x is the left edge of the confetti like in Compose, so its center sits half a width further
+        canvas.translate(x + width / 2 - centerX, y)
         canvas.rotate(rotation, centerX, width / 2)
         canvas.scale(scaleX, 1f)
 
