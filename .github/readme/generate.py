@@ -5,15 +5,18 @@
 
 The confetti is simulated with the same steps as konfetti-core (gravity, damping, mass, the 2D spin and
 the 3D flip) and baked into CSS keyframes, so GitHub plays it in an <img>. Text is turned into paths with
-Instrument Sans, Studio's typeface, because an <img> SVG can't load fonts. The Studio look needs ImageMagick.
+Instrument Sans, Studio's typeface, because an <img> SVG can't load fonts.
+
+The Studio look starts from a frame of the real app: run capture-studio.mjs first when Studio changes.
+It also needs ImageMagick.
 """
 
 import base64
 import io
+import json
 import math
 import random
 import subprocess
-import tempfile
 from pathlib import Path
 
 import uharfbuzz as hb
@@ -117,6 +120,7 @@ SHAPES = {
     "square": lambda s: f'<rect x="{f(-s / 2)}" y="{f(-s / 2)}" width="{f(s)}" height="{f(s)}"/>',
     "circle": lambda s: f'<circle r="{f(s / 2)}"/>',
     "rect": lambda s: f'<rect x="{f(-s / 2)}" y="{f(-s / 4)}" width="{f(s)}" height="{f(s / 2)}"/>',
+    "rect4": lambda s: f'<rect x="{f(-s / 2)}" y="{f(-s / 5)}" width="{f(s)}" height="{f(s * .4)}"/>',
     "star": lambda s: '<path d="M' + " L".join(
         f"{f((s * .62 if i % 2 == 0 else s * .27) * math.cos(-math.pi / 2 + i * math.pi / 5))},"
         f"{f((s * .62 if i % 2 == 0 else s * .27) * math.sin(-math.pi / 2 + i * math.pi / 5))}" for i in range(10)) + 'Z"/>',
@@ -154,6 +158,7 @@ class Stage:
         self.css, self.svg = [], []
         self.n = 0
         self.prefix = f"k{seed}"
+        self.lives = []  # (born, gone) of every piece, to count them
 
     def start(self, party):
         r = self.rnd
@@ -185,40 +190,41 @@ class Stage:
                 if t >= life:
                     fade_at = fade_at or t
                     alpha -= 5
-                if alpha <= 0 or y - size_dp * self.k > ay + ah + 4:
+                # Studio starts over at the end of the loop, whatever is still flying
+                if alpha <= 0 or y - size_dp * self.k > ay + ah + 4 or born + t >= self.period - 0.01:
                     samples.append((t, x, y))
                     break
             self._bake(born, samples, fade_at, size_dp, spin, color, shape)
 
     def _bake(self, born, samples, fade_at, size_dp, spin, color, shape):
-        keep = _simplify(samples, self.eps)
         end = samples[-1][0]
         fade = None
         if fade_at:
             # The fade starts here, keep a frame for it
             fade = min(range(len(samples)), key=lambda j: abs(samples[j][0] - fade_at))
-            keep = sorted(set(keep) | {fade})
+        keep = _fit(samples, self.eps, fade)
+        self.lives.append((born, born + end))
         assert born + end < self.period, f"a piece outlives the loop ({born + end:.2f}s)"
         P = self.period
         name = f"{self.prefix}{self.n:x}"
         self.n += 1
 
         def pct(t):
-            return f"{(born + t) / P * 100:.2f}".rstrip("0").rstrip(".") + "%"
+            return f"{max(0.0, (born + t) / P * 100):.2f}".rstrip("0").rstrip(".") + "%"
 
         x0, y0 = samples[0][1], samples[0][2]
-        frames = [f"0%,{pct(-0.001)}{{opacity:0;transform:translate({f(x0)}px,{f(y0)}px)}}"]
-        for i in keep:
+        frames = [f"0%,{pct(-0.001)}{{opacity:0;translate:{x0:.0f}px {y0:.0f}px}}"]
+        for i, ease in keep:
             t, x, y = samples[i]
-            op = ""
+            op = f"animation-timing-function:{ease};" if ease else ""
             if i in (0, fade):
-                op = "opacity:1;"
+                op += "opacity:1;"
             if i == len(samples) - 1:
                 # Faded out, or left the stage before its time was up
-                op = "opacity:0;" if fade is not None else "opacity:1;"
-            frames.append(f"{pct(t)}{{{op}transform:translate({x:.0f}px,{y:.0f}px)}}")
+                op += "opacity:0;" if fade is not None else "opacity:1;"
+            frames.append(f"{pct(t)}{{{op}translate:{x:.0f}px {y:.0f}px}}")
         last = samples[-1]
-        frames.append(f"100%{{opacity:0;transform:translate({f(last[1])}px,{f(last[2])}px)}}")
+        frames.append(f"100%{{opacity:0;translate:{last[1]:.0f}px {last[2]:.0f}px}}")
         self.css.append(f"@keyframes {name}{{{''.join(frames)}}}")
 
         size = size_dp * self.k * self.size_scale
@@ -227,10 +233,12 @@ class Stage:
         flip = (size_dp * 2) / (spin * 1.5 * 60) * 2
         start = self.rnd.random()
         body = SHAPES[shape](size).replace("/>", f' fill="{color}"/>', 1)
+        # Spin and flip speeds come in steps of 0.05 s, so they can share classes
+        turn, flip = max(1, round(turn * 20)), max(1, round(flip * 20))
         self.svg.append(
-            f'<g class="c" style="animation:{name} {f(P)}s linear infinite">'
-            f'<g style="animation:spin {turn:.2f}s linear {-start * turn:.2f}s infinite">'
-            f'<g style="animation:flip {flip:.2f}s linear {-start * flip:.2f}s infinite">{body}</g></g></g>'
+            f'<g class="c" style="animation:{name} {P:g}s linear infinite">'
+            f'<g class="s{turn}" style="animation-delay:-{start * turn / 20:.2f}s">'
+            f'<g class="f{flip}" style="animation-delay:-{start * flip / 20:.2f}s">{body}</g></g></g>'
         )
 
     def style(self):
@@ -238,6 +246,8 @@ class Stage:
             ".c{opacity:0}"
             "@keyframes spin{to{transform:rotate(360deg)}}"
             "@keyframes flip{0%,100%{transform:scaleX(1)}50%{transform:scaleX(0)}}"
+            + "".join(f".s{i}{{animation:spin {i / 20:g}s linear infinite}}" for i in range(1, 41))
+            + "".join(f".f{i}{{animation:flip {i / 20:g}s linear infinite}}" for i in range(1, 41))
             + "".join(self.css)
         )
 
@@ -245,25 +255,62 @@ class Stage:
         return "".join(self.svg)
 
 
-def _simplify(samples, eps):
-    """Ramer-Douglas-Peucker over time: keeps the frames where moving in a straight line would be off by more than eps."""
-    keep = {0, len(samples) - 1}
-    stack = [(0, len(samples) - 1)]
-    while stack:
-        a, b = stack.pop()
+def _bezier(x1, y1, x2, y2, n=64):
+    """A CSS cubic-bezier easing as a lookup from progress in time to progress in place."""
+    pts = []
+    for k in range(n * 4 + 1):
+        u = k / (n * 4)
+        pts.append((3 * (1 - u) ** 2 * u * x1 + 3 * (1 - u) * u * u * x2 + u ** 3,
+                    3 * (1 - u) ** 2 * u * y1 + 3 * (1 - u) * u * u * y2 + u ** 3))
+    table, at = [], 0
+    for k in range(n + 1):
+        x = k / n
+        while at < len(pts) - 1 and pts[at + 1][0] < x:
+            at += 1
+        (xa, ya), (xb, yb) = pts[at], pts[min(at + 1, len(pts) - 1)]
+        table.append(ya if xb == xa else ya + (yb - ya) * (x - xa) / (xb - xa))
+
+    def ease(p):
+        q = p * n
+        a = min(int(q), n - 1)
+        return table[a] + (table[a + 1] - table[a]) * (q - a)
+
+    return ease
+
+
+# Confetti slows down after a shot and speeds up when it falls, so CSS's own curves fit most of a path
+EASINGS = [(None, lambda p: p), ("ease-out", _bezier(0, 0, .58, 1)), ("ease-in", _bezier(.42, 0, 1, 1))]
+
+
+def _fit(samples, eps, must=None):
+    """Keyframes for a path: each one runs as far as a straight line with one of EASINGS stays within eps.
+
+    Returns (index, easing) pairs, the easing being the one from that keyframe to the next.
+    """
+    out, a, last = [], 0, len(samples) - 1
+
+    def fits(a, b, ease):
         ta, xa, ya = samples[a]
         tb, xb, yb = samples[b]
-        worst, at = 0.0, None
         for i in range(a + 1, b):
             t, x, y = samples[i]
-            u = (t - ta) / (tb - ta)
-            d = math.hypot(x - (xa + (xb - xa) * u), y - (ya + (yb - ya) * u))
-            if d > worst:
-                worst, at = d, i
-        if at is not None and worst > eps:
-            keep.add(at)
-            stack += [(a, at), (at, b)]
-    return sorted(keep)
+            e = ease((t - ta) / (tb - ta))
+            if abs(x - (xa + (xb - xa) * e)) > eps or abs(y - (ya + (yb - ya) * e)) > eps:
+                return False
+        return True
+
+    while a < last:
+        best = (a + 1, None)
+        for name, ease in EASINGS:
+            b = a + 1
+            while b + 1 <= last and (must is None or not a < must < b + 1 or b + 1 == must) and fits(a, b + 1, ease):
+                b += 1
+            if b > best[0]:
+                best = (b, name)
+        out.append((a, best[1]))
+        a = best[0]
+    out.append((last, None))
+    return out
 
 
 # ---------------------------------------------------------------- svg
@@ -419,58 +466,107 @@ def presets(theme):
 
 
 def studio():
-    """Konfetti Studio with its two screens playing the parties in the panel on the left."""
-    src = ROOT / ".github/images/konfetti-studio.jpg"
-    W, H, P = 2000, 1125, 7.4
-    scratch = Path(tempfile.mkdtemp())
-    # The screens in the screenshot, and the emitter of "Cannon left" drawn on top of them
-    screens = [dict(x=653, y=143, w=278, h=603, dp=393, wedge_dx=0), dict(x=986, y=145, w=290, h=645, dp=412, wedge_dx=333)]
-    wedge = [(40, 467), (106, 316), (168, 338), (194, 392), (165, 421), (176, 470), (176, 497), (60, 497)]
+    """Konfetti Studio playing its starter project, from a frame capture-studio.mjs took of the real app.
 
-    draw = []
-    for s in screens:
-        draw += ["-draw", f"roundrectangle {s['x'] + 5},{s['y'] + 11} {s['x'] + s['w'] - 5},{s['y'] + s['h'] - 6} 34,34"]
-    subprocess.run(["magick", str(src), "-fill", "white", *draw, str(scratch / "clean.png")], check=True)
-    # Put the emitters back over the cleaned screens, and keep them as an overlay that sits above the confetti
-    mask = []
-    for s in screens:
-        pts = " ".join(f"{620 + x + s['wedge_dx']},{110 + y}" for x, y in wedge)
-        mask += ["-draw", f"polygon {pts}"]
-    subprocess.run(["magick", "-size", f"{W}x{H}", "xc:black", "-fill", "white", *mask, str(scratch / "mask.png")], check=True)
-    subprocess.run(["magick", str(scratch / "clean.png"), str(src), str(scratch / "mask.png"), "-composite", str(scratch / "base.png")], check=True)
-    base = _b64(["magick", str(scratch / "base.png"), "-resize", "1800x", "-strip", "-quality", "80", "jpeg:-"])
-    overlays = []
-    for s in screens:
-        x0 = 620 + 40 + s["wedge_dx"]
-        y0 = 110 + 316
-        w, h = 194 - 40 + 1, 497 - 316 + 1
-        png = _b64(["magick", str(src), str(scratch / "mask.png"), "-alpha", "off", "-compose", "CopyOpacity", "-composite",
-                    "-crop", f"{w}x{h}+{x0}+{y0}", "+repage", "-strip", "-colors", "96", "png8:-"])
-        overlays.append(f'<image href="data:image/png;base64,{png}" x="{x0}" y="{y0}" width="{w}" height="{h}"/>')
+    The confetti, the playhead and the two readouts move together on Studio's own loop.
+    """
+    src = OUT / "studio"
+    L = json.loads((src / "layout.json").read_text())
+    W, H = L["viewport"]
+    P = L["length"]
 
-    colors = [PINK, YELLOW, CORAL, VIOLET, "#2EC4B6", "#3A86FF", "#2BB673"]
-    shapes = ("rect", "rect", "square", "star", "circle")
-    css, layers, clips = [], [], []
-    for i, s in enumerate(screens):
-        k = s["w"] / s["dp"]
-        clips.append(f'<clipPath id="sc{i}"><rect x="{s["x"]}" y="{s["y"]}" width="{s["w"]}" height="{s["h"]}" rx="38"/></clipPath>')
-        st = Stage(P, (s["x"], s["y"], s["w"], s["h"]), k, seed=40 + i, size_scale=1.1, eps=2.6)
-        common = dict(colors=colors, shapes=shapes, sizes=(SMALL, MEDIUM), ttl=2400)
-        hdp = s["h"] / k
-        st.start(Party(0.2, (24 / s["dp"], 600 / hdp), max_over(0.2, 42), angle=-45, spread=40, speed=35, max_speed=55, **common))
-        st.start(Party(0.6, (1 - 24 / s["dp"], 640 / hdp), max_over(0.2, 42), angle=-135, spread=40, speed=35, max_speed=55, **common))
-        st.start(Party(1.0, lambda r: (r.random(), 0.0), per_second(2.5, 18), angle=90, spread=60, speed=2, max_speed=8, **common))
+    # The starter project, as in konfetti.studio src/model/presets.ts
+    cannon = dict(spread=40, speed=35, max_speed=55, ttl=2000, sizes=((10, 5.0),),
+                  colors=["#FF726D", "#FCE18A", "#36C5F0", "#2EB67D", "#B48DEF"], shapes=("rect4", "star"))
+    css, layers, clips, counts = [], [], [], None
+    for i, s in enumerate(L["screens"]):
+        wdp, hdp = s["dp"]
+        k = s["w"] / wdp
+        clips.append(f'<clipPath id="sc{i}"><rect x="{f(s["x"])}" y="{f(s["y"])}" width="{f(s["w"])}" height="{f(s["h"])}" rx="{f(s["radius"])}"/></clipPath>')
+        st = Stage(P, (s["x"], s["y"], s["w"], s["h"]), k, seed=40 + i, eps=1.8)
+        st.start(Party(0.0, (24 / wdp, 600 / hdp), max_over(0.2, 80), angle=-45, **cannon))
+        st.start(Party(0.4, (0.95, 0.75), max_over(0.2, 80), angle=-135, **cannon))
+        st.start(Party(0.8, lambda r: (r.random(), 0.0), per_second(2.5, 60), angle=90, spread=360, speed=0, max_speed=10,
+                       ttl=4000, colors=[PINK, VIOLET], shapes=("circle", "diamond")))
         css.append(st.style())
         layers.append(f'<g clip-path="url(#sc{i})">{st.markup()}</g>')
+        if counts is None:
+            counts = st.lives  # the first screen is the active one, its pieces are the ones Studio counts
     shared = css[0].split("@keyframes k")[0]
     style = shared + "".join("@keyframes k" + c.split("@keyframes k", 1)[1] for c in css)
-    body = (
-        f'<defs><clipPath id="frame"><rect width="{W}" height="{H}" rx="26"/></clipPath>{"".join(clips)}</defs>'
-        f'<g clip-path="url(#frame)"><image href="data:image/jpeg;base64,{base}" width="{W}" height="{H}"/>'
-        + "".join(layers) + "".join(overlays)
-        + f'</g><rect x="1" y="1" width="{W - 2}" height="{H - 2}" rx="25" fill="none" stroke="#16151D" stroke-opacity=".1" stroke-width="2"/>'
+
+    def pct(t):
+        return f"{t / P * 100:.3f}".rstrip("0").rstrip(".") + "%"
+
+    # The playhead, swept across the lanes once a loop
+    ph = L["playhead"]
+    playhead = (
+        f'<g class="ph"><rect x="{f(ph["x"] - 0.75)}" y="{f(ph["top"] + 14)}" width="1.5" height="{f(ph["bottom"] - ph["top"] - 14)}" fill="{PINK}"/>'
+        f'<circle cx="{f(ph["x"])}" cy="{f(ph["top"] + 15)}" r="6" fill="{PINK}" stroke="#fff" stroke-width="2"/></g>'
     )
-    write("studio.svg", svg(W, H, body, style, "Konfetti Studio playing three parties on an iPhone and a Pixel side by side."))
+    style += f".ph{{animation:ph {P}s linear infinite}}@keyframes ph{{to{{transform:translateX({f(ph['w'])}px)}}}}"
+
+    # Readouts: each digit is a strip of 0-9 behind a window the size of one character
+    digits, n = [], 0
+
+    def digit(cell, strip_png, strip, frames):
+        nonlocal n
+        n += 1
+        cw = strip["w"] / 10
+        y = cell["y"] + (cell["h"] - strip["h"]) / 2
+        keys = "".join(
+            f"{pct(t)}{{transform:translateX({f(-d * cw if d is not None else 0)}px);opacity:{0 if d is None else 1}}}" for t, d in frames
+        )
+        style_ = f"@keyframes d{n}{{{keys}}}.d{n}{{animation:d{n} {P}s steps(1,end) infinite}}"
+        digits.append(
+            f'<clipPath id="dc{n}"><rect x="{f(cell["x"])}" y="{f(cell["y"])}" width="{f(cw)}" height="{f(cell["h"])}"/></clipPath>'
+            f'<g clip-path="url(#dc{n})"><use class="d{n}" href="#{strip_png}" x="{f(cell["x"])}" y="{f(y)}"/></g>'
+        )
+        return style_
+
+    step = 0.05
+    ticks = [round(i * step, 3) for i in range(int(P / step) + 1) if i * step < P]
+    time_cells = [c for c in L["time"] if c["c"].isdigit()]  # 0.00: ones, tenths, hundredths
+    ones = [(t, int(t)) for t in ticks]
+    tenths = [(t, int(round(t * 100)) // 10 % 10) for t in ticks]
+    hundredths = [(t, int(round(t * 100)) % 10) for t in ticks]
+    for cell, frames in zip(time_cells, (ones, tenths, hundredths)):
+        style += digit(cell, "strip-time", L["timeStrip"], _changes(frames))
+
+    def alive(t):
+        return sum(1 for born, gone in counts if born <= t < gone)
+
+    values = [(t, alive(t)) for t in ticks]
+    for place, cell in zip((100, 10, 1), L["count"]):
+        frames = [(t, (v // place) % 10 if v >= place or place == 1 else None) for t, v in values]
+        style += digit(cell, "strip-count", L["countStrip"], _changes(frames))
+
+    base = _b64(["magick", str(src / "base.png"), "-resize", "1920x", "-strip", "-quality", "80", "jpeg:-"])
+    handles = _b64(["magick", str(src / "handles.png"), "-strip", "-colors", "128", "png8:-"])
+    strips = "".join(
+        f'<image id="strip-{name}" href="data:image/png;base64,{_b64(["magick", str(src / f"digits-{name}.png"), "-strip", "png:-"])}" '
+        f'width="{f(L[f"{name}Strip"]["w"])}" height="{f(L[f"{name}Strip"]["h"])}"/>'
+        for name in ("time", "count")
+    )
+    body = (
+        f'<defs><clipPath id="frame"><rect width="{W}" height="{H}" rx="14"/></clipPath>{"".join(clips)}{strips}</defs>'
+        f'<g clip-path="url(#frame)"><image href="data:image/jpeg;base64,{base}" width="{W}" height="{H}"/>'
+        + "".join(layers)
+        + f'<image href="data:image/png;base64,{handles}" width="{W}" height="{H}"/>'
+        + playhead
+        + "".join(digits)
+        + f'</g><rect x=".5" y=".5" width="{W - 1}" height="{H - 1}" rx="13.5" fill="none" stroke="#16151D" stroke-opacity=".12"/>'
+    )
+    write("studio.svg", svg(W, H, body, style, "Konfetti Studio playing its starter project on an iPhone and a Pixel side by side."))
+
+
+def _changes(frames):
+    """Only the moments a digit changes, plus the first one."""
+    out = []
+    for t, d in frames:
+        if not out or out[-1][1] != d:
+            out.append((t, d))
+    return out
 
 
 def _b64(cmd):
