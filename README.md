@@ -126,7 +126,7 @@ Every option is in the **[guide](docs/guide.md)**.
 
 <p align="center">
   <a href="https://danielmartinus.github.io/konfetti.studio/">
-    <img src=".github/readme/studio.svg" alt="Konfetti Studio playing three parties on an iPhone and a Pixel side by side." width="100%">
+    <img src=".github/readme/studio.svg" alt="Konfetti Studio playing its starter project on an iPhone and a Pixel side by side." width="100%">
   </a>
 </p>
 
@@ -153,7 +153,7 @@ Find the latest version and release notes in [Releases](https://github.com/Danie
 
 ## Community
 
-Questions or stuck on something? Search the [issues](https://github.com/DanielMartinus/Konfetti/issues?q=is%3Aissue), or ask in the [Telegram group](https://t.me/konfetti_chat). Follow [@dionsegijn](https://twitter.com/dionsegijn) for updates.
+Questions or stuck on something? Search the [issues](https://github.com/DanielMartinus/Konfetti/issues?q=is%3Aissue) or open a new one. Follow [@dionsegijn](https://twitter.com/dionsegijn) for updates.
 
 Contributions are very welcome. Small change? Make it, run the code checks and open a PR with a green CI. Something bigger? [Open an issue](https://github.com/DanielMartinus/Konfetti/issues) first so we can talk it through.
 
