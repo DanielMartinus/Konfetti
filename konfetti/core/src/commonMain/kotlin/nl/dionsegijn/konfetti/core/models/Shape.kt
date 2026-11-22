@@ -137,9 +137,9 @@ sealed interface Shape {
             val variance: Float = 0.5f,
         ) : Shape {
             init {
-                require(minLength > 0f) { "minLength must be above 0" }
-                require(maxLength >= minLength) { "maxLength can't be shorter than minLength" }
-                require(spin >= 0f) { "spin can't be negative" }
+                require(minLength.isFinite() && minLength > 0f) { "minLength must be above 0" }
+                require(maxLength.isFinite() && maxLength >= minLength) { "maxLength can't be shorter than minLength" }
+                require(spin.isFinite() && spin >= 0f) { "spin can't be negative" }
                 require(variance in 0f..1f) { "variance must be within 0 and 1" }
             }
 
@@ -169,8 +169,8 @@ sealed interface Shape {
             if (image.height == -1 && image.width == -1) {
                 // If the image has no intrinsic size, fill the available space.
                 1f
-            } else if (image.height == -1 || image.width == -1) {
-                // Currently cannot handle an image with only one intrinsic dimension.
+            } else if (image.height <= 0 || image.width <= 0) {
+                // Cannot draw an image with a missing or zero dimension.
                 0f
             } else {
                 image.height.toFloat() / image.width.toFloat()

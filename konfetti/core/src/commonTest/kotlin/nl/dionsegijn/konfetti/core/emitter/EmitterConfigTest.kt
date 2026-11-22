@@ -2,6 +2,7 @@ package nl.dionsegijn.konfetti.core.emitter
 
 import kotlin.test.Test
 import kotlin.test.assertEquals
+import kotlin.test.assertFailsWith
 import kotlin.time.Duration.Companion.milliseconds
 import kotlin.time.Duration.Companion.seconds
 import kotlin.time.DurationUnit
@@ -15,5 +16,11 @@ class EmitterConfigTest {
     @Test
     fun `a DurationUnit sets the same emitter as a Duration`() {
         assertEquals(Emitter(5000.milliseconds).max(10), Emitter(5, DurationUnit.SECONDS).max(10))
+    }
+
+    @Test
+    fun `a negative duration is rejected`() {
+        assertFailsWith<IllegalArgumentException> { Emitter(-100L).max(10) }
+        assertFailsWith<IllegalArgumentException> { Emitter((-1).seconds).perSecond(10) }
     }
 }

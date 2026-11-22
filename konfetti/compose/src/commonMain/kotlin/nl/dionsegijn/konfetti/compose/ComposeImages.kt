@@ -24,8 +24,16 @@ data class PainterImage(
     val painter: Painter,
 ) : CoreImage {
     // -1 tells DrawableShape the painter has no size of its own
-    override val width: Int get() = if (painter.intrinsicSize == Size.Unspecified) -1 else painter.intrinsicSize.width.toInt()
-    override val height: Int get() = if (painter.intrinsicSize == Size.Unspecified) -1 else painter.intrinsicSize.height.toInt()
+    override val width: Int get() = painter.intrinsicSize.dimension { width }
+    override val height: Int get() = painter.intrinsicSize.dimension { height }
+}
+
+private inline fun Size.dimension(axis: Size.() -> Float): Int {
+    if (this == Size.Unspecified) return -1
+    val value = axis()
+    if (!value.isFinite()) return -1
+    if (value <= 0f) return 0
+    return value.toInt().coerceAtLeast(1)
 }
 
 /**

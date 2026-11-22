@@ -59,6 +59,14 @@ data class Party(
     val emitter: EmitterConfig,
     val drift: Drift = Drift(),
 ) {
+    init {
+        require(size.isNotEmpty()) { "size can't be empty" }
+        require(colors.isNotEmpty()) { "colors can't be empty" }
+        require(shapes.isNotEmpty()) { "shapes can't be empty" }
+        require(damping.isFinite() && damping >= 0f) { "damping must be 0 or higher" }
+        require(delay >= 0) { "delay can't be negative" }
+    }
+
     // Keeps the constructor from 2.x working for Java and for code built against it
     constructor(
         angle: Int,
@@ -226,9 +234,10 @@ data class Drift(
     val drag: Float = 0f,
 ) {
     init {
-        require(sway >= 0f) { "sway can't be negative" }
-        require(frequency >= 0f) { "frequency can't be negative" }
+        require(sway.isFinite() && sway >= 0f) { "sway can't be negative" }
+        require(frequency.isFinite() && frequency >= 0f) { "frequency can't be negative" }
         require(variance in 0f..1f) { "variance must be within 0 and 1" }
+        require(tilt.isFinite()) { "tilt must be a finite number" }
         require(drag in 0f..1f) { "drag must be within 0 and 1" }
     }
 

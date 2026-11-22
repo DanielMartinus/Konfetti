@@ -32,4 +32,12 @@ class ComposeImagesTest {
         assertEquals(true, shape.tint)
         assertEquals(true, shape.applyAlpha)
     }
+
+    @Test
+    fun `painters with zero, partial or subpixel intrinsic sizes never produce NaN`() {
+        assertEquals(0f, imageShape(SizedPainter(Size.Zero)).heightRatio)
+        assertEquals(0f, imageShape(SizedPainter(Size(Float.NaN, 24f))).heightRatio)
+        assertEquals(0f, imageShape(SizedPainter(Size(Float.POSITIVE_INFINITY, 24f))).heightRatio)
+        assertEquals(1f, imageShape(SizedPainter(Size(0.4f, 0.4f))).heightRatio)
+    }
 }

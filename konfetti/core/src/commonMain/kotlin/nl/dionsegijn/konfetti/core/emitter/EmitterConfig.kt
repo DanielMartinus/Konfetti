@@ -55,6 +55,7 @@ class EmitterConfig(
     init {
         val (duration, timeUnit) = emitter
         this.emittingTime = duration.toDuration(timeUnit).inWholeMilliseconds
+        require(this.emittingTime >= 0L) { "duration can't be negative" }
     }
 
     /**

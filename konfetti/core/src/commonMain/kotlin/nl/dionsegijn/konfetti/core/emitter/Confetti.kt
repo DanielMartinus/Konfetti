@@ -229,7 +229,7 @@ class Confetti(
         rotationWidth -= abs(rotationSpeed3D) * steps
         if (rotationWidth < 0) rotationWidth = width
 
-        scaleX = abs(rotationWidth / width - 0.5f) * 2
+        scaleX = if (width > 0f) abs(rotationWidth / width - 0.5f) * 2 else 1f
     }
 
     // The angle the confetti is moving at in degrees, 0 is right and 90 is down like Party's angle

@@ -12,7 +12,9 @@ import kotlin.jvm.JvmField
  */
 data class Size(val sizeInDp: Int, val mass: Float = 5f, val massVariance: Float = 0.2f) {
     init {
-        require(mass != 0F) { "mass=$mass must be != 0" }
+        require(sizeInDp > 0) { "sizeInDp=$sizeInDp must be > 0" }
+        require(mass.isFinite() && mass != 0F) { "mass=$mass must be != 0" }
+        require(massVariance.isFinite() && massVariance >= 0f) { "massVariance=$massVariance must be >= 0" }
     }
 
     companion object {

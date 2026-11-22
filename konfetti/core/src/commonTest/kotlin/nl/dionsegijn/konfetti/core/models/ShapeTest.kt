@@ -1,5 +1,6 @@
 package nl.dionsegijn.konfetti.core.models
 
+import nl.dionsegijn.konfetti.core.Drift
 import nl.dionsegijn.konfetti.core.Party
 import nl.dionsegijn.konfetti.core.emitter.Emitter
 import kotlin.math.floor
@@ -164,5 +165,30 @@ class ShapeTest {
     @Test
     fun `irregular ribbons differ from each other`() {
         assertNotEquals(loopGaps(irregularity = 1f, unevenness = 0.3f), loopGaps(irregularity = 1f, unevenness = 4f))
+    }
+
+    @Test
+    fun `a zero-sized drawable shape has height ratio 0 instead of NaN`() {
+        assertEquals(0f, Shape.DrawableShape(ReferenceImage(1, width = 0, height = 0)).heightRatio)
+        assertEquals(0f, Shape.DrawableShape(ReferenceImage(2, width = 0, height = 24)).heightRatio)
+        assertEquals(0f, Shape.DrawableShape(ReferenceImage(3, width = 24, height = 0)).heightRatio)
+        assertEquals(1f, Shape.DrawableShape(ReferenceImage(4, width = -1, height = -1)).heightRatio)
+    }
+
+    @Test
+    fun `invalid size, party, ribbon and drift settings are rejected`() {
+        assertFailsWith<IllegalArgumentException> { Size(sizeInDp = 0) }
+        assertFailsWith<IllegalArgumentException> { Size(sizeInDp = 8, mass = Float.NaN) }
+        assertFailsWith<IllegalArgumentException> { Size(sizeInDp = 8, massVariance = -0.5f) }
+
+        val emitter = Emitter(100L).max(1)
+        assertFailsWith<IllegalArgumentException> { Party(colors = emptyList(), emitter = emitter) }
+        assertFailsWith<IllegalArgumentException> { Party(shapes = emptyList(), emitter = emitter) }
+        assertFailsWith<IllegalArgumentException> { Party(size = emptyList(), emitter = emitter) }
+        assertFailsWith<IllegalArgumentException> { Party(damping = -0.1f, emitter = emitter) }
+        assertFailsWith<IllegalArgumentException> { Party(delay = -1, emitter = emitter) }
+
+        assertFailsWith<IllegalArgumentException> { Shape.Ribbon(maxLength = Float.POSITIVE_INFINITY) }
+        assertFailsWith<IllegalArgumentException> { Drift(sway = Float.POSITIVE_INFINITY) }
     }
 }
