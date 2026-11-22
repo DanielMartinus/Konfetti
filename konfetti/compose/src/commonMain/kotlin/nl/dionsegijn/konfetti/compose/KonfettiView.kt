@@ -16,8 +16,9 @@ import androidx.compose.runtime.rememberUpdatedState
 import androidx.compose.runtime.snapshotFlow
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.geometry.Offset
+import androidx.compose.ui.graphics.Path
 import androidx.compose.ui.graphics.drawscope.withTransform
-import androidx.compose.ui.layout.onGloballyPositioned
+import androidx.compose.ui.layout.onSizeChanged
 import androidx.compose.ui.platform.LocalDensity
 import androidx.lifecycle.Lifecycle
 import androidx.lifecycle.LifecycleEventObserver
@@ -27,6 +28,7 @@ import nl.dionsegijn.konfetti.core.Particle
 import nl.dionsegijn.konfetti.core.Party
 import nl.dionsegijn.konfetti.core.PartySystem
 import nl.dionsegijn.konfetti.core.models.CoreRectImpl
+import nl.dionsegijn.konfetti.core.models.RibbonSegments
 import nl.dionsegijn.konfetti.core.models.Shape
 import kotlin.jvm.JvmMultifileClass
 import kotlin.jvm.JvmName
@@ -116,36 +118,50 @@ private fun KonfettiCanvas(
             }
         }
 
+    // Reused per view so drawing doesn't allocate or share mutable buffers across windows
+    val polygonPath = remember { Path() }
+    val ribbonSegments = remember { RibbonSegments() }
+
     LaunchedEffect(state) {
         while (true) {
-            // Wait for a party to start, so an idle view doesn't ask for frames
-            snapshotFlow { state.pending.size }.first { it > 0 }
+            // Wait until a party is queued or already running and the canvas has a size
+            snapshotFlow {
+                (state.pending.isNotEmpty() || state.systems.isNotEmpty()) &&
+                    drawArea.value.width > 0f &&
+                    drawArea.value.height > 0f
+            }.first { it }
             // The gap since the last party would count as one long frame
             frameTime.value = 0L
-            while (state.isRunning()) {
+            while (state.isRunning() && drawArea.value.width > 0f && drawArea.value.height > 0f) {
                 withInfiniteAnimationFrameMillis { frameMs ->
+                    val area = drawArea.value
+                    if (area.width <= 0f || area.height <= 0f) return@withInfiniteAnimationFrameMillis
                     state.startPending(pixelDensity)
                     val deltaMs = frameDeltaMillis(frameTime.value, frameMs)
                     frameTime.value = frameMs
 
-                    particles.value = renderFrame(state.systems, deltaMs.div(1000f), drawArea.value, listener)
+                    particles.value = renderFrame(state.systems, deltaMs.div(1000f), area, listener)
+                    state.pruneFinished()
                 }
             }
-            particles.value = emptyList()
+            if (!state.isRunning()) {
+                particles.value = emptyList()
+                state.pruneFinished()
+            }
         }
     }
 
     Canvas(
         modifier =
             modifier
-                .onGloballyPositioned {
+                .onSizeChanged { size ->
                     drawArea.value =
-                        CoreRectImpl(0f, 0f, it.size.width.toFloat(), it.size.height.toFloat())
+                        CoreRectImpl(0f, 0f, size.width.toFloat(), size.height.toFloat())
                 },
         onDraw = {
             particles.value.forEach { particle ->
                 if (particle.shape is Shape.Ribbon) {
-                    drawRibbon(particle)
+                    drawRibbon(particle, ribbonSegments)
                     return@forEach
                 }
                 withTransform({
@@ -163,7 +179,12 @@ private fun KonfettiCanvas(
                         pivot = Offset(particle.x + (particle.width / 2), particle.y),
                     )
                 }) {
-                    particle.shape.drawShape(drawScope = this, particle = particle, imageStore = state.imageStore)
+                    particle.shape.drawShape(
+                        drawScope = this,
+                        particle = particle,
+                        imageStore = state.imageStore,
+                        polygonPath = polygonPath,
+                    )
                 }
             }
         },

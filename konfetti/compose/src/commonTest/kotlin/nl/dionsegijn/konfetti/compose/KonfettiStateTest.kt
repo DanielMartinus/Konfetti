@@ -70,6 +70,16 @@ class KonfettiStateTest {
     }
 
     @Test
+    fun `stop removes every pending copy of a party`() {
+        val state = KonfettiState()
+        state.start(explode, explode, rain)
+
+        state.stop(explode)
+
+        assertEquals(listOf(rain), state.pending.toList())
+    }
+
+    @Test
     fun `stopGracefully lets running parties finish but starts nothing new`() {
         val state = KonfettiState()
         state.start(explode)

@@ -22,8 +22,12 @@ class KonfettiState internal constructor() {
     // Parties that are running
     internal val systems = mutableListOf<PartySystem>()
 
+    // The original party passed to start, so stop() matches without storing drawables again
+    private val originalParties = mutableMapOf<PartySystem, Party>()
+
     // Store for platform images like Android drawables, null when the platform has none
-    internal val imageStore = createImageStore()
+    internal var imageStore = createImageStore()
+        private set
 
     /**
      * Start one or more parties. Parties that are already running keep going.
@@ -54,10 +58,13 @@ class KonfettiState internal constructor() {
      * Stop [party] right away. Its confetti disappears.
      */
     fun stop(party: Party) {
-        pending.remove(party)
-        // Running parties have their drawables swapped for references, compare against the same
-        val stored = storePlatformImages(party, imageStore)
-        systems.removeAll { it.party == stored }
+        pending.removeAll { it == party }
+        systems.removeAll { system ->
+            val matches = (originalParties[system] ?: system.party) == party
+            if (matches) originalParties.remove(system)
+            matches
+        }
+        pruneFinished()
     }
 
     /**
@@ -74,13 +81,29 @@ class KonfettiState internal constructor() {
     fun reset() {
         pending.clear()
         systems.clear()
+        originalParties.clear()
+        imageStore = createImageStore()
     }
 
     // Called by the view on each frame to start the parties that came in since the last one
     internal fun startPending(pixelDensity: Float) {
         if (pending.isEmpty()) return
-        pending.forEach { systems.add(PartySystem(party = storePlatformImages(it, imageStore), pixelDensity = pixelDensity)) }
+        pending.forEach { party ->
+            val system = PartySystem(party = storePlatformImages(party, imageStore), pixelDensity = pixelDensity)
+            systems.add(system)
+            originalParties[system] = party
+        }
         pending.clear()
+    }
+
+    // Releases stored drawables once no parties remain and trims finished systems from the map
+    internal fun pruneFinished() {
+        if (!isRunning()) {
+            originalParties.clear()
+            imageStore = createImageStore()
+        } else if (originalParties.size > systems.size) {
+            originalParties.keys.retainAll(systems.toSet())
+        }
     }
 
     internal fun isRunning() = pending.isNotEmpty() || systems.isNotEmpty()
