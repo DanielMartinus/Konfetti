@@ -39,10 +39,11 @@ internal fun DrawableShape.drawDrawable(
         drawScope.drawIntoCanvas {
             // Making use of the ImageStore for performance reasons, see ImageStore for more info
             if (tint) {
+                val color = tintColor(particle)
                 if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.Q) {
-                    drawable.colorFilter = BlendModeColorFilter(particle.color, BlendMode.SRC_IN)
+                    drawable.colorFilter = BlendModeColorFilter(color, BlendMode.SRC_IN)
                 } else {
-                    drawable.setColorFilter(particle.color, PorterDuff.Mode.SRC_IN)
+                    drawable.setColorFilter(color, PorterDuff.Mode.SRC_IN)
                 }
             } else {
                 // Clear a tint left on the shared drawable by another shape
@@ -55,9 +56,9 @@ internal fun DrawableShape.drawDrawable(
             val height = (size * heightRatio).toInt()
             val top = ((size - height) / 2f).toInt()
 
-            val x = particle.y.toInt()
-            val y = particle.x.toInt()
-            drawable.setBounds(y, top + x, size.toInt() + y, top + height + x)
+            val left = particle.x.toInt()
+            val topOffset = particle.y.toInt()
+            drawable.setBounds(left, top + topOffset, left + size.toInt(), top + height + topOffset)
             drawable.draw(it.nativeCanvas)
         }
     }

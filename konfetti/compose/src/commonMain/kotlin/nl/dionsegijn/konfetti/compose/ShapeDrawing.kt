@@ -23,17 +23,14 @@ import nl.dionsegijn.konfetti.core.models.Shape.Ribbon
 import nl.dionsegijn.konfetti.core.models.Shape.Square
 import nl.dionsegijn.konfetti.core.models.ribbonSegments
 
-// Reused for every polygon so drawing doesn't create a path per confetti per frame
-private val polygonPath = Path()
-
-// Reused for every streamer for the same reason
-private val ribbonSegments = RibbonSegments()
-
 /**
  * Draws a [Ribbon] streamer. Its pieces are already in canvas pixels, hanging and bending,
  * so this is drawn without the rotation and flip other confetti get.
  */
-internal fun DrawScope.drawRibbon(particle: Particle) {
+internal fun DrawScope.drawRibbon(
+    particle: Particle,
+    ribbonSegments: RibbonSegments = RibbonSegments(),
+) {
     // The colors already carry the particle's alpha
     if (!particle.ribbonSegments(ribbonSegments)) return
     for (i in 0 until ribbonSegments.count) {
@@ -56,6 +53,7 @@ internal fun Shape.drawShape(
     drawScope: DrawScope,
     particle: Particle,
     imageStore: CoreImageStore<*>?,
+    polygonPath: Path = Path(),
 ) {
     when (this) {
         Circle -> {
@@ -105,7 +103,10 @@ internal fun Shape.drawShape(
 }
 
 // Same rules as the Android drawables: tint with the confetti color, or fade the image itself
-private fun DrawableShape.colorFilter(particle: Particle) = if (tint) ColorFilter.tint(Color(particle.color), BlendMode.SrcIn) else null
+internal fun DrawableShape.tintColor(particle: Particle): Int = if (applyAlpha) particle.color else particle.color or (0xFF shl 24)
+
+private fun DrawableShape.colorFilter(particle: Particle) =
+    if (tint) ColorFilter.tint(Color(tintColor(particle)), BlendMode.SrcIn) else null
 
 private fun DrawableShape.alpha(particle: Particle) = if (!tint && applyAlpha) particle.alpha / 255f else 1f
 
