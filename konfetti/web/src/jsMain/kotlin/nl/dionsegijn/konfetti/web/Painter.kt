@@ -95,8 +95,9 @@ internal class Painter {
             is Shape.Ribbon -> Unit
             is Shape.DrawableShape -> {
                 val image = shape.image as? WebImage ?: return
+                if (image.width <= 0 || image.height <= 0) return
                 val height = size * shape.heightRatio
-                if (!shape.tint && !shape.applyAlpha) context.globalAlpha = 1.0
+                if (!shape.applyAlpha) context.globalAlpha = 1.0
                 val source = if (shape.tint) tint(image, particle.color) else image.source
                 context.drawImage(source, -half, -height / 2, size, height)
             }
