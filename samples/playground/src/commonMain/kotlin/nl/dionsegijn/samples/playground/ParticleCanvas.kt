@@ -2,6 +2,7 @@ package nl.dionsegijn.samples.playground
 
 import androidx.compose.foundation.Canvas
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.remember
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.geometry.Offset
 import androidx.compose.ui.geometry.Size
@@ -19,12 +20,6 @@ import nl.dionsegijn.konfetti.core.models.RibbonSegments
 import nl.dionsegijn.konfetti.core.models.Shape
 import nl.dionsegijn.konfetti.core.models.ribbonSegments
 
-// Reused for every polygon so drawing doesn't create a path per confetti per frame
-private val polygonPath = Path()
-
-// Reused for every streamer for the same reason
-private val ribbonSegments = RibbonSegments()
-
 /**
  * Draws particles that [Replay] worked out for one moment on the timeline.
  * KonfettiView runs on the clock, so it can't show a moment you scrub to.
@@ -35,11 +30,14 @@ fun ParticleCanvas(
     particles: () -> List<Particle>,
     modifier: Modifier = Modifier,
 ) {
+    val polygonPath = remember { Path() }
+    val ribbonSegments = remember { RibbonSegments() }
+
     // Reading the particles while drawing redraws each frame without recomposing the screen
     Canvas(modifier) {
         particles().forEach { particle ->
             if (particle.shape is Shape.Ribbon) {
-                drawRibbon(particle)
+                drawRibbon(particle, ribbonSegments)
                 return@forEach
             }
             withTransform({
@@ -49,14 +47,17 @@ fun ParticleCanvas(
                 )
                 scale(scaleX = particle.scaleX, scaleY = 1f, pivot = Offset(particle.x + particle.width / 2, particle.y))
             }) {
-                drawParticle(particle)
+                drawParticle(particle, polygonPath)
             }
         }
     }
 }
 
 // Streamer pieces are already in canvas pixels, hanging and bending, same as KonfettiView draws them
-private fun DrawScope.drawRibbon(particle: Particle) {
+private fun DrawScope.drawRibbon(
+    particle: Particle,
+    ribbonSegments: RibbonSegments,
+) {
     // The colors already carry the particle's alpha
     if (!particle.ribbonSegments(ribbonSegments)) return
     for (i in 0 until ribbonSegments.count) {
@@ -70,7 +71,10 @@ private fun DrawScope.drawRibbon(particle: Particle) {
     }
 }
 
-private fun DrawScope.drawParticle(particle: Particle) {
+private fun DrawScope.drawParticle(
+    particle: Particle,
+    polygonPath: Path,
+) {
     val color = Color(particle.color)
     when (val shape = particle.shape) {
         Shape.Circle -> {
@@ -78,12 +82,14 @@ private fun DrawScope.drawParticle(particle: Particle) {
             drawCircle(color = color, center = Offset(particle.x + radius, particle.y + radius), radius = radius)
         }
         Shape.Square -> drawRect(color = color, topLeft = Offset(particle.x, particle.y), size = Size(particle.width, particle.height))
-        is Shape.Rectangle ->
+        is Shape.Rectangle -> {
+            val height = particle.width * shape.heightRatio
             drawRect(
                 color = color,
-                topLeft = Offset(particle.x, particle.y),
-                size = Size(particle.width, particle.width * shape.heightRatio),
+                topLeft = Offset(particle.x, particle.y + (particle.width - height) / 2f),
+                size = Size(particle.width, height),
             )
+        }
         is Shape.Polygon -> {
             polygonPath.reset()
             shape.points.forEachIndexed { i, point ->
@@ -100,12 +106,13 @@ private fun DrawScope.drawParticle(particle: Particle) {
             // The playground only uses painters, like the heart from Compose resources
             val image = shape.image as? PainterImage ?: return
             val height = particle.width * shape.heightRatio
+            val tintColor = if (shape.applyAlpha) color else color.copy(alpha = 1f)
             translate(left = particle.x, top = particle.y + (particle.width - height) / 2f) {
                 with(image.painter) {
                     draw(
                         size = Size(particle.width, height),
                         alpha = if (!shape.tint && shape.applyAlpha) particle.alpha / 255f else 1f,
-                        colorFilter = if (shape.tint) ColorFilter.tint(color, BlendMode.SrcIn) else null,
+                        colorFilter = if (shape.tint) ColorFilter.tint(tintColor, BlendMode.SrcIn) else null,
                     )
                 }
             }
