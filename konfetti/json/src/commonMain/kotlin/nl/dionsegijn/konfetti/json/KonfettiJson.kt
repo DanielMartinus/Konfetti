@@ -45,6 +45,9 @@ object KonfettiJson {
         density: Float = 1f,
         images: (id: String) -> CoreImage? = { null },
     ): List<Party> {
+        if (!density.isFinite() || density <= 0f) {
+            throw KonfettiJsonException("density must be above 0")
+        }
         val document =
             try {
                 this.json.decodeFromString(KonfettiDocument.serializer(), json)
@@ -53,6 +56,9 @@ object KonfettiJson {
             } catch (e: IllegalArgumentException) {
                 throw KonfettiJsonException("Not a Konfetti json file: ${e.message}", e)
             }
+        if (document.version < 1) {
+            throw KonfettiJsonException("Invalid file version ${document.version}")
+        }
         if (document.version > VERSION) {
             throw KonfettiJsonException("This file is version ${document.version}, update Konfetti to read it")
         }
@@ -136,6 +142,7 @@ private fun PartyJson.toParty(
 }
 
 private fun EmitterJson.toConfig(): EmitterConfig {
+    require(perSecond == null || max == null) { "emitter can't have both max and perSecond" }
     val emitter = Emitter(duration)
     if (perSecond != null) return emitter.perSecond(perSecond)
     requireNotNull(max) { "emitter needs max or perSecond" }

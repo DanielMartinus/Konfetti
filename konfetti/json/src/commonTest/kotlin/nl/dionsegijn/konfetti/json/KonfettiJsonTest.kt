@@ -138,8 +138,32 @@ class KonfettiJsonTest {
     }
 
     @Test
+    fun `a zero or negative version is refused`() {
+        assertFailsWith<KonfettiJsonException> { KonfettiJson.decode("""{"version":0,"parties":[]}""") }
+        assertFailsWith<KonfettiJsonException> { KonfettiJson.decode("""{"version":-1,"parties":[]}""") }
+    }
+
+    @Test
     fun `an emitter needs an amount`() {
         assertFailsWith<KonfettiJsonException> { KonfettiJson.decode("""{"parties":[{"emitter":{"duration":100}}]}""") }
+    }
+
+    @Test
+    fun `an emitter cannot set both max and perSecond or a negative duration`() {
+        assertFailsWith<KonfettiJsonException> {
+            KonfettiJson.decode("""{"parties":[{"emitter":{"duration":100,"max":10,"perSecond":5}}]}""")
+        }
+        assertFailsWith<KonfettiJsonException> {
+            KonfettiJson.decode("""{"parties":[{"emitter":{"duration":-100,"max":10}}]}""")
+        }
+    }
+
+    @Test
+    fun `a non-positive or non-finite density is refused`() {
+        val json = """{"parties":[{"emitter":{"duration":100,"max":10}}]}"""
+        assertFailsWith<KonfettiJsonException> { KonfettiJson.decode(json, density = 0f) }
+        assertFailsWith<KonfettiJsonException> { KonfettiJson.decode(json, density = -1f) }
+        assertFailsWith<KonfettiJsonException> { KonfettiJson.decode(json, density = Float.NaN) }
     }
 
     @Test
