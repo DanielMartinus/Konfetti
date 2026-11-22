@@ -4,6 +4,7 @@ import android.content.Context
 import android.content.res.Resources
 import android.graphics.Canvas
 import android.graphics.Paint
+import android.graphics.Path
 import android.graphics.drawable.Drawable
 import android.os.Build
 import android.provider.Settings
@@ -14,6 +15,7 @@ import nl.dionsegijn.konfetti.core.Party
 import nl.dionsegijn.konfetti.core.PartySystem
 import nl.dionsegijn.konfetti.core.models.CoreRectImpl
 import nl.dionsegijn.konfetti.core.models.ReferenceImage
+import nl.dionsegijn.konfetti.core.models.RibbonSegments
 import nl.dionsegijn.konfetti.core.models.Shape
 import nl.dionsegijn.konfetti.xml.image.DrawableImage
 import nl.dionsegijn.konfetti.xml.image.ImageStore
@@ -42,7 +44,10 @@ open class KonfettiView : View {
     private val systems: MutableList<PartySystem> = mutableListOf()
 
     // Systems that ended in this frame, kept so drawing doesn't create a list every frame
-    private val finishedSystems: MutableList<PartySystem> = mutableListOf()
+    private val finishedParties: MutableList<Party> = mutableListOf()
+
+    // The original party passed to start, so stop() and onParticleSystemEnded get the same party back
+    private val originalParties: MutableMap<PartySystem, Party> = mutableMapOf()
 
     /**
      * Keeping track of the delta time between frame rendering.
@@ -61,7 +66,11 @@ open class KonfettiView : View {
 
     fun getActiveSystems() = systems
 
-    private val imageStore = ImageStore()
+    private var imageStore = ImageStore()
+
+    // Reused per view so drawing doesn't allocate or share mutable buffers across views
+    private val polygonPath = Path()
+    private val ribbonSegments = RibbonSegments()
 
     /**
      * Check if current systems are active rendering particles.
@@ -74,7 +83,7 @@ open class KonfettiView : View {
         super.onDraw(canvas)
         val frameTimer = timer ?: return
         val deltaTime = frameTimer.getDeltaTime()
-        finishedSystems.clear()
+        finishedParties.clear()
         for (i in systems.size - 1 downTo 0) {
             val partySystem = systems[i]
 
@@ -87,16 +96,21 @@ open class KonfettiView : View {
 
             if (partySystem.isDoneEmitting()) {
                 systems.removeAt(i)
-                finishedSystems.add(partySystem)
+                finishedParties.add(originalParties.remove(partySystem) ?: partySystem.party)
             }
         }
 
+        if (systems.isEmpty()) {
+            originalParties.clear()
+            imageStore = ImageStore()
+        }
+
         // Report after the loop, so the listener can stop or reset parties without breaking it
-        finishedSystems.forEachIndexed { i, partySystem ->
+        finishedParties.forEachIndexed { i, party ->
             onParticleSystemUpdateListener?.onParticleSystemEnded(
                 this,
-                partySystem.party,
-                systems.size + finishedSystems.size - 1 - i,
+                party,
+                systems.size + finishedParties.size - 1 - i,
             )
         }
 
@@ -114,7 +128,7 @@ open class KonfettiView : View {
         // it is more efficient via setColor
         paint.color = color
         if (shape is Shape.Ribbon) {
-            drawRibbon(canvas, paint)
+            drawRibbon(canvas, paint, ribbonSegments)
             return
         }
 
@@ -126,33 +140,31 @@ open class KonfettiView : View {
         canvas.rotate(rotation, centerX, width / 2)
         canvas.scale(scaleX, 1f)
 
-        shape.draw(canvas, paint, width, imageStore)
+        shape.draw(canvas, paint, width, imageStore, polygonPath)
         canvas.restoreToCount(saveCount)
     }
 
+    private fun displayDensity(): Float = (resources ?: Resources.getSystem()).displayMetrics.density
+
+    private fun addParty(party: Party) {
+        val system = PartySystem(party = storeImages(party), pixelDensity = displayDensity())
+        systems.add(system)
+        originalParties[system] = party
+        onParticleSystemUpdateListener?.onParticleSystemStarted(this, party, systems.size)
+    }
+
     fun start(vararg party: Party) {
-        systems.addAll(
-            party.map {
-                onParticleSystemUpdateListener?.onParticleSystemStarted(this, it, systems.size)
-                PartySystem(party = storeImages(it), pixelDensity = Resources.getSystem().displayMetrics.density)
-            },
-        )
+        party.forEach { addParty(it) }
         invalidate()
     }
 
     fun start(party: List<Party>) {
-        systems.addAll(
-            party.map {
-                onParticleSystemUpdateListener?.onParticleSystemStarted(this, it, systems.size)
-                PartySystem(party = storeImages(it), pixelDensity = Resources.getSystem().displayMetrics.density)
-            },
-        )
+        party.forEach { addParty(it) }
         invalidate()
     }
 
     fun start(party: Party) {
-        onParticleSystemUpdateListener?.onParticleSystemStarted(this, party, systems.size)
-        systems.add(PartySystem(party = storeImages(party), pixelDensity = Resources.getSystem().displayMetrics.density))
+        addParty(party)
         invalidate()
     }
 
@@ -193,10 +205,18 @@ open class KonfettiView : View {
      * Stop a particular particle system. All particles belonging to this system will directly disappear from the view.
      */
     fun stop(party: Party) {
-        // Running parties have their drawables swapped for references, compare against the same
-        val stored = storeImages(party)
+        val removed =
+            systems.removeAll { system ->
+                val matches = (originalParties[system] ?: system.party) == party
+                if (matches) originalParties.remove(system)
+                matches
+            }
+        if (systems.isEmpty()) {
+            originalParties.clear()
+            imageStore = ImageStore()
+        }
         // Nothing to report when the party already ended or never ran
-        if (systems.removeAll { it.party == stored }) {
+        if (removed) {
             onParticleSystemUpdateListener?.onParticleSystemEnded(this, party, systems.size)
         }
     }
@@ -208,6 +228,10 @@ open class KonfettiView : View {
      */
     fun reset() {
         systems.clear()
+        originalParties.clear()
+        imageStore = ImageStore()
+        timer?.reset()
+        invalidate()
     }
 
     /**

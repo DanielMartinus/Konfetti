@@ -6,14 +6,12 @@ import android.graphics.Canvas
 import android.graphics.Paint
 import android.graphics.Path
 import android.graphics.PorterDuff
-import android.graphics.RectF
 import android.os.Build
 import nl.dionsegijn.konfetti.core.Particle
 import nl.dionsegijn.konfetti.core.models.ReferenceImage
 import nl.dionsegijn.konfetti.core.models.RibbonSegments
 import nl.dionsegijn.konfetti.core.models.Shape
 import nl.dionsegijn.konfetti.core.models.Shape.Circle
-import nl.dionsegijn.konfetti.core.models.Shape.Circle.rect
 import nl.dionsegijn.konfetti.core.models.Shape.DrawableShape
 import nl.dionsegijn.konfetti.core.models.Shape.Polygon
 import nl.dionsegijn.konfetti.core.models.Shape.Rectangle
@@ -22,12 +20,6 @@ import nl.dionsegijn.konfetti.core.models.Shape.Square
 import nl.dionsegijn.konfetti.core.models.ribbonSegments
 import nl.dionsegijn.konfetti.xml.image.ImageStore
 
-// Reused for every polygon so drawing doesn't create a path per confetti per frame
-private val polygonPath = Path()
-
-// Reused for every streamer for the same reason
-private val ribbonSegments = RibbonSegments()
-
 /**
  * Draws a [Ribbon] streamer. Its pieces are already in canvas pixels, hanging and bending,
  * so the canvas mustn't be rotated or flipped for it. The shared [paint] goes back to filling afterwards.
@@ -35,6 +27,7 @@ private val ribbonSegments = RibbonSegments()
 internal fun Particle.drawRibbon(
     canvas: Canvas,
     paint: Paint,
+    ribbonSegments: RibbonSegments,
 ) {
     if (!ribbonSegments(ribbonSegments)) return
     paint.style = Paint.Style.STROKE
@@ -57,12 +50,20 @@ fun Shape.draw(
     paint: Paint,
     size: Float,
     imageStore: ImageStore,
+) = draw(canvas, paint, size, imageStore, Path())
+
+internal fun Shape.draw(
+    canvas: Canvas,
+    paint: Paint,
+    size: Float,
+    imageStore: ImageStore,
+    polygonPath: Path,
 ) {
     when (this) {
         Square -> canvas.drawRect(0f, 0f, size, size, paint)
         Circle -> {
-            rect.set(0f, 0f, size, size)
-            canvas.drawOval(RectF(rect.x, rect.y, rect.width, rect.height), paint)
+            val radius = size / 2f
+            canvas.drawCircle(radius, radius, radius, paint)
         }
         is Rectangle -> {
             val height = size * heightRatio
@@ -86,10 +87,11 @@ fun Shape.draw(
                 val drawable = imageStore.getImage(referenceImage.reference) ?: return
 
                 if (tint) {
+                    val tintColor = if (applyAlpha) paint.color else paint.color or (0xFF shl 24)
                     if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.Q) {
-                        drawable.colorFilter = BlendModeColorFilter(paint.color, BlendMode.SRC_IN)
+                        drawable.colorFilter = BlendModeColorFilter(tintColor, BlendMode.SRC_IN)
                     } else {
-                        drawable.setColorFilter(paint.color, PorterDuff.Mode.SRC_IN)
+                        drawable.setColorFilter(tintColor, PorterDuff.Mode.SRC_IN)
                     }
                 } else {
                     // Clear a tint left on the shared drawable by another shape
