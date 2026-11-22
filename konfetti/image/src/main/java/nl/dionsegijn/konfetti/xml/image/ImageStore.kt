@@ -19,7 +19,8 @@ class ImageStore : CoreImageStore<Drawable> {
 
     override fun storeImage(image: Drawable): Int {
         val id = image.hashCode()
-        images[id] = image
+        // Mutate so tinting and fading confetti doesn't affect other views sharing the same resource state
+        images.getOrPut(id) { image.mutate() }
         return id
     }
 
