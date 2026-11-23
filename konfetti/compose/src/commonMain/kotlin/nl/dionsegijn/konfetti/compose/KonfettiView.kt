@@ -191,7 +191,7 @@ private fun KonfettiCanvas(
     )
 }
 
-fun getTotalTimeRunning(startTime: Long): Long {
+internal fun getTotalTimeRunning(startTime: Long): Long {
     val currentTime = Clock.System.now().toEpochMilliseconds()
     return (currentTime - startTime)
 }

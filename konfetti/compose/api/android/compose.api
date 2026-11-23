@@ -42,7 +42,6 @@ public final class nl/dionsegijn/konfetti/compose/KonfettiViewKt {
 	public static final fun KonfettiView (Landroidx/compose/ui/Modifier;Ljava/util/List;Lnl/dionsegijn/konfetti/compose/OnParticleSystemUpdateListener;Landroidx/compose/runtime/Composer;II)V
 	public static final fun KonfettiView (Lnl/dionsegijn/konfetti/compose/KonfettiState;Landroidx/compose/ui/Modifier;Lkotlin/jvm/functions/Function1;Landroidx/compose/runtime/Composer;II)V
 	public static final fun drawableToReferenceImage (Lnl/dionsegijn/konfetti/xml/image/DrawableImage;Lnl/dionsegijn/konfetti/xml/image/ImageStore;)Lnl/dionsegijn/konfetti/core/models/ReferenceImage;
-	public static final fun getTotalTimeRunning (J)J
 	public static final fun storeImages (Lnl/dionsegijn/konfetti/core/Party;Lnl/dionsegijn/konfetti/xml/image/ImageStore;)Lnl/dionsegijn/konfetti/core/Party;
 }
 

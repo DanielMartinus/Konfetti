@@ -36,7 +36,6 @@ public final class nl/dionsegijn/konfetti/compose/KonfettiStateKt {
 public final class nl/dionsegijn/konfetti/compose/KonfettiViewKt {
 	public static final fun KonfettiView (Landroidx/compose/ui/Modifier;Ljava/util/List;Lnl/dionsegijn/konfetti/compose/OnParticleSystemUpdateListener;Landroidx/compose/runtime/Composer;II)V
 	public static final fun KonfettiView (Lnl/dionsegijn/konfetti/compose/KonfettiState;Landroidx/compose/ui/Modifier;Lkotlin/jvm/functions/Function1;Landroidx/compose/runtime/Composer;II)V
-	public static final fun getTotalTimeRunning (J)J
 }
 
 public abstract interface class nl/dionsegijn/konfetti/compose/OnParticleSystemUpdateListener {
