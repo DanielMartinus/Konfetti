@@ -40,7 +40,7 @@ spotless {
     java {
         removeUnusedImports()
         googleJavaFormat("1.36.1")
-        target("**/*.java")
+        target("src/**/*.java")
     }
 }
 
