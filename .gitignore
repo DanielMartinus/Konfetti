@@ -52,6 +52,11 @@ captures/
 # Local copies of plans
 .plans/
 
+# Local AI tooling and release verification apps
+.claude/
+.cursor/
+verification/
+
 
 # Keystore files
 *.jks
