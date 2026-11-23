@@ -281,8 +281,8 @@ public abstract class nl/dionsegijn/konfetti/core/emitter/BaseEmitter {
 public final class nl/dionsegijn/konfetti/core/emitter/Confetti {
 	public static final field Companion Lnl/dionsegijn/konfetti/core/emitter/Confetti$Companion;
 	public fun <init> (Lnl/dionsegijn/konfetti/core/models/Vector;IFFLnl/dionsegijn/konfetti/core/models/Shape;JZLnl/dionsegijn/konfetti/core/models/Vector;Lnl/dionsegijn/konfetti/core/models/Vector;FFFF)V
-	public fun <init> (Lnl/dionsegijn/konfetti/core/models/Vector;IFFLnl/dionsegijn/konfetti/core/models/Shape;JZLnl/dionsegijn/konfetti/core/models/Vector;Lnl/dionsegijn/konfetti/core/models/Vector;FFFFZLnl/dionsegijn/konfetti/core/emitter/Swing;Lnl/dionsegijn/konfetti/core/emitter/Streamer;)V
-	public synthetic fun <init> (Lnl/dionsegijn/konfetti/core/models/Vector;IFFLnl/dionsegijn/konfetti/core/models/Shape;JZLnl/dionsegijn/konfetti/core/models/Vector;Lnl/dionsegijn/konfetti/core/models/Vector;FFFFZLnl/dionsegijn/konfetti/core/emitter/Swing;Lnl/dionsegijn/konfetti/core/emitter/Streamer;ILkotlin/jvm/internal/DefaultConstructorMarker;)V
+	public fun <init> (Lnl/dionsegijn/konfetti/core/models/Vector;IFFLnl/dionsegijn/konfetti/core/models/Shape;JZLnl/dionsegijn/konfetti/core/models/Vector;Lnl/dionsegijn/konfetti/core/models/Vector;FFFFZ)V
+	public synthetic fun <init> (Lnl/dionsegijn/konfetti/core/models/Vector;IFFLnl/dionsegijn/konfetti/core/models/Shape;JZLnl/dionsegijn/konfetti/core/models/Vector;Lnl/dionsegijn/konfetti/core/models/Vector;FFFFZILkotlin/jvm/internal/DefaultConstructorMarker;)V
 	public final fun applyForce (Lnl/dionsegijn/konfetti/core/models/Vector;)V
 	public final fun getAlpha ()I
 	public final fun getAlphaColor ()I
@@ -357,12 +357,6 @@ public final class nl/dionsegijn/konfetti/core/emitter/PartyEmitter : nl/dionseg
 	public synthetic fun <init> (Lnl/dionsegijn/konfetti/core/emitter/EmitterConfig;FLkotlin/random/Random;ILkotlin/jvm/internal/DefaultConstructorMarker;)V
 	public fun createConfetti (FLnl/dionsegijn/konfetti/core/Party;Lnl/dionsegijn/konfetti/core/models/CoreRect;)Ljava/util/List;
 	public fun isFinished ()Z
-}
-
-public final class nl/dionsegijn/konfetti/core/emitter/Streamer {
-}
-
-public final class nl/dionsegijn/konfetti/core/emitter/Swing {
 }
 
 public abstract interface class nl/dionsegijn/konfetti/core/models/CoreImage {

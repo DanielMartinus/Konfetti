@@ -27,27 +27,59 @@ import kotlin.math.pow
  * @property rotationSpeed2D The speed at which the particle rotates in 2D space.
  * @property pixelDensity The pixel density of the device's screen. This is used to ensure that the particle's movement looks consistent across devices with different screen densities.
  * @property faceDirection If true, the particle points the way it's moving instead of using [rotationSpeed2D].
- * @property swing How the particle sways from side to side while it falls, null when drift is off.
- * @property streamer The body of a [Shape.Ribbon] streamer, null for other shapes.
  */
-class Confetti(
+class Confetti internal constructor(
     var location: Vector,
     private val color: Int,
     val width: Float,
     private val mass: Float,
     val shape: Shape,
-    var lifespan: Long = -1L,
-    val fadeOut: Boolean = true,
-    private var acceleration: Vector = Vector(0f, 0f),
-    var velocity: Vector = Vector(),
+    var lifespan: Long,
+    val fadeOut: Boolean,
+    private var acceleration: Vector,
+    var velocity: Vector,
     var damping: Float,
-    val rotationSpeed3D: Float = 1f,
-    val rotationSpeed2D: Float = 1f,
+    val rotationSpeed3D: Float,
+    val rotationSpeed2D: Float,
     val pixelDensity: Float,
-    private val faceDirection: Boolean = false,
-    private val swing: Swing? = null,
-    private val streamer: Streamer? = null,
+    private val faceDirection: Boolean,
+    private val swing: Swing?,
+    private val streamer: Streamer?,
 ) {
+    constructor(
+        location: Vector,
+        color: Int,
+        width: Float,
+        mass: Float,
+        shape: Shape,
+        lifespan: Long = -1L,
+        fadeOut: Boolean = true,
+        acceleration: Vector = Vector(0f, 0f),
+        velocity: Vector = Vector(),
+        damping: Float,
+        rotationSpeed3D: Float = 1f,
+        rotationSpeed2D: Float = 1f,
+        pixelDensity: Float,
+        faceDirection: Boolean = false,
+    ) : this(
+        location = location,
+        color = color,
+        width = width,
+        mass = mass,
+        shape = shape,
+        lifespan = lifespan,
+        fadeOut = fadeOut,
+        acceleration = acceleration,
+        velocity = velocity,
+        damping = damping,
+        rotationSpeed3D = rotationSpeed3D,
+        rotationSpeed2D = rotationSpeed2D,
+        pixelDensity = pixelDensity,
+        faceDirection = faceDirection,
+        swing = null,
+        streamer = null,
+    )
+
     // Keeps the constructor from 2.x working for Java and for code built against it
     constructor(
         location: Vector,
@@ -78,6 +110,8 @@ class Confetti(
         rotationSpeed2D = rotationSpeed2D,
         pixelDensity = pixelDensity,
         faceDirection = false,
+        swing = null,
+        streamer = null,
     )
 
     companion object {

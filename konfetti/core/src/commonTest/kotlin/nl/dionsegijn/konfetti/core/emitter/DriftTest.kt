@@ -29,12 +29,16 @@ class DriftTest {
         mass = 5f,
         shape = shape,
         lifespan = 100000L,
+        fadeOut = true,
+        acceleration = Vector(0f, 0f),
         velocity = velocity,
         damping = 0.9f,
         rotationSpeed2D = 0f,
         rotationSpeed3D = 0f,
         pixelDensity = 1f,
+        faceDirection = false,
         swing = Swing(damping = 0.9f, pixelDensity = 1f, sway = sway, frequency = swayFrequency, tilt = tilt, drag = drag),
+        streamer = null,
     )
 
     // Renders a piece for [seconds] at [framesPerSecond], keeping the x of every frame

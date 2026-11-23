@@ -19,7 +19,7 @@ import kotlin.random.Random
  * Each streamer draws its own length, spin and curl from [random] when it's made.
  * Only Konfetti makes and reads them.
  */
-class Streamer internal constructor(
+internal class Streamer(
     ribbon: Shape.Ribbon,
     velocity: Vector,
     random: Random,

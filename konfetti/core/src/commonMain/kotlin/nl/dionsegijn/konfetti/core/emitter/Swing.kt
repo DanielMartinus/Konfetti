@@ -13,7 +13,7 @@ import kotlin.math.sqrt
  * Each piece gets its own values from [nl.dionsegijn.konfetti.core.Drift] when it's made.
  * Only Konfetti makes and reads them.
  */
-class Swing internal constructor(
+internal class Swing(
     private val damping: Float,
     private val pixelDensity: Float,
     private val sway: Float = 0f,

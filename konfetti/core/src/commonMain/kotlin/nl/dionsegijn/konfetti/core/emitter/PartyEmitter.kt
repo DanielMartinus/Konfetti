@@ -119,6 +119,7 @@ class PartyEmitter(
                 color = color,
                 lifespan = timeToLive,
                 fadeOut = fadeOutEnabled,
+                acceleration = Vector(0f, 0f),
                 velocity = velocity,
                 damping = party.damping,
                 rotationSpeed2D = rotationSpeed2D,
