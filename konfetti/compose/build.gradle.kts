@@ -84,7 +84,7 @@ kotlin {
             api(project(path = ":konfetti:core"))
 
             implementation(libs.cmp.foundation)
-            implementation(libs.cmp.ui)
+            api(libs.cmp.ui)
             implementation(libs.jetbrains.lifecycle.runtime.compose)
         }
         // The web compilers need the stdlib they ship with
