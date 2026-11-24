@@ -1,3 +1,5 @@
+@file:OptIn(ExperimentalKonfettiApi::class)
+
 package nl.dionsegijn.samples.playground
 
 import androidx.compose.foundation.Canvas
@@ -39,6 +41,7 @@ import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.style.TextOverflow
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
+import nl.dionsegijn.konfetti.core.ExperimentalKonfettiApi
 import nl.dionsegijn.konfetti.core.Party
 import nl.dionsegijn.konfetti.core.endMs
 import nl.dionsegijn.konfetti.core.startMs

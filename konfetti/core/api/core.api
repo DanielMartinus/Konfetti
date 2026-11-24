@@ -41,6 +41,9 @@ public final class nl/dionsegijn/konfetti/core/Drift$Companion {
 	public final fun enabled ()Lnl/dionsegijn/konfetti/core/Drift;
 }
 
+public abstract interface annotation class nl/dionsegijn/konfetti/core/ExperimentalKonfettiApi : java/lang/annotation/Annotation {
+}
+
 public final class nl/dionsegijn/konfetti/core/Lane {
 	public fun <init> (Lnl/dionsegijn/konfetti/core/Party;Lnl/dionsegijn/konfetti/core/models/CoreRect;FJ)V
 	public final fun getDrawArea ()Lnl/dionsegijn/konfetti/core/models/CoreRect;

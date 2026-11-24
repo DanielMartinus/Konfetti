@@ -1,3 +1,5 @@
+@file:OptIn(ExperimentalKonfettiApi::class)
+
 package nl.dionsegijn.konfetti.core
 
 import nl.dionsegijn.konfetti.core.emitter.Emitter

@@ -8,6 +8,7 @@ import kotlin.random.Random
  * shows the same confetti. That's what lets the timeline scrub back and forth.
  * Each party plays in its own [Lane], so an edit only has to replay the lane that changed.
  */
+@ExperimentalKonfettiApi
 class Replay(
     val lanes: List<Lane>,
 ) {
@@ -50,6 +51,7 @@ class Replay(
 }
 
 /** One party on the timeline, played on its own */
+@ExperimentalKonfettiApi
 class Lane(
     val party: Party,
     val drawArea: CoreRect,
@@ -106,9 +108,11 @@ private const val FADE_MS = 850L
 private const val ENDLESS_MS = 5_000L
 
 /** Where a party starts on the timeline, in milliseconds */
+@ExperimentalKonfettiApi
 fun Party.startMs(): Long = delay.toLong()
 
 /** Where a party ends on the timeline: after its delay, emitting and the last confetti fading out */
+@ExperimentalKonfettiApi
 fun Party.endMs(): Long {
     // A max emitter without a duration is a burst, so there's no emitting time at all
     val emitting = emitter.emittingTime.takeIf { it > 0 } ?: if (emitter.isPerSecond) ENDLESS_MS else 0L

@@ -1,7 +1,8 @@
-@file:OptIn(ExperimentalJsExport::class)
+@file:OptIn(ExperimentalJsExport::class, ExperimentalKonfettiApi::class)
 
 package nl.dionsegijn.konfetti.web
 
+import nl.dionsegijn.konfetti.core.ExperimentalKonfettiApi
 import nl.dionsegijn.konfetti.core.Replay
 import nl.dionsegijn.konfetti.core.endMs
 import nl.dionsegijn.konfetti.core.models.CoreImage

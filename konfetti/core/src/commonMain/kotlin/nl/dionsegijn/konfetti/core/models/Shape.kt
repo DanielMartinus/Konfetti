@@ -10,6 +10,7 @@ import kotlin.math.sin
 sealed interface Shape {
     object Circle : Shape {
         // Default replacement for RectF
+        @Deprecated("Create your own rect or draw a circle directly instead of mutating a shared instance.")
         val rect = CoreRectImpl()
     }
 

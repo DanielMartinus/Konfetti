@@ -1,3 +1,5 @@
+@file:OptIn(ExperimentalKonfettiApi::class)
+
 package nl.dionsegijn.samples.playground
 
 import androidx.compose.animation.animateContentSize
@@ -55,6 +57,7 @@ import androidx.compose.ui.unit.sp
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.flow.conflate
 import kotlinx.coroutines.withContext
+import nl.dionsegijn.konfetti.core.ExperimentalKonfettiApi
 import nl.dionsegijn.konfetti.core.Party
 import nl.dionsegijn.konfetti.core.Replay
 import nl.dionsegijn.konfetti.core.endMs
